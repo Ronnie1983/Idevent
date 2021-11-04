@@ -1,39 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31112.23
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdeKortAPI", "IdeKortAPI\IdeKortAPI.csproj", "{24CACF21-FAE9-4690-8D32-B0C0EBE93F91}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{E9F53A17-F4AB-4AB9-BD07-ADBE946A5B74}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdeKortLib", "IdeKortLib\IdeKortLib.csproj", "{2620B6E4-9ED7-4137-84E0-D95A795F85DA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexToDec", "HexToDec\HexToDec.csproj", "{6DF1A504-B210-4845-9DA6-82B058B79B1E}"
-EndProject
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{24CACF21-FAE9-4690-8D32-B0C0EBE93F91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{24CACF21-FAE9-4690-8D32-B0C0EBE93F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{24CACF21-FAE9-4690-8D32-B0C0EBE93F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{24CACF21-FAE9-4690-8D32-B0C0EBE93F91}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9F53A17-F4AB-4AB9-BD07-ADBE946A5B74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9F53A17-F4AB-4AB9-BD07-ADBE946A5B74}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9F53A17-F4AB-4AB9-BD07-ADBE946A5B74}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9F53A17-F4AB-4AB9-BD07-ADBE946A5B74}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2620B6E4-9ED7-4137-84E0-D95A795F85DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2620B6E4-9ED7-4137-84E0-D95A795F85DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2620B6E4-9ED7-4137-84E0-D95A795F85DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2620B6E4-9ED7-4137-84E0-D95A795F85DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6DF1A504-B210-4845-9DA6-82B058B79B1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6DF1A504-B210-4845-9DA6-82B058B79B1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6DF1A504-B210-4845-9DA6-82B058B79B1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6DF1A504-B210-4845-9DA6-82B058B79B1E}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
