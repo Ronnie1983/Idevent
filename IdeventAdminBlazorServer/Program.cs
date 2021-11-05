@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IdeventAdminstrationBlazorServer
+namespace IdeventAdminBlazorServer
 {
     public class Program
     {

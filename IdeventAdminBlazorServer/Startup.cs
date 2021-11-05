@@ -1,5 +1,3 @@
-using IdeventAdminstrationBlazorServer.Areas.Identity;
-using IdeventAdminstrationBlazorServer.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -15,8 +13,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdeventAdminBlazorServer.Areas.Identity;
+using IdeventAdminBlazorServer.Data;
 
-namespace IdeventAdminstrationBlazorServer
+namespace IdeventAdminBlazorServer
 {
     public class Startup
     {

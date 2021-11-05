@@ -1,6 +1,6 @@
 using System;
 
-namespace IdeventAdminstrationBlazorServer.Data
+namespace IdeventAdminBlazorServer.Data
 {
     public class WeatherForecast
     {

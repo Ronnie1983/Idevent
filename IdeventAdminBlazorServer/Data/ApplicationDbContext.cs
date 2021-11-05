@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace IdeventAdminstrationBlazorServer.Data
+namespace IdeventAdminBlazorServer.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
