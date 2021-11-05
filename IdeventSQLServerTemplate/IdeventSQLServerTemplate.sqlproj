@@ -73,6 +73,6 @@
     <Build Include="dbo\Tables\AspNetUserTokens.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="dbo\PublishProfiles\Local-IdeventSQLServerTemplate.publish.xml" />
+    <None Include="dbo\PublishProfiles\IdeventSQLServerTemplate-ThomasLocal.publish.xml" />
   </ItemGroup>
 </Project>
