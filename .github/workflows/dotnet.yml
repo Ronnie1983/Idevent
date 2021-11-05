@@ -19,9 +19,9 @@ jobs:
         dotnet-version: 5.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
+    - name: Build API
       run: dotnet build IdeventAPI --no-restore
-    - name: Build
-      run:  dotnet build IdeventAdministrationBlazorServer --no-restore
+    - name: Build Blazor Project
+      run:  dotnet build IdeventAdminstrationBlazorServer --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
