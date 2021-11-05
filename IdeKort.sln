@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdeventAdminstrationBlazorS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdeventAPI", "IdeventAPI\IdeventAPI.csproj", "{AAD0357B-674D-4FFF-9EF0-451A2C402526}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "IdeventDatabaseTemplate", "IdeventDatabaseTemplate\IdeventDatabaseTemplate.sqlproj", "{8C9D488A-C980-41A2-BFB2-FB4DEAAB98BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,12 @@ Global
 		{AAD0357B-674D-4FFF-9EF0-451A2C402526}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAD0357B-674D-4FFF-9EF0-451A2C402526}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAD0357B-674D-4FFF-9EF0-451A2C402526}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C9D488A-C980-41A2-BFB2-FB4DEAAB98BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C9D488A-C980-41A2-BFB2-FB4DEAAB98BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C9D488A-C980-41A2-BFB2-FB4DEAAB98BF}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{8C9D488A-C980-41A2-BFB2-FB4DEAAB98BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C9D488A-C980-41A2-BFB2-FB4DEAAB98BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C9D488A-C980-41A2-BFB2-FB4DEAAB98BF}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
