@@ -22,6 +22,6 @@ jobs:
     - name: Build
       run: dotnet build IdeventAPI --no-restore
     - name: Build
-      run:  dotnet build IdEventAdministrationBlazorServer --no-restore
+      run:  dotnet build IdeventAdministrationBlazorServer --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
