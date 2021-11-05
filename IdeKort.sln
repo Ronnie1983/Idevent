@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdeventAdminstrationBlazorServer", "IdeventAdminstrationBlazorServer\IdeventAdminstrationBlazorServer.csproj", "{C4CE8A7C-F11A-4121-ACD1-C055E4EFF9EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdeventAdminstrationBlazorServer", "IdeventAdminstrationBlazorServer\IdeventAdminstrationBlazorServer.csproj", "{C4CE8A7C-F11A-4121-ACD1-C055E4EFF9EF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdeventAPI", "IdeventAPI\IdeventAPI.csproj", "{AAD0357B-674D-4FFF-9EF0-451A2C402526}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "IdEventSQLServerTemplate", "IdeventSQLServerDatabase\IdEventSQLServerTemplate.sqlproj", "{4A70B620-8D4E-4C3B-B87F-51CC4A71B859}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,16 @@ Global
 		{C4CE8A7C-F11A-4121-ACD1-C055E4EFF9EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4CE8A7C-F11A-4121-ACD1-C055E4EFF9EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4CE8A7C-F11A-4121-ACD1-C055E4EFF9EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAD0357B-674D-4FFF-9EF0-451A2C402526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAD0357B-674D-4FFF-9EF0-451A2C402526}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAD0357B-674D-4FFF-9EF0-451A2C402526}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAD0357B-674D-4FFF-9EF0-451A2C402526}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A70B620-8D4E-4C3B-B87F-51CC4A71B859}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A70B620-8D4E-4C3B-B87F-51CC4A71B859}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A70B620-8D4E-4C3B-B87F-51CC4A71B859}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4A70B620-8D4E-4C3B-B87F-51CC4A71B859}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A70B620-8D4E-4C3B-B87F-51CC4A71B859}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A70B620-8D4E-4C3B-B87F-51CC4A71B859}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
