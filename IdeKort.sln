@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdeventAdminstrationBlazorS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdeventAPI", "IdeventAPI\IdeventAPI.csproj", "{AAD0357B-674D-4FFF-9EF0-451A2C402526}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "IdEventSQLServerTemplate", "IdeventSQLServerDatabase\IdEventSQLServerTemplate.sqlproj", "{4A70B620-8D4E-4C3B-B87F-51CC4A71B859}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "IdEventSQLServerTemplate", "IdeventSQLServerTemplate\IdEventSQLServerTemplate.sqlproj", "{4A70B620-8D4E-4C3B-B87F-51CC4A71B859}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
