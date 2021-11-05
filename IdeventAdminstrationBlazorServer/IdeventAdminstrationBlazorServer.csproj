@@ -13,4 +13,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Terminal\" />
+  </ItemGroup>
+
 </Project>
