@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  web-deploy:
 
     runs-on: ubuntu-latest
 
@@ -45,5 +45,5 @@ jobs:
         password: adAtwynm9zE6
         # The local folder to copy, defaults to root project folder
         local-dir: ./Release/
-        protocol: ftps
+        server-dir: public_html/
       
