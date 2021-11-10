@@ -14,7 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Terminal\" />
+    <Folder Include="Pages\Terminal\" />
+    <Folder Include="Shared\Components\" />
   </ItemGroup>
 
 </Project>

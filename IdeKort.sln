@@ -11,7 +11,7 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "IdeventSQLServerTemplate", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdeventTests", "IdeventTests\IdeventTests.csproj", "{C2769330-A339-4F67-85E9-3ED11914F160}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRPOC", "SignalRPOC\SignalRPOC.csproj", "{73C6ED18-B0F0-49AC-9784-333FF6CAC20D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRPOC", "SignalRPOC\SignalRPOC.csproj", "{73C6ED18-B0F0-49AC-9784-333FF6CAC20D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
