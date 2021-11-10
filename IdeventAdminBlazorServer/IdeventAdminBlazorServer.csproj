@@ -1,9 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>aspnet-IdeventAdminBlazorServer-C28847F6-FB8B-4F92-BC09-E1129784CC91</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Shared\Components\**" />
+    <Content Remove="Shared\Components\**" />
+    <EmbeddedResource Remove="Shared\Components\**" />
+    <None Remove="Shared\Components\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.11" />
@@ -15,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Pages\Terminal\" />
-    <Folder Include="Shared\Components\" />
   </ItemGroup>
 
 </Project>
