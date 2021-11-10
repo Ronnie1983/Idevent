@@ -45,4 +45,5 @@ jobs:
         password: adAtwynm9zE6
         # The local folder to copy, defaults to root project folder
         local-dir: ./Release/
+        protocol: ftps
       
