@@ -32,7 +32,7 @@ jobs:
       run: dotnet test IdeventAdminBlazorServer --no-build --verbosity normal
       
     - name: Dotnet Publish
-      run: dotnet publish IdeKort.sln -c Release -o --output ./Release
+      run: dotnet publish ./IdeventAdminBlazorServer/IdeventAdminBlazorServer.csproj -c Release -o --output ./Release
       
     - name: FTP Deploy
       uses: SamKirkland/FTP-Deploy-Action@3.0.0
