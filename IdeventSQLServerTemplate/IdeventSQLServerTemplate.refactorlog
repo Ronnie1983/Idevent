@@ -56,4 +56,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="FK_ChipGroupId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="3a946e95-bc8c-4ad3-9212-a893bfcdcb91" ChangeDateTime="11/10/2021 10:42:54">
+    <Property Name="ElementName" Value="[dbo].[EventStands].[FK_EventStandFunctionalityId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[EventStands]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FK_StandFunctionalityId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a23a3b94-39b2-4cc7-b5d2-49c6652526ba" ChangeDateTime="11/10/2021 10:48:33">
+    <Property Name="ElementName" Value="[dbo].[Addresses].[ZipCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Addresses]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PostalCode" />
+  </Operation>
 </Operations>
