@@ -35,14 +35,14 @@ jobs:
       run: dotnet publish ./IdeventAdminBlazorServer/IdeventAdminBlazorServer.csproj -c Release -o --output ./Release
       
     - name: FTP Deploy
-      uses: SamKirkland/FTP-Deploy-Action@3.0.0
+      uses: SamKirkland/FTP-Deploy-Action@4.1.0
       with:
         # Deployment destination server & path. Formatted as protocol://domain.com:port/full/destination/path/
-        ftp-server: ftp://idevent.dk:adAtwynm9zE6@nt27.unoeuro.com/
+        server: ftp://idevent.dk:adAtwynm9zE6@nt27.unoeuro.com/
         # FTP account username
-        ftp-username: idevent.dk
+        username: idevent.dk
         # FTP account password
-        ftp-password: adAtwynm9zE6
+        password: adAtwynm9zE6
         # The local folder to copy, defaults to root project folder
         local-dir: ./Release
       
