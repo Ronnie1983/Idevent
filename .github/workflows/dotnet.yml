@@ -19,11 +19,30 @@ jobs:
         dotnet-version: 5.0.x
     - name: Restore dependencies
       run: dotnet restore
+      
     - name: Build API
       run: dotnet build IdeventAPI --no-restore
+      
     - name: Build Blazor Project
-      run:  dotnet build IdeventAdminBlazorServer --no-restore
+      run: dotnet build IdeventAdminBlazorServer --no-restore
+      
     - name: Test API
       run: dotnet test IdeventAPI --no-build --verbosity normal
     - name: Test Blazor Project
       run: dotnet test IdeventAdminBlazorServer --no-build --verbosity normal
+      
+    - name: Dotnet Publish
+      run: dotnet publish IdeventAdminBlazorServer IdeKort.sln -c Release -o --output ./Release
+      
+    - name: FTP Deploy
+      uses: SamKirkland/FTP-Deploy-Action@3.0.0
+      with:
+        # Deployment destination server & path. Formatted as protocol://domain.com:port/full/destination/path/
+        ftp-server: ftp://idevent.dk:adAtwynm9zE6@nt27.unoeuro.com/
+        # FTP account username
+        ftp-username: idevent.dk
+        # FTP account password
+        ftp-password: adAtwynm9zE6
+        # The local folder to copy, defaults to root project folder
+        local-dir: ./Release
+      
