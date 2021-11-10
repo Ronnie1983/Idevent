@@ -12,5 +12,10 @@ namespace SignalRPOC.Hubs
         {
             await Clients.All.SendAsync("RecieveMessage", user, message, Context.ConnectionId);
         }
+
+        public async Task SendMessageClient(string user, string message, string client)
+        {
+            await Clients.Client(client).SendAsync("RecieveMessage", user, message, Context.ConnectionId);
+        }
     }
 }
