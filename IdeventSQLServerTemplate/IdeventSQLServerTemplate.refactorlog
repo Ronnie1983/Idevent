@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="6c07163c-63ad-4570-abcf-99903340714b" ChangeDateTime="11/09/2021 10:00:06">
+    <Property Name="ElementName" Value="[dbo].[ChipGroups].[name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ChipGroups]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Name" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="de9a1ff5-5610-4eb8-babf-97e7ab5ee105" ChangeDateTime="11/09/2021 10:01:37">
+    <Property Name="ElementName" Value="[dbo].[Chips].[chip_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Chips]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ValidFrom" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="542b9680-79cc-4697-ab77-ea26b2551829" ChangeDateTime="11/09/2021 10:01:39">
+    <Property Name="ElementName" Value="[dbo].[Chips].[chip_name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Chips]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ValidTo" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4578bee3-1364-4bb9-a9f7-f1b3d22afc46" ChangeDateTime="11/09/2021 10:09:43">
+    <Property Name="ElementName" Value="[dbo].[Chips].[FK_ChipGroup]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Chips]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FK_ChipGroupId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7eb9c55e-adbe-4349-af2c-a04dee251137" ChangeDateTime="11/09/2021 10:14:05">
+    <Property Name="ElementName" Value="[dbo].[EventStandProducts].[FK_EventStand]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[EventStandProducts]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FK_EventStandId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3ac86d0b-a6c7-4efc-b517-da2ca39e987e" ChangeDateTime="11/09/2021 10:15:06">
+    <Property Name="ElementName" Value="[dbo].[EventStands].[FK_FunctionalityId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[EventStands]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FK_EventStandFunctionalityId" />
+  </Operation>
+</Operations>
