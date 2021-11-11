@@ -38,6 +38,26 @@ namespace IdeventTests
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.Index>(), "Chips");
         }
+        [TestMethod]
+        public void CompaniesIndex_Loads()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Companies.Index>(), "Companies");
+        }
+        [TestMethod]
+        public void EventsIndex_Loads()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.Index>(), "Events");
+        }
+        [TestMethod]
+        public void OperatorSiteIndex_Loads()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.OperatorSite.Index>(), "Operator's Site", "OperatorSite");
+        }
+        [TestMethod]
+        public void ChipActivityLogIndex_Loads()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.ChipActivityLog.Index>(), "Chip Activity Log", "ChipActivityLog");
+        }
 
 
         /// <summary>
