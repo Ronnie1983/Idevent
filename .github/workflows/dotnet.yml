@@ -18,21 +18,21 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-    #- name: Restore dependencies
-      #run: dotnet restore
+    - name: Restore dependencies
+      run: dotnet restore
       
     - name: Build API
-      run: dotnet build IdeventAPI #--no-restore
+      run: dotnet build IdeventAPI --no-restore
       
     - name: Build Blazor Project
-      run: dotnet build IdeventAdminBlazorServer #--no-restore
+      run: dotnet build IdeventAdminBlazorServer --no-restore
       
     - name: Test API
       run: dotnet test IdeventAPI --no-build --verbosity normal
       
     - name: Test Blazor Project
 
-      run: dotnet test --verbosity normal
+      run: dotnet IdeventTests --verbosity normal
     
     - name: Dotnet Publish
       run: dotnet publish ./IdeventAdminBlazorServer/IdeventAdminBlazorServer.csproj -c Release --output ./Release -r win-x86 --self-contained true
