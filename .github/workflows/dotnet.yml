@@ -30,7 +30,7 @@ jobs:
       run: dotnet test IdeventAPI --no-build --verbosity normal
       
     - name: Test Blazor Project
-      cd Idevent
+
       run: dotnet test ./IdeventTests/IdeventTests.csproj --no-build --verbosity normal
     
     - name: Dotnet Publish
