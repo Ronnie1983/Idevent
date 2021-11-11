@@ -26,26 +26,26 @@ namespace IdeventTests
         [TestMethod]
         public void DashboardIndex_Loads()
         {
-            // Arrange
-            var dashboardPage = _testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Dashboard.Index>();
-
-            string url = $"{_navManager.BaseUri}Home";
-            string expectedH1Tag = "<h1>Dashboard</h1>";
-
-            // Act
-            _navManager.NavigateTo(url);
-            bool containsExpected = dashboardPage.Markup.Contains(expectedH1Tag);
-
-            // Assert
-            Assert.AreEqual("http://localhost/Home", url);
-            Assert.IsTrue(containsExpected);
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Dashboard.Index>(), "Dashboard", "Home");
         }
         [TestMethod]
         public void ProfileIndex_Loads()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Profile.Index>(), "Profile");
         }
+        [TestMethod]
+        public void ChipsIndex_Loads()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.Index>(), "Chips");
+        }
 
+
+        /// <summary>
+        /// Tests if a specified page loads with an expected title.
+        /// </summary>
+        /// <param name="pageComponent">The page component to test.</param>
+        /// <param name="pageTitle">The expected content of the page's h1 tag.</param>
+        /// <param name="navigationTitle">(optional) If the url is different from "baseuri/pageTitle" you can replace pageTitle with navigationTitle.</param>
         private void LoadPageTest(IRenderedComponent<IComponent> pageComponent, string pageTitle, string navigationTitle = "")
         {
             // Arrange
