@@ -31,7 +31,7 @@ jobs:
       
     - name: Test Blazor Project
 
-      run: dotnet test ./IdeventAdminBlazorServer/IdeventTests --no-build --verbosity normal
+      run: dotnet test ./IdeventAdminBlazorServer/IdeventTests/IdeventTests.csproj --no-build --verbosity normal
     
     - name: Dotnet Publish
       run: dotnet publish ./IdeventAdminBlazorServer/IdeventAdminBlazorServer.csproj -c Release --output ./Release -r win-x86 --self-contained true
