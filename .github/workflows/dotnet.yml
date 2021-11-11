@@ -30,8 +30,8 @@ jobs:
       run: dotnet test IdeventAPI --no-build --verbosity normal
       
     - name: Test Blazor Project
-
-      run: dotnet test ./IdeventAdminBlazorServer/IdeventTests/IdeventTests.csproj --no-build --verbosity normal
+      cd Idevent
+      run: dotnet test ./IdeventTests/IdeventTests.csproj --no-build --verbosity normal
     
     - name: Dotnet Publish
       run: dotnet publish ./IdeventAdminBlazorServer/IdeventAdminBlazorServer.csproj -c Release --output ./Release -r win-x86 --self-contained true
