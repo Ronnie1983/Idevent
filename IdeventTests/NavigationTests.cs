@@ -2,13 +2,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IdeventTests
 {
+
     [TestClass]
-    public class UnitTest1
+    public class NavigationTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void NavigateToDashboard()
         {
-            Assert.Fail("No tests have been made.");
+            
         }
     }
 }
