@@ -37,16 +37,16 @@ jobs:
     - name: Dotnet Publish
       run: dotnet publish ./IdeventAdminBlazorServer/IdeventAdminBlazorServer.csproj -c Release --output ./Release -r win-x86 --self-contained true
       
-    - name: FTP Deploy
-      uses: SamKirkland/FTP-Deploy-Action@4.1.0
-      with:
-        # Deployment destination server & path. Formatted as protocol://domain.com:port/full/destination/path/
-        server: ${{secrets.ftp_host}}
-        # FTP account username
-        username: ${{secrets.ftp_username}}
-        # FTP account password
-        password: ${{secrets.ftp_password}}
-        # The local folder to copy, defaults to root project folder
-        local-dir: ./Release/
-        server-dir: public_html/
-      
+    #- name: FTP Deploy
+    #  uses: SamKirkland/FTP-Deploy-Action@4.1.0
+    #  with:
+    #    # Deployment destination server & path. Formatted as protocol://domain.com:port/full/destination/path/
+    #    server: ${{secrets.ftp_host}}
+    #    # FTP account username
+    #    username: ${{secrets.ftp_username}}
+    #    # FTP account password
+    #    password: ${{secrets.ftp_password}}
+    #    # The local folder to copy, defaults to root project folder
+    #    local-dir: ./Release/
+    #    server-dir: public_html/
+    #    dangerous-clean-slate: true

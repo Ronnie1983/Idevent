@@ -3,14 +3,54 @@
 
 <h3>AddCompany</h3>
 
-@*<EditForm Model="">
+<EditForm Model="@_companyReq" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator/>
     <ValidationSummary/>
-    <InputText />
-</EditForm>*@
+    <div class="form-group">
+        <label for="@_companyReq.Name">Name</label> 
+        <InputText id="name" @bind-Value="_companyReq.Name"/>
+    </div>
+    <div class="form-group">
+        <label for="@_companyReq.Email">Email</label> 
+        <InputText id="email" @bind-Value="_companyReq.Email"/>
+    </div>
+    <div class="form-group">
+        <label for="@_companyReq.CVR">CVR</label>
+        <InputText id="cvr" @bind-Value="_companyReq.CVR"/>
+    </div>
+    <div class="form-group">
+        <label for="@_companyReq.Phone">Phone</label>
+        <InputText id="phone" @bind-Value="_companyReq.Phone"/>
+    </div>
+    <div class="form-group">
+        <label for="@_companyReq.Address.Street">Street</label>
+        <InputText id="address_street" @bind-Value="_companyReq.Address.Street"/>
+    </div>
+    <div class="form-group">
+        <label for="@_companyReq.Address.City">City</label>
+        <InputText id="address_city" @bind-Value="_companyReq.Address.City"/>
+    </div>
+    <div class="form-group">
+        <label for="@_companyReq.Address.Zipcode">Zipcode</label>
+        <InputText id="address_postal" @bind-Value="_companyReq.Address.Zipcode"/>
+    </div>
+    <div class="form-group">
+        <label for="@_companyReq.Address.Country">Country</label>
+        <InputText id="address_country" @bind-Value="_companyReq.Address.Country"/>
+    </div>
+    
+    <button type="submit">Submit</button>
+</EditForm>
 
 
 
 @code {
+    private Company _companyReq = new Company("","","","","","","","");
 
+
+    private void HandleValidSubmit()
+    {
+        
+
+    }
 }
