@@ -49,4 +49,5 @@ jobs:
         # The local folder to copy, defaults to root project folder
         local-dir: ./Release/
         server-dir: public_html/
+        dangerous-clean-slate: true
       
