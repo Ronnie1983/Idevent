@@ -9,6 +9,7 @@ namespace IdeventLibrary.Models
 {
     public class Company
     {
+        private int _id;
         private string _name, _email, _cvr, _phone;
         private Address _address;
         private Address _invoiceAddress;
@@ -28,13 +29,22 @@ namespace IdeventLibrary.Models
     
         }
 
+        private int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
         [Required]
+        [MinLength(3)]
         public string Name
         {
             get { return _name; }
             set { _name = value; }
         }
+
         [Required]
+        [EmailAddress]
         public string Email
         {
             get { return _email; }
@@ -46,18 +56,21 @@ namespace IdeventLibrary.Models
             get { return _invoiceAddress; }
             set { _invoiceAddress = value; }
         }
+
         [Required]
         public Address Address
         {
             get { return _address; }
             set { _address = value; }
         }
+
         [Required]
         public string CVR
         {
             get { return _cvr; }
             set { _cvr = value; }
         }
+
         [Required]
         public string Phone
         {

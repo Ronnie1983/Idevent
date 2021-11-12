@@ -1,5 +1,5 @@
 ﻿@inject NavigationManager _navigationManager
-<button type="button" class="btn btn-primary m-1" @onclick="NavigateToPage">@ButtonText</button>
+<button type="button" class="btn @HtmlClasses m-1" @onclick="NavigateToPage">@ButtonText</button>
 
 @code{
 
@@ -8,6 +8,9 @@
 
     [Parameter]
     public string ButtonText { get; set; }
+
+    [Parameter]
+    public string HtmlClasses { get; set; } = "btn-primary";
 
     private void NavigateToPage()
     {

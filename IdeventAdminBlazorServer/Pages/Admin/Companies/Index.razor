@@ -3,13 +3,10 @@
 
 <h1>Companies</h1>
 
-<button type="button" class="btn btn-primary m-1" @onclick="NavigateGoToAddPage" >Add</button>
+<NavigateButton PageToNavigateTo="AddCompany" ButtonText="Add"/>
 
 @code {
 
-    private void NavigateGoToAddPage()
-    {
-        _navigationManager.NavigateTo("addcompany");
-    }
+  
 
 }
