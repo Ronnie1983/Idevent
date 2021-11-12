@@ -1,7 +1,15 @@
 ﻿@page "/Companies"
+@inject NavigationManager _navigationManager
 
 <h1>Companies</h1>
 
+<button type="button" class="btn btn-primary m-1" @onclick="NavigateGoToAddPage" >Add</button>
+
 @code {
+
+    private void NavigateGoToAddPage()
+    {
+        _navigationManager.NavigateTo("addcompany");
+    }
 
 }
