@@ -32,4 +32,8 @@
     <None Include="compilerconfig.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\IdeventLibrary\IdeventLibrary.csproj" />
+  </ItemGroup>
+
 </Project>
