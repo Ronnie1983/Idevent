@@ -9,7 +9,7 @@ namespace IdeventLibrary.Models
 {
     public class Company
     {
-        private int id;
+        private int _id;
         private string _name, _email, _cvr, _phone;
         private Address _address;
         private Address _invoiceAddress;
@@ -27,6 +27,12 @@ namespace IdeventLibrary.Models
             Phone = phone;
             Address = new Address(street, city, country, postal);
     
+        }
+
+        private int Id
+        {
+            get { return _id; }
+            set { _id = value; }
         }
 
         [Required]
