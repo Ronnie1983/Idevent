@@ -9,6 +9,7 @@ namespace IdeventLibrary.Models
 {
     public class Company
     {
+        private int id;
         private string _name, _email, _cvr, _phone;
         private Address _address;
         private Address _invoiceAddress;
