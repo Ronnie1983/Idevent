@@ -3,8 +3,6 @@
 
 <h1>AddCompany</h1>
 
-<NavigateButton PageToNavigateTo="Companies" ButtonText="Back"/>
-
 <EditForm Model="@_companyReq" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator/>
     <ValidationSummary/>
@@ -41,7 +39,8 @@
         <InputText class="form-control" id="address_country" @bind-Value="_companyReq.Address.Country" placeholder="Country"/>
     </div>
     
-    <button type="submit">Submit</button>
+    <button class="btn btn-primary m-1" type="submit">Submit</button>
+    <NavigateButton PageToNavigateTo="Companies" ButtonText="Cancel" HtmlClasses="btn-danger"/>
 </EditForm>
 
 
