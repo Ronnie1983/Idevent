@@ -1,3 +1,4 @@
+
 name: .NET
 
 on:
@@ -7,9 +8,9 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  web-deploy:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -19,11 +20,33 @@ jobs:
         dotnet-version: 5.0.x
     - name: Restore dependencies
       run: dotnet restore
+      
     - name: Build API
       run: dotnet build IdeventAPI --no-restore
+      
     - name: Build Blazor Project
-      run:  dotnet build IdeventAdminBlazorServer --no-restore
+      run: dotnet build IdeventAdminBlazorServer --no-restore
+      
     - name: Test API
       run: dotnet test IdeventAPI --no-build --verbosity normal
+      
     - name: Test Blazor Project
-      run: dotnet test IdeventAdminBlazorServer --no-build --verbosity normal
+
+      run: dotnet test --verbosity normal
+    
+    - name: Dotnet Publish
+      run: dotnet publish ./IdeventAdminBlazorServer/IdeventAdminBlazorServer.csproj -c Release --output ./Release -r win-x86 --self-contained true
+      
+    - name: FTP Deploy
+      uses: SamKirkland/FTP-Deploy-Action@4.1.0
+      with:
+        # Deployment destination server & path. Formatted as protocol://domain.com:port/full/destination/path/
+        server: ${{secrets.ftp_host}}
+        # FTP account username
+        username: ${{secrets.ftp_username}}
+        # FTP account password
+        password: ${{secrets.ftp_password}}
+        # The local folder to copy, defaults to root project folder
+        local-dir: ./Release/
+        server-dir: public_html/
+      
