@@ -23,7 +23,7 @@
             <td>@eventModel.AmountOfConnectedChips</td>
             <td>
                 <NavigateButton PageToNavigateTo=@(NavigationArgument("EditEvent/", eventModel.Id)) ButtonText="Edit event"/>
-                <NavigateButton PageToNavigateTo="@(NavigationArgument("EditProductStands/", eventModel.Id))" ButtonText="Edit products"/>
+                <NavigateButton PageToNavigateTo="@(NavigationArgument("EventProductManagement/", eventModel.Id))" ButtonText="Edit products"/>
             </td>
         </tr>
        }
