@@ -1,0 +1,16 @@
+﻿@inject NavigationManager _navigationManager
+<button type="button" class="btn btn-primary m-1" @onclick="NavigateToPage">@ButtonText</button>
+
+@code{
+
+    [Parameter]
+    public string PageToNavigateTo { get; set; }
+
+    [Parameter]
+    public string ButtonText { get; set; }
+
+    private void NavigateToPage()
+    {
+        _navigationManager.NavigateTo(PageToNavigateTo);
+    }
+}
