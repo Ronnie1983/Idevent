@@ -29,12 +29,15 @@ namespace IdeventLibrary.Models
         }
 
         [Required]
+        [MinLength(3)]
         public string Name
         {
             get { return _name; }
             set { _name = value; }
         }
+
         [Required]
+        [EmailAddress]
         public string Email
         {
             get { return _email; }
@@ -46,18 +49,21 @@ namespace IdeventLibrary.Models
             get { return _invoiceAddress; }
             set { _invoiceAddress = value; }
         }
+
         [Required]
         public Address Address
         {
             get { return _address; }
             set { _address = value; }
         }
+
         [Required]
         public string CVR
         {
             get { return _cvr; }
             set { _cvr = value; }
         }
+
         [Required]
         public string Phone
         {
