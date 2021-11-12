@@ -36,7 +36,7 @@ namespace IdeventTests
         [TestMethod]
         public void ChipsIndex_Loads()
         {
-            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.Index>(), "Chips");
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.Index>(), "Chips Oversigt", "Chips");
         }
         [TestMethod]
         public void CompaniesIndex_Loads()
