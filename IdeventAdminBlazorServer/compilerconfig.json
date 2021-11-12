@@ -1,0 +1,6 @@
+﻿[
+  {
+    "outputFile": "wwwroot/css/SassCompiledAdminStyle.css",
+    "inputFile": "wwwroot/sass/AdminStyle.scss"
+  }
+]

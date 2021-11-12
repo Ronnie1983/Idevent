@@ -1,8 +1,24 @@
 ﻿@page "/"
+@layout NonAdminLayout
 
+<style>
+    body {
+        background-color: gray;
+    }
 
-<h1>Which application do you want to open?</h1>
+    h1 {
+        color: white;
+    }
+</style>
 
-<a class="btn btn-primary" href="#terminal">Terminal</a>
-<a class="btn btn-primary" href="#administration">Adminstration</a>
-
+<div class="container-fluid">
+    <section class="row">
+        <div class="col-12">
+            <h1 class="text-center">Which application do you want to open?</h1>
+            <div class="d-flex justify-content-center">
+                <a class="btn btn-primary m-4" href="/Terminal">Terminal</a>
+                <a class="btn btn-primary m-4" href="/Home">Administration</a>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31825.309
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31829.152
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdeventAPI", "IdeventAPI\IdeventAPI.csproj", "{AAD0357B-674D-4FFF-9EF0-451A2C402526}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdeventTests", "IdeventTests\IdeventTests.csproj", "{C2769330-A339-4F67-85E9-3ED11914F160}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRPOC", "SignalRPOC\SignalRPOC.csproj", "{73C6ED18-B0F0-49AC-9784-333FF6CAC20D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdeventLibrary", "IdeventLibrary\IdeventLibrary.csproj", "{E9ED3671-F64D-4E06-8D34-1EC229783440}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{73C6ED18-B0F0-49AC-9784-333FF6CAC20D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73C6ED18-B0F0-49AC-9784-333FF6CAC20D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73C6ED18-B0F0-49AC-9784-333FF6CAC20D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9ED3671-F64D-4E06-8D34-1EC229783440}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9ED3671-F64D-4E06-8D34-1EC229783440}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9ED3671-F64D-4E06-8D34-1EC229783440}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9ED3671-F64D-4E06-8D34-1EC229783440}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

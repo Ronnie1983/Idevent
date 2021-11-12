@@ -1,11 +1,12 @@
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
         <Found Context="routeData">
-            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(AdminLayout)" />
         </Found>
         <NotFound>
-            <LayoutView Layout="@typeof(MainLayout)">
+            <LayoutView Layout="@typeof(NonAdminLayout)">
                 <p>Sorry, there's nothing at this address.</p>
+                <a href="/" class="btn btn-primary">Go to frontpage</a>
             </LayoutView>
         </NotFound>
     </Router>
