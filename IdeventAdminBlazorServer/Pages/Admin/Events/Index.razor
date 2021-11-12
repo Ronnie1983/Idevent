@@ -4,6 +4,39 @@
 
 <NavigateButton PageToNavigateTo="AddEvent" ButtonText="Add"/>
 
+<table class="table table-light table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Event ID</th>
+            <th scope="col">Event Name</th>
+            <th scope="col">Company</th>
+            <th scope="col">No. of Chips</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>143</td>
+            <td>Aalborg Oktoberfest 2022</td>
+            <td>Aalborg Festarrangør</td>
+            <td>500</td>
+            <td>
+                <NavigateButton PageToNavigateTo="EditEvent/1" ButtonText="Edit event"/>
+                <NavigateButton PageToNavigateTo="EditProductStands/1" ButtonText="Edit products"/>
+            </td>
+        </tr>
+        <tr>
+            <td>143</td>
+            <td>Aalborg Oktoberfest 2022</td>
+            <td>Aalborg Festarrangør</td>
+            <td>500</td>
+            <td>
+                <NavigateButton PageToNavigateTo="EditEvent/1" ButtonText="Edit event"/>
+                <NavigateButton PageToNavigateTo="EditProductStands/1" ButtonText="Edit products"/>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 @code{
 
