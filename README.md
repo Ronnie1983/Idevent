@@ -23,3 +23,5 @@ The issue/userstory needs to be approved by product owner.
 **Interfaces:** IPascalCaseWithIPrefix
 
 **Async Methods:** ThisIsAMethodAsync (ends with Async) 
+
+**HTML id and class:** camelCase
