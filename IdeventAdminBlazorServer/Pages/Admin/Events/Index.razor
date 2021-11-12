@@ -15,33 +15,35 @@
         </tr>
     </thead>
     <tbody>
+       @foreach(EventModel eventModel in _temporaryData){
         <tr>
-            <td>143</td>
-            <td>Aalborg Oktoberfest 2022</td>
-            <td>Aalborg Festarrangør</td>
-            <td>500</td>
+            <td>@eventModel.Id</td>
+            <td>@eventModel.Name</td>
+            <td>@eventModel.Company.Name</td>
+            <td>@eventModel.AmountOfConnectedChips</td>
             <td>
-                <NavigateButton PageToNavigateTo="EditEvent/1" ButtonText="Edit event"/>
-                <NavigateButton PageToNavigateTo="EditProductStands/1" ButtonText="Edit products"/>
+                <NavigateButton PageToNavigateTo=@(NavigationArgument("EditEvent/", eventModel.Id)) ButtonText="Edit event"/>
+                <NavigateButton PageToNavigateTo="@(NavigationArgument("EditProductStands/", eventModel.Id))" ButtonText="Edit products"/>
             </td>
         </tr>
-        <tr>
-            <td>144</td>
-            <td>Aalborg Oktoberfest 2023</td>
-            <td>Aalborg Festarrangør</td>
-            <td>500</td>
-            <td>
-                <NavigateButton PageToNavigateTo="EditEvent/2" ButtonText="Edit event"/>
-                <NavigateButton PageToNavigateTo="EditProductStands/2" ButtonText="Edit products"/>
-            </td>
-        </tr>
+       }
     </tbody>
 </table>
 
 @code{
+    private List<EventModel> _eventData;
+    private List<EventModel> _temporaryData = new List<EventModel>
+    {
+        new EventModel(143, "Oktoberfest 2021", new Company("Aalborg Festudvalg", "", "", "", "", "", "", ""), 500),
+        new EventModel(144, "Oktoberfest 2022", new Company("Aalborg Festudvalg", "", "", "", "", "", "", ""), 500)
+    };
+    private string NavigationArgument(string navigationPrefix, int modelId)
+    {
+        return $"{navigationPrefix}{modelId}";
+    }
     //private List<Event> FetchEventData()
     //{
     //    return new List<Event>();
     //}
-    // TODO: Fetch data from API and put them in the table.
+    // TODO: Fetch event data from API and put them in the table.
 }
