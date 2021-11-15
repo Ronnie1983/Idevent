@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace IdeventLibrary.Models
 {
-    public class EventStands
+    public class EventStandModel
     {
         private int _id;
         private string _name;
-        private Event _event;
-        private StandFunctionalities _functionalities;
+        private EventModel _event;
+        private StandFunctionalityModel _functionalities;
 
 
-        public EventStands()
+        public EventStandModel()
         {
 
         }
-        public EventStands(string name, Event eventModel, StandFunctionalities functionality)
+        public EventStandModel(string name, EventModel eventModel, StandFunctionalityModel functionality)
         {
             Name = name;
             Event = eventModel;
@@ -30,13 +30,13 @@ namespace IdeventLibrary.Models
             get { return _name; }
             set { _name = value; }
         }
-        public Event Event
+        public EventModel Event
         {
             get { return _event; }
             set { _event = value; }
         }
 
-        public StandFunctionalities Functionalities
+        public StandFunctionalityModel Functionalities
         {
             get { return _functionalities; }
             set { _functionalities = value; }
