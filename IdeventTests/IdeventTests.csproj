@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IdeventAdminBlazorServer\IdeventAdminBlazorServer.csproj" />
+    <ProjectReference Include="..\IdeventAPI\IdeventAPI.csproj" />
   </ItemGroup>
 
 </Project>

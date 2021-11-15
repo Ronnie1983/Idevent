@@ -30,7 +30,13 @@ namespace IdeventAPI.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            throw new NotImplementedException();
+            var events = _eventManager.GetAll();
+            
+            if (events.Count == 0)
+            {
+                return NoContent();
+            }
+            return Ok(events);
         }
         [HttpGet("{id}")]
         public IActionResult GetById(int id)

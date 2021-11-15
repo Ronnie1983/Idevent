@@ -61,6 +61,8 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\PublishProfiles" />
+    <Folder Include="dbo\StoredProcedures" />
+    <Folder Include="dbo\PostDeployScripts" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
@@ -82,12 +84,13 @@
     <Build Include="dbo\Tables\Companies.sql" />
     <Build Include="dbo\Tables\CompanyPermissions.sql" />
     <Build Include="dbo\Tables\Permissions.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="dbo\PublishProfiles\IdeventSQLServerTemplate-ThomasLocal.publish.xml" />
-    <None Include="dbo\PublishProfiles\IdeventSQLServerTemplate-ThomasLaptop.publish.xml" />
+    <Build Include="dbo\StoredProcedures\spGetAllEvents.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dbo\PostDeployScripts\Script.InsertDummyData.sql" />
+    <None Include="dbo\PublishProfiles\ThomasDesktop.publish.xml" />
   </ItemGroup>
 </Project>
