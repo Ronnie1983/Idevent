@@ -10,7 +10,13 @@ namespace IdeventLibrary.Models
     {
         public EventModel(){}
 
-        public EventModel(int id, string name, Company company, int amountOfConnectedChips)
+        public EventModel(string name, CompanyModel company) 
+        { 
+            Name = name;
+            Company = company;
+        }
+
+        public EventModel(int id, string name, CompanyModel company, int amountOfConnectedChips)
         {
             Id = id;
             Name = name;
@@ -20,7 +26,7 @@ namespace IdeventLibrary.Models
 
         public int Id { get; init; }
         public string Name { get; set; }
-        public Company Company { get; set; }
+        public CompanyModel Company { get; set; }
         public int AmountOfConnectedChips { get; set; } // data comes from a count on the Chips table.
     }
 }
