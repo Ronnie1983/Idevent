@@ -1,7 +1,62 @@
 ﻿@page "/EventProductManagement/{EventId}"
 <h1>Event Product Management</h1>
 
+
+
+<NavigateButton PageToNavigateTo="AddStand/{EventId}" ButtonText="Add stand to event"/>
+<div>
+    <table class="table table-hover" style="text-align: center">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Event</th>
+                <th scope="col">Functipnality</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach(EventStands stand in _eventStands){
+            
+            
+            <tr>   
+                <td>@stand.Name</td>
+                <td>@stand.Event.Name</td>
+                <td>@stand.Functionalities.Name</td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-primary m-1" @onclick="ToggleContent">Edit content</button>
+                        <button class="btn btn-danger m-1" @onclick="DeleteStandAndContent">Delete</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                
+            </tr>
+       
+        }
+         </tbody>
+    </table>
+</div>
+
 @code {
     [Parameter]
     public string EventId { get; set; }
+
+    private List<EventStands> _eventStands = new List<EventStands>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _eventStands.Add(new EventStands("test", new Event("EventTest", new Company()),new StandFunctionalities()));
+        _eventStands.Add(new EventStands("test2", new Event("EventTest2", new Company()),new StandFunctionalities()));
+    }
+
+    private async void ToggleContent()
+    {
+        
+    }
+
+    private async void DeleteStandAndContent()
+    {
+        // TODO Delete Stand and content
+    }
 }
