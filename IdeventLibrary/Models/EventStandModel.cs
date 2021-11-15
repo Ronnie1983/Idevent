@@ -42,5 +42,7 @@ namespace IdeventLibrary.Models
             set { _functionalities = value; }
         }
 
+        public List<StandProductModel> standProducts { get; set; } = new List<StandProductModel>();
+
     }
 }

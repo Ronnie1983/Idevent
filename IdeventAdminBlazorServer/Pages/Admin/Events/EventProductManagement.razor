@@ -3,7 +3,22 @@
 
 
 
-<NavigateButton PageToNavigateTo="AddStand/{EventId}" ButtonText="Add stand to event"/>
+@*<NavigateButton PageToNavigateTo="AddStand/{EventId}" ButtonText="Add stand to event"/>*@
+
+<div class="row">
+    <div class="col-2">
+    <button class="btn btn-info m-1" @onclick="() => ToggleAddStand()">New stand</button>
+
+    </div>
+            @if (_toggleAddStand)
+            {
+                <div class="col-10">
+                    Her kan tilføjes produkter
+                </div>
+
+            }
+</div>
+
 <div>
     <table class="table table-hover" style="text-align: center">
         <thead>
@@ -32,8 +47,51 @@
                 @if (_stringList.Contains(stand.Name))
                 {
                     <tr class="table-danger">
-                      
-                    </tr>  
+                        <td>
+                            <label>New name</label> 
+                            <input class="form-control" id="name" @bind="_newName" placeholder="Name"/>
+                            <button class="btn btn-primary m-1" @onclick="@(e=>ChangeName(stand))">Chance</button></td>
+                        <td>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td>Product</td>
+                                        <td>Value</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach(StandProductModel product in stand.standProducts){
+                                          <tr>
+                                              <td>@product.Name</td>
+                                              <td>@product.Value</td>
+                                              <td><button class="btn btn-danger m-1" @onclick="@(e=>DeleteProduct(stand, product))">D</button></td>
+                                         </tr>
+                                    }
+                                  
+                              </tbody>
+                              
+                          </table>
+                      </td>
+                      <td>
+                          <EditForm Model="@_standProductReq" OnSubmit="@(e => HandleValidSubmit(stand))">
+                            <DataAnnotationsValidator/>
+                            <ValidationSummary/>
+                             <div class="form-group">
+                                    <label for="@_standProductReq.Name">Name</label> 
+                                    <InputText class="form-control" id="name" @bind-Value="_standProductReq.Name" placeholder="Product"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="@_standProductReq.Value">Value</label> 
+                                    <InputNumber class="form-control" id="value" @bind-Value="_standProductReq.Value" placeholder="Value"/>
+                                </div>
+
+                                <button class="btn btn-primary m-1" type="submit">Submit</button>
+                                   
+                          </EditForm>
+                      </td>
+                      <td>tomt</td>
+                    </tr>
                 }
                 
        
@@ -45,9 +103,10 @@
 @code {
     [Parameter]
     public string EventId { get; set; }
-
-    private List<ShowListModel> _showList = new List<ShowListModel>();
+    private bool _toggleAddStand = false;
     private List<string> _stringList = new List<string>();
+    private StandProductModel _standProductReq = new StandProductModel();
+    private string _newName;
 
 
     private List<EventStandModel> _eventStands = new List<EventStandModel>();
@@ -60,10 +119,39 @@
 
     private async void DeleteStandAndContent()
     {
+
         // TODO Delete Stand and content
     }
 
+    private async void DeleteProduct(EventStandModel stand,StandProductModel product)
+    {
+        _eventStands.Find(x => x.Name == stand.Name).standProducts.Remove(product);
+        // TODO Delete Product
+    }
 
+    private void HandleValidSubmit(EventStandModel eventStand)
+    {
+
+        //EventStandModel item = _eventStands.Find(x => x.Name == eventStand.Name);
+        _eventStands.Find(x => x.Name == eventStand.Name).standProducts.Add(_standProductReq);
+        _standProductReq = new StandProductModel();
+
+        // TODO: add submit product
+
+    }
+
+    private void ChangeName(EventStandModel stand)
+    {
+        _eventStands.Find(x => x.Name == stand.Name).Name = _newName;
+        _newName = "";
+        // TODO update Name
+
+    }
+
+    private void ToggleAddStand()
+    {
+        _toggleAddStand = !_toggleAddStand;
+    }
 
     private void Toggle(string name)
     {

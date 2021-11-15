@@ -28,5 +28,6 @@ namespace IdeventLibrary.Models
         public string Name { get; set; }
         public CompanyModel Company { get; set; }
         public int AmountOfConnectedChips { get; set; } // data comes from a count on the Chips table.
+        public List<EventStandModel> EventStands { get; set; }
     }
 }
