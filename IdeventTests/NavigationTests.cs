@@ -24,49 +24,44 @@ namespace IdeventTests
             _testContext.Dispose();
         }
         [TestMethod]
-        public void DashboardIndexLoads()
+        public void DashboardIndex_Loads()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Dashboard.Index>(), "Dashboard", "Home");
         }
         [TestMethod]
-        public void ProfileIndexLoads()
+        public void ProfileIndex_Loads()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Profile.Index>(), "Profile");
         }
         [TestMethod]
-        public void ChipsIndexLoads()
+        public void ChipsIndex_Loads()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.Index>(), "Chips Oversigt", "Chips");
         }
         [TestMethod]
-        public void CompaniesIndexLoads()
+        public void CompaniesIndex_Loads()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Companies.Index>(), "Companies");
         }
         [TestMethod]
-        public void EventsIndexLoads()
+        public void EventsIndex_Loads()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.Index>(), "Events");
         }
         [TestMethod]
-        public void OperatorSiteIndexLoads()
+        public void OperatorSiteIndex_Loads()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.OperatorSite.Index>(), "Operator's Site", "OperatorSite");
         }
         [TestMethod]
-        public void ChipActivityLogIndexLoads()
+        public void ChipActivityLogIndex_Loads()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.ChipActivityLog.Index>(), "Chip Activity Log", "ChipActivityLog");
         }
         [TestMethod]
-        public void UsersIndexLoads()
+        public void UsersIndex_Loads()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Users.Index>(), "Users");
-        }
-        [TestMethod]
-        public void AddEventLoads()
-        {
-            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.AddEvent>(), "Add Event", "AddEvent");
         }
 
 
