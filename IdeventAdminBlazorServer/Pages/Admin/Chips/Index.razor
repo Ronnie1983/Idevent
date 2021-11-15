@@ -15,14 +15,14 @@
                     Actions
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item">Action</a>
-                    <a class="dropdown-item">Another action</a>
-                    <a class="dropdown-item">Something else here</a>
+                    <a class="dropdown-item">Select All</a>
+                    <a class="dropdown-item">Move To Event</a>
+                    <a class="dropdown-item">Assign Group</a>
+                    <a class="dropdown-item" style="color: red">Delete</a>
                 </div>
             </div>
 
-
-            <button type="button" class="btn btn-primary m-1" @onclick="NavigateGoToAddChip">Add Chip</button>
+            <NavigateButton PageToNavigateTo="AddChip" ButtonText="Add Chip"/>
 
             <button class="btn btn-primary m-1" data-toggle="modal" data-target="#M">Export</button>
 
@@ -43,8 +43,8 @@
                 </div>
             </div>
             <!-- Modal End -->
-
-            <button type="button" class="btn btn-primary m-1" @onclick="NavigateGoToImport">Import</button>
+            
+            <NavigateButton PageToNavigateTo="ImporterChip" ButtonText="Import"/>
 
         </div>
     </div>
@@ -76,8 +76,8 @@
                 <td>Roskilde festival</td>
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-primary m-1" @onclick="NavigateGoToEditChip">Edit</button>
-                        <button class="btn btn-primary m-1" @onclick="NavigateGoToChipDetail">Details</button>
+                        <NavigateButton PageToNavigateTo="EditChip" ButtonText="Edit"/>
+                        <NavigateButton PageToNavigateTo="ChipDetail" ButtonText="Details"/>
                     </div>
                 </td>
             </tr>
@@ -88,20 +88,4 @@
 
     @code {
 
-    private void NavigateGoToImport()
-    {
-        _navigationManager.NavigateTo("importerchip");
-    }
-    private void NavigateGoToAddChip()
-    {
-        _navigationManager.NavigateTo("addchip");
-    }
-    private void NavigateGoToEditChip()
-    {
-        _navigationManager.NavigateTo("editchip");
-    }
-        private void NavigateGoToChipDetail()
-    {
-        _navigationManager.NavigateTo("chipdetail");
-    }
     }

@@ -25,3 +25,5 @@ The issue/userstory needs to be approved by product owner.
 **Async Methods:** ThisIsAMethodAsync (ends with Async) 
 
 **HTML id and class:** camelCase
+
+**Stored Procedure:** spPascalCaseWithPrefix
