@@ -12,7 +12,10 @@ namespace IdeventLibrary.Models
 
         public Address()
         {
-
+            _street = "testStreet";
+            _city = "TestCity";
+            _country = "TestCountry";
+            _zipcode = "TestZipcode";
         }
 
         public Address(string street, string city, string country, string zipcode)
