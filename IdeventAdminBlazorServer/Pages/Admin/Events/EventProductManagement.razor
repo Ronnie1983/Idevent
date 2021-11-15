@@ -3,7 +3,22 @@
 
 
 
-<NavigateButton PageToNavigateTo="AddStand/{EventId}" ButtonText="Add stand to event"/>
+@*<NavigateButton PageToNavigateTo="AddStand/{EventId}" ButtonText="Add stand to event"/>*@
+
+<div class="row">
+    <div class="col-2">
+    <button class="btn btn-info m-1" @onclick="() => ToggleAddStand()">New stand</button>
+
+    </div>
+            @if (_toggleAddStand)
+            {
+                <div class="col-10">
+                    Her kan tilføjes produkter
+                </div>
+
+            }
+</div>
+
 <div>
     <table class="table table-hover" style="text-align: center">
         <thead>
@@ -35,7 +50,7 @@
                         <td>
                             <label>New name</label> 
                             <input class="form-control" id="name" @bind="_newName" placeholder="Name"/>
-                            <button class="btn btn-primary m-1" @onclick="@(e=>ChanceName(stand))">Chance</button></td>
+                            <button class="btn btn-primary m-1" @onclick="@(e=>ChangeName(stand))">Chance</button></td>
                         <td>
                             <table>
                                 <thead>
@@ -88,7 +103,7 @@
 @code {
     [Parameter]
     public string EventId { get; set; }
-
+    private bool _toggleAddStand = false;
     private List<string> _stringList = new List<string>();
     private StandProductModel _standProductReq = new StandProductModel();
     private string _newName;
@@ -125,12 +140,17 @@
 
     }
 
-    private void ChanceName(EventStandModel stand)
+    private void ChangeName(EventStandModel stand)
     {
         _eventStands.Find(x => x.Name == stand.Name).Name = _newName;
         _newName = "";
         // TODO update Name
 
+    }
+
+    private void ToggleAddStand()
+    {
+        _toggleAddStand = !_toggleAddStand;
     }
 
     private void Toggle(string name)
