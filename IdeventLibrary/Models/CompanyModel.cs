@@ -19,17 +19,14 @@ namespace IdeventLibrary.Models
         
         public CompanyModel()
         {
-            _id = 0;
-            _name = "TestCompany";
-            _email = "TestEmail";
-            _address = new AddressModel();
+          
         }
         public CompanyModel(string name, string email, string cvr, string phone, string street, string city, string postal, string country)
         {
             Name = name;
             Email = email;
             CVR = cvr;
-            Phone = phone;
+            PhoneNumber = phone;
             Address = new AddressModel(street, city, country, postal);
     
         }
@@ -77,7 +74,7 @@ namespace IdeventLibrary.Models
         }
 
         [Required]
-        public string Phone
+        public string PhoneNumber
         {
             get { return _phone; }
             set { _phone = value; }
