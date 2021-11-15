@@ -13,11 +13,20 @@ namespace IdeventAPI.Managers
             
         public List<EventModel> GetAll()
         {
-            throw new NotImplementedException();
+
+            // Column order: EventId, Name, NumberOfConnectedChips, CompanyId, CompanyName
             string sql = "EXECUTE spGetAllEvents";
 
-            //List<EventModel> events = _dbConnection.Query<EventModel, CompanyModel>(sql);
+            Func<EventModel, CompanyModel, EventModel> mapping = (eventModel, companyModel) =>
+            {
+                eventModel.Company = companyModel;
 
+                return eventModel;
+            };
+
+            List<EventModel> events = _dbConnection.Query(sql, mapping).AsList();
+
+            return events;
         }
     }
 }
