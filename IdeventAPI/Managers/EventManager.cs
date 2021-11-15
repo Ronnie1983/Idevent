@@ -14,7 +14,7 @@ namespace IdeventAPI.Managers
         public List<EventModel> GetAll()
         {
 
-            // Column order: EventId, Name, NumberOfConnectedChips, CompanyId, CompanyName
+            // Column order: (Event)Id, Name, NumberOfConnectedChips, (Company)Id, CompanyName
             string sql = "EXECUTE spGetAllEvents";
 
             Func<EventModel, CompanyModel, EventModel> mapping = (eventModel, companyModel) =>
