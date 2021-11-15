@@ -7,30 +7,30 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IdeventLibrary.Models
 {
-    public class Company
+    public class CompanyModel
     {
         private int _id;
         private string _name, _email, _cvr, _phone;
-        private Address _address;
-        private Address _invoiceAddress;
+        private AddressModel _address;
+        private AddressModel _invoiceAddress;
         private bool _active;
         private string _note;
 
         
-        public Company()
+        public CompanyModel()
         {
             _id = 0;
             _name = "TestCompany";
             _email = "TestEmail";
-            _address = new Address();
+            _address = new AddressModel();
         }
-        public Company(string name, string email, string cvr, string phone, string street, string city, string postal, string country)
+        public CompanyModel(string name, string email, string cvr, string phone, string street, string city, string postal, string country)
         {
             Name = name;
             Email = email;
             CVR = cvr;
             Phone = phone;
-            Address = new Address(street, city, country, postal);
+            Address = new AddressModel(street, city, country, postal);
     
         }
 
@@ -56,14 +56,14 @@ namespace IdeventLibrary.Models
             set { _email = value; }
         }
 
-        public Address InvoiceAddress
+        public AddressModel InvoiceAddress
         {
             get { return _invoiceAddress; }
             set { _invoiceAddress = value; }
         }
 
         [Required]
-        public Address Address
+        public AddressModel Address
         {
             get { return _address; }
             set { _address = value; }

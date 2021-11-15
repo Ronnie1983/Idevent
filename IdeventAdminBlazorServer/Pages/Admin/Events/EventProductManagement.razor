@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-        @foreach(EventStands stand in _eventStands){
+        @foreach(EventStandModel stand in _eventStands){
             
             
             <tr>   
@@ -24,14 +24,18 @@
                 <td>@stand.Functionalities.Name</td>
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-primary m-1" @onclick="ToggleContent">Edit content</button>
+                        <button class="btn btn-primary m-1" @onclick="() => Toggle(stand.Name)">Edit content</button>
                         <button class="btn btn-danger m-1" @onclick="DeleteStandAndContent">Delete</button>
                     </div>
                 </td>
             </tr>
-            <tr>
+                @if (_stringList.Contains(stand.Name))
+                {
+                    <tr class="table-danger">
+                      
+                    </tr>  
+                }
                 
-            </tr>
        
         }
          </tbody>
@@ -42,21 +46,36 @@
     [Parameter]
     public string EventId { get; set; }
 
-    private List<EventStands> _eventStands = new List<EventStands>();
+    private List<ShowListModel> _showList = new List<ShowListModel>();
+    private List<string> _stringList = new List<string>();
+
+
+    private List<EventStandModel> _eventStands = new List<EventStandModel>();
 
     protected override async Task OnInitializedAsync()
     {
-        _eventStands.Add(new EventStands("test", new Event("EventTest", new Company()),new StandFunctionalities()));
-        _eventStands.Add(new EventStands("test2", new Event("EventTest2", new Company()),new StandFunctionalities()));
-    }
-
-    private async void ToggleContent()
-    {
-        
+        _eventStands.Add(new EventStandModel("test", new EventModel("EventTest", new CompanyModel()),new StandFunctionalityModel()));
+        _eventStands.Add(new EventStandModel("test2", new EventModel("EventTest2", new CompanyModel()),new StandFunctionalityModel()));
     }
 
     private async void DeleteStandAndContent()
     {
         // TODO Delete Stand and content
+    }
+
+
+
+    private void Toggle(string name)
+    {
+        if (_stringList.Contains(name))
+        {
+            _stringList.Remove(name);
+
+        } else
+        {
+            _stringList.Add(name);
+
+        }
+        
     }
 }

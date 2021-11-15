@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace IdeventLibrary.Models
 {
-    public class Address
+    public class AddressModel
     {
         private string _street, _city, _country, _zipcode;
 
-        public Address()
+        public AddressModel()
         {
             _street = "testStreet";
             _city = "TestCity";
@@ -18,7 +18,7 @@ namespace IdeventLibrary.Models
             _zipcode = "TestZipcode";
         }
 
-        public Address(string street, string city, string country, string zipcode)
+        public AddressModel(string street, string city, string country, string zipcode)
         {
 
         }
