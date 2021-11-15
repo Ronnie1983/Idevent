@@ -62,7 +62,7 @@
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\PublishProfiles" />
     <Folder Include="dbo\StoredProcedures" />
-    <Folder Include="dbo\DummyDataScripts" />
+    <Folder Include="dbo\PostDeployScripts" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
@@ -88,5 +88,9 @@
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dbo\PostDeployScripts\Script.InsertDummyData.sql" />
+    <None Include="dbo\PublishProfiles\ThomasDesktop.publish.xml" />
   </ItemGroup>
 </Project>
