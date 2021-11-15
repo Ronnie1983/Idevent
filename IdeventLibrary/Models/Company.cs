@@ -13,11 +13,16 @@ namespace IdeventLibrary.Models
         private string _name, _email, _cvr, _phone;
         private Address _address;
         private Address _invoiceAddress;
+        private bool _active;
+        private string _note;
 
         
         public Company()
         {
-            
+            _id = 0;
+            _name = "TestCompany";
+            _email = "TestEmail";
+            _address = new Address();
         }
         public Company(string name, string email, string cvr, string phone, string street, string city, string postal, string country)
         {
@@ -78,6 +83,17 @@ namespace IdeventLibrary.Models
             set { _phone = value; }
         }
         
+        public string Note
+        {
+            get { return _note; }
+            set { _note = value; }
+        }
+
+        public bool Active
+        {
+            get { return _active; }
+            set { _active = value; }
+        }
        
     }
 }
