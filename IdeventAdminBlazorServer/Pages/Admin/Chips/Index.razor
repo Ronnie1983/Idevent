@@ -1,4 +1,7 @@
 ﻿@page "/Chips"
+@using System.Reflection.Metadata
+
+
 @inject NavigationManager _navigationManager
 
 <h1>Chips Oversigt</h1>
@@ -11,18 +14,19 @@
     <div>
         <div class="btn-group">
             <div class="dropdown show">
+                <button class="btn btn-primary m-1">Select all</button>
                 <a class="btn btn-primary m-1 dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Actions
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item">Select All</a>
+
                     <a class="dropdown-item">Move To Event</a>
                     <a class="dropdown-item">Assign Group</a>
                     <a class="dropdown-item" style="color: red">Delete</a>
                 </div>
             </div>
 
-            <NavigateButton PageToNavigateTo="AddChip" ButtonText="Add Chip"/>
+            <NavigateButton PageToNavigateTo="AddChip" ButtonText="Add Chip" />
 
             <button class="btn btn-primary m-1" data-toggle="modal" data-target="#M">Export</button>
 
@@ -36,6 +40,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
+
                         <div class="modal-body">
                             Kommer senere
                         </div>
@@ -43,8 +48,8 @@
                 </div>
             </div>
             <!-- Modal End -->
-            
-            <NavigateButton PageToNavigateTo="ImporterChip" ButtonText="Import"/>
+
+            <NavigateButton PageToNavigateTo="ImporterChip" ButtonText="Import" />
 
         </div>
     </div>
@@ -78,8 +83,10 @@
                     <td>@chip.Company.Name</td>
                     <td>
                         <div class="btn-group">
-                            <NavigateButton PageToNavigateTo="EditChip" ButtonText="Edit"/>
-                            <NavigateButton PageToNavigateTo="ChipDetail" ButtonText="Details"/>
+                            @*<NavigateButton PageToNavigateTo=@(NavigationArgument("EditEvent/", eventModel.Id)) ButtonText="Edit event"/>*@
+
+                            <NavigateButton PageToNavigateTo=@(NavigationArgument("EditChip/", chip.Id)) ButtonText="Edit" />
+                            <NavigateButton PageToNavigateTo=@(NavigationArgument("ChipDetail/", chip.Id)) ButtonText="Details" />
                         </div>
                     </td>
                 </tr>
@@ -90,6 +97,9 @@
 
 
 @code {
+
+    [Parameter]
+    public string ChipId { get; set; }
 
     protected override void OnInitialized()
     {
@@ -103,7 +113,6 @@
         groupName.Name = "VIP";
 
 
-
         _chips = new List<ChipModel>()
         {
             new ChipModel(1, 1,  DateTimeOffset.Now, new DateTimeOffset(),groupName,eventName,companyName),
@@ -113,4 +122,9 @@
     }
 
     private List<ChipModel> _chips;
+
+    private string NavigationArgument(string navigationPrefix, int modelId)
+    {
+        return $"{navigationPrefix}{modelId}";
+    }
 }
