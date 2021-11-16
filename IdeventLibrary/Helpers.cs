@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace IdeventLibrary.Repositories
 {
-    public class Helpers
+    /// <summary>
+    /// A class meant for easy access to some static properties.
+    /// </summary>
+    public static class Helpers
     {
         public static JsonSerializerOptions JsonSerializerOptions
         {
