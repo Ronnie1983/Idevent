@@ -75,6 +75,11 @@ namespace IdeventTests
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.EditEvent>(), "Edit Event", "EditEvent/1");
         }
+        [TestMethod]
+        public void EventProductManagement()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.EventProductManagement>(), "Event Product Management", "EventProductManagement/1");
+        }
 
 
         /// <summary>
