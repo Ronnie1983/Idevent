@@ -58,34 +58,59 @@
                 <th scope="col">User Mail</th>
                 <th scope="col">From</th>
                 <th scope="col">To</th>
-                <th scope="col">Company</th>
                 <th scope="col">Group</th>
                 <th scope="col">Event</th>
+                <th scope="col">Company</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td scope="row"><input type="checkbox"></td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>7/11</td>
-                <td>7/12</td>
-                <td>Roskile festival</td>
-                <td>VIP</td>
-                <td>Roskilde festival</td>
-                <td>
-                    <div class="btn-group">
-                        <NavigateButton PageToNavigateTo="EditChip" ButtonText="Edit"/>
-                        <NavigateButton PageToNavigateTo="ChipDetail" ButtonText="Details"/>
-                    </div>
-                </td>
-            </tr>
+            @foreach (ChipModel chip in _chips)
+            {
+                <tr>
+                    <td scope="row"><input type="checkbox"></td>
+                    <td>@chip.Id</td>
+                    <td>@chip.Uid</td>
+                    <td>@chip.DateFrom</td>
+                    <td>@chip.DateTo</td>
+                    <td>@chip.Group.Name</td>
+                    <td>@chip.Event.Name</td>
+                    <td>@chip.Company.Name</td>
+                    <td>
+                        <div class="btn-group">
+                            <NavigateButton PageToNavigateTo="EditChip" ButtonText="Edit"/>
+                            <NavigateButton PageToNavigateTo="ChipDetail" ButtonText="Details"/>
+                        </div>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
 
 
-    @code {
+@code {
 
+    protected override void OnInitialized()
+    {
+        CompanyModel companyName = new();
+        companyName.Name = "test";
+
+        EventModel eventName = new();
+        eventName.Name = "roskilde festival";
+
+        ChipGroupModel groupName = new();
+        groupName.Name = "VIP";
+
+
+
+        _chips = new List<ChipModel>()
+        {
+            new ChipModel(1, 1,  DateTimeOffset.Now, new DateTimeOffset(),groupName,eventName,companyName),
+            new ChipModel(2, 2,  DateTimeOffset.Now, new DateTimeOffset(),groupName,eventName,companyName),
+            new ChipModel(2, 2,  DateTimeOffset.Now, new DateTimeOffset(),groupName,eventName,companyName),
+        };
     }
+
+    private List<ChipModel> _chips;
+}
