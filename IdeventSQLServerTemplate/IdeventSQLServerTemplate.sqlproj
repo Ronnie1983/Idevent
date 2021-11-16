@@ -92,5 +92,6 @@
   <ItemGroup>
     <None Include="dbo\PostDeployScripts\Script.InsertDummyData.sql" />
     <None Include="dbo\PublishProfiles\ThomasDesktop.publish.xml" />
+    <None Include="dbo\PublishProfiles\Simply.publish.xml" />
   </ItemGroup>
 </Project>

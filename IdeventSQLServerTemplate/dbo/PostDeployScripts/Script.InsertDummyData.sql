@@ -23,9 +23,9 @@ BEGIN
 
 /* Company Data */
     IF NOT EXISTS (SELECT * FROM Companies
-               WHERE CompanyName = 'Demo Company' OR 
-               CompanyName = 'Demo Company 2')
-    INSERT INTO Companies (CompanyName, CVR, PhoneNumber, Email, Logo, Note, Active, FK_AddressId, FK_InvoiceAddressId)
+               WHERE Companies.Name = 'Demo Company' OR 
+               Companies.Name = 'Demo Company 2')
+    INSERT INTO Companies (Companies.Name, CVR, PhoneNumber, Email, Logo, Note, Active, FK_AddressId, FK_InvoiceAddressId)
     VALUES ('Demo Company', '12345678', '+45 55 33 22 11','demo@mail.dk', 'images/logo-1' ,'Nem at snakke med', 1, 1, 1), 
             ('Demo Company 2', '87654321', '+45 99 99 99 99','demo2@mail.dk', 'images/logo-2' ,'', 0, 1, 1)
 
