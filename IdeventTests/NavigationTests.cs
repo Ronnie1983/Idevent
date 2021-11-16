@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace IdeventTests
 {
-
+    /// <summary>
+    /// Tests if you can load all pages by checking the h1 tag of each page after navigating to it.
+    /// </summary>
     [TestClass]
     public class NavigationTests
     {
@@ -68,6 +70,11 @@ namespace IdeventTests
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.AddEvent>(), "Add Event", "AddEvent");
         }
+        [TestMethod]
+        public void EditEvent()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.EditEvent>(), "Edit Event", "EditEvent/1");
+        }
 
 
         /// <summary>
@@ -89,12 +96,12 @@ namespace IdeventTests
             {
                 url = $"{_navManager.BaseUri}{navigationTitle}";
             }
-            string expectedH1Tag = $"<h1>{pageTitle}</h1>";
+            string expectedH1Content = $"<h1>{pageTitle}";
 
             // Act
             _navManager.NavigateTo(url);
 
-            bool containsExpected = page.Markup.Contains(expectedH1Tag);
+            bool containsExpected = page.Markup.Contains(expectedH1Content);
 
             // Assert
             Assert.IsTrue(containsExpected);
