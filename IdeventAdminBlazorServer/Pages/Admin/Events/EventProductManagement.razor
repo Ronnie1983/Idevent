@@ -24,7 +24,7 @@
                                 <div class="form-group col-4">
                                     <label for="@_eventStandReq.standProducts">Group</label> 
                                     <InputSelect class="form-control" id="value" @bind-Value="_eventStandReq.NewStandFuncName">
-                                        @foreach(StandFunctionalityModel item in _standFunktionalities){
+                                        @foreach(StandFunctionalityModel item in _standFunctionalities){
                                            
                                             
                                                 <option value="@item.Name">@item.Name</option>
@@ -128,7 +128,7 @@
     private List<string> _stringList = new List<string>();
     private StandProductModel _standProductReq = new StandProductModel();
     private EventStandModel _eventStandReq = new EventStandModel();
-    private List<StandFunctionalityModel> _standFunktionalities = new List<StandFunctionalityModel>();
+    private List<StandFunctionalityModel> _standFunctionalities = new List<StandFunctionalityModel>();
     private string _newName;
 
 
@@ -137,11 +137,11 @@
     protected override async Task OnInitializedAsync()
     {
         _eventModel = new EventModel("EventTest3",new CompanyModel());
-        _standFunktionalities.Add(new StandFunctionalityModel("Products"));
-        _standFunktionalities.Add(new StandFunctionalityModel("Entry"));
-        _eventStands.Add(new EventStandModel("test", _eventModel, _standFunktionalities[0]));
-        _eventStands.Add(new EventStandModel("test2", _eventModel, _standFunktionalities[1]));
-        _eventStandReq.NewStandFuncName = _standFunktionalities[0].Name;
+        _standFunctionalities.Add(new StandFunctionalityModel("Products"));
+        _standFunctionalities.Add(new StandFunctionalityModel("Entry"));
+        _eventStands.Add(new EventStandModel("test", _eventModel, _standFunctionalities[0]));
+        _eventStands.Add(new EventStandModel("test2", _eventModel, _standFunctionalities[1]));
+        _eventStandReq.NewStandFuncName = _standFunctionalities[0].Name;
 
     }
 
