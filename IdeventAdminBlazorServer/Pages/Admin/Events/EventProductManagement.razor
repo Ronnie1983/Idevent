@@ -1,5 +1,6 @@
 ﻿@page "/EventProductManagement/{EventId}"
 <h1>Event Product Management</h1>
+<h3>@_eventModel.Name</h3>
 
 
 
@@ -12,8 +13,30 @@
     </div>
             @if (_toggleAddStand)
             {
-                <div class="col-10">
-                    Her kan tilføjes produkter
+                <div class="col-10 row">
+                    <EditForm class="row" Model="@_eventStandReq" OnValidSubmit="@HandleValidSubmitEventStand">
+                            <DataAnnotationsValidator/>
+                            <ValidationSummary/>
+                             <div class="form-group col-4">
+                                    <label for="@_eventStandReq.Name">Stand Name</label> 
+                                    <InputText class="form-control" id="name" @bind-Value="_eventStandReq.Name" placeholder="Stand Name"/>
+                                </div>
+                                <div class="form-group col-4">
+                                    <label for="@_eventStandReq.standProducts">Group</label> 
+                                    <InputSelect class="form-control" id="value" @bind-Value="_eventStandReq.NewStandFuncName">
+                                        @foreach(StandFunctionalityModel item in _standFunctionalities){
+                                           
+                                            
+                                                <option value="@item.Name">@item.Name</option>
+                                            
+                        
+                                         }
+                                    </InputSelect>
+                                </div>
+
+                                <button class="btn btn-primary m-1 col-2" type="submit">Submit</button>
+                                   
+                          </EditForm>
                 </div>
 
             }
@@ -24,8 +47,7 @@
         <thead>
             <tr>
                 <th scope="col">Name</th>
-                <th scope="col">Event</th>
-                <th scope="col">Functipnality</th>
+                <th scope="col">Functionality</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -35,12 +57,11 @@
             
             <tr>   
                 <td>@stand.Name</td>
-                <td>@stand.Event.Name</td>
                 <td>@stand.Functionalities.Name</td>
                 <td>
                     <div class="btn-group">
                         <button class="btn btn-primary m-1" @onclick="() => Toggle(stand.Name)">Edit content</button>
-                        <button class="btn btn-danger m-1" @onclick="DeleteStandAndContent">Delete</button>
+                        <button class="btn btn-danger m-1" @onclick="@(e => DeleteStandAndContent(stand))">Delete</button>
                     </div>
                 </td>
             </tr>
@@ -90,7 +111,6 @@
                                    
                           </EditForm>
                       </td>
-                      <td>tomt</td>
                     </tr>
                 }
                 
@@ -103,9 +123,12 @@
 @code {
     [Parameter]
     public string EventId { get; set; }
+    public EventModel _eventModel;
     private bool _toggleAddStand = false;
     private List<string> _stringList = new List<string>();
     private StandProductModel _standProductReq = new StandProductModel();
+    private EventStandModel _eventStandReq = new EventStandModel();
+    private List<StandFunctionalityModel> _standFunctionalities = new List<StandFunctionalityModel>();
     private string _newName;
 
 
@@ -113,13 +136,18 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _eventStands.Add(new EventStandModel("test", new EventModel("EventTest", new CompanyModel()),new StandFunctionalityModel()));
-        _eventStands.Add(new EventStandModel("test2", new EventModel("EventTest2", new CompanyModel()),new StandFunctionalityModel()));
+        _eventModel = new EventModel("EventTest3",new CompanyModel());
+        _standFunctionalities.Add(new StandFunctionalityModel("Products"));
+        _standFunctionalities.Add(new StandFunctionalityModel("Entry"));
+        _eventStands.Add(new EventStandModel("test", _eventModel, _standFunctionalities[0]));
+        _eventStands.Add(new EventStandModel("test2", _eventModel, _standFunctionalities[1]));
+        _eventStandReq.NewStandFuncName = _standFunctionalities[0].Name;
+
     }
 
-    private async void DeleteStandAndContent()
+    private async void DeleteStandAndContent(EventStandModel stand)
     {
-
+        _eventStands.Remove(stand);
         // TODO Delete Stand and content
     }
 
@@ -136,8 +164,18 @@
         _eventStands.Find(x => x.Name == eventStand.Name).standProducts.Add(_standProductReq);
         _standProductReq = new StandProductModel();
 
-        // TODO: add submit product
+        // TODO add submit product
 
+    }
+
+    private void HandleValidSubmitEventStand()
+    {
+        _eventStandReq.Event = _eventModel;
+        _eventStandReq.Functionalities = new StandFunctionalityModel(_eventStandReq.NewStandFuncName);
+        _eventStands.Add(new EventStandModel(_eventStandReq.Name,_eventStandReq.Event, _eventStandReq.Functionalities));
+        
+        _eventStandReq = new EventStandModel();
+        // TODO add event stand to db
     }
 
     private void ChangeName(EventStandModel stand)
