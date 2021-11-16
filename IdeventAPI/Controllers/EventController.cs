@@ -1,6 +1,7 @@
 ﻿using IdeventAPI.Managers;
 using IdeventLibrary.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,14 @@ namespace IdeventAPI.Controllers
     [Route("[controller]/")]
     public class EventController : ControllerBase
     {
-        private EventManager _eventManager = new EventManager();
+        private EventManager _eventManager;
 
         private readonly ILogger<EventController> _logger;
 
-        public EventController(ILogger<EventController> logger)
+        public EventController(ILogger<EventController> logger, IConfiguration config)
         {
             _logger = logger;
+            _eventManager = new EventManager(config);
         }
 
         [HttpPost]
