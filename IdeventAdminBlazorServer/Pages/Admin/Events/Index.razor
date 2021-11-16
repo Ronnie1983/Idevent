@@ -4,36 +4,44 @@
 <h1>Events</h1>
 
 <NavigateButton PageToNavigateTo="AddEvent" ButtonText="Add" />
+@if (_eventData == null)
+{
+    <Loader LoadingMessage="Loading events..." />
+}
 
-<table class="table table-light table-striped table-hover">
-    <thead>
-        <tr>
-            <th scope="col">Event ID</th>
-            <th scope="col">Event Name</th>
-            <th scope="col">Company</th>
-            <th scope="col">No. of Chips</th>
-            <th scope="col">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (EventModel eventModel in _eventData)
-        {
+@if (_eventData != null)
+{
+    <table class="table table-light table-striped table-hover">
+        <thead>
             <tr>
-                <td>@eventModel.Id</td>
-                <td>@eventModel.Name</td>
-                <td>@eventModel.Company.Name</td>
-                <td>@eventModel.AmountOfConnectedChips</td>
-                <td>
-                    <NavigateButton PageToNavigateTo=@(NavigationArgument("EditEvent/", eventModel.Id)) ButtonText="Edit event" />
-                    <NavigateButton PageToNavigateTo="@(NavigationArgument("EventProductManagement/", eventModel.Id))" ButtonText="Edit products" />
-                </td>
+                <th scope="col">Event ID</th>
+                <th scope="col">Event Name</th>
+                <th scope="col">Company</th>
+                <th scope="col">No. of Chips</th>
+                <th scope="col">Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (EventModel eventModel in _eventData)
+            {
+                <tr>
+                    <td>@eventModel.Id</td>
+                    <td>@eventModel.Name</td>
+                    <td>@eventModel.Company.Name</td>
+                    <td>@eventModel.AmountOfConnectedChips</td>
+                    <td>
+                        <NavigateButton PageToNavigateTo=@(NavigationArgument("EditEvent/", eventModel.Id)) ButtonText="Edit event" />
+                        <NavigateButton PageToNavigateTo="@(NavigationArgument("EventProductManagement/", eventModel.Id))" ButtonText="Edit products" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
 
 @code {
-    private List<EventModel> _eventData = new List<EventModel>();
+    private List<EventModel> _eventData;
 
     private string NavigationArgument(string navigationPrefix, int modelId)
     {
@@ -44,6 +52,7 @@
         try
         {
             EventRepository eventRepo = new EventRepository();
+
             _eventData = await eventRepo.GetAllAsync();
         }
         catch (Exception e)
