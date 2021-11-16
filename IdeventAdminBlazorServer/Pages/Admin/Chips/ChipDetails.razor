@@ -1,9 +1,10 @@
-﻿@page "/ChipDetail"
+﻿@page "/ChipDetail/{ChipId}"
 
 <h3>Chip Details</h3>
 
 <NavigateButton PageToNavigateTo="Chips" ButtonText="Cancel" HtmlClasses="btn btn-danger m-1"/>
 
 @code {
-
+    [Parameter]
+    public string ChipId { get; set; }
 }
