@@ -13,8 +13,7 @@ namespace IdeventLibrary.Models
 
         public StandFunctionalityModel()
         {
-            _id = 0;
-            _name = "TestFunction";
+            
         }
         public StandFunctionalityModel(string name)
         {
@@ -26,7 +25,7 @@ namespace IdeventLibrary.Models
             get { return _name; }
             set { _name = value; }
         }
-
+        
 
     }
 }
