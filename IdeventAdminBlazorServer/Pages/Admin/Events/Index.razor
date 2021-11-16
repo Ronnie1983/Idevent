@@ -1,8 +1,9 @@
 ﻿@page "/Events"
+@using IdeventLibrary.Repositories
 
 <h1>Events</h1>
 
-<NavigateButton PageToNavigateTo="AddEvent" ButtonText="Add"/>
+<NavigateButton PageToNavigateTo="AddEvent" ButtonText="Add" />
 
 <table class="table table-light table-striped table-hover">
     <thead>
@@ -15,35 +16,39 @@
         </tr>
     </thead>
     <tbody>
-       @foreach(EventModel eventModel in _temporaryData){
-        <tr>
-            <td>@eventModel.Id</td>
-            <td>@eventModel.Name</td>
-            <td>@eventModel.Company.Name</td>
-            <td>@eventModel.AmountOfConnectedChips</td>
-            <td>
-                <NavigateButton PageToNavigateTo=@(NavigationArgument("EditEvent/", eventModel.Id)) ButtonText="Edit event"/>
-                <NavigateButton PageToNavigateTo="@(NavigationArgument("EventProductManagement/", eventModel.Id))" ButtonText="Edit products"/>
-            </td>
-        </tr>
-       }
+        @foreach (EventModel eventModel in _eventData)
+        {
+            <tr>
+                <td>@eventModel.Id</td>
+                <td>@eventModel.Name</td>
+                <td>@eventModel.Company.Name</td>
+                <td>@eventModel.AmountOfConnectedChips</td>
+                <td>
+                    <NavigateButton PageToNavigateTo=@(NavigationArgument("EditEvent/", eventModel.Id)) ButtonText="Edit event" />
+                    <NavigateButton PageToNavigateTo="@(NavigationArgument("EventProductManagement/", eventModel.Id))" ButtonText="Edit products" />
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
-@code{
-    private List<EventModel> _eventData;
-    private List<EventModel> _temporaryData = new List<EventModel>
-    {
-        new EventModel(143, "Oktoberfest 2021", new CompanyModel("Aalborg Festudvalg", "", "", "", "", "", "", ""), 500),
-        new EventModel(144, "Oktoberfest 2022", new CompanyModel("Aalborg Festudvalg", "", "", "", "", "", "", ""), 500)
-    };
+@code {
+    private List<EventModel> _eventData = new List<EventModel>();
+
     private string NavigationArgument(string navigationPrefix, int modelId)
     {
         return $"{navigationPrefix}{modelId}";
     }
-    //private List<Event> FetchEventData()
-    //{
-    //    return new List<Event>();
-    //}
-    // TODO: Fetch event data from API and put them in the table.
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            EventRepository eventRepo = new EventRepository();
+            _eventData = await eventRepo.GetAllAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
 }
