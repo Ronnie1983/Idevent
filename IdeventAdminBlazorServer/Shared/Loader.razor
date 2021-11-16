@@ -1,0 +1,10 @@
+﻿<div class="loaderContainer">
+    <span class="loaderMessage">@LoadingMessage</span>
+    <div class="loader">
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string LoadingMessage { get; set; } = "Loading";
+}
