@@ -5,6 +5,7 @@
 
 # Noitcereon specified files
 /IdeventAPI/appsettings.Production.json
+/IdeventAPI/appsettings.Development.json
 
 
 # User-specific files
