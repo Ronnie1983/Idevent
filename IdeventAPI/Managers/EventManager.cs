@@ -11,17 +11,12 @@ namespace IdeventAPI.Managers
     public class EventManager
     {
         private IDbConnection _dbConnection;
-        private IConfiguration _config;
 
-        public EventManager(IConfiguration config)
-        {
-            _config = config;
-            _dbConnection = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-        }
         public EventManager()
         {
-            
+            _dbConnection = new SqlConnection(AppSettings.ConnectionString);
         }
+
         public List<EventModel> GetAll()
         {
             // Column order: (Event)Id, Name, NumberOfConnectedChips, (Company)Id, CompanyName

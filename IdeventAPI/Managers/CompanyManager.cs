@@ -9,7 +9,7 @@ namespace IdeventAPI.Managers
 {
     public class CompanyManager
     {
-        private IDbConnection _dbConnection = new SqlConnection(Helpers.ConnectionString);
+        private IDbConnection _dbConnection = new SqlConnection(AppSettings.ConnectionString);
 
         public List<CompanyModel> GetAll()
         {
