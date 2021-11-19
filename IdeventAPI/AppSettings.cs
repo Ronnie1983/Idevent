@@ -1,18 +1,16 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System;
 
 namespace IdeventAPI
 {
     /// <summary>
-    /// Should be used to give a connection string to the managers without them having to inject an IConfiguration, but so far I - Noit -
-    /// have not gotten it to work.
+    /// Contains static helper properties, such as the connectionstring.
     /// </summary>
     public class AppSettings
     {
-        private IConfiguration _config;
-
-        public AppSettings(IConfiguration configuration)
-        {
-            _config = configuration;
-        }
+        /// <summary>
+        /// ConnectionString to the database. Fetched from an environment variable.
+        /// </summary>
+        public static string ConnectionString { get => Environment.GetEnvironmentVariable("SQLCONNSTR_IdeventConnectionString"); }
     }
 }

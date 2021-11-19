@@ -18,10 +18,10 @@ namespace IdeventAPI.Controllers
 
         private readonly ILogger<EventController> _logger;
 
-        public EventController(ILogger<EventController> logger, IConfiguration config)
+        public EventController(ILogger<EventController> logger)
         {
             _logger = logger;
-            _eventManager = new EventManager(config);
+            _eventManager = new EventManager();
         }
 
         [HttpPost]
