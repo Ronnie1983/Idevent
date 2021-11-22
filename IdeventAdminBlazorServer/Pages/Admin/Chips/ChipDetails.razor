@@ -1,10 +1,24 @@
 ﻿@page "/ChipDetail/{ChipId}"
 
-<h3>Chip Details</h3>
+<h1>Chip Details</h1>
 
-<NavigateButton PageToNavigateTo="Chips" ButtonText="Cancel" HtmlClasses="btn btn-danger m-1"/>
+<NavigateButton PageToNavigateTo="Chips" ButtonText="Back" HtmlClasses="btn-danger m-1"/>
+
+<section>
+    <div>
+        <span class="font-weight-bold">ID</span>
+
+    </div>
+</section>
 
 @code {
     [Parameter]
     public string ChipId { get; set; }
+
+    //private ChipModel _chip = new ChipModel() { Id = ChipId, Company = new Company() };
+
+    //protected override Task OnInitializedAsync()
+    //{
+        
+    //}
 }

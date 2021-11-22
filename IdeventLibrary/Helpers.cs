@@ -19,7 +19,7 @@ namespace IdeventLibrary.Repositories
                 PropertyNameCaseInsensitive = true,
             };
         }
-
+        public static string ApiBaseUrl { get => "https://localhost:44330"; } // TODO: change to online API
 
     }
 }
