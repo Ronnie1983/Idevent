@@ -54,7 +54,7 @@
             </tr>
         </thead>
         <tbody>
-        @foreach(EventStandModel stand in _eventStands){
+        @foreach(EventStandModel stand in _eventModel.EventStands){
             
             
             <tr>   
@@ -125,7 +125,7 @@
 @code {
     [Parameter]
     public string EventId { get; set; }
-    public EventModel _eventModel;
+    public EventModel _eventModel = new EventModel();
     private bool _toggleAddStand = false;
     private List<string> _stringList = new List<string>();
     private StandProductModel _standProductReq = new StandProductModel();
@@ -134,46 +134,59 @@
     private string _newName;
     private StandProductRepository _standProductRepository = new StandProductRepository();
     private EventRepository _eventRepository = new EventRepository();
-
-
-
-
-    private List<EventStandModel> _eventStands = new List<EventStandModel>();
+    private EventStandRepository _eventStandRepository = new EventStandRepository();
+    private StandFunctionalityRepository _standFunctionalityRepository = new StandFunctionalityRepository();
 
     protected override async Task OnInitializedAsync()
     {
-        _eventModel = new EventModel("EventTest3",new CompanyModel());
-        //_eventModel = _eventRepository
 
-        _standFunctionalities.Add(new StandFunctionalityModel("Products"));
-        _standFunctionalities.Add(new StandFunctionalityModel("Entry"));
-        _eventStands.Add(new EventStandModel("test", _eventModel, _standFunctionalities[0]));
-        _eventStands.Add(new EventStandModel("test2", _eventModel, _standFunctionalities[1]));
+        _eventModel = await _eventRepository.GetByIdAsync(TryConvert(EventId));
+        _eventModel.EventStands = await _eventStandRepository.GetAllByEventIdAsync(TryConvert(EventId));
+        _standFunctionalities = await _standFunctionalityRepository.GetAllFunctionalityByEventId(TryConvert(EventId));
+        //_standFunctionalities.Add(new StandFunctionalityModel("Products"));
+        //_standFunctionalities.Add(new StandFunctionalityModel("Entry"));
+        
         _eventStandReq.NewStandFuncName = _standFunctionalities[0].Name;
 
     }
 
+    private int TryConvert(string value)
+    {
+        int result = 0;
+        try
+        {
+            result = Int32.Parse(value);
+            
+        }
+        catch
+        {
+            Console.WriteLine("Unable to parse " + value);
+
+        }
+        return result;
+    }
+
     private async void DeleteStandAndContent(EventStandModel stand)
     {
-        _eventStands.Remove(stand);
+        _eventModel.EventStands.Remove(stand);
         // TODO Delete Stand and content
     }
 
     private async void DeleteProduct(EventStandModel stand,StandProductModel product)
     {
-        _eventStands.Find(x => x.Name == stand.Name).standProducts.Remove(product);
+        _eventModel.EventStands.Find(x => x.Name == stand.Name).standProducts.Remove(product);
         // TODO Delete Product
     }
 
-    private void HandleValidSubmitProduct(EventStandModel eventStand)
+    private async Task HandleValidSubmitProduct(EventStandModel eventStand)
     {
 
         // TODO Måske bør dette element ikke være her. Snak med gruppe
-        _eventStands.Find(x => x.Name == eventStand.Name).standProducts.Add(_standProductReq);
+        _eventModel.EventStands.Find(x => x.Name == eventStand.Name).standProducts.Add(_standProductReq);
 
 
         _standProductReq.EventStandModel = eventStand;
-        _standProductRepository.CreateAsync(_standProductReq);
+        await _standProductRepository.CreateAsync(_standProductReq);
         _standProductReq = new StandProductModel();
         // TODO add submit product
 
@@ -184,7 +197,7 @@
     {
         _eventStandReq.Event = _eventModel;
         _eventStandReq.Functionalities = new StandFunctionalityModel(_eventStandReq.NewStandFuncName);
-        _eventStands.Add(new EventStandModel(_eventStandReq.Name,_eventStandReq.Event, _eventStandReq.Functionalities));
+        _eventModel.EventStands.Add(new EventStandModel(_eventStandReq.Name,_eventStandReq.Event, _eventStandReq.Functionalities));
         
         _eventStandReq = new EventStandModel();
         // TODO add event stand to db
@@ -192,7 +205,7 @@
 
     private void ChangeName(EventStandModel stand)
     {
-        _eventStands.Find(x => x.Name == stand.Name).Name = _newName;
+        _eventModel.EventStands.Find(x => x.Name == stand.Name).Name = _newName;
         _newName = "";
         // TODO update Name
 

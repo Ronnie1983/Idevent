@@ -9,59 +9,49 @@ namespace IdeventAPI.Controllers
 {
     [Route("[controller]/")]
     [ApiController]
-    public class StandController : ControllerBase
+    public class StandFunctionalityController : ControllerBase
     {
-        private EventStandManager _eventStandManager = new EventStandManager();
+        private StandFunctionalityManager _manager = new StandFunctionalityManager();
 
-        private readonly ILogger<StandController> _logger;
+        private readonly ILogger<StandFunctionalityController> _logger;
 
-        public StandController(ILogger<StandController> logger)
+        public StandFunctionalityController(ILogger<StandFunctionalityController> logger)
         {
             _logger = logger;
         }
-        // GET: api/<StandController>
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var stands = _eventStandManager.GetAll();
-            if (stands.Count == 0)
-            {
-                return NoContent();
-            }
-            return Ok(stands);
-        }
 
-        [HttpGet("byevent/{id}")]
+        // GET: api/<StandFunctionalityController>
+        [HttpGet("byeventid/{id}")]
         public IActionResult GetAllByEventId(int id)
         {
-            var stands = _eventStandManager.GetAllByEventId(id);
-            if (stands.Count == 0)
+            var functions = _manager.GetAllByEventId(id);
+            if(functions.Count == 0)
             {
                 return NoContent();
             }
-            return Ok(stands);
+            return Ok(functions);
         }
 
-        // GET api/<StandController>/5
+        // GET api/<StandFunctionalityController>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/<StandController>
+        // POST api/<StandFunctionalityController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/<StandController>/5
+        // PUT api/<StandFunctionalityController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<StandController>/5
+        // DELETE api/<StandFunctionalityController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

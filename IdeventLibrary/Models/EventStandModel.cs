@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace IdeventLibrary.Models
 {
@@ -51,7 +52,7 @@ namespace IdeventLibrary.Models
             get { return _functionalities; }
             set { _functionalities = value; }
         }
-
+       
         public List<StandProductModel> standProducts { get; set; } = new List<StandProductModel>();
         [Required]
         public string NewStandFuncName { get; set; }
