@@ -33,5 +33,24 @@ namespace IdeventAPI.Managers
 
             return events;
         }
+
+        public EventModel GetById(int id)
+        {
+            string sql = $"EXECUTE spGetEventById {id}";
+
+            Func<EventModel, CompanyModel, EventModel> mapping = (eventModel, companyModel) =>
+            {
+                eventModel.Company = companyModel;
+
+                return eventModel;
+            };
+
+            var events = _dbConnection.QuerySingle<EventModel>(sql, mapping);
+
+            return events;
+
+            //var item = _dbConnection.QuerySingle<EventModel>("dbo.spGetEventById", new { param1 = id }, commandType: CommandType.StoredProcedure);
+            //return item;
+        }
     }
 }
