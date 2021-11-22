@@ -22,26 +22,39 @@ namespace IdeventAPI.Managers
         }
         public ChipModel GetById(int id)
         {
-            // Columns: Chips.Id, ValidFrom, ValidTo, ChipGroups.Id, ChipGroups.Name, Id, CompanyName, Email, Id, EventName
-            string sql = "EXECUTE spGetChipById @Id";
-            var parameters = new { Id = id };
+            try
+            {
+                // Columns: Chips.Id, ValidFrom, ValidTo, ChipGroups.Id, ChipGroups.Name, Id, CompanyName, Email, Id, EventName
+                string sql = "EXECUTE spGetChipById @Id";
+                var parameters = new { Id = id };
 
-            // TODO: Add UserModel to Query (for Users Email)
-            ChipModel output = _dbConnection.Query<ChipModel, ChipGroupModel, CompanyModel, EventModel, ChipModel>
-                (sql, (chipModel, groupModel, companyModel, eventModel) =>
+                // TODO: Add UserModel to Query (for Users Email)
+                ChipModel output = _dbConnection.Query<ChipModel, ChipGroupModel, CompanyModel, EventModel, ChipModel>
+                    (sql, (chipModel, groupModel, companyModel, eventModel) =>
+                    {
+                        chipModel.Group = groupModel;
+                        chipModel.Company = companyModel;
+                        chipModel.Event = eventModel;
+
+                        return chipModel;
+                    }, parameters,
+                    splitOn: "Id").Single();
+
+                // TODO: query to get content on the chip (add to output variable)
+                // sql = "EXECUTE spGetChipContentById @Id"
+                // output.ProductsOnChip = 
+
+                return output;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                if (ex.StackTrace.Contains("NoElements"))
                 {
-                    chipModel.Group = groupModel;
-                    chipModel.Company = companyModel;
-                    chipModel.Event = eventModel;
-
-                    return chipModel;
-                }, parameters,
-                splitOn: "Id").Single();
-
-            // TODO: query to get content on the chip (add to output variable)
-            // output.ProductsOnChip =
-
-            return output;
+                    return null;
+                }
+                throw;
+            }
         }
     }
 }

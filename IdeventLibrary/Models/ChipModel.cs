@@ -10,8 +10,8 @@ namespace IdeventLibrary.Models
     {
         private int _id;
         private string _hashedId;
-        private DateTimeOffset _dateFrom;
-        private DateTimeOffset _dateTo;
+        private DateTimeOffset _validFrom;
+        private DateTimeOffset _validTo;
         private ChipGroupModel _group;
         //private User _userId; TODO: Update ChipModel with UserModel.
         private EventModel _event;
@@ -26,8 +26,8 @@ namespace IdeventLibrary.Models
         {
             _id = id;
             _hashedId = hashedId;
-            _dateFrom = dateFrom;
-            _dateTo = dateTo;
+            _validFrom = dateFrom;
+            _validTo = dateTo;
             _group = @group;
             _event = @event;
             _company = company;
@@ -45,16 +45,16 @@ namespace IdeventLibrary.Models
             set => _hashedId = value;
         }
 
-        public DateTimeOffset DateFrom
+        public DateTimeOffset ValidFrom
         {
-            get => _dateFrom;
-            set => _dateFrom = value;
+            get => _validFrom;
+            set => _validFrom = value;
         }
 
-        public DateTimeOffset DateTo
+        public DateTimeOffset ValidTo
         {
-            get => _dateTo;
-            set => _dateTo = value;
+            get => _validTo;
+            set => _validTo = value;
         }
 
         public ChipGroupModel Group
