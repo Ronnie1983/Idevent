@@ -35,7 +35,12 @@ namespace IdeventAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            throw new NotImplementedException();
+            ChipModel chip = _chipManager.GetById(id);
+            if(chip == null)
+            {
+                return NotFound();
+            }
+            return Ok(chip);
         }
         
         [HttpPut]
