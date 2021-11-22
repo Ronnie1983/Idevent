@@ -16,6 +16,7 @@ namespace IdeventLibrary.Models
         //private User _userId; oprettes senere
         private EventModel _event;
         private CompanyModel _company;
+        private List<StandProductModel> _standProducts;
 
         public ChipModel()
         {
@@ -72,6 +73,10 @@ namespace IdeventLibrary.Models
         {
             get => _company;
             set => _company = value;
+        }
+        public List<StandProductModel> StandProducts {
+            get => _standProducts; 
+            set => _standProducts = value; 
         }
     }
 }

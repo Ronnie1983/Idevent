@@ -7,15 +7,31 @@
 {
     <span>@_errorMessage</span>
 }
-<section>
-    <PropertyDisplay PropertyName="ID" PropertyValue="@(_chip.Id.ToString())"/>
-    <PropertyDisplay PropertyName="ID" PropertyValue="@(_chip.Id.ToString())"/>
-    <PropertyDisplay PropertyName="ID" PropertyValue="@(_chip.Id.ToString())"/>
-    <PropertyDisplay PropertyName="ID" PropertyValue="@(_chip.Id.ToString())"/>
-    <PropertyDisplay PropertyName="ID" PropertyValue="@(_chip.Id.ToString())"/>
-</section>
+@if (_chip.Id != 0)
+{
+    <section>
+        <PropertyDisplay PropertyName="ID" PropertyValue="@(_chip.Id.ToString())" />
+        <PropertyDisplay PropertyName="User E-mail" PropertyValue="@(_chip.Id.ToString())" /> <!-- TODO: Display User E-mail -->
+        <PropertyDisplay PropertyName="Valid From" PropertyValue="@(_chip.DateFrom.ToString())" />
+        <PropertyDisplay PropertyName="Valid To" PropertyValue="@(_chip.DateTo.ToString())" />
+        <PropertyDisplay PropertyName="Company" PropertyValue="@(_chip.Company.Name)" />
+        <PropertyDisplay PropertyName="Company Phone Number" PropertyValue="@(_chip.Company.PhoneNumber)" />
+        <PropertyDisplay PropertyName="Event" PropertyValue="@(_chip.Company.PhoneNumber)" />
+        <PropertyDisplay PropertyName="Group" PropertyValue="@(_chip.Company.PhoneNumber)" />
+        @*<div>Products</div>
+        <div>
+            @foreach (var item in _chip.StandProducts)
+            {
+                <span>@item.Name</span>
+            }
+        </div>*@
+    </section>
+}
+
 
 @code {
+    // TODO: Display User Email
+    // TODO: Display Product Contents
     [Parameter]
     public string ChipId { get; set; }
 
