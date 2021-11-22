@@ -9,49 +9,48 @@ namespace IdeventAPI.Controllers
 {
     [Route("[controller]/")]
     [ApiController]
-    public class CompanyController : ControllerBase
+    public class StandController : ControllerBase
     {
-        private CompanyManager _companyManager = new CompanyManager();
+        private EventStandManager _eventStandManager = new EventStandManager();
 
-        private readonly ILogger<CompanyController> _logger;
+        private readonly ILogger<StandController> _logger;
 
-        public CompanyController(ILogger<CompanyController> logger)
+        public StandController(ILogger<StandController> logger)
         {
             _logger = logger;
         }
-
-        // GET: api/<CompanyController>
+        // GET: api/<StandController>
         [HttpGet]
         public IActionResult GetAll()
         {
-            var companies = _companyManager.GetAll();
-            if(companies.Count == 0)
+            var stands = _eventStandManager.GetAll();
+            if (stands.Count == 0)
             {
                 return NoContent();
             }
-            return Ok(companies);
+            return Ok(stands);
         }
 
-        // GET api/<CompanyController>/5
+        // GET api/<StandController>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/<CompanyController>
+        // POST api/<StandController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/<CompanyController>/5
+        // PUT api/<StandController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<CompanyController>/5
+        // DELETE api/<StandController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

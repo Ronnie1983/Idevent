@@ -43,7 +43,13 @@ namespace IdeventAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            throw new NotImplementedException();
+            var eventModel = _eventManager.GetById(id);
+                if(eventModel == null)
+                {
+                    return NotFound();
+                }
+
+            return Ok(eventModel);
         }
         
         [HttpPut]

@@ -9,16 +9,18 @@ namespace IdeventAPI.Managers
 {
     public class CompanyManager
     {
+
         private IDbConnection _dbConnection = new SqlConnection(AppSettings.ConnectionString);
 
         public List<CompanyModel> GetAll()
         {
+            //SELECT C.id, C.Name, C.CVR, C.PhoneNumber, C.Email, C.CVR, C.Note, A.Id, A.StreetAddress,A.City, A.PostalCode, A.Country, B.Id, B.StreetAddress, B.City, B.PostalCode, B.Country
             string sql = "EXECUTE spGetAllCompanies";
-
-            Func<CompanyModel,AddressModel, CompanyModel> mapping = (companyModel, addressModel) =>
+           
+            Func<CompanyModel,AddressModel, AddressModel, CompanyModel> mapping = (companyModel, addressModel, InvoiceModel) =>
             {
                 companyModel.Address = addressModel;
-                companyModel.InvoiceAddress = addressModel;
+                companyModel.InvoiceAddress = InvoiceModel;
 
                 return companyModel;
             };
