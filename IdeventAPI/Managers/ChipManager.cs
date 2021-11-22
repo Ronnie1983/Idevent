@@ -12,7 +12,7 @@ namespace IdeventAPI.Managers
     {
         IDbConnection _dbConnection;
 
-        ChipManager()
+        public ChipManager()
         {
             _dbConnection = new SqlConnection(AppSettings.ConnectionString);
         }
