@@ -9,23 +9,23 @@ namespace IdeventLibrary.Models
     public class ChipModel
     {
         private int _id;
-        private int _uid;
+        private string _hashedId;
         private DateTimeOffset _dateFrom;
         private DateTimeOffset _dateTo;
         private ChipGroupModel _group;
         //private User _userId; TODO: Update ChipModel with UserModel.
         private EventModel _event;
         private CompanyModel _company;
-        private List<StandProductModel> _standProducts;
+        private Dictionary<string, int> _productsOnChip;
 
         public ChipModel()
         {
         }
 
-        public ChipModel(int id, int uid, DateTimeOffset dateFrom, DateTimeOffset dateTo, ChipGroupModel @group, EventModel @event, CompanyModel company)
+        public ChipModel(int id, string hashedId, DateTimeOffset dateFrom, DateTimeOffset dateTo, ChipGroupModel @group, EventModel @event, CompanyModel company)
         {
             _id = id;
-            _uid = uid;
+            _hashedId = hashedId;
             _dateFrom = dateFrom;
             _dateTo = dateTo;
             _group = @group;
@@ -39,10 +39,10 @@ namespace IdeventLibrary.Models
             set => _id = value;
         }
 
-        public int Uid
+        public string HashedId
         {
-            get => _uid;
-            set => _uid = value;
+            get => _hashedId;
+            set => _hashedId = value;
         }
 
         public DateTimeOffset DateFrom
@@ -74,9 +74,9 @@ namespace IdeventLibrary.Models
             get => _company;
             set => _company = value;
         }
-        public List<StandProductModel> StandProducts {
-            get => _standProducts; 
-            set => _standProducts = value; 
+        public Dictionary<string, int> ProductsOnChip {
+            get => _productsOnChip; 
+            set => _productsOnChip = value; 
         }
     }
 }

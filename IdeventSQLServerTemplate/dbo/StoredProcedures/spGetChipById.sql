@@ -16,5 +16,7 @@ BEGIN
 	INNER JOIN Events ON Chips.FK_EventId = Events.Id
 	--INNER JOIN AspNetUsers ON Chips.FK_UserId = AspNetUsers.Id
 	WHERE Chips.Id = @Id
+
+	SELECT * FROM ChipContents
 END
 

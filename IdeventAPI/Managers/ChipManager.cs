@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace IdeventAPI.Managers
 {
@@ -21,22 +22,26 @@ namespace IdeventAPI.Managers
         }
         public ChipModel GetById(int id)
         {
-            throw new NotImplementedException();
-            //// Columns: Chips.Id, ValidFrom, ValidTo, ChipGroups.Id, ChipGroups.Name, Id, CompanyName, Email, Id, EventName
-            //string sql = "EXECUTE spGetChipById @Id";
-            //var parameters = new { Id = id };
+            // Columns: Chips.Id, ValidFrom, ValidTo, ChipGroups.Id, ChipGroups.Name, Id, CompanyName, Email, Id, EventName
+            string sql = "EXECUTE spGetChipById @Id";
+            var parameters = new { Id = id };
 
-            //ChipModel output = _dbConnection.QuerySingle<CommandDefinition>
-            //    (sql,
-            //    (chipModel, groupModel, companyModel, eventModel) => { 
-            //        chipModel.Group = groupModel;
+            // TODO: Add UserModel to Query (for Users Email)
+            ChipModel output = _dbConnection.Query<ChipModel, ChipGroupModel, CompanyModel, EventModel, ChipModel>
+                (sql, (chipModel, groupModel, companyModel, eventModel) =>
+                {
+                    chipModel.Group = groupModel;
+                    chipModel.Company = companyModel;
+                    chipModel.Event = eventModel;
 
+                    return chipModel;
+                }, parameters,
+                splitOn: "Id").Single();
 
-            //        return chipModel;
-            //    },
-            //    parameters).AsList();
+            // TODO: query to get content on the chip (add to output variable)
+            // output.ProductsOnChip =
 
-            //return output;
+            return output;
         }
     }
 }

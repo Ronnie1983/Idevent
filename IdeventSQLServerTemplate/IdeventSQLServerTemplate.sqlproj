@@ -87,6 +87,7 @@
     <Build Include="dbo\StoredProcedures\spGetAllEvents.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllCompanies.sql" />
     <Build Include="dbo\StoredProcedures\spGetChipById.sql" />
+    <Build Include="dbo\StoredProcedures\spGetChipContentByChipId.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />
