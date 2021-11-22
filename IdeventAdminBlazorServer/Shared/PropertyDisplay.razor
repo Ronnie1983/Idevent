@@ -1,0 +1,12 @@
+﻿
+<div class="propertyDisplay">
+    <div class="fw-bold">@PropertyName</div>
+    <div>@PropertyValue</div>
+</div>
+
+@code {
+    [Parameter]
+    public string PropertyName { get; set; }
+    [Parameter]
+    public string PropertyValue { get; set; }
+}

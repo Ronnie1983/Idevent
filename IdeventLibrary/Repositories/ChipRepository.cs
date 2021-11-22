@@ -19,21 +19,21 @@ namespace IdeventLibrary.Repositories
         {         
         }
 
-        public async Task<List<EventModel>> GetAllAsync()
+        public async Task<List<ChipModel>> GetAllAsync()
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
-            var chipList = JsonSerializer.Deserialize<List<EventModel>>(jsonContent, Helpers.JsonSerializerOptions);
-            if (string.IsNullOrEmpty(chipList[0].Name))
+            var chipList = JsonSerializer.Deserialize<List<ChipModel>>(jsonContent, Helpers.JsonSerializerOptions);
+            if (string.IsNullOrEmpty(chipList[0].Company.Name))
             {
                 throw new Exception("JsonSerialiser didn't serialise well enough...");
             }
             return chipList;
         }
-        public async Task<EventModel> GetById(int id)
+        public async Task<ChipModel> GetById(int id)
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl + id));
-            EventModel chip = JsonSerializer.Deserialize<EventModel>(jsonContent, Helpers.JsonSerializerOptions);
-            if (string.IsNullOrWhiteSpace(chip.Name))
+            ChipModel chip = JsonSerializer.Deserialize<ChipModel>(jsonContent, Helpers.JsonSerializerOptions);
+            if (string.IsNullOrWhiteSpace(chip.Company.Name))
             {
                 throw new Exception("JsonSerialiser didn't serialise well enough...");
             }

@@ -1,24 +1,38 @@
 ﻿@page "/ChipDetail/{ChipId}"
-
+@using IdeventLibrary.Repositories
 <h1>Chip Details</h1>
 
-<NavigateButton PageToNavigateTo="Chips" ButtonText="Back" HtmlClasses="btn-danger m-1"/>
-
+<NavigateButton PageToNavigateTo="Chips" ButtonText="Back" HtmlClasses="btn-danger m-1" />
+@if (_chip.Id == 0)
+{
+    <span>@_errorMessage</span>
+}
 <section>
-    <div>
-        <span class="font-weight-bold">ID</span>
-
-    </div>
+    <PropertyDisplay PropertyName="ID" PropertyValue="@(_chip.Id.ToString())"/>
+    <PropertyDisplay PropertyName="ID" PropertyValue="@(_chip.Id.ToString())"/>
+    <PropertyDisplay PropertyName="ID" PropertyValue="@(_chip.Id.ToString())"/>
+    <PropertyDisplay PropertyName="ID" PropertyValue="@(_chip.Id.ToString())"/>
+    <PropertyDisplay PropertyName="ID" PropertyValue="@(_chip.Id.ToString())"/>
 </section>
 
 @code {
     [Parameter]
     public string ChipId { get; set; }
 
-    //private ChipModel _chip = new ChipModel() { Id = ChipId, Company = new Company() };
+    private ChipModel _chip = new ChipModel();
+    private string _errorMessage;
 
-    //protected override Task OnInitializedAsync()
-    //{
-        
-    //}
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            ChipRepository chipRepo = new ChipRepository();
+            _chip = await chipRepo.GetById(Convert.ToInt32(ChipId));
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = "There was an error while fetching data.";
+            Console.WriteLine(ex);
+        }
+    }
 }
