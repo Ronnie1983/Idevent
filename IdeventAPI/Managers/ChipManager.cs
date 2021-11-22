@@ -21,11 +21,22 @@ namespace IdeventAPI.Managers
         }
         public ChipModel GetById(int id)
         {
-            string sql = "EXECUTE spGetChipById @Id";
+            throw new NotImplementedException();
+            //// Columns: Chips.Id, ValidFrom, ValidTo, ChipGroups.Id, ChipGroups.Name, Id, CompanyName, Email, Id, EventName
+            //string sql = "EXECUTE spGetChipById @Id";
+            //var parameters = new { Id = id };
 
-            ChipModel output = _dbConnection.Query<ChipModel, EventModel, CompanyModel, StandProductModel>(){
+            //ChipModel output = _dbConnection.QuerySingle<CommandDefinition>
+            //    (sql,
+            //    (chipModel, groupModel, companyModel, eventModel) => { 
+            //        chipModel.Group = groupModel;
 
-            }
+
+            //        return chipModel;
+            //    },
+            //    parameters).AsList();
+
+            //return output;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace IdeventLibrary.Models
         private DateTimeOffset _dateFrom;
         private DateTimeOffset _dateTo;
         private ChipGroupModel _group;
-        //private User _userId; oprettes senere
+        //private User _userId; TODO: Update ChipModel with UserModel.
         private EventModel _event;
         private CompanyModel _company;
         private List<StandProductModel> _standProducts;
