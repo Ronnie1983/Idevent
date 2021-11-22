@@ -1,4 +1,6 @@
-﻿@page "/EventProductManagement/{EventId}"
+﻿@using IdeventLibrary.Repositories
+
+@page "/EventProductManagement/{EventId}"
 <h1>Event Product Management</h1>
 <h3>@_eventModel.Name</h3>
 
@@ -95,7 +97,7 @@
                           </table>
                       </td>
                       <td>
-                          <EditForm Model="@_standProductReq" OnSubmit="@(e => HandleValidSubmit(stand))">
+                          <EditForm Model="@_standProductReq" OnSubmit="@(e => HandleValidSubmitProduct(stand))">
                             <DataAnnotationsValidator/>
                             <ValidationSummary/>
                              <div class="form-group">
@@ -130,6 +132,10 @@
     private EventStandModel _eventStandReq = new EventStandModel();
     private List<StandFunctionalityModel> _standFunctionalities = new List<StandFunctionalityModel>();
     private string _newName;
+    private StandProductRepository _standProductRepository = new StandProductRepository();
+    private EventRepository _eventRepository = new EventRepository();
+
+
 
 
     private List<EventStandModel> _eventStands = new List<EventStandModel>();
@@ -137,6 +143,8 @@
     protected override async Task OnInitializedAsync()
     {
         _eventModel = new EventModel("EventTest3",new CompanyModel());
+        //_eventModel = _eventRepository
+
         _standFunctionalities.Add(new StandFunctionalityModel("Products"));
         _standFunctionalities.Add(new StandFunctionalityModel("Entry"));
         _eventStands.Add(new EventStandModel("test", _eventModel, _standFunctionalities[0]));
@@ -157,14 +165,18 @@
         // TODO Delete Product
     }
 
-    private void HandleValidSubmit(EventStandModel eventStand)
+    private void HandleValidSubmitProduct(EventStandModel eventStand)
     {
 
-        //EventStandModel item = _eventStands.Find(x => x.Name == eventStand.Name);
+        // TODO Måske bør dette element ikke være her. Snak med gruppe
         _eventStands.Find(x => x.Name == eventStand.Name).standProducts.Add(_standProductReq);
-        _standProductReq = new StandProductModel();
 
+
+        _standProductReq.EventStandModel = eventStand;
+        _standProductRepository.CreateAsync(_standProductReq);
+        _standProductReq = new StandProductModel();
         // TODO add submit product
+
 
     }
 

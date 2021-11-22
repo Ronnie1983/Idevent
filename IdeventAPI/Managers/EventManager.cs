@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace IdeventAPI.Managers
 {
@@ -38,19 +39,13 @@ namespace IdeventAPI.Managers
         {
             string sql = $"EXECUTE spGetEventById {id}";
 
-            Func<EventModel, CompanyModel, EventModel> mapping = (eventModel, companyModel) =>
+            EventModel events = _dbConnection.Query<EventModel, CompanyModel, EventModel>(sql, (eventModel, company) =>
             {
-                eventModel.Company = companyModel;
-
+                eventModel.Company = company;
                 return eventModel;
-            };
-
-            var events = _dbConnection.QuerySingle<EventModel>(sql, mapping);
+            }, splitOn: "Id").Single();
 
             return events;
-
-            //var item = _dbConnection.QuerySingle<EventModel>("dbo.spGetEventById", new { param1 = id }, commandType: CommandType.StoredProcedure);
-            //return item;
         }
     }
 }
