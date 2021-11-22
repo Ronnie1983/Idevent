@@ -8,25 +8,29 @@ namespace IdeventLibrary.Models
 {
     public class AddressModel
     {
-        private string _street, _city, _country, _zipcode;
+        private int _id;
+        private string _streetAddress, _city, _country, _postalCode;
 
         public AddressModel()
         {
-            _street = "testStreet";
-            _city = "TestCity";
-            _country = "TestCountry";
-            _zipcode = "TestZipcode";
+          
         }
 
-        public AddressModel(string street, string city, string country, string zipcode)
+        public AddressModel(string streetAddress, string city, string country, string zipcode)
         {
 
         }
 
-        public string Street
+        public int Id
         {
-            get { return _street; }
-            set { _street = value; }
+            get { return _id; }
+            set { _id = value; }
+        }
+
+        public string StreetAddress
+        {
+            get { return _streetAddress; }
+            set { _streetAddress = value; }
         }
 
         public string City
@@ -41,10 +45,10 @@ namespace IdeventLibrary.Models
             set { _country = value; }
         }
 
-        public string Zipcode
+        public string PostalCode
         {
-            get { return _zipcode; }
-            set { _zipcode = value; }
+            get { return _postalCode; }
+            set { _postalCode = value; }
         }
     }
 }

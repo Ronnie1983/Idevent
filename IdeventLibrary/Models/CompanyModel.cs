@@ -31,7 +31,7 @@ namespace IdeventLibrary.Models
     
         }
 
-        private int Id
+        public int Id
         {
             get { return _id; }
             set { _id = value; }

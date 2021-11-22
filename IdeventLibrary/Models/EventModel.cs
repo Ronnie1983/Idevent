@@ -16,15 +16,14 @@ namespace IdeventLibrary.Models
             Company = company;
         }
 
-        public EventModel(int id, string name, CompanyModel company, int amountOfConnectedChips)
+        public EventModel(string name, CompanyModel company, int amountOfConnectedChips)
         {
-            Id = id;
             Name = name;
             Company = company;
             AmountOfConnectedChips = amountOfConnectedChips;
         }
 
-        public int Id { get; init; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public CompanyModel Company { get; set; }
         public int AmountOfConnectedChips { get; set; } // data comes from a count on the Chips table.
