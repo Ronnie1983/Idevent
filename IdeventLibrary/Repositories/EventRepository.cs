@@ -31,6 +31,14 @@ namespace IdeventLibrary.Repositories
             return eventList;
         }
 
+        public async Task<EventModel> GetByIdAsync(int id)
+        {
+            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
+            var events = JsonSerializer.Deserialize<EventModel>(jsonContent, Helpers.JsonSerializerOptions);
+            
+            return events;
+        }
+
         
     }
 }

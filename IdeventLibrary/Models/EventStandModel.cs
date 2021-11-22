@@ -25,6 +25,13 @@ namespace IdeventLibrary.Models
             Event = eventModel;
             Functionalities = functionality;
         }
+
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
         [Required]
         [MinLength(1)]
         public string Name
