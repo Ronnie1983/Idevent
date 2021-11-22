@@ -18,7 +18,7 @@ namespace IdeventAPI.Managers
         }
         public List<ChipModel> GetAll()
         {
-            return new List<ChipModel>();
+            throw new NotImplementedException();
         }
         public ChipModel GetById(int id)
         {
@@ -37,14 +37,18 @@ namespace IdeventAPI.Managers
                         chipModel.Event = eventModel;
 
                         return chipModel;
-                    }, parameters,
-                    splitOn: "Id").Single();
+                    }, parameters, splitOn: "Id").Single();
 
-                // TODO: query to get content on the chip (add to output variable)
-                // sql = "EXECUTE spGetChipContentById @Id"
-                // output.ProductsOnChip = 
+                // StandProducts.Name, ChipContents.Amount
+                sql = "EXECUTE spGetChipContentByChipId @Id";
+                output.ProductsOnChip = _dbConnection.Query<KeyValuePair<string, int>>
+                    (sql, parameters).ToDictionary(keyValuePair => keyValuePair.Key, keyValuePair => keyValuePair.Value);
 
                 return output;
+            }
+            catch(SqlException ex)
+            {
+                throw;
             }
             catch (Exception ex)
             {

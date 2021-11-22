@@ -3,6 +3,10 @@
 <h1>Chip Details</h1>
 
 <NavigateButton PageToNavigateTo="Chips" ButtonText="Back" HtmlClasses="btn-danger m-1" />
+@if (_chip == null)
+{
+    <Loader />
+}
 @if (_chip.Id == 0)
 {
     <span>@_errorMessage</span>
@@ -11,20 +15,29 @@
 {
     <section>
         <PropertyDisplay PropertyName="ID" PropertyValue="@(_chip.Id.ToString())" />
-        <PropertyDisplay PropertyName="User E-mail" PropertyValue="@(_chip.Id.ToString())" /> <!-- TODO: Display User E-mail -->
-        <PropertyDisplay PropertyName="Valid From" PropertyValue="@(_chip.ValidFrom.ToString())" />
-        <PropertyDisplay PropertyName="Valid To" PropertyValue="@(_chip.ValidTo.ToString())" />
+        <PropertyDisplay PropertyName="User E-mail" PropertyValue="MISSING DATA" /> <!-- TODO: Display User E-mail -->
+    <PropertyDisplay PropertyName="Valid From" PropertyValue="@(_chip.ValidFrom.ToString("d"))" />
+        <PropertyDisplay PropertyName="Valid To" PropertyValue="@(_chip.ValidTo.ToString("d"))" />
         <PropertyDisplay PropertyName="Company" PropertyValue="@(_chip.Company.Name)" />
         <PropertyDisplay PropertyName="Company Phone Number" PropertyValue="@(_chip.Company.PhoneNumber)" />
-        <PropertyDisplay PropertyName="Event" PropertyValue="@(_chip.Company.PhoneNumber)" />
-        <PropertyDisplay PropertyName="Group" PropertyValue="@(_chip.Company.PhoneNumber)" />
-        @*<div>Products</div>
-        <div>
-            @foreach (var item in _chip.StandProducts)
-            {
-                <span>@item.Name</span>
-            }
-        </div>*@
+        <PropertyDisplay PropertyName="Event" PropertyValue="@(_chip.Event.Name)" />
+        <PropertyDisplay PropertyName="Group" PropertyValue="@(_chip.Group.Name)" />
+        <div><span class="fw-bold">Products</span></div>
+        @if (_chip.ProductsOnChip.Count > 0 & _chip.ProductsOnChip != null)
+        {
+            <div>
+                @foreach (var product in _chip.ProductsOnChip)
+                {
+                    <span>@product.Key</span>
+                    <span>@product.Value</span>
+                }
+            </div>
+        }
+        else
+        {
+            <div>There are no products on this chip.</div>
+        }
+
     </section>
 }
 
