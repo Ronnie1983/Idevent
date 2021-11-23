@@ -41,7 +41,7 @@ namespace IdeventTests
         [TestMethod]
         public void GetByIdReturnsModel()
         {
-            ChipModel chip = _chipManager.GetById(3); // should be an existing id... Mock or testdatabase needed.
+            ChipModel chip = _chipManager.GetById(1002); // should be an existing id... Mock or testdatabase needed.
 
             Assert.IsInstanceOfType(chip, typeof(ChipModel));
         }
