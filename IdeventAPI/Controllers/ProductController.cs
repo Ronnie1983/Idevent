@@ -33,10 +33,15 @@ namespace IdeventAPI.Controllers
         }
 
         // GET api/<ProductController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("standid/{id}")]
+        public IActionResult GetAllByStandId(int id)
         {
-            return "value";
+            var products = _productManager.GetAllByStandId(id);
+            if (products.Count == 0)
+            {
+                return NoContent();
+            }
+            return Ok(products);
         }
 
         // POST api/<ProductController>

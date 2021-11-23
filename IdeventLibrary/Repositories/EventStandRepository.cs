@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
-using System.Text.Json;
+using Newtonsoft.Json;
 
 
 namespace IdeventLibrary.Repositories
@@ -17,10 +17,10 @@ namespace IdeventLibrary.Repositories
         public async Task<List<EventStandModel>> GetAllAsync()
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
-            var List = JsonSerializer.Deserialize<List<EventStandModel>>(jsonContent, Helpers.JsonSerializerOptions);
+            List<EventStandModel> List = JsonConvert.DeserializeObject<List<EventStandModel>>(jsonContent);
             if (string.IsNullOrEmpty(List[0].Name))
             {
-                throw new Exception("JsonSerialiser didn't serialise well enough...");
+                return new List<EventStandModel>();
             }
             return List;
         }
@@ -28,12 +28,24 @@ namespace IdeventLibrary.Repositories
         public async Task<List<EventStandModel>> GetAllByEventIdAsync(int id)
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri( $"{_baseUrl}/byevent/{id}" ));
-            var List = JsonSerializer.Deserialize<List<EventStandModel>>(jsonContent, Helpers.JsonSerializerOptions);
+            List<EventStandModel> List = JsonConvert.DeserializeObject<List<EventStandModel>>(jsonContent);
             if (string.IsNullOrEmpty(List[0].Name))
             {
-                throw new Exception("JsonSerialiser didn't serialise well enough...");
+                return new List<EventStandModel>();
             }
             return List;
+        }
+        
+        public async Task CreateAsync(EventStandModel item)
+        {
+            JsonSerializerSettings settings = new()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+            string json = JsonConvert.SerializeObject(item, settings);
+            StringContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(new Uri(_baseUrl), httpContent);
         }
     }
 }
