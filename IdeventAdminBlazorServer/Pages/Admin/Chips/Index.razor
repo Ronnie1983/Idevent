@@ -7,7 +7,10 @@
 
 <h1>Chips Oversigt</h1>
 <br />
-
+@if(string.IsNullOrWhiteSpace(_errorMessage) is false)
+{
+    <div class="alert alert-warning">@_errorMessage</div>
+}
 <input placeholder="indtast din søgning" />
 
 <div>
@@ -120,7 +123,8 @@
         }
         catch (Exception exception)
         {
-            _errorMessage = exception.Message;
+            _errorMessage = "Something went wrong while fetching data.";
+            Console.WriteLine(exception);
         }
     }
 

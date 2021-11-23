@@ -30,6 +30,7 @@ namespace IdeventAPI.Controllers
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public IActionResult GetAll()
         {
             List<ChipModel> chips = _chipManager.GetAll();
@@ -39,7 +40,7 @@ namespace IdeventAPI.Controllers
             }
             if(chips.Count == 0)
             {
-                return NoContent();
+                return StatusCode(204, chips);
             }
             return Ok(chips);
         }
