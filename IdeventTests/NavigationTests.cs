@@ -71,14 +71,19 @@ namespace IdeventTests
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.AddEvent>(), "Add Event", "AddEvent");
         }
         [TestMethod]
-        public void EditEvent()
+        public void EditEventLoads()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.EditEvent>(), "Edit Event", "EditEvent/1");
         }
         [TestMethod]
-        public void EventProductManagement()
+        public void EventProductManagementLoads()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.EventProductManagement>(), "Event Product Management", "EventProductManagement/1");
+        }
+        [TestMethod]
+        public void ChipDetailsLoads()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.ChipDetails>(), "Chip Details", "ChipDetails/1");
         }
 
 

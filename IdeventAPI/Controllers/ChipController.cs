@@ -1,5 +1,6 @@
 ﻿using IdeventAPI.Managers;
 using IdeventLibrary.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -28,9 +29,20 @@ namespace IdeventAPI.Controllers
             throw new NotImplementedException();
         }
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public IActionResult GetAll()
         {
-            throw new NotImplementedException();
+            List<ChipModel> chips = _chipManager.GetAll();
+            if(chips == null)
+            {
+                return StatusCode(500); // server error
+            }
+            if(chips.Count == 0)
+            {
+                return StatusCode(204, chips);
+            }
+            return Ok(chips);
         }
         [HttpGet("{id}")]
         public IActionResult GetById(int id)

@@ -21,13 +21,20 @@ namespace IdeventLibrary.Repositories
 
         public async Task<List<ChipModel>> GetAllAsync()
         {
-            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
-            var chipList = JsonSerializer.Deserialize<List<ChipModel>>(jsonContent, Helpers.JsonSerializerOptions);
-            if (string.IsNullOrEmpty(chipList[0].Company.Name))
+            try
             {
-                throw new Exception("JsonSerialiser didn't serialise well enough...");
+                string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
+                var chipList = JsonSerializer.Deserialize<List<ChipModel>>(jsonContent, Helpers.JsonSerializerOptions);
+                if (string.IsNullOrEmpty(chipList[0].Company.Name))
+                {
+                    throw new Exception("JsonSerialiser didn't serialise well enough...");
+                }
+                return chipList;
             }
-            return chipList;
+            catch
+            {
+                return new List<ChipModel>();
+            }
         }
         public async Task<ChipModel> GetById(int id)
         {

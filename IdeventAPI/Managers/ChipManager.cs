@@ -18,7 +18,27 @@ namespace IdeventAPI.Managers
         }
         public List<ChipModel> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                string sql = "EXECUTE spGetAllChips";
+
+                List<ChipModel> output = _dbConnection.Query<ChipModel, CompanyModel, ChipGroupModel, EventModel, ChipModel>(sql,
+                    (chipModel, companyModel, chipGroupModel, eventModel) =>
+                    {
+                        chipModel.Company = companyModel;
+                        chipModel.Group = chipGroupModel;
+                        chipModel.Event = eventModel;
+
+                        return chipModel;
+                    }).ToList();
+
+                return output;
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+            return null;
         }
         public ChipModel GetById(int id)
         {
@@ -48,6 +68,7 @@ namespace IdeventAPI.Managers
             }
             catch(SqlException ex)
             {
+                Console.WriteLine(ex);
                 throw;
             }
             catch (Exception ex)
