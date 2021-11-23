@@ -46,7 +46,7 @@ namespace IdeventAPI.Controllers
             var eventModel = _eventManager.GetById(id);
                 if(eventModel == null)
                 {
-                    return Ok(new List<EventModel>());
+                return NotFound();
                 }
 
             return Ok(eventModel);
