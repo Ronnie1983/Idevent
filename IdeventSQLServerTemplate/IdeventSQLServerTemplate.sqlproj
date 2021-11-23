@@ -94,6 +94,7 @@
     <Build Include="dbo\StoredProcedures\spGetAllProducts.sql" />
     <Build Include="dbo\StoredProcedures\spGetEventById.sql" />
     <Build Include="dbo\StoredProcedures\spGetStandByEventId.sql" />
+    <Build Include="dbo\StoredProcedures\spGetAllChips.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />
