@@ -23,10 +23,7 @@ namespace IdeventLibrary.Repositories
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
             var eventList = JsonSerializer.Deserialize<List<CompanyModel>>(jsonContent, Helpers.JsonSerializerOptions);
-            if (string.IsNullOrEmpty(eventList[0].Name))
-            {
-                throw new Exception("JsonSerialiser didn't serialise well enough...");
-            }
+            
             return eventList;
         }
     }

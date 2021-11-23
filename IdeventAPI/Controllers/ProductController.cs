@@ -2,6 +2,7 @@
 using IdeventAPI.Managers;
 using IdeventLibrary.Models;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,7 +28,7 @@ namespace IdeventAPI.Controllers
             var products = _productManager.GetAll();
             if(products.Count == 0)
             {
-                return NoContent();
+                return Ok(new List<StandProductModel>());
             }
             return Ok(products);
         }
@@ -39,7 +40,8 @@ namespace IdeventAPI.Controllers
             var products = _productManager.GetAllByStandId(id);
             if (products.Count == 0)
             {
-                return NoContent();
+                //return StatusCode(204, new List<StandProductModel>());
+                return Ok(new List<StandProductModel>());
             }
             return Ok(products);
         }

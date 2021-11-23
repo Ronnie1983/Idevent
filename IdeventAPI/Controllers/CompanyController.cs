@@ -2,6 +2,7 @@
 using IdeventAPI.Managers;
 using IdeventLibrary.Models;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,7 +28,7 @@ namespace IdeventAPI.Controllers
             var companies = _companyManager.GetAll();
             if(companies.Count == 0)
             {
-                return NoContent();
+                return Ok(new List<CompanyModel>());
             }
             return Ok(companies);
         }

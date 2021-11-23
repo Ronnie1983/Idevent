@@ -18,10 +18,7 @@ namespace IdeventLibrary.Repositories
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
             List<EventStandModel> List = JsonConvert.DeserializeObject<List<EventStandModel>>(jsonContent);
-            if (string.IsNullOrEmpty(List[0].Name))
-            {
-                return new List<EventStandModel>();
-            }
+         
             return List;
         }
 
@@ -29,10 +26,7 @@ namespace IdeventLibrary.Repositories
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri( $"{_baseUrl}/byevent/{id}" ));
             List<EventStandModel> List = JsonConvert.DeserializeObject<List<EventStandModel>>(jsonContent);
-            if (string.IsNullOrEmpty(List[0].Name))
-            {
-                return new List<EventStandModel>();
-            }
+            
             return List;
         }
         

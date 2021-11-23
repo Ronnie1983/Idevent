@@ -25,10 +25,6 @@ namespace IdeventLibrary.Repositories
             {
                 string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
                 var chipList = JsonSerializer.Deserialize<List<ChipModel>>(jsonContent, Helpers.JsonSerializerOptions);
-                if (string.IsNullOrEmpty(chipList[0].Company.Name))
-                {
-                    throw new Exception("JsonSerialiser didn't serialise well enough...");
-                }
                 return chipList;
             }
             catch
@@ -40,10 +36,7 @@ namespace IdeventLibrary.Repositories
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/{id}"));
             ChipModel chip = JsonSerializer.Deserialize<ChipModel>(jsonContent, Helpers.JsonSerializerOptions);
-            if (string.IsNullOrWhiteSpace(chip.Company.Name))
-            {
-                throw new Exception("JsonSerialiser didn't serialise well enough...");
-            }
+            
             return chip;
         }
 

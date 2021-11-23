@@ -27,10 +27,7 @@ namespace IdeventLibrary.Repositories
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl+ "standid/"+id));
             List<StandProductModel> List = JsonConvert.DeserializeObject<List<StandProductModel>>(jsonContent);
-            if (List == null)
-            {
-                return new List<StandProductModel>();
-            }
+            
             return List;
         }
     }

@@ -145,6 +145,7 @@
         foreach(var s in _eventModel.EventStands)
         {
             s.standProducts = await _standProductRepository.GetAllProductsByStandIdAsync(s.Id);
+            //s.standProducts = new List<StandProductModel>();
         }
         //_eventStandReq.NewStandFuncName = _standFunctionalities[0];
 

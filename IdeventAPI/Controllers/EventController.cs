@@ -36,7 +36,7 @@ namespace IdeventAPI.Controllers
             
             if (events.Count == 0)
             {
-                return NoContent();
+                return Ok(new List<EventModel>());
             }
             return Ok(events);
         }
@@ -46,7 +46,7 @@ namespace IdeventAPI.Controllers
             var eventModel = _eventManager.GetById(id);
                 if(eventModel == null)
                 {
-                    return NotFound();
+                    return Ok(new List<EventModel>());
                 }
 
             return Ok(eventModel);
