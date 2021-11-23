@@ -36,7 +36,7 @@ namespace IdeventAPI.Controllers
             
             if (events.Count == 0)
             {
-                return NoContent();
+                return Ok(new List<EventModel>());
             }
             return Ok(events);
         }

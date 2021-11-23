@@ -40,7 +40,7 @@ namespace IdeventAPI.Controllers
             }
             if(chips.Count == 0)
             {
-                return StatusCode(204, chips);
+                return Ok(new List<ChipModel>());
             }
             return Ok(chips);
         }
