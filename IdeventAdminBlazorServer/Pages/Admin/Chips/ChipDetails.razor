@@ -1,10 +1,67 @@
 ﻿@page "/ChipDetail/{ChipId}"
+@using IdeventLibrary.Repositories
+<h1>Chip Details</h1>
 
-<h3>Chip Details</h3>
+<NavigateButton PageToNavigateTo="Chips" ButtonText="Back" HtmlClasses="btn-danger m-1" />
+@if (_chip == null)
+{
+    <Loader />
+}
+@if (_chip.Id == 0)
+{
+    <span>@_errorMessage</span>
+}
+@if (_chip.Id != 0)
+{
+    <section>
+        <PropertyDisplay PropertyName="ID" PropertyValue="@(_chip.Id.ToString())" />
+        <PropertyDisplay PropertyName="User E-mail" PropertyValue="MISSING DATA" /> <!-- TODO: Display User E-mail -->
+    <PropertyDisplay PropertyName="Valid From" PropertyValue="@(_chip.ValidFrom.ToString("d"))" />
+        <PropertyDisplay PropertyName="Valid To" PropertyValue="@(_chip.ValidTo.ToString("d"))" />
+        <PropertyDisplay PropertyName="Company" PropertyValue="@(_chip.Company.Name)" />
+        <PropertyDisplay PropertyName="Company Phone Number" PropertyValue="@(_chip.Company.PhoneNumber)" />
+        <PropertyDisplay PropertyName="Event" PropertyValue="@(_chip.Event.Name)" />
+        <PropertyDisplay PropertyName="Group" PropertyValue="@(_chip.Group.Name)" />
+        <div><span class="fw-bold">Products</span></div>
+        @if (_chip.ProductsOnChip.Count > 0 & _chip.ProductsOnChip != null)
+        {
+            <div>
+                @foreach (var product in _chip.ProductsOnChip)
+                {
+                    <span>@product.Key</span>
+                    <span>@product.Value</span>
+                }
+            </div>
+        }
+        else
+        {
+            <div>There are no products on this chip.</div>
+        }
 
-<NavigateButton PageToNavigateTo="Chips" ButtonText="Cancel" HtmlClasses="btn btn-danger m-1"/>
+    </section>
+}
+
 
 @code {
+    // TODO: Display User Email
+    // TODO: Display Product Contents
     [Parameter]
     public string ChipId { get; set; }
+
+    private ChipModel _chip = new ChipModel();
+    private string _errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            ChipRepository chipRepo = new ChipRepository();
+            _chip = await chipRepo.GetById(Convert.ToInt32(ChipId));
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = "There was an error while fetching data.";
+            Console.WriteLine(ex);
+        }
+    }
 }

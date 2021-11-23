@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRPOC", "SignalRPOC\Si
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdeventLibrary", "IdeventLibrary\IdeventLibrary.csproj", "{E9ED3671-F64D-4E06-8D34-1EC229783440}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdeventTests.IntegrationTests", "IdeventTests.IntegrationTests\IdeventTests.IntegrationTests.csproj", "{A279F0E3-CFA1-47D3-80AB-A664EF4D488A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdeventTests.IntegrationTests", "IdeventTests.IntegrationTests\IdeventTests.IntegrationTests.csproj", "{A279F0E3-CFA1-47D3-80AB-A664EF4D488A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -75,9 +75,9 @@
                 <tr>
                     <td scope="row"><input type="checkbox"></td>
                     <td>@chip.Id</td>
-                    <td>@chip.Uid</td>
-                    <td>@chip.DateFrom</td>
-                    <td>@chip.DateTo</td>
+                    <td>@chip.HashedId</td>
+                    <td>@chip.ValidFrom</td>
+                    <td>@chip.ValidTo</td>
                     <td>@chip.Group.Name</td>
                     <td>@chip.Event.Name</td>
                     <td>@chip.Company.Name</td>
@@ -115,9 +115,9 @@
 
         _chips = new List<ChipModel>()
         {
-            new ChipModel(1, 1,  DateTimeOffset.Now, new DateTimeOffset(),groupName,eventName,companyName),
-            new ChipModel(2, 2,  DateTimeOffset.Now, new DateTimeOffset(),groupName,eventName,companyName),
-            new ChipModel(2, 2,  DateTimeOffset.Now, new DateTimeOffset(),groupName,eventName,companyName),
+            new ChipModel(1, "#f8vadjkl",  DateTimeOffset.Now, new DateTimeOffset(),groupName,eventName,companyName),
+            new ChipModel(2, "#dabussrb",  DateTimeOffset.Now, new DateTimeOffset(),groupName,eventName,companyName),
+            new ChipModel(2, "ragjr#@!l",  DateTimeOffset.Now, new DateTimeOffset(),groupName,eventName,companyName),
         };
     }
 

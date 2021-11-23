@@ -9,24 +9,25 @@ namespace IdeventLibrary.Models
     public class ChipModel
     {
         private int _id;
-        private int _uid;
-        private DateTimeOffset _dateFrom;
-        private DateTimeOffset _dateTo;
+        private string _hashedId;
+        private DateTimeOffset _validFrom;
+        private DateTimeOffset _validTo;
         private ChipGroupModel _group;
-        //private User _userId; oprettes senere
+        //private User _userId; TODO: Update ChipModel with UserModel.
         private EventModel _event;
         private CompanyModel _company;
+        private Dictionary<string, int> _productsOnChip;
 
         public ChipModel()
         {
         }
 
-        public ChipModel(int id, int uid, DateTimeOffset dateFrom, DateTimeOffset dateTo, ChipGroupModel @group, EventModel @event, CompanyModel company)
+        public ChipModel(int id, string hashedId, DateTimeOffset dateFrom, DateTimeOffset dateTo, ChipGroupModel @group, EventModel @event, CompanyModel company)
         {
             _id = id;
-            _uid = uid;
-            _dateFrom = dateFrom;
-            _dateTo = dateTo;
+            _hashedId = hashedId;
+            _validFrom = dateFrom;
+            _validTo = dateTo;
             _group = @group;
             _event = @event;
             _company = company;
@@ -38,22 +39,22 @@ namespace IdeventLibrary.Models
             set => _id = value;
         }
 
-        public int Uid
+        public string HashedId
         {
-            get => _uid;
-            set => _uid = value;
+            get => _hashedId;
+            set => _hashedId = value;
         }
 
-        public DateTimeOffset DateFrom
+        public DateTimeOffset ValidFrom
         {
-            get => _dateFrom;
-            set => _dateFrom = value;
+            get => _validFrom;
+            set => _validFrom = value;
         }
 
-        public DateTimeOffset DateTo
+        public DateTimeOffset ValidTo
         {
-            get => _dateTo;
-            set => _dateTo = value;
+            get => _validTo;
+            set => _validTo = value;
         }
 
         public ChipGroupModel Group
@@ -72,6 +73,10 @@ namespace IdeventLibrary.Models
         {
             get => _company;
             set => _company = value;
+        }
+        public Dictionary<string, int> ProductsOnChip {
+            get => _productsOnChip; 
+            set => _productsOnChip = value; 
         }
     }
 }
