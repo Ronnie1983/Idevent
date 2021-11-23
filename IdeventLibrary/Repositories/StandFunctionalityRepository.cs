@@ -13,7 +13,7 @@ namespace IdeventLibrary.Repositories
 {
     public class StandFunctionalityRepository
     {
-        private static string _baseUrl = $"{Helpers.ApiBaseUrl}/StandFunctionality/";
+        private static string _baseUrl = $"{Helpers.ApiBaseUrl}/StandFunctionality";
         private static HttpClient _httpClient = new HttpClient();
 
         public async Task<List<StandFunctionalityModel>> GetAllFunctionalityByEventId(int id)
