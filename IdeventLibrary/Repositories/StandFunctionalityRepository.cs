@@ -20,7 +20,10 @@ namespace IdeventLibrary.Repositories
         {
             string result = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/byeventid/{id}"));
             List<StandFunctionalityModel> functionList = JsonSerializer.Deserialize<List<StandFunctionalityModel>>(result, Helpers.JsonSerializerOptions);
-
+            if(functionList.Count == 0)
+            {
+                return new List<StandFunctionalityModel>();
+            }
             return functionList;
         }
 

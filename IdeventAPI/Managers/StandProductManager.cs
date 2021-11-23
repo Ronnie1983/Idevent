@@ -30,5 +30,14 @@ namespace IdeventAPI.Managers
 
             return rowEffected;
         }
+
+        public List<StandProductModel> GetAllByStandId(int id)
+        {
+            string sql = "EXECUTE spGetProductsByStandId @standId";
+
+            List<StandProductModel> products = _dbConnection.Query<StandProductModel>(sql, new { standId = id }).AsList();
+
+            return products;
+        }
     }
 }

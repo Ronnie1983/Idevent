@@ -17,10 +17,10 @@ namespace IdeventLibrary.Repositories
         public async Task<List<EventStandModel>> GetAllAsync()
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
-            var List = JsonSerializer.Deserialize<List<EventStandModel>>(jsonContent, Helpers.JsonSerializerOptions);
+            List<EventStandModel> List = JsonSerializer.Deserialize<List<EventStandModel>>(jsonContent, Helpers.JsonSerializerOptions);
             if (string.IsNullOrEmpty(List[0].Name))
             {
-                throw new Exception("JsonSerialiser didn't serialise well enough...");
+                return new List<EventStandModel>();
             }
             return List;
         }
@@ -28,10 +28,10 @@ namespace IdeventLibrary.Repositories
         public async Task<List<EventStandModel>> GetAllByEventIdAsync(int id)
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri( $"{_baseUrl}/byevent/{id}" ));
-            var List = JsonSerializer.Deserialize<List<EventStandModel>>(jsonContent, Helpers.JsonSerializerOptions);
+            List<EventStandModel> List = JsonSerializer.Deserialize<List<EventStandModel>>(jsonContent, Helpers.JsonSerializerOptions);
             if (string.IsNullOrEmpty(List[0].Name))
             {
-                throw new Exception("JsonSerialiser didn't serialise well enough...");
+                return new List<EventStandModel>();
             }
             return List;
         }

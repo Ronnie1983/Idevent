@@ -143,9 +143,10 @@
         _eventModel = await _eventRepository.GetByIdAsync(TryConvert(EventId));
         _eventModel.EventStands = await _eventStandRepository.GetAllByEventIdAsync(TryConvert(EventId));
         _standFunctionalities = await _standFunctionalityRepository.GetAllFunctionalityByEventId(TryConvert(EventId));
-        //_standFunctionalities.Add(new StandFunctionalityModel("Products"));
-        //_standFunctionalities.Add(new StandFunctionalityModel("Entry"));
-        
+        foreach(var s in _eventModel.EventStands)
+        {
+            s.standProducts = await _standProductRepository.GetAllProductsByStandIdAsync(s.Id);
+        }
         _eventStandReq.NewStandFuncName = _standFunctionalities[0].Name;
 
     }
