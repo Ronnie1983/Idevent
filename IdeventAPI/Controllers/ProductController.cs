@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace IdeventAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]/")]
     [ApiController]
     public class ProductController : ControllerBase
     {

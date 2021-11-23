@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace IdeventLibrary.Models
 {
     public class StandProductModel
     {
+        private EventStandModel eventStandModel;
+
         public StandProductModel()
         {
-           
+
 
         }
 
@@ -26,6 +29,16 @@ namespace IdeventLibrary.Models
         public string Name { get; set; }
         [Required]
         public int Value { get; set; }
-        public EventStandModel EventStandModel { get; set; }
+        [JsonIgnore]
+        public EventStandModel EventStandModel 
+        { 
+            get => eventStandModel; 
+            set { 
+                eventStandModel = value;
+                EventStandId = EventStandModel.Id;
+            } 
+        }
+
+        public int EventStandId { get; set; }
     }
 }

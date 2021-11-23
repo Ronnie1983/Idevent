@@ -37,13 +37,13 @@ namespace IdeventAPI.Managers
 
         public EventModel GetById(int id)
         {
-            string sql = $"EXECUTE spGetEventById {id}";
+            string sql = $"EXECUTE spGetEventById @param1";
 
             EventModel events = _dbConnection.Query<EventModel, CompanyModel, EventModel>(sql, (eventModel, company) =>
             {
                 eventModel.Company = company;
                 return eventModel;
-            }, splitOn: "Id").Single();
+            },new {param1 = id}, splitOn: "Id").Single();
 
             return events;
         }

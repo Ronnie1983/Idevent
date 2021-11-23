@@ -24,5 +24,19 @@ namespace IdeventAPI.Managers
             List<EventStandModel> eventStands = _dbConnection.Query(sql, mapping).AsList();
             return eventStands;
         }
+
+        public List<EventStandModel> GetAllByEventId(int id)
+        {
+            string sql = $"EXECUTE spGetStandByEventId @eventId";
+            List<EventStandModel> eventStands = _dbConnection.Query<EventStandModel, EventModel, StandFunctionalityModel, EventStandModel>(sql, (eventStandModel, eventModel, standFunctionModel) =>
+           {
+               eventStandModel.Event = eventModel;
+               eventStandModel.Functionalities = standFunctionModel;
+               return eventStandModel;
+           }, new { eventId = id }, splitOn: "Id").AsList();
+
+         
+            return eventStands;
+        }
     }
 }

@@ -20,6 +20,12 @@ namespace IdeventLibrary.Models
             _name = name;
         }
 
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
         public string Name
         {
             get { return _name; }

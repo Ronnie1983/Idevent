@@ -11,7 +11,7 @@ namespace IdeventLibrary.Repositories
 {
     public class CompanyRepository
     {
-        private static string _baseUrl = "https://localhost:44330/Event/"; // TODO: change to online API
+        private static string _baseUrl = "https://localhost:44330/Company/"; // TODO: change to online API
         private static HttpClient _httpClient = new HttpClient();
 
         public CompanyRepository()
