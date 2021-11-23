@@ -63,6 +63,7 @@
     <Folder Include="dbo\PublishProfiles" />
     <Folder Include="dbo\StoredProcedures" />
     <Folder Include="dbo\PostDeployScripts" />
+    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
@@ -88,6 +89,12 @@
     <Build Include="dbo\StoredProcedures\spGetAllCompanies.sql" />
     <Build Include="dbo\StoredProcedures\spGetChipById.sql" />
     <Build Include="dbo\StoredProcedures\spGetChipContentByChipId.sql" />
+    <Build Include="dbo\Stored Procedures\spGetStandByEventId.sql" />
+    <Build Include="dbo\Stored Procedures\spGetEventById.sql" />
+    <Build Include="dbo\Stored Procedures\spGetAllProducts.sql" />
+    <Build Include="dbo\Stored Procedures\spGetAllFunctionsForEvent.sql" />
+    <Build Include="dbo\Stored Procedures\spGetAllEventStands.sql" />
+    <Build Include="dbo\Stored Procedures\spCreateProduct.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />
@@ -96,5 +103,6 @@
     <None Include="dbo\PostDeployScripts\Script.InsertDummyData.sql" />
     <None Include="dbo\PublishProfiles\ThomasDesktop.publish.xml" />
     <None Include="dbo\PublishProfiles\Simply.publish.xml" />
+    <None Include="dbo\PublishProfiles\IdeventSQLServerTemplateRonnieLokal.publish.xml" />
   </ItemGroup>
 </Project>
