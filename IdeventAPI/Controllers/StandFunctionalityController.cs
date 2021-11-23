@@ -21,10 +21,10 @@ namespace IdeventAPI.Controllers
         }
 
         // GET: api/<StandFunctionalityController>
-        [HttpGet("byeventid/{id}")]
-        public IActionResult GetAllByEventId(int id)
+        [HttpGet]
+        public IActionResult GetAll()
         {
-            var functions = _manager.GetAllByEventId(id);
+            var functions = _manager.GetAll();
             if(functions.Count == 0)
             {
                 return NoContent();

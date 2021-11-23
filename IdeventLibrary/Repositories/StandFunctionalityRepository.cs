@@ -16,9 +16,9 @@ namespace IdeventLibrary.Repositories
         private static string _baseUrl = $"{Helpers.ApiBaseUrl}/StandFunctionality";
         private static HttpClient _httpClient = new HttpClient();
 
-        public async Task<List<StandFunctionalityModel>> GetAllFunctionalityByEventId(int id)
+        public async Task<List<StandFunctionalityModel>> GetAll()
         {
-            string result = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/byeventid/{id}"));
+            string result = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}"));
             List<StandFunctionalityModel> functionList = JsonSerializer.Deserialize<List<StandFunctionalityModel>>(result, Helpers.JsonSerializerOptions);
             if(functionList.Count == 0)
             {

@@ -51,8 +51,14 @@ namespace IdeventAPI.Controllers
 
         // POST api/<StandController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] EventStandModel item)
         {
+            var result = _eventStandManager.Create(item);
+            if (result == 1)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         // PUT api/<StandController>/5

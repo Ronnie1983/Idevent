@@ -25,13 +25,9 @@
                                 </div>
                                 <div class="form-group col-4">
                                     <label for="@_eventStandReq.standProducts">Group</label> 
-                                    <InputSelect class="form-control" id="value" @bind-Value="_eventStandReq.NewStandFuncName">
+                                    <InputSelect class="form-control" id="value" @bind-Value="_bindItem">
                                         @foreach(StandFunctionalityModel item in _standFunctionalities){
-                                           
-                                            
-                                                <option value="@item.Name">@item.Name</option>
-                                            
-                        
+                                                <option value="@item.Id">@item.Name</option>
                                          }
                                     </InputSelect>
                                 </div>
@@ -59,7 +55,7 @@
             
             <tr>   
                 <td>@stand.Name</td>
-                <td>@stand.Functionalities.Name</td>
+                <td>@stand.Functionality.Name</td>
                 <td>
                     <div class="btn-group">
                         <button class="btn btn-primary m-1" @onclick="() => Toggle(stand.Name)">Edit content</button>
@@ -128,7 +124,10 @@
     public EventModel _eventModel = new EventModel();
     private bool _toggleAddStand = false;
     private List<string> _stringList = new List<string>();
+
     private StandProductModel _standProductReq = new StandProductModel();
+    private int _bindItem;
+
     private EventStandModel _eventStandReq = new EventStandModel();
     private List<StandFunctionalityModel> _standFunctionalities = new List<StandFunctionalityModel>();
     private string _newName;
@@ -142,12 +141,12 @@
 
         _eventModel = await _eventRepository.GetByIdAsync(TryConvert(EventId));
         _eventModel.EventStands = await _eventStandRepository.GetAllByEventIdAsync(TryConvert(EventId));
-        _standFunctionalities = await _standFunctionalityRepository.GetAllFunctionalityByEventId(TryConvert(EventId));
+        _standFunctionalities = await _standFunctionalityRepository.GetAll();
         foreach(var s in _eventModel.EventStands)
         {
             s.standProducts = await _standProductRepository.GetAllProductsByStandIdAsync(s.Id);
         }
-        _eventStandReq.NewStandFuncName = _standFunctionalities[0].Name;
+        //_eventStandReq.NewStandFuncName = _standFunctionalities[0];
 
     }
 
@@ -157,7 +156,7 @@
         try
         {
             result = Int32.Parse(value);
-            
+
         }
         catch
         {
@@ -194,12 +193,12 @@
 
     }
 
-    private void HandleValidSubmitEventStand()
+    private async Task HandleValidSubmitEventStand()
     {
         _eventStandReq.Event = _eventModel;
-        _eventStandReq.Functionalities = new StandFunctionalityModel(_eventStandReq.NewStandFuncName);
-        _eventModel.EventStands.Add(new EventStandModel(_eventStandReq.Name,_eventStandReq.Event, _eventStandReq.Functionalities));
-        
+        _eventStandReq.Functionality = _standFunctionalities.Find(x => x.Id == _bindItem);
+        _eventModel.EventStands.Add(new EventStandModel(_eventStandReq.Name,_eventStandReq.Event, _eventStandReq.Functionality));
+        await _eventStandRepository.CreateAsync(new EventStandModel(_eventStandReq.Name,_eventStandReq.Event, _eventStandReq.Functionality));
         _eventStandReq = new EventStandModel();
         // TODO add event stand to db
     }
@@ -207,14 +206,15 @@
     private void ChangeName(EventStandModel stand)
     {
         _eventModel.EventStands.Find(x => x.Name == stand.Name).Name = _newName;
-        _newName = "";
-        // TODO update Name
+        //_newNam        // TODO update Namee = "";
+
 
     }
 
     private void ToggleAddStand()
     {
         _toggleAddStand = !_toggleAddStand;
+        _bindItem = _standFunctionalities[0].Id;
     }
 
     private void Toggle(string name)

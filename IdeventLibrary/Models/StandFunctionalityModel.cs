@@ -20,6 +20,12 @@ namespace IdeventLibrary.Models
             _name = name;
         }
 
+        public StandFunctionalityModel(int id,string name)
+        {
+            _id = id;
+            _name = name;
+        }
+
         public int Id
         {
             get { return _id; }

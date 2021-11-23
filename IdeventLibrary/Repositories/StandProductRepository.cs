@@ -18,7 +18,7 @@ namespace IdeventLibrary.Repositories
         public async Task CreateAsync(StandProductModel item)
         {
             string json = JsonConvert.SerializeObject(item);
-            StringContent httpContent = new StringContent(json.ToString(), UnicodeEncoding.UTF8, "application/json");
+            StringContent httpContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
             
             var response = await _httpClient.PostAsync(new Uri(_baseUrl),httpContent);
         }
