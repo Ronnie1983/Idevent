@@ -63,6 +63,7 @@
     <Folder Include="dbo\PublishProfiles" />
     <Folder Include="dbo\StoredProcedures" />
     <Folder Include="dbo\PostDeployScripts" />
+    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
@@ -95,6 +96,9 @@
     <Build Include="dbo\StoredProcedures\spGetEventById.sql" />
     <Build Include="dbo\StoredProcedures\spGetStandByEventId.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllChips.sql" />
+    <Build Include="dbo\Stored Procedures\spGetProductsByStandId.sql" />
+    <Build Include="dbo\Stored Procedures\spGetAllFunctions.sql" />
+    <Build Include="dbo\Stored Procedures\spCreateStand.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />
