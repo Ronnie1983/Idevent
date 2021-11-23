@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace IdeventLibrary.Repositories
 {
-    public class EventRepository : Repository
+    public class EventRepository
     {
-        //private static string _baseUrl = "https://localhost:44330/Event/"; // TODO: change to online API
+        private static string _baseUrl = $"{Helpers.ApiBaseUrl}/Event"; // TODO: change to online API
         private static HttpClient _httpClient = new HttpClient();
         
         public EventRepository()
@@ -22,7 +22,7 @@ namespace IdeventLibrary.Repositories
 
         public async Task<List<EventModel>> GetAllAsync()
         {
-            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl + "Event/"));
+            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
             var eventList = JsonSerializer.Deserialize<List<EventModel>>(jsonContent, Helpers.JsonSerializerOptions);
             if (string.IsNullOrEmpty(eventList[0].Name))
             {
@@ -33,7 +33,7 @@ namespace IdeventLibrary.Repositories
 
         public async Task<EventModel> GetByIdAsync(int id)
         {
-            string result = await _httpClient.GetStringAsync(new Uri(_baseUrl) + "Event/" + $"{id}");
+            string result = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/{id}") );
             EventModel events = JsonSerializer.Deserialize<EventModel>(result, Helpers.JsonSerializerOptions);
             
             return events;

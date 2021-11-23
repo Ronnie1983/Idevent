@@ -12,7 +12,7 @@ namespace IdeventLibrary.Repositories
 {
     public class StandProductRepository
     {
-        private static string _baseUrl = "https://localhost:44330/Product/"; // TODO: change to online API
+        private static string _baseUrl = $"{Helpers.ApiBaseUrl}/Product/"; // TODO: change to online API
         private static HttpClient _httpClient = new HttpClient();
 
         public async Task CreateAsync(StandProductModel item)

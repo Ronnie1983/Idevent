@@ -12,7 +12,7 @@ namespace IdeventLibrary.Repositories
 {
     public class ChipRepository
     {
-        private string _baseUrl = $"{Helpers.ApiBaseUrl}/Chip/";
+        private string _baseUrl = $"{Helpers.ApiBaseUrl}/Chip";
         private HttpClient _httpClient = new HttpClient();
         
         public ChipRepository()
@@ -31,7 +31,7 @@ namespace IdeventLibrary.Repositories
         }
         public async Task<ChipModel> GetById(int id)
         {
-            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl + id));
+            string jsonContent = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/{id}"));
             ChipModel chip = JsonSerializer.Deserialize<ChipModel>(jsonContent, Helpers.JsonSerializerOptions);
             if (string.IsNullOrWhiteSpace(chip.Company.Name))
             {
