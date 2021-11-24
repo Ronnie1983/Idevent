@@ -145,7 +145,7 @@
         foreach(var s in _eventModel.EventStands)
         {
             s.standProducts = await _standProductRepository.GetAllProductsByStandIdAsync(s.Id);
-            //s.standProducts = new List<StandProductModel>();
+            
         }
         //_eventStandReq.NewStandFuncName = _standFunctionalities[0];
 
@@ -170,6 +170,7 @@
     private async void DeleteStandAndContent(EventStandModel stand)
     {
         _eventModel.EventStands.Remove(stand);
+        await _eventStandRepository.DeleteAsync(stand.Id);
         // TODO Delete Stand and content
     }
 
@@ -204,12 +205,10 @@
         // TODO add event stand to db
     }
 
-    private void ChangeName(EventStandModel stand)
+    private async Task ChangeName(EventStandModel stand)
     {
         _eventModel.EventStands.Find(x => x.Name == stand.Name).Name = _newName;
-        //_newNam        // TODO update Namee = "";
-
-
+        await _eventStandRepository.UpdateNameAsync(stand, _newName);
     }
 
     private void ToggleAddStand()

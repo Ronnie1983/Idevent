@@ -63,15 +63,27 @@ namespace IdeventAPI.Controllers
         }
 
         // PUT api/<StandController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("updatename/{id}")]
+        public IActionResult Put(int id, [FromBody] string value)
         {
+            var result = _eventStandManager.Update(id, value);
+            if(result == 1)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         // DELETE api/<StandController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var result = _eventStandManager.Delete(id);
+            if(result == 1)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
     }
 }

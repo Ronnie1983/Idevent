@@ -46,5 +46,20 @@ namespace IdeventAPI.Managers
 
             return rowEffected;
         }
+
+        public int Update(int id, string item)
+        {
+            string sql = $"EXECUTE spUpdateStandName @standId, @name";
+            var rowEffected = _dbConnection.Execute(sql, new { standId = id, name = item });
+
+            return rowEffected;
+        }
+
+        public int Delete(int id)
+        {
+            string sql = $"EXECUTE spDeleteStand @standId";
+            var result = _dbConnection.Execute(sql, new { standId = id });
+            return result;
+        }
     }
 }

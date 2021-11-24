@@ -41,5 +41,19 @@ namespace IdeventLibrary.Repositories
 
             var response = await _httpClient.PostAsync(new Uri(_baseUrl), httpContent);
         }
+
+        public async Task UpdateNameAsync(EventStandModel item, string value)
+        {
+            string json = JsonConvert.SerializeObject(value);
+            StringContent httpContent = new StringContent(json, Encoding.UTF8 , "application/json");
+
+            var response = await _httpClient.PutAsync($"{_baseUrl}/updatename/{item.Id}", httpContent);
+        }
+        
+        public async Task DeleteAsync(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"{_baseUrl}/{id}");
+        }
+        
     }
 }
