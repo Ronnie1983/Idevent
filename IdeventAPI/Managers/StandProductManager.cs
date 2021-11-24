@@ -25,8 +25,10 @@ namespace IdeventAPI.Managers
 
         public int Create(StandProductModel item)
         {
-            string sql = $"EXECUTE spCreateProduct {item.Name}, {item.Value}, {item.EventStandId}";
-            var rowEffected = _dbConnection.Execute(sql);
+            string sql = $"EXECUTE spCreateProduct @Name, @Value, @StandId";
+            var parameters = new {Name = item.Name, Value =  item.Value, StandId =  item.EventStandId};
+            
+            var rowEffected = _dbConnection.Execute(sql, parameters);
 
             return rowEffected;
         }
