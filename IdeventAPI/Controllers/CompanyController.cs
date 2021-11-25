@@ -35,15 +35,22 @@ namespace IdeventAPI.Controllers
 
         // GET api/<CompanyController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult GetById(int id)
         {
-            return "value";
+            var company = _companyManager.GetById(id);
+            if(company == null)
+            {
+                return NotFound();
+            }
+            return Ok(company);
         }
 
         // POST api/<CompanyController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<CompanyModel> Post([FromBody] CompanyModel value)
         {
+            var result = _companyManager.Create(value);
+            return CreatedAtAction(nameof(GetById), new { id = result }, value);
         }
 
         // PUT api/<CompanyController>/5

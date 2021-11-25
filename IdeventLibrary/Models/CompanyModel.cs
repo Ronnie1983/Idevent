@@ -10,7 +10,7 @@ namespace IdeventLibrary.Models
     public class CompanyModel
     {
         private int _id;
-        private string _name, _email, _cvr, _phone;
+        private string _name, _email, _cvr, _phone, _logo;
         private AddressModel _address;
         private AddressModel _invoiceAddress;
         private bool _active;
@@ -21,13 +21,14 @@ namespace IdeventLibrary.Models
         {
           
         }
-        public CompanyModel(string name, string email, string cvr, string phone, string street, string city, string postal, string country)
+        public CompanyModel(string name, string email, string cvr, string phone, string street, string city, string postal, string country,string streetInvoice, string cityInvoice, string postalInvoice, string countryInvoice)
         {
             Name = name;
             Email = email;
             CVR = cvr;
             PhoneNumber = phone;
             Address = new AddressModel(street, city, country, postal);
+            Address = new AddressModel(streetInvoice, cityInvoice, countryInvoice, postalInvoice);
     
         }
 
@@ -90,6 +91,12 @@ namespace IdeventLibrary.Models
         {
             get { return _active; }
             set { _active = value; }
+        }
+
+        public string Logo
+        {
+            get { return _logo; }
+            set { _logo = value; }
         }
        
     }
