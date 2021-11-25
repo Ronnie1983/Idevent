@@ -33,7 +33,6 @@ namespace IdeventAPI.Managers
             {
                 return Convert.ToInt32(result);
             }
-
             return 0;
         }
 
