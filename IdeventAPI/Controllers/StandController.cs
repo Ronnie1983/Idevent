@@ -3,6 +3,7 @@ using IdeventAPI.Managers;
 using IdeventLibrary.Models;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -45,33 +46,46 @@ namespace IdeventAPI.Controllers
 
         // GET api/<StandController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult GetById(int id)
         {
-            return "value";
+            var stands = _eventStandManager.GetById(id);
+            if (stands == null)
+            {
+                return NoContent();
+            }
+            return Ok(stands);
         }
 
         // POST api/<StandController>
         [HttpPost]
-        public IActionResult Post([FromBody] EventStandModel item)
+        public ActionResult<EventStandModel> Post([FromBody] EventStandModel item)
         {
             var result = _eventStandManager.Create(item);
-            if (result == 1)
+            return CreatedAtAction(nameof(GetById), new { id = result }, item);
+        }
+
+        // PUT api/<StandController>/5
+        [HttpPut("updatename/{id}")]
+        public IActionResult Put(int id, [FromBody] string value)
+        {
+            var result = _eventStandManager.Update(id, value);
+            if(result == 1)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
 
-        // PUT api/<StandController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
         // DELETE api/<StandController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var result = _eventStandManager.Delete(id);
+            if(result == 1)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
     }
 }

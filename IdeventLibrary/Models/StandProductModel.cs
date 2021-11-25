@@ -11,13 +11,11 @@ namespace IdeventLibrary.Models
     public class StandProductModel
     {
         private EventStandModel eventStandModel;
-
         public StandProductModel()
         {
 
 
         }
-
         public StandProductModel(string name, int value, EventStandModel eventStand)
         {
             Name = name;
@@ -26,6 +24,7 @@ namespace IdeventLibrary.Models
         }
         public int Id { get; set; }
         [Required]
+        [MinLength(1)]
         public string Name { get; set; }
         [Required]
         public int Value { get; set; }

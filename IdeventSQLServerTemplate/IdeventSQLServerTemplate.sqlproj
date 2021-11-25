@@ -98,6 +98,11 @@
     <Build Include="dbo\StoredProcedures\spCreateStand.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllFunctions.sql" />
     <Build Include="dbo\StoredProcedures\spGetProductsByStandId.sql" />
+    <Build Include="dbo\StoredProcedures\spUpdateStandName.sql" />
+    <Build Include="dbo\StoredProcedures\spDeleteStand.sql" />
+    <Build Include="dbo\StoredProcedures\spDeleteProduct.sql" />
+    <Build Include="dbo\StoredProcedures\spGetProductById.sql" />
+    <Build Include="dbo\StoredProcedures\spGetStandById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />

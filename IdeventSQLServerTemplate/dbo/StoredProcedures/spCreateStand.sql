@@ -4,5 +4,7 @@
 	@functionalityId int
 AS
 BEGIN
-	INSERT INTO EventStands VALUES (@name, @eventId, @functionalityId)
+	INSERT INTO EventStands 
+	OUTPUT inserted.Id
+	VALUES (@name, @eventId, @functionalityId)
 END

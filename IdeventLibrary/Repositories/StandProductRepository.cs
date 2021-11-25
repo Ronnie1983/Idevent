@@ -15,12 +15,20 @@ namespace IdeventLibrary.Repositories
         private static string _baseUrl = $"{Helpers.ApiBaseUrl}/Product/"; // TODO: change to online API
         private static HttpClient _httpClient = new HttpClient();
 
-        public async Task CreateAsync(StandProductModel item)
+        public async Task<StandProductModel> CreateAsync(StandProductModel item)
         {
             string json = JsonConvert.SerializeObject(item);
             StringContent httpContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
             
             var response = await _httpClient.PostAsync(new Uri(_baseUrl),httpContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string JsonString = await _httpClient.GetStringAsync(response.Headers.Location.AbsoluteUri);
+                StandProductModel newItem = JsonConvert.DeserializeObject<StandProductModel>(JsonString);
+                return newItem;
+            }
+            return null;
         }
 
         public async Task<List<StandProductModel>> GetAllProductsByStandIdAsync(int id)
@@ -29,6 +37,12 @@ namespace IdeventLibrary.Repositories
             List<StandProductModel> List = JsonConvert.DeserializeObject<List<StandProductModel>>(jsonContent);
             
             return List;
+        }
+
+        public async Task<HttpResponseMessage> DeleteAsync(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"{_baseUrl}{id}");
+            return response;
         }
     }
 }

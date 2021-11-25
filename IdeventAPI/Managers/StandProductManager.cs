@@ -25,12 +25,15 @@ namespace IdeventAPI.Managers
 
         public int Create(StandProductModel item)
         {
-            string sql = $"EXECUTE spCreateProduct @Name, @Value, @StandId";
-            var parameters = new {Name = item.Name, Value =  item.Value, StandId =  item.EventStandId};
-            
-            var rowEffected = _dbConnection.Execute(sql, parameters);
-
-            return rowEffected;
+            var parameter = new { name = item.Name, value = item.Value, standId = item.EventStandId };
+            string sql = $"EXECUTE spCreateProduct @name, @value, @standId";
+            //var rowEffected =_dbConnection.Query<int>(sql);
+            var result =_dbConnection.ExecuteScalar(sql, parameter);
+            if(result != null)
+            {
+                return Convert.ToInt32(result);
+            }
+            return 0;
         }
 
         public List<StandProductModel> GetAllByStandId(int id)
@@ -40,6 +43,20 @@ namespace IdeventAPI.Managers
             List<StandProductModel> products = _dbConnection.Query<StandProductModel>(sql, new { standId = id }).AsList();
 
             return products;
+        }
+
+        public int Delete(int id)
+        {
+            string sql = "EXECUTE spDeleteProduct @productId";
+            var rowEffected = (_dbConnection.Execute(sql, new {productId = id}));
+            return rowEffected;
+        }
+
+        public StandProductModel GetById(int id)
+        {
+            string sql = "EXECUTE spGetProductById @Id";
+            StandProductModel result = _dbConnection.QuerySingle<StandProductModel>(sql, new {Id = id});
+            return result;
         }
     }
 }

@@ -15,8 +15,6 @@ namespace IdeventLibrary.Models
         private string _name;
         private EventModel _event = new EventModel();
         private StandFunctionalityModel _functionality = new StandFunctionalityModel();
-
-
         public EventStandModel()
         {
 
@@ -27,13 +25,11 @@ namespace IdeventLibrary.Models
             Event = eventModel;
             Functionality = functionality;
         }
-
         public int Id
         {
             get { return _id; }
             set { _id = value; }
         }
-
         [Required]
         [MinLength(1)]
         public string Name
@@ -51,9 +47,7 @@ namespace IdeventLibrary.Models
                 EventID = value.Id;
             }
         }
-
         public int EventID { get; set; }
-
         [Required]
         public StandFunctionalityModel Functionality
         {
@@ -64,10 +58,7 @@ namespace IdeventLibrary.Models
                 FunctionalityId = value.Id;
             }
         }
-
         public int FunctionalityId { get; set; }
-
-       
         public List<StandProductModel> standProducts { get; set; } = new List<StandProductModel>();
 
     }
