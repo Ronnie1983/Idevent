@@ -1,5 +1,6 @@
 ﻿using IdeventAPI.Managers;
 using IdeventLibrary.Models;
+using IdeventTests.IntegrationTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace IdeventTests
         [TestInitialize]
         public void Init()
         {
-            _eventManager = new EventManager();
+            _eventManager = new EventManager(TestSettings.ConnectionString);
         }
         [TestCleanup]
         public void CleanUp()

@@ -1,5 +1,6 @@
 ﻿using IdeventAPI.Managers;
 using IdeventLibrary.Models;
+using IdeventTests.IntegrationTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace IdeventTests
         [TestInitialize]
         public void Init()
         {
-            _chipManager = new ChipManager();
+            _chipManager = new ChipManager(TestSettings.ConnectionString);
         }
         [TestCleanup]
         public void CleanUp()

@@ -9,7 +9,16 @@ namespace IdeventAPI.Managers
 {
     public class StandProductManager
     {
-        private IDbConnection _dbConnection = new SqlConnection(AppSettings.ConnectionString);
+        IDbConnection _dbConnection;
+
+        public StandProductManager()
+        {
+            _dbConnection = new SqlConnection(AppSettings.ConnectionString);
+        }
+        public StandProductManager(string connectionString)
+        {
+            _dbConnection = new SqlConnection(connectionString);
+        }
         public List<StandProductModel> GetAll()
         {
             string sql = "EXECUTE spGetAllProducts";

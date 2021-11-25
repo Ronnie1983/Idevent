@@ -16,6 +16,10 @@ namespace IdeventAPI.Managers
         {
             _dbConnection = new SqlConnection(AppSettings.ConnectionString);
         }
+        public ChipManager(string connectionString)
+        {
+            _dbConnection = new SqlConnection(connectionString);
+        }
         public List<ChipModel> GetAll()
         {
             try
