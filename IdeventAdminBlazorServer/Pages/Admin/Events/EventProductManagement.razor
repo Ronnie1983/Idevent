@@ -225,7 +225,7 @@
     private void ToggleAddStand()
     {
         _toggleAddStand = !_toggleAddStand;
-        _bindItem = _standFunctionalities[0].Id;
+        _bindItem = _standFunctionalities[0].Id; // TODO: causes error if no functionalities in database.
     }
 
     private void Toggle(string name)
