@@ -17,6 +17,10 @@ namespace IdeventAPI.Managers
         {
             _dbConnection = new SqlConnection(AppSettings.ConnectionString);
         }
+        public EventManager(string connectionString)
+        {
+            _dbConnection = new SqlConnection(connectionString);
+        }
 
         public List<EventModel> GetAll()
         {

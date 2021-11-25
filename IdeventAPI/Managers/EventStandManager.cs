@@ -9,7 +9,16 @@ namespace IdeventAPI.Managers
 {
     public class EventStandManager
     {
-        private IDbConnection _dbConnection = new SqlConnection(AppSettings.ConnectionString);
+        IDbConnection _dbConnection;
+
+        public EventStandManager()
+        {
+            _dbConnection = new SqlConnection(AppSettings.ConnectionString);
+        }
+        public EventStandManager(string connectionString)
+        {
+            _dbConnection = new SqlConnection(connectionString);
+        }
 
         public List<EventStandModel> GetAll()
         {
