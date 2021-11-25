@@ -103,6 +103,10 @@
     <Build Include="dbo\StoredProcedures\spDeleteProduct.sql" />
     <Build Include="dbo\StoredProcedures\spGetProductById.sql" />
     <Build Include="dbo\StoredProcedures\spGetStandById.sql" />
+    <Build Include="dbo\StoredProcedures\spGetCompanyById.sql" />
+    <Build Include="dbo\StoredProcedures\spCreateCompany.sql" />
+    <Build Include="dbo\StoredProcedures\spGetAddressById.sql" />
+    <Build Include="dbo\StoredProcedures\spCreateAddress.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />

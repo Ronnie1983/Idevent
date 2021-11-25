@@ -10,26 +10,12 @@ using Newtonsoft.Json;
 
 namespace IdeventLibrary.Repositories
 {
-    public class CompanyRepository
+    public class AddressRepository
     {
-        private static string _baseUrl = $"{Helpers.ApiBaseUrl}/Company";
+        private static string _baseUrl = $"{Helpers.ApiBaseUrl}/Address";
         private static HttpClient _httpClient = new HttpClient();
-        
 
-        public CompanyRepository()
-        {
-
-        }
-
-        public async Task<List<CompanyModel>> GetAllAsync()
-        {
-            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
-            var eventList = JsonConvert.DeserializeObject<List<CompanyModel>>(jsonContent);
-            
-            return eventList;
-        }
-
-        public async Task<CompanyModel> CreateAsync(CompanyModel item)
+        public async Task<AddressModel> CreateAsync(AddressModel item)
         {
             string json = JsonConvert.SerializeObject(item);
             StringContent httpContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
@@ -39,7 +25,7 @@ namespace IdeventLibrary.Repositories
             if (response.IsSuccessStatusCode)
             {
                 string JsonString = await _httpClient.GetStringAsync(response.Headers.Location.AbsoluteUri);
-                CompanyModel newItem = JsonConvert.DeserializeObject<CompanyModel>(JsonString);
+                AddressModel newItem = JsonConvert.DeserializeObject<AddressModel>(JsonString);
                 return newItem;
             }
             return null;
