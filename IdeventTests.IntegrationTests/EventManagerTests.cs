@@ -14,8 +14,15 @@ namespace IdeventTests
     public class EventManagerTests
     {
         private EventManager _eventManager;
+
+        [ClassInitialize]
+        public void TestClassInit()
+        {
+
+        }
+
         [TestInitialize]
-        public void Init()
+        public void TestInit()
         {
             _eventManager = new EventManager(TestSettings.ConnectionString);
         }
