@@ -61,6 +61,7 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\DummyDataScript" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
@@ -104,5 +105,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ThomasDesktopTestDB.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="dbo\DummyDataScript\Script.InsertTestData.sql" />
   </ItemGroup>
 </Project>
