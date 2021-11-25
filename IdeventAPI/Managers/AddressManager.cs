@@ -34,8 +34,8 @@ namespace IdeventAPI.Managers
 
         public int Create(AddressModel value)
         {
-            var parameter = new { street = value.StreetAddress, city = value.City, postal = value.PostalCode, country = value.Country};
-            string sql = "EXECUTE spCreateAddress @street, @city, @postal, @country";
+            var parameter = new { street = value.StreetAddress, city = value.City, country = value.Country, postal = value.PostalCode};
+            string sql = "EXECUTE spCreateAddress @street, @city, @country, @postal";
             var result = _dbConnection.ExecuteScalar(sql, parameter);
             if (result != null)
             {

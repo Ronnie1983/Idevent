@@ -41,7 +41,7 @@ namespace IdeventAPI.Managers
             var parameter = new { name = value.Name, logo = value.Logo, cvr = value.CVR, email = value.Email, phoneNumber = value.PhoneNumber, active = value.Active, note = value.Note, addressId = value.Address.Id, invoiceAddress = value.InvoiceAddress.Id };
             string sql = "EXECUTE spCreateCompany @name, @logo, @cvr, @email, @phoneNumber, @active, @note, @addressId, @invoiceAddress";
             var result = _dbConnection.ExecuteScalar(sql, parameter);
-            if (result == null)
+            if (result != null)
             {
                 return Convert.ToInt32(result);
             }

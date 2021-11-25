@@ -19,7 +19,10 @@ namespace IdeventLibrary.Models
         
         public CompanyModel()
         {
-          
+            _address = new AddressModel();
+            _invoiceAddress = new AddressModel();
+            _logo = "no url";
+            _note = "no note";
         }
         public CompanyModel(string name, string email, string cvr, string phone, string street, string city, string postal, string country,string streetInvoice, string cityInvoice, string postalInvoice, string countryInvoice)
         {
