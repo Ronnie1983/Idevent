@@ -25,7 +25,7 @@ namespace IdeventTests.IntegrationTests
         [TestMethod]
         public void CreateReturnsIdOfCreatedProduct()
         {
-            _manager.Create
+            //_manager.Create
         }
     }
 }
