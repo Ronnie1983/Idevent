@@ -30,7 +30,7 @@ namespace IdeventLibrary.Repositories
             return List;
         }
         
-        public async Task CreateAsync(EventStandModel item)
+        public async Task<EventStandModel> CreateAsync(EventStandModel item)
         {
             JsonSerializerSettings settings = new()
             {
@@ -40,6 +40,14 @@ namespace IdeventLibrary.Repositories
             StringContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync(new Uri(_baseUrl), httpContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string JsonString = await _httpClient.GetStringAsync(response.Headers.Location.AbsoluteUri);
+                EventStandModel newItem = JsonConvert.DeserializeObject<EventStandModel>(JsonString);
+                return newItem;
+            }
+            return null;
         }
 
         public async Task UpdateNameAsync(EventStandModel item, string value)
@@ -50,9 +58,10 @@ namespace IdeventLibrary.Repositories
             var response = await _httpClient.PutAsync($"{_baseUrl}/updatename/{item.Id}", httpContent);
         }
         
-        public async Task DeleteAsync(int id)
+        public async Task<HttpResponseMessage> DeleteAsync(int id)
         {
             var response = await _httpClient.DeleteAsync($"{_baseUrl}/{id}");
+            return response;
         }
         
     }

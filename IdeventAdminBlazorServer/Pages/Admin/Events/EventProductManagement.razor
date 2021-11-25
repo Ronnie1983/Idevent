@@ -93,12 +93,12 @@
                           </table>
                       </td>
                       <td>
-                          <EditForm Model="@_standProductReq" OnSubmit="@(e => HandleValidSubmitProduct(stand))">
+                          <EditForm Model="@_standProductReq" OnValidSubmit="@(e => HandleValidSubmitProduct(stand))">
                             <DataAnnotationsValidator/>
                             <ValidationSummary/>
                              <div class="form-group">
                                     <label for="@_standProductReq.Name">Name</label> 
-                                    <InputText class="form-control" id="name" @bind-Value="_standProductReq.Name" placeholder="Product"/>
+                                    <InputText class="form-control" id="name" @bind-Value="_standProductReq.Name" placeholder="Product name"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="@_standProductReq.Value">Value</label> 
@@ -145,7 +145,7 @@
         foreach(var s in _eventModel.EventStands)
         {
             s.standProducts = await _standProductRepository.GetAllProductsByStandIdAsync(s.Id);
-            
+
         }
         //_eventStandReq.NewStandFuncName = _standFunctionalities[0];
 
@@ -169,45 +169,56 @@
 
     private async void DeleteStandAndContent(EventStandModel stand)
     {
-        _eventModel.EventStands.Remove(stand);
-        await _eventStandRepository.DeleteAsync(stand.Id);
+
+        var result = await _eventStandRepository.DeleteAsync(stand.Id);
+        if (result.IsSuccessStatusCode)
+        {
+            _eventModel.EventStands.Remove(stand);
+            StateHasChanged();
+        }
         // TODO Delete Stand and content
     }
 
     private async void DeleteProduct(EventStandModel stand,StandProductModel product)
     {
-        _eventModel.EventStands.Find(x => x.Name == stand.Name).standProducts.Remove(product);
+        var result = await _standProductRepository.DeleteAsync(product.Id);
+        if (result.IsSuccessStatusCode)
+        {
+
+            var item = _eventModel.EventStands.Find(x => x.Id == stand.Id).standProducts.Find(p => p.Id == product.Id);
+            _eventModel.EventStands.Find(x => x.Id == stand.Id).standProducts.Remove(item);
+            StateHasChanged();
+        }
+
         // TODO Delete Product
     }
 
     private async Task HandleValidSubmitProduct(EventStandModel eventStand)
     {
-
-        // TODO Måske bør dette element ikke være her. Snak med gruppe
-        _eventModel.EventStands.Find(x => x.Name == eventStand.Name).standProducts.Add(_standProductReq);
-
-
         _standProductReq.EventStandModel = eventStand;
-        await _standProductRepository.CreateAsync(_standProductReq);
-        _standProductReq = new StandProductModel();
-        // TODO add submit product
-
-
+        var result = await _standProductRepository.CreateAsync(_standProductReq);
+        if (result != null)
+        {
+            _eventModel.EventStands.Find(x => x.Id == eventStand.Id).standProducts.Add(result);
+            _standProductReq = new StandProductModel();
+        }
     }
 
     private async Task HandleValidSubmitEventStand()
     {
         _eventStandReq.Event = _eventModel;
         _eventStandReq.Functionality = _standFunctionalities.Find(x => x.Id == _bindItem);
-        _eventModel.EventStands.Add(new EventStandModel(_eventStandReq.Name,_eventStandReq.Event, _eventStandReq.Functionality));
-        await _eventStandRepository.CreateAsync(new EventStandModel(_eventStandReq.Name,_eventStandReq.Event, _eventStandReq.Functionality));
-        _eventStandReq = new EventStandModel();
-        // TODO add event stand to db
+        var result = await _eventStandRepository.CreateAsync(new EventStandModel(_eventStandReq.Name,_eventStandReq.Event, _eventStandReq.Functionality));
+        if(result != null)
+        {
+            _eventModel.EventStands.Add(result);
+            _eventStandReq = new EventStandModel();
+        }
     }
 
     private async Task ChangeName(EventStandModel stand)
     {
-        _eventModel.EventStands.Find(x => x.Name == stand.Name).Name = _newName;
+        _eventModel.EventStands.Find(x => x.Id == stand.Id).Name = _newName;
         await _eventStandRepository.UpdateNameAsync(stand, _newName);
     }
 

@@ -28,7 +28,8 @@ namespace IdeventAPI.Managers
         public List<EventStandModel> GetAllByEventId(int id)
         {
             string sql = $"EXECUTE spGetStandByEventId @eventId";
-            List<EventStandModel> eventStands = _dbConnection.Query<EventStandModel, EventModel, StandFunctionalityModel, EventStandModel>(sql, (eventStandModel, eventModel, standFunctionModel) =>
+            List<EventStandModel> eventStands = _dbConnection.Query<EventStandModel, EventModel, StandFunctionalityModel, EventStandModel>(
+                sql, (eventStandModel, eventModel, standFunctionModel) =>
            {
                eventStandModel.Event = eventModel;
                eventStandModel.Functionality = standFunctionModel;
@@ -39,12 +40,45 @@ namespace IdeventAPI.Managers
             return eventStands;
         }
 
+        //public EventStandModel GetById(int id)
+        //{
+        //    string sql = $"EXECUTE spGetStandById @eventId";
+        //    List<EventStandModel> eventStand = _dbConnection.Query<EventStandModel, EventModel, StandFunctionalityModel, EventStandModel>(
+        //        sql, (eventStandModel, eventModel, standFunctionModel) =>
+        //        {
+        //            eventStandModel.Event = eventModel;
+        //            eventStandModel.Functionality = standFunctionModel;
+        //            return eventStandModel;
+        //        }, new { eventId = id }, splitOn: "Id").AsList();
+
+
+        //    return eventStand[0];
+        //}
+
+        public EventStandModel GetById(int id)
+        {
+            string sql = $"EXECUTE spGetStandById @eventId";
+            List<EventStandModel> eventStand = _dbConnection.Query<EventStandModel, EventModel, StandFunctionalityModel, EventStandModel>(
+                sql, (eventStandModel, eventModel, standFunctionModel) =>
+                {
+                    eventStandModel.Event = eventModel;
+                    eventStandModel.Functionality = standFunctionModel;
+                    return eventStandModel;
+                }, new { eventId = id }, splitOn: "Id").AsList();
+
+
+            return eventStand[0];
+        }
+
         public int Create(EventStandModel item)
         {
             string sql = $"EXECUTE spCreateStand @name, @eventId, @funktionalityId";
-            var rowEffected = _dbConnection.Execute(sql,new {name = item.Name, eventId = item.EventID, funktionalityId = item.FunctionalityId});
-
-            return rowEffected;
+            var result = _dbConnection.ExecuteScalar(sql,new {name = item.Name, eventId = item.EventID, funktionalityId = item.FunctionalityId});
+            if(result != null)
+            {
+                return Convert.ToInt32(result);
+            }
+            return 0;
         }
 
         public int Update(int id, string item)

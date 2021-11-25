@@ -3,6 +3,7 @@ using IdeventAPI.Managers;
 using IdeventLibrary.Models;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -45,21 +46,22 @@ namespace IdeventAPI.Controllers
 
         // GET api/<StandController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult GetById(int id)
         {
-            return "value";
+            var stands = _eventStandManager.GetById(id);
+            if (stands == null)
+            {
+                return NoContent();
+            }
+            return Ok(stands);
         }
 
         // POST api/<StandController>
         [HttpPost]
-        public IActionResult Post([FromBody] EventStandModel item)
+        public async Task<ActionResult<EventStandModel>> Post([FromBody] EventStandModel item)
         {
             var result = _eventStandManager.Create(item);
-            if (result == 1)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
+            return CreatedAtAction(nameof(GetById), new { id = result }, item);
         }
 
         // PUT api/<StandController>/5

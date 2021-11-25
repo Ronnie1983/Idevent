@@ -5,5 +5,6 @@
 AS
 BEGIN
 	INSERT INTO StandProducts
+	OUTPUT inserted.Id
 	VALUES (@name, @value, @standId)
 END
