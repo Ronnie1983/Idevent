@@ -62,7 +62,7 @@ namespace IdeventAPI.Controllers
 
         // POST api/<ProductController>
         [HttpPost]
-        public async Task<ActionResult<StandProductModel>> Post([FromBody] StandProductModel item)
+        public ActionResult<StandProductModel> Post([FromBody] StandProductModel item)
         {
             var result = _productManager.Create(item);
             return CreatedAtAction(nameof(GetById), new {id = result},item);

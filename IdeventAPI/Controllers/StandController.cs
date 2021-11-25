@@ -58,7 +58,7 @@ namespace IdeventAPI.Controllers
 
         // POST api/<StandController>
         [HttpPost]
-        public async Task<ActionResult<EventStandModel>> Post([FromBody] EventStandModel item)
+        public ActionResult<EventStandModel> Post([FromBody] EventStandModel item)
         {
             var result = _eventStandManager.Create(item);
             return CreatedAtAction(nameof(GetById), new { id = result }, item);
