@@ -10,7 +10,17 @@ namespace IdeventAPI.Managers
 {
     public class StandFunctionalityManager
     {
-        private IDbConnection _dbConnection = new SqlConnection(AppSettings.ConnectionString);
+        IDbConnection _dbConnection;
+
+        public StandFunctionalityManager()
+        {
+            _dbConnection = new SqlConnection(AppSettings.ConnectionString);
+        }
+        public StandFunctionalityManager(string connectionString)
+        {
+            _dbConnection = new SqlConnection(connectionString);
+        }
+
         public List<StandFunctionalityModel> GetAll()
         {
             string sql = "EXECUTE spGetAllFunctions";

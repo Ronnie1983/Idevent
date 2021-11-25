@@ -1,15 +1,29 @@
-﻿using IdeventLibrary.Models;
+using IdeventLibrary.Models;
 using System;
 using Dapper;
 using System.Collections.Generic;
 using System.Data;
+
+
+
 using System.Data.SqlClient;
 
 namespace IdeventAPI.Managers
 {
     public class AddressManager
     {
-        private IDbConnection _dbConnection = new SqlConnection(AppSettings.ConnectionString);
+
+       
+        IDbConnection _dbConnection;
+
+        public AddressManager()
+        {
+            _dbConnection = new SqlConnection(AppSettings.ConnectionString);
+        }
+        public AddressManager(string connectionString)
+        {
+            _dbConnection = new SqlConnection(connectionString);
+        }
 
         public AddressModel GetById(int id)
         {
