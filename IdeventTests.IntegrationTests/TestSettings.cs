@@ -8,6 +8,6 @@ namespace IdeventTests.IntegrationTests
 {
     public  class TestSettings
     {
-        public static string ConnectionString = ""; // Insert your testdatabase string here.
+        public static string ConnectionString = Environment.GetEnvironmentVariable("IdeventTestDBConn");
     }
 }
