@@ -66,24 +66,35 @@ namespace IdeventTests
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Users.Index>(), "Users");
         }
         [TestMethod]
-        public void AddEventLoads()
+        public void EventsAddEventLoads()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.AddEvent>(), "Add Event", "AddEvent");
         }
         [TestMethod]
-        public void EditEventLoads()
+        public void EventsEditEventLoads()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.EditEvent>(), "Edit Event", "EditEvent/1");
         }
         [TestMethod]
-        public void EventProductManagementLoads()
+        public void EventsEventProductManagementLoads()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.EventProductManagement>(), "Event Product Management", "EventProductManagement/1");
         }
         [TestMethod]
-        public void ChipDetailsLoads()
+        public void ChipsChipDetailsLoads()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.ChipDetails>(), "Chip Details", "ChipDetails/1");
+        }
+        [TestMethod]
+        public void ChipsEditChipLoads()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.EditChip>(), "Edit Chip", "EditChip/1");
+        }
+
+        [TestMethod]
+        public void ChipsEditChipCancelBtn()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.Index>(), "Chips Oversigt", "Chips");
         }
 
 
