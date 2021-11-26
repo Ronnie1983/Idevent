@@ -17,12 +17,19 @@ namespace IdeventTests.IntegrationTests
         [TestInitialize]
         public void Init()
         {
-            _manager = new StandProductManager();
+            _manager = new StandProductManager(TestSettings.ConnectionString);
         }
         [TestCleanup]
         public void CleanUp()
         {
-            //_manager.Delete();
+            try
+            {
+                _manager.Delete(6);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         [TestMethod]
@@ -51,7 +58,7 @@ namespace IdeventTests.IntegrationTests
         {
             StandProductModel productModel = new("My New Product", 5, new EventStandModel { Id = 1 });
 
-            int output =_manager.Create(productModel);
+            int output = _manager.Create(productModel);
             StandProductModel productFromOutput = _manager.GetById(output);
 
             Assert.IsInstanceOfType(productFromOutput, typeof(StandProductModel));
