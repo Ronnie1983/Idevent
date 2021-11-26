@@ -13,7 +13,7 @@ namespace IdeventLibrary.Models
 
         public AddressModel()
         {
-          
+            
         }
 
         public AddressModel(string streetAddress, string city, string country, string zipcode)
