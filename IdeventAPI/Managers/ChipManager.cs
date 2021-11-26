@@ -65,9 +65,9 @@ namespace IdeventAPI.Managers
 
                 // StandProducts.Name, ChipContents.Amount
                 sql = "EXECUTE spGetChipContentByChipId @Id";
-                output.ProductsOnChip = _dbConnection.Query<KeyValuePair<string, int>>
-                    (sql, parameters).ToDictionary(keyValuePair => keyValuePair.Key, keyValuePair => keyValuePair.Value);
-
+                var productsOnChip = _dbConnection.Query<KeyValuePair<string, int>>
+                    (sql, parameters);
+                output.ProductsOnChip = productsOnChip.ToDictionary(keyValuePair => keyValuePair.Key, keyValuePair => keyValuePair.Value);
                 return output;
             }
             catch(SqlException ex)

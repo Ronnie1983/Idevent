@@ -10,25 +10,27 @@ using System.Threading.Tasks;
 namespace IdeventTests.IntegrationTests
 {
     [TestClass]
-    public class StandProductManagerTests
+    public class StandProductManagerTests : BaseTest
     {
         private StandProductManager _manager;
 
-        [TestInitialize]
-        public void Init()
+        protected override void TestSpecificInitialization()
         {
-            _manager = new StandProductManager(TestSettings.ConnectionString);
+            _manager = new StandProductManager();
         }
-        [TestCleanup]
-        public void CleanUp()
+
+        protected override void TestSpecificCleanup()
         {
             try
             {
-                _manager.Delete(6);
+                if (_manager.GetAll().Count > 5)
+                {
+                    _manager.Delete(6);
+                }
             }
-            catch(Exception e) // mostly here in case nothing has been created and delete then fails.
+            catch (Exception e) // mostly here in case nothing has been created and delete then fails.
             {
-                Console.WriteLine(e.Message); 
+                Assert.Fail($"_manager.Delete does not seem to work. Error: {e.Message}");
             }
         }
 
@@ -65,5 +67,7 @@ namespace IdeventTests.IntegrationTests
             Assert.AreEqual(productFromOutput.Name, "My New Product");
             Assert.AreEqual(productFromOutput.Value, 5);
         }
+
+   
     }
 }

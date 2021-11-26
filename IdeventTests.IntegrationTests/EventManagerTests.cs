@@ -11,34 +11,28 @@ using System.Threading.Tasks;
 namespace IdeventTests
 {
     [TestClass]
-    public class EventManagerTests
+    public class EventManagerTests : BaseTest
     {
         private EventManager _eventManager;
-
-        [ClassInitialize]
-        public void TestClassInit()
-        {
-
-        }
-
-        [TestInitialize]
-        public void TestInit()
+        protected override void TestSpecificInitialization()
         {
             _eventManager = new EventManager(TestSettings.ConnectionString);
         }
-        [TestCleanup]
-        public void CleanUp()
+
+        protected override void TestSpecificCleanup()
         {
-            
+            // No test specific cleanup atm.
         }
+
         [TestMethod]
         public void GetAllReturnsList()
         {
             List<EventModel> events = new();
             events = _eventManager.GetAll();
 
-
             Assert.IsInstanceOfType(events, typeof(List<EventModel>));
         }
+
+
     }
 }
