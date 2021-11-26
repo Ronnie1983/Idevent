@@ -26,9 +26,9 @@ namespace IdeventTests.IntegrationTests
             {
                 _manager.Delete(6);
             }
-            catch(Exception e)
+            catch(Exception e) // mostly here in case nothing has been created and delete then fails.
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message); 
             }
         }
 
