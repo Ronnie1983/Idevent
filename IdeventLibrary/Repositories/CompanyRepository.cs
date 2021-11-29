@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using IdeventLibrary.Models;
-//using System.Text.Json;
 using Newtonsoft.Json;
 
 namespace IdeventLibrary.Repositories
@@ -27,6 +26,14 @@ namespace IdeventLibrary.Repositories
             var eventList = JsonConvert.DeserializeObject<List<CompanyModel>>(jsonContent);
             
             return eventList;
+        }
+
+        public async Task<CompanyModel> GetAsync(int id)
+        {
+            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl + "/" + id));
+            var company = JsonConvert.DeserializeObject<CompanyModel>(jsonContent);
+
+            return company;
         }
 
         public async Task<CompanyModel> CreateAsync(CompanyModel item)
