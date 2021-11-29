@@ -30,5 +30,33 @@ namespace IdeventLibrary.Repositories
             }
             return null;
         }
+
+        public async Task<AddressModel> GetAddressById(int id)
+        {
+            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl + "/" + id));
+            var address = JsonConvert.DeserializeObject<AddressModel>(jsonContent);
+            
+            return address;
+        }
+
+        public async Task<AddressModel> UpdateAsync(AddressModel item)
+        {
+            string json = JsonConvert.SerializeObject(item);
+            StringContent httpsContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync(new Uri(_baseUrl + "/" + item.Id), httpsContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string JsonString = await _httpClient.GetStringAsync(new Uri(_baseUrl + "/" + item.Id));
+                AddressModel newItem = JsonConvert.DeserializeObject<AddressModel>(JsonString);
+                return newItem;
+            }
+            return null;
+        }
+
+        public async Task<AddressModel> DeleteAsync(AddressModel item)
+        {
+            return item;
+        }
     }
 }

@@ -51,8 +51,14 @@ namespace IdeventAPI.Controllers
 
         // PUT api/<AddressController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put([FromBody] AddressModel value)
         {
+            var result = _addressManager.UpdateAddress(value);
+            if(result == 1)
+            {
+                return Ok(result);
+            }
+            return BadRequest();
         }
 
         // DELETE api/<AddressController>/5

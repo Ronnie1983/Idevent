@@ -55,8 +55,14 @@ namespace IdeventAPI.Controllers
 
         // PUT api/<CompanyController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put([FromBody] CompanyModel value)
         {
+            var result = _companyManager.UpdateCompany(value);
+            if(result == 1)
+            {
+                return Ok(result);
+            }
+            return BadRequest();
         }
 
         // DELETE api/<CompanyController>/5

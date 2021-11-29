@@ -13,7 +13,8 @@ namespace IdeventLibrary.Repositories
     {
         private static string _baseUrl = $"{Helpers.ApiBaseUrl}/Company";
         private static HttpClient _httpClient = new HttpClient();
-        
+        private AddressRepository _addressRepository = new AddressRepository();
+
 
         public CompanyRepository()
         {
@@ -32,6 +33,14 @@ namespace IdeventLibrary.Repositories
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl + "/" + id));
             var company = JsonConvert.DeserializeObject<CompanyModel>(jsonContent);
+            if(company.Address != null)
+            {
+                company.Address = await _addressRepository.GetAddressById(company.Address.Id);
+            }
+            if(company.InvoiceAddress != null)
+            {
+                company.InvoiceAddress = await _addressRepository.GetAddressById(company.InvoiceAddress.Id);
+            }
 
             return company;
         }
@@ -49,6 +58,35 @@ namespace IdeventLibrary.Repositories
                 CompanyModel newItem = JsonConvert.DeserializeObject<CompanyModel>(JsonString);
                 return newItem;
             }
+            return null;
+        }
+
+        public async Task<CompanyModel> UpdateAsync(CompanyModel item)
+        {
+            string json = JsonConvert.SerializeObject(item);
+            StringContent httpsContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync(new Uri(_baseUrl + "/" + item.Id), httpsContent);
+            if(item.Address != null)
+            {
+                var address = _addressRepository.UpdateAsync(item.Address);
+
+            }
+            if (item.InvoiceAddress != null)
+            {
+                var invoice = _addressRepository.UpdateAsync(item.InvoiceAddress);
+
+            }
+            if (response.IsSuccessStatusCode)
+            {
+                string JsonString = await _httpClient.GetStringAsync(new Uri(_baseUrl + "/" + item.Id));
+                CompanyModel newItem = JsonConvert.DeserializeObject<CompanyModel>(JsonString);
+                return newItem;
+            }
+            return null;
+        }
+
+        public async Task<CompanyModel> DeleteAsync(int id)
+        {
             return null;
         }
     }

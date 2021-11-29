@@ -68,51 +68,42 @@
     
     
     <button class="btn btn-primary m-1" type="submit">Submit</button>
-    <NavigateButton PageToNavigateTo="Companies" ButtonText="Cancel" HtmlClasses="btn-danger"/>
+    <NavigateButton PageToNavigateTo=@(NavigationArgument("DetailCompany/", Convert.ToInt32(CompanyId))) ButtonText="Cancel" HtmlClasses="btn-danger"/>
+ 
 </EditForm>
 
 
 @code {
 
     [Parameter]
-    public string EventId { get; set; }
+    public string CompanyId { get; set; }
 
     private CompanyModel _companyReq;
     private CompanyRepository _companyRepository = new CompanyRepository();
-    private AddressRepository _addressRepository = new AddressRepository();
+    //private AddressRepository _addressRepository = new AddressRepository();
 
     protected override async Task OnInitializedAsync()
     {
-        _companyReq = await _companyRepository.GetAsync(Convert.ToInt32(EventId));
+        _companyReq = new CompanyModel();
+        _companyReq = await _companyRepository.GetAsync(Convert.ToInt32(CompanyId));
         //_companyReq.Address = await _addressRepository.
 
     }
 
     private async Task HandleValidSubmit()
     {
-        if (_companyReq.Address.StreetAddress != null)
-        {
-            var resultAddress = await _addressRepository.CreateAsync(_companyReq.Address);
-            _companyReq.Address = resultAddress;
-        } else
-        {
-            _companyReq.Address.Id = 1;
-        }
-        if (_companyReq.InvoiceAddress.StreetAddress != null)
-        {
-            var resultInvoiceAddress = await _addressRepository.CreateAsync(_companyReq.InvoiceAddress);
-            _companyReq.InvoiceAddress = resultInvoiceAddress;
-        } else
-        {
-            _companyReq.InvoiceAddress.Id = 1;
-
-        }
-        var result = await _companyRepository.CreateAsync(_companyReq);
+       
+        var result = await _companyRepository.UpdateAsync(_companyReq);
         if(result != null)
         {
             _navigationManager.NavigateTo("Companies");
         }
         // TODO: add submit company
 
+    }
+
+    private string NavigationArgument(string navigationPrefix, int modelId)
+    {
+        return $"{navigationPrefix}{modelId}";
     }
 }
