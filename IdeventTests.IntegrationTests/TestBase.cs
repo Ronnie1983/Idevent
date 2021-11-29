@@ -13,7 +13,7 @@ namespace IdeventTests.IntegrationTests
     [TestClass]
     public abstract class TestBase
     {
-        public SqlConnection conn = new SqlConnection(TestSettings.ConnectionString);
+        protected SqlConnection conn = new SqlConnection(TestSettings.ConnectionString);
         private static string _sqlServerTestProjectRoot = Path.Combine(Directory.GetCurrentDirectory(), "../../../../");
         private string _scriptFolder = Path.Combine(_sqlServerTestProjectRoot, "IdeventSQLServerTestDB/dbo/Scripts/");
 
@@ -28,12 +28,7 @@ namespace IdeventTests.IntegrationTests
         {
             // Nothing by default.
         }
-
-        //[ClassInitialize]
-        //public void ClassInit()
-        //{
-           
-        //}
+  
         [ClassCleanup]
         public void ClassCleanup()
         {
@@ -44,61 +39,81 @@ namespace IdeventTests.IntegrationTests
         [TestInitialize]
         public void Init()
         {
-            try
-            {
-                string insertScript = ReadSqlScript("Script.InsertTestData.sql");
-                SqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = insertScript;
-                conn.Open();
-                int affectedRows = cmd.ExecuteNonQuery();
-                if(affectedRows == -1)
-                {
-                    Assert.Fail("The Script.InsertTestData.sql was unsuccessfully run in TestBase.cs");
-                }
-            }
-            catch(SqlException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
+            string createTablesFileName = "Script.CreateTables.sql";
+            string createTablesScript = ReadSqlScript(createTablesFileName);
+            ExecuteNonQuery(createTablesScript, createTablesFileName);
+
+            string insertScriptFileName = "Script.InsertTestData.sql";
+            string insertScript = ReadSqlScript(insertScriptFileName);
+            ExecuteNonQuery(insertScript, insertScriptFileName);
 
             TestSpecificInitialization();
         }
 
-
-
         [TestCleanup]
         public void CleanUp()
         {
+            string dropTablesFileName = "Script.DropAllTables.sql";
+            string dropTablesScript = ReadSqlScript(dropTablesFileName);
+            ExecuteNonQuery(dropTablesScript, dropTablesFileName);
+
+            
+            TestSpecificCleanup();
+        }
+
+        /// <summary>
+        /// Executes a non-query script.
+        /// </summary>
+        /// <param name="sqlScript">The 'non-query' SQL script to execute</param>
+        /// <param name="fileName">An identifying name for the script (for debugging purposes)</param>
+        private void ExecuteNonQuery(string sqlScript, string identifyingNameForScript)
+        {
             try
             {
-                string deleteAllScript = ReadSqlScript("Script.DeleteAllTableData.sql");
                 SqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = deleteAllScript;
+                cmd.CommandText = sqlScript;
                 conn.Open();
                 int affectedRows = cmd.ExecuteNonQuery(); // affectedRows variable just for debugging.
-                if (affectedRows == -1)
-                {
-                    Assert.Fail("The Script.DeleteAllTableData.sql was unsuccessfully run in TestBase.cs");
-                }
             }
-            catch (SqlException ex)
+            catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Assert.Fail($"The {identifyingNameForScript} was unsuccessfully run in TestBase.cs");
             }
             finally
             {
                 conn.Close();
             }
-
-            TestSpecificCleanup();
+        }
+        /// <summary>
+        /// Executes a non-query script.
+        /// </summary>
+        /// <param name="fileName">Name of the file to execute from the IdeventSQLServerTestDB Scripts folder (including extension)</param>
+        private void ExecuteNonQuery(string fileName)
+        {
+            try
+            {
+                string sqlScript = ReadSqlScript(fileName);
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = sqlScript;
+                conn.Open();
+                int affectedRows = cmd.ExecuteNonQuery(); // affectedRows variable just for debugging.
+               
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail($"The {fileName} was unsuccessfully run in TestBase.cs");
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         /// <summary>
         /// Reads all lines from a file and returns a string with the read data.
+        /// The file is assumed to originate from the IdeventSQLServerTestDB Scripts folder.
         /// </summary>
         /// <param name="scriptFileName">The name of the file (including extension, e.g. .sql or .txt)</param>
         /// <returns></returns>
@@ -106,12 +121,12 @@ namespace IdeventTests.IntegrationTests
         {
             string scriptPath = Path.Combine(_scriptFolder, scriptFileName);
             string[] linesInFile = File.ReadAllLines(scriptPath);
-           
+
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < linesInFile.Length; i++)
             {
                 sb.AppendLine(linesInFile[i]);
-                
+
             }
             string script = sb.ToString();
 

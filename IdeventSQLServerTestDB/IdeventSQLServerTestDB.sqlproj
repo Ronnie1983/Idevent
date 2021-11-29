@@ -62,7 +62,6 @@
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="dbo\Scripts" />
-    <Folder Include="Snapshots" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
@@ -107,6 +106,8 @@
   <ItemGroup>
     <None Include="ThomasDesktopTestDB.publish.xml" />
     <None Include="dbo\Scripts\Script.DeleteAllTableData.sql" />
+    <None Include="dbo\Scripts\Script.DropAllTables.sql" />
+    <None Include="dbo\Scripts\Script.CreateTables.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="dbo\Scripts\Script.InsertTestData.sql" />
