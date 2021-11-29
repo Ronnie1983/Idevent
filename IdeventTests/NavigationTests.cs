@@ -8,21 +8,14 @@ namespace IdeventTests
     /// Tests if you can load all pages by checking the h1 tag of each page after navigating to it.
     /// </summary>
     [TestClass]
-    public class NavigationTests
+    public class NavigationTests : TestBase
     {
-        private Bunit.TestContext _testContext;
         private NavigationManager _navManager;
 
         [TestInitialize]
         public void Inititialise()
         {
-            _testContext = new Bunit.TestContext();
             _navManager = _testContext.Services.GetService<NavigationManager>();
-        }
-        [TestCleanup]
-        public void Cleanup()
-        {
-            _testContext.Dispose();
         }
         [TestMethod]
         public void DashboardIndexLoads()

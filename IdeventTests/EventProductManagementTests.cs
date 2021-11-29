@@ -12,13 +12,11 @@ namespace IdeventTests
     [TestClass]
     public class EventProductManagementTests : TestBase
     {
-        private Bunit.TestContext _testContext;
         private NavigationManager _navManager;
 
         [TestInitialize]
         public void Inititialise()
         {
-            _testContext = new Bunit.TestContext();
             _navManager = _testContext.Services.GetService<NavigationManager>();
         }
         [TestCleanup]
@@ -30,8 +28,17 @@ namespace IdeventTests
         [TestMethod]
         public void EventProductManagement_ToggleAddStand()
         {
-            IRenderedComponent<EventProductManagement> page = _testContext.RenderComponent<EventProductManagement>();
-            
+            IRenderedComponent<EventProductManagement> page = _testContext.RenderComponent<EventProductManagement>(
+                parameters =>
+                {
+                    parameters.Add(p => p.EventId, 1.ToString());
+                });
+            var toggleBtn = page.Find("#toggleAddStandBtn");
+
+            toggleBtn.Click();
+
+            var addStandContainer = page.Find("#addStandContainer");
+            page.Markup.MarkupMatches(addStandContainer);
         }
     }
 }
