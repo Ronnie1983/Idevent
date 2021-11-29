@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[spCreateAddress]
-	@street nvarchar(50),
-	@city nvarchar(50),
+	@street nvarchar(254),
+	@city nvarchar(254),
 	@postal nvarchar(50),
 	@country nvarchar(50)
 AS

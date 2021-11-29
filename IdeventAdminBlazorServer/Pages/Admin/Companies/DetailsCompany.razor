@@ -1,10 +1,10 @@
-﻿@page "/DetailCompany/{CompanyId}"
+﻿@page "/CompanyDetails/{CompanyId}"
 
 @using IdeventLibrary.Repositories
 @inject NavigationManager _navigationManager
 
 
-<h3>CompanyDetails</h3>
+<h1>CompanyDetails: @_companyReq.Name</h1>
 
  <NavigateButton PageToNavigateTo="Companies" ButtonText="Back"/>
  <NavigateButton PageToNavigateTo=@(NavigationArgument("EditCompany/", Convert.ToInt32(CompanyId))) ButtonText="Edit company" />
