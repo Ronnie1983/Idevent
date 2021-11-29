@@ -102,6 +102,12 @@
     <Build Include="dbo\Stored Procedures\spGetStandByEventId.sql" />
     <Build Include="dbo\Stored Procedures\spGetStandById.sql" />
     <Build Include="dbo\Stored Procedures\spUpdateStandName.sql" />
+    <Build Include="dbo\Tables\CompanyModel.sql" />
+    <Build Include="dbo\Tables\AddressModel.sql" />
+    <Build Include="dbo\Stored Procedures\spGetCompanyById.sql" />
+    <Build Include="dbo\Stored Procedures\spGetAddressById.sql" />
+    <Build Include="dbo\Stored Procedures\spCreateCompany.sql" />
+    <Build Include="dbo\Stored Procedures\spCreateAddress.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ThomasDesktopTestDB.publish.xml" />
