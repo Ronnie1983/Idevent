@@ -39,11 +39,11 @@ namespace IdeventTests
             Assert.IsInstanceOfType(chip, typeof(ChipModel));
         }
         [TestMethod]
-        public void GetByIdThrowsExceptionOnNotFound()
+        public void GetByIdReturnsNullIfNotFound()
         {
             ChipModel chip = new();
             chip = _chipManager.GetById(-1);
-            Assert.ThrowsException<Exception>(() => chip = _chipManager.GetById(-1));
+            Assert.IsNull(chip);
         }
 
 

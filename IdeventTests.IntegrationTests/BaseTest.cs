@@ -35,7 +35,6 @@ namespace IdeventTests.IntegrationTests
         [TestInitialize]
         public void Init()
         {
-            // TODO: reset the database data on initialization of a test
             try
             {
                 string insertScript = ReadSqlScript("Script.InsertTestData.sql");
@@ -67,7 +66,6 @@ namespace IdeventTests.IntegrationTests
         {
             try
             {
-                // TODO: Remove all data from database after test.
                 string deleteAllScript = ReadSqlScript("Script.DeleteAllTableData.sql");
                 SqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = deleteAllScript;
