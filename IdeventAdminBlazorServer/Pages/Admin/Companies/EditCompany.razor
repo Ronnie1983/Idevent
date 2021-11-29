@@ -1,11 +1,9 @@
-﻿
+﻿@page "/EditCompany/{CompanyId}"
+
 @using IdeventLibrary.Repositories
 @inject NavigationManager _navigationManager
 
-@page "/AddCompany"
-
-
-<h1>AddCompany</h1>
+<h3>EditCompany</h3>
 
 <EditForm Model="@_companyReq" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator/>
@@ -74,16 +72,19 @@
 </EditForm>
 
 
-
 @code {
+
+    [Parameter]
+    public string EventId { get; set; }
+
     private CompanyModel _companyReq;
     private CompanyRepository _companyRepository = new CompanyRepository();
     private AddressRepository _addressRepository = new AddressRepository();
 
     protected override async Task OnInitializedAsync()
     {
-        _companyReq = new CompanyModel();
-
+        _companyReq = await _companyRepository.GetAsync(Convert.ToInt32(EventId));
+        //_companyReq.Address = await _addressRepository.
 
     }
 
@@ -114,5 +115,4 @@
         // TODO: add submit company
 
     }
-
 }
