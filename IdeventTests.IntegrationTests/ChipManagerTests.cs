@@ -41,8 +41,7 @@ namespace IdeventTests
         [TestMethod]
         public void GetByIdReturnsNullIfNotFound()
         {
-            ChipModel chip = new();
-            chip = _chipManager.GetById(-1);
+            ChipModel chip = _chipManager.GetById(-1);
             Assert.IsNull(chip);
         }
 
