@@ -19,10 +19,6 @@ namespace IdeventTests
             _eventManager = new EventManager(TestSettings.ConnectionString);
         }
 
-        protected override void TestSpecificCleanup()
-        {
-            // No test specific cleanup atm.
-        }
 
         [TestMethod]
         public void GetAllReturnsList()

@@ -17,8 +17,17 @@ namespace IdeventTests.IntegrationTests
         private static string _sqlServerTestProjectRoot = Path.Combine(Directory.GetCurrentDirectory(), "../../../../");
         private string _scriptFolder = Path.Combine(_sqlServerTestProjectRoot, "IdeventSQLServerTestDB/dbo/Scripts/");
 
+        /// <summary>
+        /// You can extend the initialisation that is run before each Test Method with this method.
+        /// </summary>
         protected abstract void TestSpecificInitialization();
-        protected abstract void TestSpecificCleanup();
+        /// <summary>
+        /// You can extend the cleanup that is run after each Test Method here.
+        /// </summary>
+        protected virtual void TestSpecificCleanup()
+        {
+            // Nothing by default.
+        }
 
         //[ClassInitialize]
         //public void ClassInit()

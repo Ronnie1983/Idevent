@@ -19,21 +19,6 @@ namespace IdeventTests.IntegrationTests
             _manager = new StandProductManager();
         }
 
-        protected override void TestSpecificCleanup()
-        {
-            try
-            {
-                if (_manager.GetAll().Count > 5)
-                {
-                    _manager.Delete(6);
-                }
-            }
-            catch (Exception e) // mostly here in case nothing has been created and delete then fails.
-            {
-                Assert.Fail($"_manager.Delete does not seem to work. Error: {e.Message}");
-            }
-        }
-
         [TestMethod]
         public void GetAllReturnsList()
         {

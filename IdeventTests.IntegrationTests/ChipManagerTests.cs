@@ -19,10 +19,6 @@ namespace IdeventTests
         {
             _chipManager = new ChipManager(TestSettings.ConnectionString);
         }
-        protected override void TestSpecificCleanup()
-        {
-            // No specific cleanup yet.
-        }
 
         [TestMethod]
         public void GetAllReturnsList()

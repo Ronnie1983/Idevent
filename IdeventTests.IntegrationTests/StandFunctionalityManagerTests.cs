@@ -18,9 +18,5 @@ namespace IdeventTests.IntegrationTests
             _manager = new StandFunctionalityManager();
         }
 
-        protected override void TestSpecificCleanup()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
