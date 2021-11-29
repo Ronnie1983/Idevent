@@ -15,6 +15,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using IdeventAdminBlazorServer.Areas.Identity;
 using IdeventAdminBlazorServer.Data;
+using IdeventLibrary.Models;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace IdeventAdminBlazorServer
 {
@@ -34,7 +36,7 @@ namespace IdeventAdminBlazorServer
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
             services.AddServerSideBlazor();

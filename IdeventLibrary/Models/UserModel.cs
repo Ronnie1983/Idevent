@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IdeventLibrary.Models
 {
-    public class UserModel : IdentityUser<int>
+    public class UserModel : IdentityUser
     {
         // IndentityUser<int> properties:
         // Id, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp, PhoneNumber,
