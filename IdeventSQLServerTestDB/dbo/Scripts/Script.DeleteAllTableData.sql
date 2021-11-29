@@ -1,5 +1,5 @@
 ﻿-- disable referential integrity
-EXEC sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL SET QUOTED_IDENTIFIER ON' 
+EXEC sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL' 
 
 EXEC sp_MSForEachTable 'DELETE FROM ?' 
 

@@ -52,6 +52,15 @@ namespace IdeventTests.IntegrationTests
             Assert.AreEqual(productFromOutput.Name, "My New Product");
             Assert.AreEqual(productFromOutput.Value, 5);
         }
+        [TestMethod]
+        public void DeleteDeletesOneOrZeroEntries()
+        {
+            int rowsAffected = _manager.Delete(3);
+            Assert.AreEqual(1, rowsAffected);
+
+            int rowsAffectedAfterFirstDelete = _manager.Delete(3);
+            Assert.AreEqual(0, rowsAffectedAfterFirstDelete);
+        }
 
    
     }
