@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace IdeventTests
 {
     [TestClass]
-    public class ChipManagerTests : BaseTest
+    public class ChipManagerTests : TestBase
     {
         private ChipManager _chipManager;
 

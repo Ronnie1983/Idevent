@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace IdeventTests.IntegrationTests
 {
     [TestClass]
-    public abstract class BaseTest
+    public abstract class TestBase
     {
         public SqlConnection conn = new SqlConnection(TestSettings.ConnectionString);
         private static string _sqlServerTestProjectRoot = Path.Combine(Directory.GetCurrentDirectory(), "../../../../");

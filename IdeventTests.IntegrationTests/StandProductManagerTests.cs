@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace IdeventTests.IntegrationTests
 {
     [TestClass]
-    public class StandProductManagerTests : BaseTest
+    public class StandProductManagerTests : TestBase
     {
         private StandProductManager _manager;
 

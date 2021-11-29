@@ -1,6 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Bunit;
-using IdeventAdminBlazorServer.Pages;
 using Microsoft.AspNetCore.Components;
 
 namespace IdeventTests

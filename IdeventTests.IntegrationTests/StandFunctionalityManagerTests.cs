@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace IdeventTests.IntegrationTests
 {
     [TestClass]
-    public class StandFunctionalityManagerTests : BaseTest
+    public class StandFunctionalityManagerTests : TestBase
     {
         private StandFunctionalityManager _manager;
 

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace IdeventTests
 {
     [TestClass]
-    public class EventManagerTests : BaseTest
+    public class EventManagerTests : TestBase
     {
         private EventManager _eventManager;
         protected override void TestSpecificInitialization()
