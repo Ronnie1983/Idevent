@@ -1,12 +1,67 @@
 ﻿@page "/Companies"
 @inject NavigationManager _navigationManager
+@using IdeventLibrary.Repositories
 
 <h1>Companies</h1>
 
 <NavigateButton PageToNavigateTo="AddCompany" ButtonText="Add"/>
 
+@if (_companyData == null)
+{
+    <Loader LoadingMessage="Loading events..." />
+}
+
+@if (_companyData != null)
+{
+    <table class="table table-light table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Company ID</th>
+                <th scope="col">Company Name</th>
+                <th scope="col">CVR</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (CompanyModel companyModel in _companyData)
+            {
+                <tr>
+                    <td>@companyModel.Id</td>
+                    <td>@companyModel.Name</td>
+                    <td>@companyModel.CVR</td>
+                    <td>@companyModel.PhoneNumber</td>
+                    <td>
+                        <NavigateButton PageToNavigateTo=@(NavigationArgument("EditCompany/", companyModel.Id)) ButtonText="Edit company" />
+                        @*<NavigateButton PageToNavigateTo="@(NavigationArgument("EventProductManagement/", eventModel.Id))" ButtonText="Edit company" />*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
 @code {
 
+    private List<CompanyModel> _companyData;
+
+    private string NavigationArgument(string navigationPrefix, int modelId)
+    {
+        return $"{navigationPrefix}{modelId}";
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            CompanyRepository CompanyRepo = new CompanyRepository();
+
+            _companyData = await CompanyRepo.GetAllAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
   
 
 }
