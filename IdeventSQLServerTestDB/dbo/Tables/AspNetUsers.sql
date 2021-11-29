@@ -14,8 +14,17 @@
     [LockoutEnd]           DATETIMEOFFSET (7) NULL,
     [LockoutEnabled]       BIT                NOT NULL,
     [AccessFailedCount]    INT                NOT NULL,
-    CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC)
+    [AddressId]            INT                NULL,
+    [CompanyId]            INT                NULL,
+    [InvoiceAddressId]     INT                NULL,
+    [Role]                 NVARCHAR (MAX)     NULL,
+    CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_AspNetUsers_AddressModel_AddressId] FOREIGN KEY ([AddressId]) REFERENCES [dbo].[AddressModel] ([Id]),
+    CONSTRAINT [FK_AspNetUsers_AddressModel_InvoiceAddressId] FOREIGN KEY ([InvoiceAddressId]) REFERENCES [dbo].[AddressModel] ([Id]),
+    CONSTRAINT [FK_AspNetUsers_CompanyModel_CompanyId] FOREIGN KEY ([CompanyId]) REFERENCES [dbo].[CompanyModel] ([Id])
 );
+
+
 
 
 GO
@@ -26,4 +35,19 @@ CREATE NONCLUSTERED INDEX [EmailIndex]
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [UserNameIndex]
     ON [dbo].[AspNetUsers]([NormalizedUserName] ASC) WHERE ([NormalizedUserName] IS NOT NULL);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_AspNetUsers_InvoiceAddressId]
+    ON [dbo].[AspNetUsers]([InvoiceAddressId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_AspNetUsers_CompanyId]
+    ON [dbo].[AspNetUsers]([CompanyId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_AspNetUsers_AddressId]
+    ON [dbo].[AspNetUsers]([AddressId] ASC);
 
