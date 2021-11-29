@@ -6,5 +6,5 @@ AS
 BEGIN
 	INSERT INTO StandProducts
 	OUTPUT inserted.Id
-	VALUES (6, @name, @value, @standId) -- 6 default id for testing.
+	VALUES (@name, @value, @standId)
 END

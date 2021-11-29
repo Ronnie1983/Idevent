@@ -108,6 +108,8 @@
     <Build Include="dbo\Stored Procedures\spGetAddressById.sql" />
     <Build Include="dbo\Stored Procedures\spCreateCompany.sql" />
     <Build Include="dbo\Stored Procedures\spCreateAddress.sql" />
+    <Build Include="dbo\Stored Procedures\spUpdateCompany.sql" />
+    <Build Include="dbo\Stored Procedures\spUpdateAddress.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ThomasDesktopTestDB.publish.xml" />
