@@ -11,20 +11,19 @@ using System.Threading.Tasks;
 namespace IdeventTests
 {
     [TestClass]
-    public class ChipManagerTests
+    public class ChipManagerTests : BaseTest
     {
         private ChipManager _chipManager;
 
-        [TestInitialize]
-        public void Init()
+        protected override void TestSpecificInitialization()
         {
             _chipManager = new ChipManager(TestSettings.ConnectionString);
         }
-        [TestCleanup]
-        public void CleanUp()
+        protected override void TestSpecificCleanup()
         {
-            
+            // No specific cleanup yet.
         }
+
         [TestMethod]
         public void GetAllReturnsList()
         {
@@ -32,19 +31,21 @@ namespace IdeventTests
 
             Assert.IsInstanceOfType(chips, typeof(List<ChipModel>));
         }
-        //[TestMethod]
-        //public void GetByIdThrowsExceptionOnNotFound()
-        //{
-        //    ChipModel chip = new();
-        //    chip = _chipManager.GetById(-1);
-        //    Assert.ThrowsException<InvalidOperationException>(() => chip = _chipManager.GetById(-1));
-        //}
         [TestMethod]
         public void GetByIdReturnsModel()
         {
-            ChipModel chip = _chipManager.GetById(1002); // should be an existing id... Mock or testdatabase needed.
+            ChipModel chip = _chipManager.GetById(1);
 
             Assert.IsInstanceOfType(chip, typeof(ChipModel));
         }
+        [TestMethod]
+        public void GetByIdThrowsExceptionOnNotFound()
+        {
+            ChipModel chip = new();
+            chip = _chipManager.GetById(-1);
+            Assert.ThrowsException<InvalidOperationException>(() => chip = _chipManager.GetById(-1));
+        }
+
+
     }
 }

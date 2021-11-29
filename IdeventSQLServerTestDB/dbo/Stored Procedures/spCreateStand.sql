@@ -6,5 +6,5 @@ AS
 BEGIN
 	INSERT INTO EventStands 
 	OUTPUT inserted.Id
-	VALUES (@name, @eventId, @functionalityId)
+	VALUES (6, @name, @eventId, @functionalityId) -- 6 default id for testing.
 END
