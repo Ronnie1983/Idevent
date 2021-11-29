@@ -43,7 +43,7 @@ namespace IdeventTests
         {
             ChipModel chip = new();
             chip = _chipManager.GetById(-1);
-            Assert.ThrowsException<InvalidOperationException>(() => chip = _chipManager.GetById(-1));
+            Assert.ThrowsException<Exception>(() => chip = _chipManager.GetById(-1));
         }
 
 

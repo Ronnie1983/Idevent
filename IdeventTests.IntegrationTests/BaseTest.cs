@@ -38,17 +38,19 @@ namespace IdeventTests.IntegrationTests
             // TODO: reset the database data on initialization of a test
             try
             {
-                string insertScriptPath = Path.Combine(_scriptFolder, "Script.InsertTestData.sql");
-                string[] insertScriptRaw = File.ReadAllLines(insertScriptPath);
-                string insertScript = "";
-                for (int i = 0; i < insertScriptRaw.Length; i++)
-                {
-                    insertScript += insertScriptRaw[i];
-                }
+                string insertScript = ReadSqlScript("Script.InsertTestData.sql");
                 SqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = insertScript;
                 conn.Open();
-                cmd.ExecuteNonQuery();
+                int affectedRows = cmd.ExecuteNonQuery();
+                if(affectedRows == -1)
+                {
+                    Assert.Fail("The Script.InsertTestData.sql was unsuccessfully run in TestBase.cs");
+                }
+            }
+            catch(SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             finally
             {
@@ -57,23 +59,56 @@ namespace IdeventTests.IntegrationTests
 
             TestSpecificInitialization();
         }
+
+
+
         [TestCleanup]
         public void CleanUp()
         {
-            //try
-            //{
-            //    // TODO: Remove all data from database after test.
-            //    SqlCommand cmd = conn.CreateCommand();
-            //    cmd.CommandText = "";
-            //    conn.Open();
-            //    cmd.ExecuteNonQuery();
-            //}
-            //finally
-            //{
-            //    conn.Close();
-            //}
+            try
+            {
+                // TODO: Remove all data from database after test.
+                string deleteAllScript = ReadSqlScript("Script.DeleteAllTableData.sql");
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = deleteAllScript;
+                conn.Open();
+                int affectedRows = cmd.ExecuteNonQuery(); // affectedRows variable just for debugging.
+                if (affectedRows == -1)
+                {
+                    Assert.Fail("The Script.DeleteAllTableData.sql was unsuccessfully run in TestBase.cs");
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
 
             TestSpecificCleanup();
+        }
+
+        /// <summary>
+        /// Reads all lines from a file and returns a string with the read data.
+        /// </summary>
+        /// <param name="scriptFileName">The name of the file (including extension, e.g. .sql or .txt)</param>
+        /// <returns></returns>
+        private string ReadSqlScript(string scriptFileName)
+        {
+            string scriptPath = Path.Combine(_scriptFolder, scriptFileName);
+            string[] linesInFile = File.ReadAllLines(scriptPath);
+           
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < linesInFile.Length; i++)
+            {
+                sb.AppendLine(linesInFile[i]);
+                
+            }
+            string script = sb.ToString();
+
+            return script;
         }
     }
 }
