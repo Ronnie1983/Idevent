@@ -226,6 +226,11 @@
     private void ToggleAddStand()
     {
         _toggleAddStand = !_toggleAddStand;
+        if (_standFunctionalities.Count <= 0)
+        {
+            _bindItem = 1; // if no functionalties exists just set the id to 1. (
+            return;
+        }
         _bindItem = _standFunctionalities[0].Id; // TODO: causes error if no functionalities in database.
     }
 
