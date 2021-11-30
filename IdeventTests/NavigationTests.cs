@@ -97,6 +97,16 @@ namespace IdeventTests
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.Index>(), "Chips Oversigt", "Chips");
         }
 
+        [TestMethod]
+        public void CompanyDetailsLoads()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Companies.DetailsCompany>(), "Company Details:", "CompanyDetails/1");
+        }
+        [TestMethod]
+        public void CompanyEditPage()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Companies.EditCompany>(), "Edit Company", "CompanyEdit/1");
+        }
 
         /// <summary>
         /// Tests if a specified page loads with an expected title.

@@ -1,9 +1,9 @@
-﻿@page "/EditCompany/{CompanyId}"
+﻿@page "/CompanyEdit/{CompanyId}"
 
 @using IdeventLibrary.Repositories
 @inject NavigationManager _navigationManager
 
-<h3>EditCompany</h3>
+<h3>Edit Company</h3>
 
 <EditForm Model="@_companyReq" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator/>
