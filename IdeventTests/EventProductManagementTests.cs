@@ -26,19 +26,29 @@ namespace IdeventTests
         }
 
         [TestMethod]
-        public void EventProductManagement_ToggleAddStand()
+        public void EventProductManagement_ToggleAddStandOpensAndCloses()
         {
+            // Arrange
             IRenderedComponent<EventProductManagement> page = _testContext.RenderComponent<EventProductManagement>(
                 parameters =>
                 {
                     parameters.Add(p => p.EventId, 1.ToString());
                 });
-            var toggleBtn = page.Find("#toggleAddStandBtn");
 
+            // Act
+            var toggleBtn = page.Find("#toggleAddStandBtn");
+            toggleBtn.Click();
+            var addStandContainer = page.Find("#addStandContainer");
+            string addStandContainerMarkup = addStandContainer.ToMarkup();
+
+            // Assert
+            page.Markup.Contains(addStandContainerMarkup);
+
+            // Act
             toggleBtn.Click();
 
-            var addStandContainer = page.Find("#addStandContainer");
-            page.Markup.MarkupMatches(addStandContainer);
+            // Assert
+            Assert.IsFalse(page.Markup.Contains(addStandContainerMarkup));
         }
     }
 }
