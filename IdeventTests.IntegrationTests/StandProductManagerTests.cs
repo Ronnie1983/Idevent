@@ -10,28 +10,13 @@ using System.Threading.Tasks;
 namespace IdeventTests.IntegrationTests
 {
     [TestClass]
-    public class StandProductManagerTests : BaseTest
+    public class StandProductManagerTests : TestBase
     {
         private StandProductManager _manager;
 
         protected override void TestSpecificInitialization()
         {
-            _manager = new StandProductManager();
-        }
-
-        protected override void TestSpecificCleanup()
-        {
-            try
-            {
-                if (_manager.GetAll().Count > 5)
-                {
-                    _manager.Delete(6);
-                }
-            }
-            catch (Exception e) // mostly here in case nothing has been created and delete then fails.
-            {
-                Assert.Fail($"_manager.Delete does not seem to work. Error: {e.Message}");
-            }
+            _manager = new StandProductManager(TestSettings.ConnectionString);
         }
 
         [TestMethod]
@@ -66,6 +51,15 @@ namespace IdeventTests.IntegrationTests
             Assert.IsInstanceOfType(productFromOutput, typeof(StandProductModel));
             Assert.AreEqual(productFromOutput.Name, "My New Product");
             Assert.AreEqual(productFromOutput.Value, 5);
+        }
+        [TestMethod]
+        public void DeleteDeletesOneOrZeroEntries()
+        {
+            int rowsAffected = _manager.Delete(3);
+            Assert.AreEqual(1, rowsAffected);
+
+            int rowsAffectedAfterFirstDelete = _manager.Delete(3);
+            Assert.AreEqual(0, rowsAffectedAfterFirstDelete);
         }
 
    

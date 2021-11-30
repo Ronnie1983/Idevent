@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace IdeventTests
 {
     [TestClass]
-    public class EventManagerTests : BaseTest
+    public class EventManagerTests : TestBase
     {
         private EventManager _eventManager;
         protected override void TestSpecificInitialization()
@@ -19,10 +19,6 @@ namespace IdeventTests
             _eventManager = new EventManager(TestSettings.ConnectionString);
         }
 
-        protected override void TestSpecificCleanup()
-        {
-            // No test specific cleanup atm.
-        }
 
         [TestMethod]
         public void GetAllReturnsList()

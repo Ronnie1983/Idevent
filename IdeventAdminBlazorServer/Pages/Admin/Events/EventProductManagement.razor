@@ -11,12 +11,12 @@
 <div class="row">
     <div class="col-2">
     <NavigateButton PageToNavigateTo="Events" ButtonText="Back" />
-    <button class="btn btn-info m-1" @onclick="() => ToggleAddStand()">New stand</button>
+    <button id="toggleAddStandBtn" class="btn btn-info m-1" @onclick="() => ToggleAddStand()">New stand</button>
 
     </div>
             @if (_toggleAddStand)
             {
-                <div class="col-10 row">
+                <div id="addStandContainer" class="col-10 row">
                     <EditForm class="row" Model="@_eventStandReq" OnValidSubmit="@HandleValidSubmitEventStand">
                             <DataAnnotationsValidator/>
                             <ValidationSummary/>
@@ -59,18 +59,18 @@
                 <td>@stand.Functionality.Name</td>
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-primary m-1" @onclick="() => Toggle(stand.Name)">Edit content</button>
+                        <button class="btn btn-primary m-1" @onclick="() => ToggleEditContent(stand.Name)">Edit content</button>
                         <button class="btn btn-danger m-1" @onclick="@(e => DeleteStandAndContent(stand))">Delete</button>
                     </div>
                 </td>
             </tr>
-                @if (_stringList.Contains(stand.Name))
+                @if (_listOfOpenedStands.Contains(stand.Name))
                 {
                     <tr class="table-danger">
                         <td>
                             <label>New name</label> 
                             <input class="form-control" id="name" @bind="_newName" placeholder="Name"/>
-                            <button class="btn btn-primary m-1" @onclick="@(e=>ChangeName(stand))">Chance</button></td>
+                            <button class="btn btn-primary m-1" @onclick="@(e=>ChangeName(stand))">Change</button></td>
                         <td>
                             <table>
                                 <thead>
@@ -124,7 +124,7 @@
     public string EventId { get; set; }
     public EventModel _eventModel = new EventModel();
     private bool _toggleAddStand = false;
-    private List<string> _stringList = new List<string>();
+    private List<string> _listOfOpenedStands = new List<string>();
 
     private StandProductModel _standProductReq = new StandProductModel();
     private int _bindItem;
@@ -226,18 +226,23 @@
     private void ToggleAddStand()
     {
         _toggleAddStand = !_toggleAddStand;
+        if (_standFunctionalities.Count <= 0)
+        {
+            _bindItem = 1; // if no functionalties exists just set the id to 1. (
+            return;
+        }
         _bindItem = _standFunctionalities[0].Id; // TODO: causes error if no functionalities in database.
     }
 
-    private void Toggle(string name)
+    private void ToggleEditContent(string name)
     {
-        if (_stringList.Contains(name))
+        if (_listOfOpenedStands.Contains(name))
         {
-            _stringList.Remove(name);
+            _listOfOpenedStands.Remove(name);
 
         } else
         {
-            _stringList.Add(name);
+            _listOfOpenedStands.Add(name);
 
         }
         

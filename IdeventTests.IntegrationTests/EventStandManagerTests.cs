@@ -1,5 +1,4 @@
-﻿using IdeventAPI.Managers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +8,17 @@ using System.Threading.Tasks;
 namespace IdeventTests.IntegrationTests
 {
     [TestClass]
-    public class StandFunctionalityManagerTests : TestBase
+    public class EventStandManagerTests : TestBase
     {
-        private StandFunctionalityManager _manager;
-
         protected override void TestSpecificInitialization()
         {
-            _manager = new StandFunctionalityManager();
+            throw new NotImplementedException();
         }
 
+        [TestMethod]
+        public void TestMethod1()
+        {
+
+        }
     }
 }

@@ -11,17 +11,13 @@ using System.Threading.Tasks;
 namespace IdeventTests
 {
     [TestClass]
-    public class ChipManagerTests : BaseTest
+    public class ChipManagerTests : TestBase
     {
         private ChipManager _chipManager;
 
         protected override void TestSpecificInitialization()
         {
             _chipManager = new ChipManager(TestSettings.ConnectionString);
-        }
-        protected override void TestSpecificCleanup()
-        {
-            // No specific cleanup yet.
         }
 
         [TestMethod]
@@ -39,11 +35,10 @@ namespace IdeventTests
             Assert.IsInstanceOfType(chip, typeof(ChipModel));
         }
         [TestMethod]
-        public void GetByIdThrowsExceptionOnNotFound()
+        public void GetByIdReturnsNullIfNotFound()
         {
-            ChipModel chip = new();
-            chip = _chipManager.GetById(-1);
-            Assert.ThrowsException<InvalidOperationException>(() => chip = _chipManager.GetById(-1));
+            ChipModel chip = _chipManager.GetById(-1);
+            Assert.IsNull(chip);
         }
 
 
