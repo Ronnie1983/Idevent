@@ -1,6 +1,5 @@
 ﻿using IdeventAPI.Managers;
 using IdeventLibrary.Models;
-using IdeventTests.IntegrationTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IdeventTests
+namespace IdeventTests.IntegrationTests
 {
     [TestClass]
     public class EventManagerTests : TestBase

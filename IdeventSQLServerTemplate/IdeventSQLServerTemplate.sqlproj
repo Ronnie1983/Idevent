@@ -122,5 +122,6 @@
     <None Include="dbo\PublishProfiles\Simply.publish.xml" />
     <None Include="dbo\PublishProfiles\IdeventSQLServerTemplateRonnieLokal.publish.xml" />
     <None Include="dbo\PublishProfiles\ThomasLaptop.publish.xml" />
+    <None Include="dbo\PublishProfiles\ThomasLaptopTestDB.publish.xml" />
   </ItemGroup>
 </Project>
