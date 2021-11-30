@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using IdeventLibrary;
 using IdeventLibrary.Models;
 using Microsoft.Extensions.Configuration;
 using System;

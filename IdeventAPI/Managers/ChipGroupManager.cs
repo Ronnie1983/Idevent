@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using IdeventLibrary;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace IdeventAPI.Managers

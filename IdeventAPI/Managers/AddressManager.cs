@@ -7,6 +7,7 @@ using System.Data;
 
 
 using System.Data.SqlClient;
+using IdeventLibrary;
 
 namespace IdeventAPI.Managers
 {
