@@ -1,7 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 
-namespace IdeventAPI
+namespace IdeventLibrary
 {
     /// <summary>
     /// Contains static helper properties, such as the connectionstring.
