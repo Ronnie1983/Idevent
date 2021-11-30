@@ -4,10 +4,10 @@
 @inject NavigationManager _navigationManager
 
 
-<h1>CompanyDetails: @_companyReq.Name</h1>
+<h1>Company Details: @_companyReq.Name</h1>
 
  <NavigateButton PageToNavigateTo="Companies" ButtonText="Back"/>
- <NavigateButton PageToNavigateTo=@(NavigationArgument("EditCompany/", Convert.ToInt32(CompanyId))) ButtonText="Edit company" />
+ <NavigateButton PageToNavigateTo=@(NavigationArgument("CompanyEdit/", Convert.ToInt32(CompanyId))) ButtonText="Edit company" />
 
     <div class="form-group">
         <label for="@_companyReq.Name">Name</label> 
