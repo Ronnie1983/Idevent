@@ -1,20 +1,18 @@
-﻿/*
-Post-Deployment Script Template							
---------------------------------------------------------------------------------------
- This file contains SQL statements that will be appended to the build script.		
- Use SQLCMD syntax to include a file in the post-deployment script.			
- Example:      :r .\myfile.sql								
- Use SQLCMD syntax to reference a variable in the post-deployment script.		
- Example:      :setvar TableName MyTable							
-               SELECT * FROM [$(TableName)]					
---------------------------------------------------------------------------------------
-*/
-
+﻿
   -- Add more data via the https://generatedata.com/generator
 
 BEGIN
 
 -- Addresses
+INSERT INTO [Addresses] (StreetAddress,City,Country,PostalCode)
+VALUES
+  ('288-4541 Turpis Rd.','Sweet Home Alabama City','Colombia','36951'),
+  ('Ap #825-8071 Id Rd.','Elán','Peru','43029'),
+  ('Ap #482-7550 Velit. Avenue','Heranburg','Austria','2384'),
+  ('375-639 Proin St.','Reckon','Colombia','502464'),
+  ('Ap #368-3068 Egestas. Road','Chapville','France','SM2M 1IC');
+
+-- AddressModel (same as Addressses, but EF Core)
 INSERT INTO [AddressModel] (StreetAddress,City,Country,PostalCode)
 VALUES
   ('288-4541 Turpis Rd.','Sweet Home Alabama City','Colombia','36951'),
@@ -23,8 +21,17 @@ VALUES
   ('375-639 Proin St.','Reckon','Colombia','502464'),
   ('Ap #368-3068 Egestas. Road','Chapville','France','SM2M 1IC');
  
+  -- Companies
+INSERT INTO [Companies](Name,Logo,CVR,Email,PhoneNumber,Active,Note,FK_AddressId,FK_InvoiceAddressId)
+VALUES
+  ('Vitae Risus Duis Industries','images/mompanyname/S4YBNRT9BX.jpg','14030759','dapibus.gravida@icloud.net','+45 64498314','0','In condimentum. Donec at arcu. Vestibulum ante ipsum',2,3),
+  ('Urna Incorporated','images/lompanyname/J8NNBJL2OF.jpg','34882358','non@hotmail.edu','+45 47328132','1','ridiculus mus. Aenean eget magna.',1,4),
+  ('Auctor LLC','images/sompanyname/V9JPYED9PS.jpg','74896529','urna@aol.org','+45 08227768','0','Vivamus euismod urna. Nullam',4,4),
+  ('Curabitur Vel Associates','images/jompanyname/G6PLOWY7KD.jpg','15962181','dolor.tempus@aol.edu','+45 79268841','0','tristique pharetra.',4,1),
+  ('Donec Felis Incorporated','images/sompanyname/I7CDCIN6PC.jpg','68213164','quam.elementum@yahoo.net','+45 15442894','1','Phasellus ornare. Fusce mollis. Duis sit amet',2,1);
+ 
 
- -- Companies
+ -- CompanyModel (same as Companies, but EF Core)
 INSERT INTO [CompanyModel](Name,Logo,CVR,Email,PhoneNumber,Active,Note,AddressId,InvoiceAddressId)
 VALUES
   ('Vitae Risus Duis Industries','images/mompanyname/S4YBNRT9BX.jpg','14030759','dapibus.gravida@icloud.net','+45 64498314','0','In condimentum. Donec at arcu. Vestibulum ante ipsum',2,3),
