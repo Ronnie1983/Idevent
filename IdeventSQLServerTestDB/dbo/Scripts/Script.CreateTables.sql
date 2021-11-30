@@ -533,7 +533,7 @@ PRINT N'Creating Foreign Key [dbo].[FK_Chips_ToCompanies]...';
 
 
 ALTER TABLE [dbo].[Chips] WITH NOCHECK
-    ADD CONSTRAINT [FK_Chips_ToCompanies] FOREIGN KEY ([FK_CompanyId]) REFERENCES [dbo].[Companies] ([Id]);
+    ADD CONSTRAINT [FK_Chips_ToCompanies] FOREIGN KEY ([FK_CompanyId]) REFERENCES [dbo].[CompanyModel] ([Id]);
 
 
 
@@ -596,7 +596,7 @@ PRINT N'Creating Foreign Key [dbo].[FK_Events_ToCompanies]...';
 
 
 ALTER TABLE [dbo].[Events] WITH NOCHECK
-    ADD CONSTRAINT [FK_Events_ToCompanies] FOREIGN KEY ([FK_CompanyId]) REFERENCES [dbo].[Companies] ([Id]);
+    ADD CONSTRAINT [FK_Events_ToCompanies] FOREIGN KEY ([FK_CompanyId]) REFERENCES [dbo].[CompanyModel] ([Id]);
 
 
 
