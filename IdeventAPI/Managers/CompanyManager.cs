@@ -28,11 +28,20 @@ namespace IdeventAPI.Managers
             return companies;
         }
 
+        private Func<CompanyModel, AddressModel, AddressModel, CompanyModel> mapping = (companyModel, addressModel, InvoiceModel) =>
+        {
+            companyModel.Address = addressModel;
+            companyModel.InvoiceAddress = InvoiceModel;
+
+            return companyModel;
+        };
+   
+
         public CompanyModel GetById(int id)
         {
             string sql = "EXECUTE spGetCompanyById @companyId";
-            CompanyModel result = _dbConnection.QuerySingle<CompanyModel>(sql, new {companyId = id});
-            return result;
+            var result = _dbConnection.Query(sql, mapping, new {companyId = id}).AsList();
+            return result[0];
         }
 
         public int Create(CompanyModel value)
@@ -46,6 +55,15 @@ namespace IdeventAPI.Managers
                 return Convert.ToInt32(result);
             }
             return 0;
+        }
+
+        public int UpdateCompany(CompanyModel value)
+        {
+            var parameter = new { id = value.Id, name = value.Name, logo = value.Logo, cvr = value.CVR, email = value.Email, phoneNumber = value.PhoneNumber, active = value.Active, note = value.Note, addressId = value.Address.Id, invoiceAddress = value.InvoiceAddress.Id };
+            string sql = "EXECUTE spUpdateCompany @id ,@name, @logo, @cvr, @email, @phoneNumber, @active, @note, @addressId, @invoiceAddress";
+            var result = _dbConnection.Execute(sql, parameter);
+
+            return result;
         }
     }
 }

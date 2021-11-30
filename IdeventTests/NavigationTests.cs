@@ -83,7 +83,7 @@ namespace IdeventTests
         [TestMethod]
         public void ChipsChipDetailsLoads()
         {
-            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.ChipDetails>(), "Chip Details", "ChipDetails/1");
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.DetailsChip>(), "Chip Details", "ChipDetails/1");
         }
         [TestMethod]
         public void ChipsEditChipLoads()

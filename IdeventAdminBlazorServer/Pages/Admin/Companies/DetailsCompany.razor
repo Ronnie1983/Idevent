@@ -1,45 +1,46 @@
-﻿@page "/EditCompany/{CompanyId}"
+﻿@page "/CompanyDetails/{CompanyId}"
 
 @using IdeventLibrary.Repositories
 @inject NavigationManager _navigationManager
 
-<h3>EditCompany</h3>
 
-<EditForm Model="@_companyReq" OnValidSubmit="@HandleValidSubmit">
-    <DataAnnotationsValidator/>
-    <ValidationSummary/>
+<h1>CompanyDetails: @_companyReq.Name</h1>
+
+ <NavigateButton PageToNavigateTo="Companies" ButtonText="Back"/>
+ <NavigateButton PageToNavigateTo=@(NavigationArgument("EditCompany/", Convert.ToInt32(CompanyId))) ButtonText="Edit company" />
+
     <div class="form-group">
         <label for="@_companyReq.Name">Name</label> 
-        <InputText class="form-control" id="name" @bind-Value="_companyReq.Name" placeholder="Company name"/>
+        <label class="form-control" id="name" Value="@_companyReq.Name" placeholder="Company name">@_companyReq.Name</label>
     </div>
     <div class="form-group">
         <label for="@_companyReq.Email">Email</label> 
-        <InputText class="form-control" id="email" @bind-Value="_companyReq.Email" placeholder="Company Email"/>
+        <label class="form-control" id="email" Value="@_companyReq.Email" placeholder="Company Email">"@_companyReq.Email</label>
     </div>
     <div class="form-group">
         <label for="@_companyReq.CVR">CVR</label>
-        <InputText class="form-control" id="cvr" @bind-Value="_companyReq.CVR" placeholder="CVR"/>
+        <label class="form-control" id="cvr" Value="@_companyReq.CVR" placeholder="CVR">@_companyReq.CVR</label>
     </div>
     <div class="form-group">
         <label for="@_companyReq.PhoneNumber">Phone</label>
-        <InputText class="form-control" id="phone" @bind-Value="_companyReq.PhoneNumber" placeholder="Phone number"/>
+        <label class="form-control" id="phone" Value="@_companyReq.PhoneNumber" placeholder="Phone number">@_companyReq.PhoneNumber</label>
     </div>
 
     <div class="form-group">
         <label for="@_companyReq.Address.StreetAddress">Street</label>
-        <InputText class="form-control" id="address_street" @bind-Value="_companyReq.Address.StreetAddress" placeholder="Street and number"/>
+        <label class="form-control" id="address_street" Value="@_companyReq.Address.StreetAddress" placeholder="Street and number">@_companyReq.Address.StreetAddress</label>
     </div>
     <div class="form-group">
         <label for="@_companyReq.Address.City">City</label>
-        <InputText class="form-control" id="address_city" @bind-Value="_companyReq.Address.City" placeholder="City"/>
+        <label class="form-control" id="address_city" Value="@_companyReq.Address.City" placeholder="City">@_companyReq.Address.City</label>
     </div>
     <div class="form-group">
         <label for="@_companyReq.Address.PostalCode">Zipcode</label>
-        <InputText class="form-control" id="address_postal" @bind-Value="_companyReq.Address.PostalCode" placeholder="Postal"/>
+        <label class="form-control" id="address_postal" Value="@_companyReq.Address.PostalCode" placeholder="Postal">@_companyReq.Address.PostalCode</label>
     </div>
     <div class="form-group">
         <label for="@_companyReq.Address.Country">Country</label>
-        <InputText class="form-control" id="address_country" @bind-Value="_companyReq.Address.Country" placeholder="Country"/>
+        <label class="form-control" id="address_country" Value="@_companyReq.Address.Country" placeholder="Country">@_companyReq.Address.Country</label>
     </div>
     <div>
         <button type="button" class="btn btn-link m-4" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -48,33 +49,26 @@
         <div id="collapseOne" class="collapse">
             <div class="form-group">
                 <label for="@_companyReq.InvoiceAddress.StreetAddress">Street</label>
-                <InputText class="form-control" id="address_street" @bind-Value="_companyReq.InvoiceAddress.StreetAddress" placeholder="Street and number"/>
+                <label class="form-control" id="address_street" Value="@_companyReq.InvoiceAddress.StreetAddress" placeholder="Street and number">@_companyReq.InvoiceAddress.StreetAddress</label>
             </div>
             <div class="form-group">
                 <label for="@_companyReq.InvoiceAddress.City">City</label>
-                <InputText class="form-control" id="address_city" @bind-Value="_companyReq.InvoiceAddress.City" placeholder="City"/>
+                <label class="form-control" id="address_city" Value="@_companyReq.InvoiceAddress.City" placeholder="City">@_companyReq.InvoiceAddress.City</label>
             </div>
             <div class="form-group">
                 <label for="@_companyReq.InvoiceAddress.PostalCode">Zipcode</label>
-                <InputText class="form-control" id="address_postal" @bind-Value="_companyReq.InvoiceAddress.PostalCode" placeholder="Postal"/>
+                <label class="form-control" id="address_postal" Value="@_companyReq.InvoiceAddress.PostalCode" placeholder="Postal">@_companyReq.InvoiceAddress.PostalCode</label>
             </div>
             <div class="form-group">
                 <label for="@_companyReq.InvoiceAddress.Country">Country</label>
-                <InputText class="form-control" id="address_country" @bind-Value="_companyReq.InvoiceAddress.Country" placeholder="Country"/>
+                <label class="form-control" id="address_country" Value="@_companyReq.InvoiceAddress.Country" placeholder="Country">@_companyReq.InvoiceAddress.Country</label>
             </div>
         </div>
     </div>
-    
-    
-    
-    <button class="btn btn-primary m-1" type="submit">Submit</button>
-    <NavigateButton PageToNavigateTo=@(NavigationArgument("CompanyDetails/", Convert.ToInt32(CompanyId))) ButtonText="Cancel" HtmlClasses="btn-danger"/>
- 
-</EditForm>
 
+   
 
 @code {
-
     [Parameter]
     public string CompanyId { get; set; }
 
@@ -89,21 +83,9 @@
         //_companyReq.Address = await _addressRepository.
 
     }
-
-    private async Task HandleValidSubmit()
-    {
-       
-        var result = await _companyRepository.UpdateAsync(_companyReq);
-        if(result != null)
-        {
-            _navigationManager.NavigateTo("Companies");
-        }
-        // TODO: add submit company
-
-    }
-
     private string NavigationArgument(string navigationPrefix, int modelId)
     {
         return $"{navigationPrefix}{modelId}";
     }
+  
 }
