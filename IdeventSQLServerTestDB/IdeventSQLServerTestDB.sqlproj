@@ -62,6 +62,7 @@
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="dbo\Scripts" />
+    <Folder Include="dbo\Scripts\Helpers" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
@@ -112,11 +113,14 @@
     <Build Include="dbo\Stored Procedures\spUpdateAddress.sql" />
     <None Include="dbo\Scripts\Script.InsertTestData.sql" />
     <None Include="dbo\Scripts\Script.CreateTables.sql" />
+    <None Include="dbo\Scripts\Helpers\Script.FindContraintsToDrop.sql" />
+    <None Include="dbo\Scripts\Helpers\Script.FindTablesToDrop.sql" />
+    <None Include="dbo\Scripts\Script.DropAllTables.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ThomasDesktopTestDB.publish.xml" />
     <None Include="dbo\Scripts\Script.DeleteAllTableData.sql" />
-    <None Include="dbo\Scripts\Script.DropAllTables.sql" />
+    <None Include="dbo\Scripts\Script.DropAllTables-NoIdentity.sql" />
     <None Include="dbo\Scripts\Script.CreateTables-NoIdentity.sql" />
   </ItemGroup>
   <ItemGroup>

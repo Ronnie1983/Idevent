@@ -10,7 +10,7 @@ USE [IdeventTestDB];
 PRINT N'Creating Table [dbo].[Addresses]...';
 
 
-GO
+
 CREATE TABLE [dbo].[Addresses] (
     [Id]            INT            IDENTITY (1, 1) NOT NULL,
     [StreetAddress] NVARCHAR (100) NOT NULL,
@@ -21,11 +21,26 @@ CREATE TABLE [dbo].[Addresses] (
 );
 
 
-GO
+
+PRINT N'Creating Table [dbo].[AddressModel]...';
+
+
+
+CREATE TABLE [dbo].[AddressModel] (
+    [Id]            INT            IDENTITY (1, 1) NOT NULL,
+    [StreetAddress] NVARCHAR (MAX) NULL,
+    [City]          NVARCHAR (MAX) NULL,
+    [Country]       NVARCHAR (MAX) NULL,
+    [PostalCode]    NVARCHAR (MAX) NULL,
+    CONSTRAINT [PK_AddressModel] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+
 PRINT N'Creating Table [dbo].[AspNetRoleClaims]...';
 
 
-GO
+
 CREATE TABLE [dbo].[AspNetRoleClaims] (
     [Id]         INT            IDENTITY (1, 1) NOT NULL,
     [RoleId]     NVARCHAR (450) NOT NULL,
@@ -35,20 +50,20 @@ CREATE TABLE [dbo].[AspNetRoleClaims] (
 );
 
 
-GO
+
 PRINT N'Creating Index [dbo].[AspNetRoleClaims].[IX_AspNetRoleClaims_RoleId]...';
 
 
-GO
+
 CREATE NONCLUSTERED INDEX [IX_AspNetRoleClaims_RoleId]
     ON [dbo].[AspNetRoleClaims]([RoleId] ASC);
 
 
-GO
+
 PRINT N'Creating Table [dbo].[AspNetRoles]...';
 
 
-GO
+
 CREATE TABLE [dbo].[AspNetRoles] (
     [Id]               NVARCHAR (450) NOT NULL,
     [Name]             NVARCHAR (256) NULL,
@@ -58,20 +73,20 @@ CREATE TABLE [dbo].[AspNetRoles] (
 );
 
 
-GO
+
 PRINT N'Creating Index [dbo].[AspNetRoles].[RoleNameIndex]...';
 
 
-GO
+
 CREATE UNIQUE NONCLUSTERED INDEX [RoleNameIndex]
     ON [dbo].[AspNetRoles]([NormalizedName] ASC) WHERE ([NormalizedName] IS NOT NULL);
 
 
-GO
+
 PRINT N'Creating Table [dbo].[AspNetUserClaims]...';
 
 
-GO
+
 CREATE TABLE [dbo].[AspNetUserClaims] (
     [Id]         INT            IDENTITY (1, 1) NOT NULL,
     [UserId]     NVARCHAR (450) NOT NULL,
@@ -81,20 +96,20 @@ CREATE TABLE [dbo].[AspNetUserClaims] (
 );
 
 
-GO
+
 PRINT N'Creating Index [dbo].[AspNetUserClaims].[IX_AspNetUserClaims_UserId]...';
 
 
-GO
+
 CREATE NONCLUSTERED INDEX [IX_AspNetUserClaims_UserId]
     ON [dbo].[AspNetUserClaims]([UserId] ASC);
 
 
-GO
+
 PRINT N'Creating Table [dbo].[AspNetUserLogins]...';
 
 
-GO
+
 CREATE TABLE [dbo].[AspNetUserLogins] (
     [LoginProvider]       NVARCHAR (128) NOT NULL,
     [ProviderKey]         NVARCHAR (128) NOT NULL,
@@ -104,20 +119,20 @@ CREATE TABLE [dbo].[AspNetUserLogins] (
 );
 
 
-GO
+
 PRINT N'Creating Index [dbo].[AspNetUserLogins].[IX_AspNetUserLogins_UserId]...';
 
 
-GO
+
 CREATE NONCLUSTERED INDEX [IX_AspNetUserLogins_UserId]
     ON [dbo].[AspNetUserLogins]([UserId] ASC);
 
 
-GO
+
 PRINT N'Creating Table [dbo].[AspNetUserRoles]...';
 
 
-GO
+
 CREATE TABLE [dbo].[AspNetUserRoles] (
     [UserId] NVARCHAR (450) NOT NULL,
     [RoleId] NVARCHAR (450) NOT NULL,
@@ -125,20 +140,20 @@ CREATE TABLE [dbo].[AspNetUserRoles] (
 );
 
 
-GO
+
 PRINT N'Creating Index [dbo].[AspNetUserRoles].[IX_AspNetUserRoles_RoleId]...';
 
 
-GO
+
 CREATE NONCLUSTERED INDEX [IX_AspNetUserRoles_RoleId]
     ON [dbo].[AspNetUserRoles]([RoleId] ASC);
 
 
-GO
+
 PRINT N'Creating Table [dbo].[AspNetUsers]...';
 
 
-GO
+
 CREATE TABLE [dbo].[AspNetUsers] (
     [Id]                   NVARCHAR (450)     NOT NULL,
     [UserName]             NVARCHAR (256)     NULL,
@@ -163,56 +178,56 @@ CREATE TABLE [dbo].[AspNetUsers] (
 );
 
 
-GO
+
 PRINT N'Creating Index [dbo].[AspNetUsers].[EmailIndex]...';
 
 
-GO
+
 CREATE NONCLUSTERED INDEX [EmailIndex]
     ON [dbo].[AspNetUsers]([NormalizedEmail] ASC);
 
 
-GO
+
 PRINT N'Creating Index [dbo].[AspNetUsers].[UserNameIndex]...';
 
 
-GO
+
 CREATE UNIQUE NONCLUSTERED INDEX [UserNameIndex]
     ON [dbo].[AspNetUsers]([NormalizedUserName] ASC) WHERE ([NormalizedUserName] IS NOT NULL);
 
 
-GO
+
 PRINT N'Creating Index [dbo].[AspNetUsers].[IX_AspNetUsers_InvoiceAddressId]...';
 
 
-GO
+
 CREATE NONCLUSTERED INDEX [IX_AspNetUsers_InvoiceAddressId]
     ON [dbo].[AspNetUsers]([InvoiceAddressId] ASC);
 
 
-GO
+
 PRINT N'Creating Index [dbo].[AspNetUsers].[IX_AspNetUsers_CompanyId]...';
 
 
-GO
+
 CREATE NONCLUSTERED INDEX [IX_AspNetUsers_CompanyId]
     ON [dbo].[AspNetUsers]([CompanyId] ASC);
 
 
-GO
+
 PRINT N'Creating Index [dbo].[AspNetUsers].[IX_AspNetUsers_AddressId]...';
 
 
-GO
+
 CREATE NONCLUSTERED INDEX [IX_AspNetUsers_AddressId]
     ON [dbo].[AspNetUsers]([AddressId] ASC);
 
 
-GO
+
 PRINT N'Creating Table [dbo].[AspNetUserTokens]...';
 
 
-GO
+
 CREATE TABLE [dbo].[AspNetUserTokens] (
     [UserId]        NVARCHAR (450) NOT NULL,
     [LoginProvider] NVARCHAR (128) NOT NULL,
@@ -222,11 +237,11 @@ CREATE TABLE [dbo].[AspNetUserTokens] (
 );
 
 
-GO
+
 PRINT N'Creating Table [dbo].[ChipContents]...';
 
 
-GO
+
 CREATE TABLE [dbo].[ChipContents] (
     [Id]                INT IDENTITY (1, 1) NOT NULL,
     [FK_StandProductId] INT NOT NULL,
@@ -237,11 +252,11 @@ CREATE TABLE [dbo].[ChipContents] (
 );
 
 
-GO
+
 PRINT N'Creating Table [dbo].[ChipGroups]...';
 
 
-GO
+
 CREATE TABLE [dbo].[ChipGroups] (
     [Id]   INT           IDENTITY (1, 1) NOT NULL,
     [Name] NVARCHAR (50) NOT NULL,
@@ -249,11 +264,11 @@ CREATE TABLE [dbo].[ChipGroups] (
 );
 
 
-GO
+
 PRINT N'Creating Table [dbo].[Chips]...';
 
 
-GO
+
 CREATE TABLE [dbo].[Chips] (
     [Id]             INT                IDENTITY (1, 1) NOT NULL,
     [HashedId]       NVARCHAR (50)      NOT NULL,
@@ -267,11 +282,11 @@ CREATE TABLE [dbo].[Chips] (
 );
 
 
-GO
+
 PRINT N'Creating Table [dbo].[Companies]...';
 
 
-GO
+
 CREATE TABLE [dbo].[Companies] (
     [Id]                  INT            IDENTITY (1, 1) NOT NULL,
     [Name]                NVARCHAR (50)  NOT NULL,
@@ -287,11 +302,49 @@ CREATE TABLE [dbo].[Companies] (
 );
 
 
-GO
+
+PRINT N'Creating Table [dbo].[CompanyModel]...';
+
+
+
+CREATE TABLE [dbo].[CompanyModel] (
+    [Id]               INT            IDENTITY (1, 1) NOT NULL,
+    [Name]             NVARCHAR (50)  NOT NULL,
+    [Logo]             NVARCHAR (255) NULL,
+    [CVR]              NVARCHAR (8)   NOT NULL,
+    [Email]            NVARCHAR (254) NOT NULL,
+    [PhoneNumber]      NVARCHAR (30)  NOT NULL,
+    [Active]           BIT            NOT NULL,
+    [Note]             NVARCHAR (255) NOT NULL,
+    [AddressId]        INT            NULL,
+    [InvoiceAddressId] INT            NULL,
+    CONSTRAINT [PK_CompanyModel] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+
+PRINT N'Creating Index [dbo].[CompanyModel].[IX_CompanyModel_InvoiceAddressId]...';
+
+
+
+CREATE NONCLUSTERED INDEX [IX_CompanyModel_InvoiceAddressId]
+    ON [dbo].[CompanyModel]([InvoiceAddressId] ASC);
+
+
+
+PRINT N'Creating Index [dbo].[CompanyModel].[IX_CompanyModel_AddressId]...';
+
+
+
+CREATE NONCLUSTERED INDEX [IX_CompanyModel_AddressId]
+    ON [dbo].[CompanyModel]([AddressId] ASC);
+
+
+
 PRINT N'Creating Table [dbo].[CompanyPermissions]...';
 
 
-GO
+
 CREATE TABLE [dbo].[CompanyPermissions] (
     [Id]              INT IDENTITY (1, 1) NOT NULL,
     [FK_CompanyId]    INT NOT NULL,
@@ -301,11 +354,11 @@ CREATE TABLE [dbo].[CompanyPermissions] (
 );
 
 
-GO
+
 PRINT N'Creating Table [dbo].[Events]...';
 
 
-GO
+
 CREATE TABLE [dbo].[Events] (
     [Id]           INT           IDENTITY (1, 1) NOT NULL,
     [Name]         NVARCHAR (50) NOT NULL,
@@ -314,11 +367,11 @@ CREATE TABLE [dbo].[Events] (
 );
 
 
-GO
+
 PRINT N'Creating Table [dbo].[EventStands]...';
 
 
-GO
+
 CREATE TABLE [dbo].[EventStands] (
     [Id]                      INT           IDENTITY (1, 1) NOT NULL,
     [Name]                    NVARCHAR (50) NOT NULL,
@@ -328,11 +381,11 @@ CREATE TABLE [dbo].[EventStands] (
 );
 
 
-GO
+
 PRINT N'Creating Table [dbo].[Permissions]...';
 
 
-GO
+
 CREATE TABLE [dbo].[Permissions] (
     [Id]   INT           IDENTITY (1, 1) NOT NULL,
     [Name] NVARCHAR (50) NOT NULL,
@@ -340,11 +393,11 @@ CREATE TABLE [dbo].[Permissions] (
 );
 
 
-GO
+
 PRINT N'Creating Table [dbo].[StandFunctionalities]...';
 
 
-GO
+
 CREATE TABLE [dbo].[StandFunctionalities] (
     [Id]   INT           IDENTITY (1, 1) NOT NULL,
     [Name] NVARCHAR (50) NOT NULL,
@@ -352,11 +405,11 @@ CREATE TABLE [dbo].[StandFunctionalities] (
 );
 
 
-GO
+
 PRINT N'Creating Table [dbo].[StandProducts]...';
 
 
-GO
+
 CREATE TABLE [dbo].[StandProducts] (
     [Id]              INT             IDENTITY (1, 1) NOT NULL,
     [Name]            NVARCHAR (50)   NULL,
@@ -366,182 +419,211 @@ CREATE TABLE [dbo].[StandProducts] (
 );
 
 
-GO
+
 PRINT N'Creating Default Constraint unnamed constraint on [dbo].[Companies]...';
 
 
-GO
+
 ALTER TABLE [dbo].[Companies]
     ADD DEFAULT '' FOR [Note];
 
 
-GO
+
+PRINT N'Creating Default Constraint unnamed constraint on [dbo].[CompanyModel]...';
+
+
+
+ALTER TABLE [dbo].[CompanyModel]
+    ADD DEFAULT ('') FOR [Note];
+
+
+
 PRINT N'Creating Foreign Key [dbo].[FK_AspNetRoleClaims_AspNetRoles_RoleId]...';
 
 
-GO
+
 ALTER TABLE [dbo].[AspNetRoleClaims] WITH NOCHECK
     ADD CONSTRAINT [FK_AspNetRoleClaims_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [dbo].[AspNetRoles] ([Id]) ON DELETE CASCADE;
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_AspNetUserClaims_AspNetUsers_UserId]...';
 
 
-GO
+
 ALTER TABLE [dbo].[AspNetUserClaims] WITH NOCHECK
     ADD CONSTRAINT [FK_AspNetUserClaims_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE;
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_AspNetUserLogins_AspNetUsers_UserId]...';
 
 
-GO
+
 ALTER TABLE [dbo].[AspNetUserLogins] WITH NOCHECK
     ADD CONSTRAINT [FK_AspNetUserLogins_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE;
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_AspNetUserRoles_AspNetRoles_RoleId]...';
 
 
-GO
+
 ALTER TABLE [dbo].[AspNetUserRoles] WITH NOCHECK
     ADD CONSTRAINT [FK_AspNetUserRoles_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [dbo].[AspNetRoles] ([Id]) ON DELETE CASCADE;
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_AspNetUserRoles_AspNetUsers_UserId]...';
 
 
-GO
+
 ALTER TABLE [dbo].[AspNetUserRoles] WITH NOCHECK
     ADD CONSTRAINT [FK_AspNetUserRoles_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE;
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_AspNetUsers_AddressModel_AddressId]...';
 
 
-GO
+
 ALTER TABLE [dbo].[AspNetUsers] WITH NOCHECK
     ADD CONSTRAINT [FK_AspNetUsers_AddressModel_AddressId] FOREIGN KEY ([AddressId]) REFERENCES [dbo].[AddressModel] ([Id]);
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_AspNetUsers_AddressModel_InvoiceAddressId]...';
 
 
-GO
+
 ALTER TABLE [dbo].[AspNetUsers] WITH NOCHECK
     ADD CONSTRAINT [FK_AspNetUsers_AddressModel_InvoiceAddressId] FOREIGN KEY ([InvoiceAddressId]) REFERENCES [dbo].[AddressModel] ([Id]);
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_AspNetUsers_CompanyModel_CompanyId]...';
 
 
-GO
+
 ALTER TABLE [dbo].[AspNetUsers] WITH NOCHECK
     ADD CONSTRAINT [FK_AspNetUsers_CompanyModel_CompanyId] FOREIGN KEY ([CompanyId]) REFERENCES [dbo].[CompanyModel] ([Id]);
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_AspNetUserTokens_AspNetUsers_UserId]...';
 
 
-GO
+
 ALTER TABLE [dbo].[AspNetUserTokens] WITH NOCHECK
     ADD CONSTRAINT [FK_AspNetUserTokens_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE;
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_ChipContents_ToStandProducts]...';
 
 
-GO
+
 ALTER TABLE [dbo].[ChipContents] WITH NOCHECK
     ADD CONSTRAINT [FK_ChipContents_ToStandProducts] FOREIGN KEY ([FK_StandProductId]) REFERENCES [dbo].[StandProducts] ([Id]);
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_Chips_ToCompanies]...';
 
 
-GO
+
 ALTER TABLE [dbo].[Chips] WITH NOCHECK
     ADD CONSTRAINT [FK_Chips_ToCompanies] FOREIGN KEY ([FK_CompanyId]) REFERENCES [dbo].[Companies] ([Id]);
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_Chips_ToEvents]...';
 
 
-GO
+
 ALTER TABLE [dbo].[Chips] WITH NOCHECK
     ADD CONSTRAINT [FK_Chips_ToEvents] FOREIGN KEY ([FK_EventId]) REFERENCES [dbo].[Events] ([Id]);
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_Chips_ToChipGroups]...';
 
 
-GO
+
 ALTER TABLE [dbo].[Chips] WITH NOCHECK
     ADD CONSTRAINT [FK_Chips_ToChipGroups] FOREIGN KEY ([FK_ChipGroupId]) REFERENCES [dbo].[ChipGroups] ([Id]);
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_Companies_ToAddresses]...';
 
 
-GO
+
 ALTER TABLE [dbo].[Companies] WITH NOCHECK
     ADD CONSTRAINT [FK_Companies_ToAddresses] FOREIGN KEY ([FK_AddressId]) REFERENCES [dbo].[Addresses] ([Id]);
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_Companies_ToAddresses2]...';
 
 
-GO
+
 ALTER TABLE [dbo].[Companies] WITH NOCHECK
     ADD CONSTRAINT [FK_Companies_ToAddresses2] FOREIGN KEY ([FK_InvoiceAddressId]) REFERENCES [dbo].[Addresses] ([Id]);
 
 
-GO
+
+PRINT N'Creating Foreign Key [dbo].[FK_CompanyModel_AddressModel_AddressId]...';
+
+
+
+ALTER TABLE [dbo].[CompanyModel] WITH NOCHECK
+    ADD CONSTRAINT [FK_CompanyModel_AddressModel_AddressId] FOREIGN KEY ([AddressId]) REFERENCES [dbo].[AddressModel] ([Id]);
+
+
+
+PRINT N'Creating Foreign Key [dbo].[FK_CompanyModel_AddressModel_InvoiceAddressId]...';
+
+
+
+ALTER TABLE [dbo].[CompanyModel] WITH NOCHECK
+    ADD CONSTRAINT [FK_CompanyModel_AddressModel_InvoiceAddressId] FOREIGN KEY ([InvoiceAddressId]) REFERENCES [dbo].[AddressModel] ([Id]);
+
+
+
 PRINT N'Creating Foreign Key [dbo].[FK_Events_ToCompanies]...';
 
 
-GO
+
 ALTER TABLE [dbo].[Events] WITH NOCHECK
     ADD CONSTRAINT [FK_Events_ToCompanies] FOREIGN KEY ([FK_CompanyId]) REFERENCES [dbo].[Companies] ([Id]);
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_EventStands_ToEvents]...';
 
 
-GO
+
 ALTER TABLE [dbo].[EventStands] WITH NOCHECK
     ADD CONSTRAINT [FK_EventStands_ToEvents] FOREIGN KEY ([FK_EventId]) REFERENCES [dbo].[Events] ([Id]);
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_EventStands_ToStandFunctionalities]...';
 
 
-GO
+
 ALTER TABLE [dbo].[EventStands] WITH NOCHECK
     ADD CONSTRAINT [FK_EventStands_ToStandFunctionalities] FOREIGN KEY ([FK_StandFunctionalityId]) REFERENCES [dbo].[StandFunctionalities] ([Id]);
 
 
-GO
+
 PRINT N'Creating Foreign Key [dbo].[FK_EventStandProducts_ToEventStands]...';
 
 
-GO
+
 ALTER TABLE [dbo].[StandProducts] WITH NOCHECK
     ADD CONSTRAINT [FK_EventStandProducts_ToEventStands] FOREIGN KEY ([FK_EventStandId]) REFERENCES [dbo].[EventStands] ([Id]);
+
+PRINT N'Completed the Script.CreateTables.sql script';
 

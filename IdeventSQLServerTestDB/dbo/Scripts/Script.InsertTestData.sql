@@ -23,6 +23,7 @@ VALUES
   ('375-639 Proin St.','Reckon','Colombia','502464'),
   ('Ap #368-3068 Egestas. Road','Chapville','France','SM2M 1IC');
  
+
  -- Companies
 INSERT INTO [CompanyModel](Name,Logo,CVR,Email,PhoneNumber,Active,Note,AddressId,InvoiceAddressId)
 VALUES
