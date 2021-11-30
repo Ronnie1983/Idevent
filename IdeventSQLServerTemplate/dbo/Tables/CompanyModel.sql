@@ -1,18 +1,20 @@
 ﻿CREATE TABLE [dbo].[CompanyModel] (
     [Id]               INT            IDENTITY (1, 1) NOT NULL,
-    [Name]             NVARCHAR (MAX) NOT NULL,
-    [Email]            NVARCHAR (MAX) NOT NULL,
-    [InvoiceAddressId] INT            NULL,
-    [AddressId]        INT            NULL,
-    [CVR]              NVARCHAR (MAX) NOT NULL,
-    [PhoneNumber]      NVARCHAR (MAX) NOT NULL,
-    [Note]             NVARCHAR (MAX) NULL,
+    [Name]             NVARCHAR (50)  NOT NULL,
+    [Logo]             NVARCHAR (255) NULL,
+    [CVR]              NVARCHAR (8)   NOT NULL,
+    [Email]            NVARCHAR (254) NOT NULL,
+    [PhoneNumber]      NVARCHAR (30)  NOT NULL,
     [Active]           BIT            NOT NULL,
-    [Logo]             NVARCHAR (MAX) NULL,
+    [Note]             NVARCHAR (255) DEFAULT ('') NOT NULL,
+    [AddressId]        INT            NULL,
+    [InvoiceAddressId] INT            NULL,
     CONSTRAINT [PK_CompanyModel] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_CompanyModel_AddressModel_AddressId] FOREIGN KEY ([AddressId]) REFERENCES [dbo].[AddressModel] ([Id]),
     CONSTRAINT [FK_CompanyModel_AddressModel_InvoiceAddressId] FOREIGN KEY ([InvoiceAddressId]) REFERENCES [dbo].[AddressModel] ([Id])
 );
+
+
 
 
 GO
