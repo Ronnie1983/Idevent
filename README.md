@@ -1,7 +1,7 @@
 # Idevent
 
 ### Setup
-####Step 1.
+**Step 1.**
 Download the project.
 
 **Step 2.**
