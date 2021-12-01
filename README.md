@@ -1,15 +1,15 @@
 # Idevent
 
 ### Setup
-** Step 1. **
+**Step 1.**
 
 Download the project.
 
-** Step 2. **
+**Step 2.**
 
 Publish the SQL Server Database Project (IdeventSQLServerTemplate) twice: One with a database name of "Idevent" another named "IdeventTestDB"
 
-** Step 3. **
+**Step 3.**
 
 Take the connection string from each newly created database and put them into 2 environment variables
 
@@ -17,11 +17,11 @@ The Idevent database connectionstring should be in the environment variable call
 
 The IdeventTestDB connectionstring should be in the environment variable called "IdeventTestDBConn"
 
-** Step 4. **
+**Step 4.**
 
 Run the InsertDataScript on the Idevent database (copy it from IdeventSQLServerTemplate and run it with a query to that database)
 
-** Step 5. **
+<b>Step 5.</b>
 
 Insert data manually into StandFunctionalities
 
