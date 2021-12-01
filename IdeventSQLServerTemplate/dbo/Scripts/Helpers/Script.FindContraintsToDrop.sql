@@ -1,4 +1,5 @@
-﻿USE Idevent
+﻿-- https://www.mssqltips.com/sqlservertip/6798/drop-all-tables-sql-server/ (source on how to make this code)
+USE Idevent
 GO
 SELECT 'ALTER TABLE ' 
     + (OBJECT_SCHEMA_NAME(parent_object_id)) 
