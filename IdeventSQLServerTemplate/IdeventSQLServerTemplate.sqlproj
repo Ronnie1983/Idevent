@@ -62,7 +62,9 @@
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\PublishProfiles" />
     <Folder Include="dbo\StoredProcedures" />
-    <Folder Include="dbo\PostDeployScripts" />
+    <Folder Include="dbo\Scripts" />
+    <Folder Include="dbo\Scripts\PostDeployScript" />
+    <Folder Include="dbo\Scripts\Helpers" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
@@ -112,12 +114,21 @@
     <Build Include="dbo\StoredProcedures\spUpdateAddress.sql" />
     <Build Include="dbo\StoredProcedures\spUpdateCompany.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllProducts.sql" />
+    <None Include="dbo\Scripts\PostDeployScript\Script.InsertDummyData.sql" />
+    <None Include="dbo\Scripts\Helpers\Script.FindContraintsToDrop.sql" />
+    <None Include="dbo\Scripts\Helpers\Script.FindTablesToDrop.sql" />
+    <None Include="dbo\Scripts\Script.CreateTables.sql" />
+    <None Include="dbo\Scripts\Script.CreateTables-NoIdentity.sql" />
+    <None Include="dbo\Scripts\Script.DeleteAllTableData.sql" />
+    <None Include="dbo\Scripts\Script.DropAllTables.sql" />
+    <None Include="dbo\Scripts\Script.DropAllTables-NoIdentity.sql" />
+    <None Include="dbo\Scripts\Script.InsertTestData.sql" />
+    <PostDeploy Include="dbo\Scripts\Script.InsertTestData-NoIdentity.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="dbo\PostDeployScripts\Script.InsertDummyData.sql" />
     <None Include="dbo\PublishProfiles\ThomasDesktop.publish.xml" />
     <None Include="dbo\PublishProfiles\Simply.publish.xml" />
     <None Include="dbo\PublishProfiles\IdeventSQLServerTemplateRonnieLokal.publish.xml" />

@@ -15,7 +15,7 @@ namespace IdeventTests.IntegrationTests
     {
         protected SqlConnection conn = new SqlConnection(TestSettings.ConnectionString);
         private static string _sqlServerTestProjectRoot = Path.Combine(Directory.GetCurrentDirectory(), "../../../../");
-        private string _scriptFolder = Path.Combine(_sqlServerTestProjectRoot, "IdeventSQLServerTestDB/dbo/Scripts/");
+        private string _scriptFolder = Path.Combine(_sqlServerTestProjectRoot, "IdeventSQLServerTemplate/dbo/Scripts/");
 
         /// <summary>
         /// You can extend the initialisation that is run before each Test Method with this method.
