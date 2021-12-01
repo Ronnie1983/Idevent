@@ -4,21 +4,21 @@
 ####Step 1.
 Download the project.
 
-####Step 2.
+**Step 2.**
 Publish the SQL Server Database Project (IdeventSQLServerTemplate) twice: One with a database name of "Idevent" another named "IdeventTestDB"
-####Step 3.
+**Step 3.**
 Take the connection string from each newly created database and put them into 2 environment variables
 The Idevent database connectionstring should be in the environment variable called "SQLCONNSTR_IdeventConnectionString"
 The IdeventTestDB connectionstring should be in the environment variable called "IdeventTestDBConn"
-####Step 4.
+**Step 4.**
 Run the InsertDataScript on the Idevent database (copy it from IdeventSQLServerTemplate and run it with a query to that database)
-#### Step 5.
+**Step 5.**
 Insert data manually into StandFunctionalities
 
-#### Step 6. (optional)
+**Step 6. (optional)**
 Insert data manually into ChipGroups and Chips
 
-#### Step 7.
+** Step 7.**
 See if it works. You should be able to run tests and get data into the program.
 
 ### Contribution Rules
