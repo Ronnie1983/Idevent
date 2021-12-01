@@ -29,7 +29,7 @@ Insert data manually into StandFunctionalities
 
 Insert data manually into ChipGroups and Chips
 
-** Step 7. **
+**Step 7.**
 
 See if it works. You should be able to run tests and get data into the program.
 
