@@ -21,7 +21,7 @@ The IdeventTestDB connectionstring should be in the environment variable called 
 
 Run the InsertDataScript on the Idevent database (copy it from IdeventSQLServerTemplate and run it with a query to that database)
 
-<b>Step 5.</b>
+**Step 5.**
 
 Insert data manually into StandFunctionalities
 
