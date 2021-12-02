@@ -15,7 +15,7 @@ namespace IdeventTests.IntegrationTests
     {
         protected SqlConnection conn = new SqlConnection(TestSettings.ConnectionString);
         private static string _sqlServerTestProjectRoot = Path.Combine(Directory.GetCurrentDirectory(), "../../../../");
-        private string _scriptFolder = Path.Combine(_sqlServerTestProjectRoot, "IdeventSQLServerTestDB/dbo/Scripts/");
+        private string _scriptFolder = Path.Combine(_sqlServerTestProjectRoot, "IdeventSQLServerTemplate/dbo/Scripts/");
 
         /// <summary>
         /// You can extend the initialisation that is run before each Test Method with this method.
@@ -39,10 +39,7 @@ namespace IdeventTests.IntegrationTests
         [TestInitialize]
         public void Init()
         {
-            string createTablesFileName = "Script.CreateTables.sql";
-            string createTablesScript = ReadSqlScript(createTablesFileName);
-            ExecuteNonQuery(createTablesScript, createTablesFileName);
-
+            // This assummes that you've generated the database via the SQL Server Database project, hence no "create tables" here.
             string insertScriptFileName = "Script.InsertTestData.sql";
             string insertScript = ReadSqlScript(insertScriptFileName);
             ExecuteNonQuery(insertScript, insertScriptFileName);
@@ -57,7 +54,10 @@ namespace IdeventTests.IntegrationTests
             string dropTablesScript = ReadSqlScript(dropTablesFileName);
             ExecuteNonQuery(dropTablesScript, dropTablesFileName);
 
-            
+            string createTablesFileName = "Script.CreateTables.sql";
+            string createTablesScript = ReadSqlScript(createTablesFileName);
+            ExecuteNonQuery(createTablesScript, createTablesFileName);
+
             TestSpecificCleanup();
         }
 
