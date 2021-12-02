@@ -36,6 +36,12 @@ BEGIN
                Events.Name = 'Demo Event 3')
     INSERT INTO dbo.Events (Events.Name, Events.FK_CompanyId)
     VALUES ('Demo Event', 1), ('Demo Event 2', 1), ('Demo Event 3', 2)
+
+/* StandFunctionality */
+    IF NOT EXISTS(SELECT * FROM StandFunctionalities AS SF WHERE SF.Name = 'Default')
+    INSERT INTO StandFunctionalities(Name)
+                            VALUES('Default')
 END
 
 /* EventStand Data */
+
