@@ -68,11 +68,14 @@
                 {
                     <tr class="table-danger">
                         <td>
-                            <label>New name</label> 
-                            <input class="form-control" id="name" @bind="_newName" placeholder="Name"/>
-                            <button class="btn btn-primary m-1" @onclick="@(e=>ChangeName(stand))">Change</button></td>
+                            <div class="w-50 m-auto">
+                                <label>New stand name</label> 
+                                <input class="form-control" id="name" @bind="_newStandName" placeholder="Name"/>
+                                <button class="btn btn-primary m-1" @onclick="@(e=>ChangeName(stand))">Update stand name</button>
+                            </div>
+                        </td>
                         <td>
-                            <table>
+                            <table class="w-100">
                                 <thead>
                                     <tr>
                                         <td>Product</td>
@@ -94,7 +97,7 @@
                           </table>
                       </td>
                       <td>
-                          <EditForm Model="@_standProductReq" OnValidSubmit="@(e => HandleValidSubmitProduct(stand))">
+                          <EditForm Model="@_standProductReq" OnValidSubmit="@(e => HandleValidSubmitProduct(stand))" class="w-50 m-auto">
                             <DataAnnotationsValidator/>
                             <ValidationSummary/>
                              <div class="form-group">
@@ -131,7 +134,7 @@
 
     private EventStandModel _eventStandReq = new EventStandModel();
     private List<StandFunctionalityModel> _standFunctionalities = new List<StandFunctionalityModel>();
-    private string _newName;
+    private string _newStandName;
     private StandProductRepository _standProductRepository = new StandProductRepository();
     private EventRepository _eventRepository = new EventRepository();
     private EventStandRepository _eventStandRepository = new EventStandRepository();
@@ -219,8 +222,8 @@
 
     private async Task ChangeName(EventStandModel stand)
     {
-        _eventModel.EventStands.Find(x => x.Id == stand.Id).Name = _newName;
-        await _eventStandRepository.UpdateNameAsync(stand, _newName);
+        _eventModel.EventStands.Find(x => x.Id == stand.Id).Name = _newStandName;
+        await _eventStandRepository.UpdateNameAsync(stand, _newStandName);
     }
 
     private void ToggleAddStand()
