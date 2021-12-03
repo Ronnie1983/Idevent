@@ -27,6 +27,13 @@ namespace IdeventTests.IntegrationTests
 
             Assert.IsInstanceOfType(events, typeof(List<EventModel>));
         }
+        [TestMethod]
+        public void GetByIdReturnsModel()
+        {
+            EventModel model = _eventManager.GetById(1);
+            Assert.IsNotNull(model);
+            Assert.IsInstanceOfType(model, typeof(EventModel));
+        }
 
 
     }
