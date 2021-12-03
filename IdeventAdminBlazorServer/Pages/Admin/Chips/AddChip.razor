@@ -37,13 +37,13 @@
     {
         <div class="form-group">
             <label>Company</label>
-            <InputSelect @bind-Value=_chip.Company.Id class="form-control">
+            <InputSelect @bind-Value=_selectedCompany.Id class="form-control">
 
                 <option value="0" selected>Select company</option>
 
                 @foreach (CompanyModel company in _companies)
                 {
-                <option @onselect=ShowEventSelection value=@company.Id>@company.Name</option>
+                <option @onselect=SelectCompanyAndShowEventSelection value=@company.Id>@company.Name</option>
                 }
         </InputSelect>
     </div>
@@ -76,12 +76,15 @@
     private InputTextFocusable _chipUIDInput;
     private List<CompanyModel> _companies;
     private RenderFragment _displayMessage;
+    private CompanyModel _selectedCompany = new CompanyModel();
 
     protected override async Task OnInitializedAsync()
     {
-        _chip = new ChipModel(0, "", DateTimeOffset.Now, DateTimeOffset.Now.AddDays(5), new ChipGroupModel(), new EventModel(), new CompanyModel())
+        _chip = new ChipModel()
             {
-
+                 HashedId = "",
+                 ValidFrom = DateTimeOffset.Now,
+                 ValidTo = DateTimeOffset.Now.AddDays(5),
             };
         _companies = await companyRepository.GetAllAsync();
     }
@@ -93,9 +96,10 @@
             await _chipUIDInput.FocusAsync();
         }
     }
-    private void ShowEventSelection()
+    private void SelectCompanyAndShowEventSelection()
     {
-        // TODO: Get events connected to the selected company.
+        _chip.Company = _selectedCompany;
+        // TODO: Retrieve events connected to the selected company.
     }
     private void HandleValidSubmitChip()
     {
@@ -109,7 +113,8 @@
     {
         if (isError)
         {
-            return @<div class="alert alert-danger">@message</div>;
+            return 
+    @<div class="alert alert-danger">@message</div>;
         }
         return @<div class="alert alert-success">@message</div>;
     }
