@@ -11,8 +11,16 @@ namespace IdeventAPI.Managers
     public class CompanyManager
     {
 
-        private IDbConnection _dbConnection = new SqlConnection(AppSettings.ConnectionString);
+        private IDbConnection _dbConnection;
 
+        public CompanyManager()
+        {
+            _dbConnection = new SqlConnection(AppSettings.ConnectionString);
+        }
+        public CompanyManager(string connectionString)
+        {
+            _dbConnection = new SqlConnection(connectionString);
+        }
         public List<CompanyModel> GetAll()
         {
             //SELECT C.id, C.Name, C.CVR, C.PhoneNumber, C.Email, C.CVR, C.Note, A.Id, A.StreetAddress,A.City, A.PostalCode, A.Country, B.Id, B.StreetAddress, B.City, B.PostalCode, B.Country
