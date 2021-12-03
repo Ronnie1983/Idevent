@@ -1,37 +1,103 @@
 ﻿@page "/AddChip"
+@using IdeventLibrary.Repositories
 @inject IJSRuntime JSRuntime
+@inject CompanyRepository _companyRepository
 
 <h1>Add Chip</h1>
 
 <NavigateButton PageToNavigateTo="Chips" ButtonText="Cancel" HtmlClasses="btn btn-danger m-1" />
 
 
+<EditForm Model="_chip" OnValidSubmit="HandleValidSubmitChip">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-    <label>Chip UID</label>
-    <input id="inputChipUID" @ref=_chipUIDInput></input>
-
-    <label>Validity Period</label>
-    <div>
-        <label>From</label>
-
+    <div class="form-group">
+        <label>Chip UID</label>
+        <InputTextFocusable id="inputChipUID" @ref=_chipUIDInput @bind-Value=_chip.HashedId class="form-control" />
     </div>
+    <div class="form-group mt-2">
+        <label>Validity Period:</label>
+        <div>
+            <div class="d-inline-block">
+                <label class="">From</label><br />
+                <InputDate @bind-Value=_chip.ValidFrom class="form-control"/>
+            </div>
+            <span>-</span>
+            <div class="d-inline-block">
+                <label>To</label><br />
+                <InputDate @bind-Value=_chip.ValidTo class="form-control"/>
+            </div>
+        </div>
+    </div>
+    @* <div class="form-group"> // TODO: Add user email input when adding chip.
+        <label>User E-mail</label>
+        <InputText class="form-control disabled" @bind-Value=_chip.User.Email/>
+        </div>*@
+    @if (_companies is not null)
+    {
+        <div class="form-group">
+            <label>Company</label>
+            <InputSelect @bind-Value=_chip.Company.Id class="form-control">
 
-<NavigateButton PageToNavigateTo="Chips" ButtonText="Cancel" HtmlClasses="btn btn-danger m-1" />
+                <option value="0" selected>Select company</option>
+
+                @foreach (CompanyModel company in _companies)
+                {
+                <option @onselect=ShowEventSelection value=@company.Id>@company.Name</option>
+                }
+        </InputSelect>
+    </div>
+    }
+
+    <div class="form-group">
+        <label>Choose event (optional)</label>
+    </div>
+    <div class="form-group">
+        <label>text</label>
+        - Group
+    </div>
+    <div class="form-group">
+        <label>text</label>
+        - Event products
+    </div>
+    <div class="form-group">
+        <label>text</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <NavigateButton PageToNavigateTo="Chips" ButtonText="Cancel" HtmlClasses="btn btn-danger m-1" />
+</EditForm>
+
+
+
 
 @code {
     private ChipModel _chip;
-    private ElementReference _chipUIDInput;
+    private InputTextFocusable _chipUIDInput;
+    private List<CompanyModel> _companies;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _chip = new ChipModel(0, "", DateTimeOffset.Now, DateTimeOffset.Now.AddDays(5), new ChipGroupModel(), new EventModel(), new CompanyModel())
+            {
+
+            };
+        _companies = await _companyRepository.GetAllAsync();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await JSRuntime.FocusAsync(_chipUIDInput);
+            await _chipUIDInput.FocusAsync();
         }
     }
-
+    private void ShowEventSelection()
+    {
+        // TODO: Get events connected to the selected company.
+    }
     private void HandleValidSubmitChip()
     {
-        
+        // TODO: create chip
     }
 }
