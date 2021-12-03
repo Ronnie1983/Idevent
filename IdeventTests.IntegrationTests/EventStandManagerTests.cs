@@ -28,6 +28,14 @@ namespace IdeventTests.IntegrationTests
             Assert.IsInstanceOfType(list, typeof(List<EventStandModel>));
         }
         [TestMethod]
+        public void GetAllByEventIdReturnsList()
+        {
+            List<EventStandModel> list = _manager.GetAllByEventId(1);
+
+            Assert.IsNotNull(list);
+            Assert.IsInstanceOfType(list, typeof(List<EventStandModel>));
+        }
+        [TestMethod]
         public void GetByIdReturnsModel()
         {
             EventStandModel stand = _manager.GetById(1);
