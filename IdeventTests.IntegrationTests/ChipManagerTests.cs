@@ -25,6 +25,7 @@ namespace IdeventTests.IntegrationTests
             List<ChipModel> chips = _chipManager.GetAll();
 
             Assert.IsInstanceOfType(chips, typeof(List<ChipModel>));
+            Assert.IsTrue(chips.Count >= 0);
         }
         [TestMethod]
         public void GetByIdReturnsModel()
