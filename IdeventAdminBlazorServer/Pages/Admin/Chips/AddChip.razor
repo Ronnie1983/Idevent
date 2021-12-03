@@ -1,9 +1,37 @@
 ﻿@page "/AddChip"
+@inject IJSRuntime JSRuntime
 
 <h1>Add Chip</h1>
 
-<NavigateButton PageToNavigateTo="Chips" ButtonText="Cancel" HtmlClasses="btn btn-danger m-1"/>
+<NavigateButton PageToNavigateTo="Chips" ButtonText="Cancel" HtmlClasses="btn btn-danger m-1" />
+
+
+
+    <label>Chip UID</label>
+    <input id="inputChipUID" @ref=_chipUIDInput></input>
+
+    <label>Validity Period</label>
+    <div>
+        <label>From</label>
+
+    </div>
+
+<NavigateButton PageToNavigateTo="Chips" ButtonText="Cancel" HtmlClasses="btn btn-danger m-1" />
 
 @code {
+    private ChipModel _chip;
+    private ElementReference _chipUIDInput;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.FocusAsync(_chipUIDInput);
+        }
+    }
+
+    private void HandleValidSubmitChip()
+    {
+        
+    }
 }
