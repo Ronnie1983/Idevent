@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace IdeventTests.IntegrationTests
 {
@@ -55,6 +56,19 @@ namespace IdeventTests.IntegrationTests
         [TestMethod]
         public void DeleteDeletesOneOrZeroEntries()
         {
+            #region Remove data that prevents deletion of StandProducts
+            try
+            {
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "DELETE FROM ChipContents";
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                conn.Close();
+            }
+            #endregion
             int rowsAffected = _manager.Delete(3);
             Assert.AreEqual(1, rowsAffected);
 

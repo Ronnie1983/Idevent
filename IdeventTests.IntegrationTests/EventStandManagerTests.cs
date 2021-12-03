@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IdeventLibrary.Models;
+using System.Data.SqlClient;
 
 namespace IdeventTests.IntegrationTests
 {
@@ -69,6 +70,23 @@ namespace IdeventTests.IntegrationTests
         [TestMethod]
         public void DeleteRemovesOneOrZeroEntriesFromDatabase()
         {
+            #region Delete data that could prevent deletion of an EventStand.
+            try
+            {
+             
+                conn.Open();
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "DELETE FROM ChipContents";
+                cmd.ExecuteNonQuery();
+                cmd.CommandText = "DELETE FROM StandProducts";
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                conn.Close();
+            }
+            #endregion
+
             int affectedRowsFirstDelete = _manager.Delete(1);
             
             int affectedRowsSecondDelete = _manager.Delete(1);
