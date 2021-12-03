@@ -37,8 +37,25 @@ namespace IdeventTests.IntegrationTests
         [TestMethod]
         public void CreateAddsToDatabase()
         {
-            // TODO: Test CompanyManager.Create();
-            Assert.Fail("Missing Create test.");
+            CompanyModel companyToAdd = new CompanyModel
+            {
+                Name = "Inception ApS",
+                Email = "noit@inception.com",
+                CVR = "12345678",
+                Address = new AddressModel("Operagade 521", "Roskilde", "Danmark", "4000"),
+                Active = true,
+                Logo = "Ikke defineret",
+                PhoneNumber = "+45 009998877"
+            };
+            companyToAdd.InvoiceAddress = companyToAdd.Address;
+
+            int rowsAffected = _manager.Create(companyToAdd);
+
+            Assert.AreEqual(1, rowsAffected);
+            CompanyModel newCompanyfromDatabase = _manager.GetById(6);
+            Assert.AreEqual(companyToAdd.Address.City, newCompanyfromDatabase.Address.City);
+            Assert.AreEqual(companyToAdd.InvoiceAddress.City, newCompanyfromDatabase.InvoiceAddress.City);
+            Assert.AreEqual(companyToAdd.Name, newCompanyfromDatabase.Name);
         }
         [TestMethod]
         public void UpdateModifiesSpecifiedModel()
