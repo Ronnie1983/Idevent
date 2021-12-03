@@ -7,19 +7,19 @@ BEGIN
 INSERT INTO [Addresses] (StreetAddress,City,Country,PostalCode)
 VALUES
   ('288-4541 Turpis Rd.','Sweet Home Alabama City','Colombia','36951'),
-  ('Ap #825-8071 Id Rd.','Elán','Peru','43029'),
-  ('Ap #482-7550 Velit. Avenue','Heranburg','Austria','2384'),
+  ('Apostel Rd. 255xxx','Elán','Peru','43029'),
+  ('Ballon Avenue 5xxx','Heranburg','Austria','2384'),
   ('375-639 Proin St.','Reckon','Colombia','502464'),
-  ('Ap #368-3068 Egestas. Road','Chapville','France','SM2M 1IC');
+  ('Ap Egestas. Road','Chapville','France','SM2M 1IC');
 
 -- AddressModel (same as Addressses, but EF Core)
 INSERT INTO [AddressModel] (StreetAddress,City,Country,PostalCode)
 VALUES
   ('288-4541 Turpis Rd.','Sweet Home Alabama City','Colombia','36951'),
-  ('Ap #825-8071 Id Rd.','Elán','Peru','43029'),
-  ('Ap #482-7550 Velit. Avenue','Heranburg','Austria','2384'),
+  ('Apostel Rd. 255','Elán','Peru','43029'),
+  ('Ballon Avenue 5B','Heranburg','Austria','2384'),
   ('375-639 Proin St.','Reckon','Colombia','502464'),
-  ('Ap #368-3068 Egestas. Road','Chapville','France','SM2M 1IC');
+  ('Ap Egestasroad 712','Chapville','France','SM2M 1IC');
  
   -- Companies
 INSERT INTO [Companies](Name,Logo,CVR,Email,PhoneNumber,Active,Note,FK_AddressId,FK_InvoiceAddressId)
