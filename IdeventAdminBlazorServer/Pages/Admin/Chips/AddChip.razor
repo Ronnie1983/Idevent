@@ -1,9 +1,11 @@
 ﻿@page "/AddChip"
 @using IdeventLibrary.Repositories
 @inject IJSRuntime JSRuntime
-@inject CompanyRepository _companyRepository
+@inject CompanyRepository companyRepository
+@inject ChipRepository chipRepository
 
 <h1>Add Chip</h1>
+@_displayMessage @* _displayMessage is a RenderFragment *@
 
 <EditForm Model="_chip" OnValidSubmit="HandleValidSubmitChip">
     <DataAnnotationsValidator />
@@ -73,6 +75,7 @@
     private ChipModel _chip;
     private InputTextFocusable _chipUIDInput;
     private List<CompanyModel> _companies;
+    private RenderFragment _displayMessage;
 
     protected override async Task OnInitializedAsync()
     {
@@ -80,7 +83,7 @@
             {
 
             };
-        _companies = await _companyRepository.GetAllAsync();
+        _companies = await companyRepository.GetAllAsync();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -97,5 +100,17 @@
     private void HandleValidSubmitChip()
     {
         // TODO: create chip
+         //chipRepository.CreateAsync(_chip);
+        _displayMessage = MakeDisplayMessage($"{_chip.HashedId} was created (not implemented)", false);
+
+        _chip.HashedId = "";
+    }
+    private RenderFragment MakeDisplayMessage(string message, bool isError)
+    {
+        if (isError)
+        {
+            return @<div class="alert alert-danger">@message</div>;
+        }
+        return @<div class="alert alert-success">@message</div>;
     }
 }

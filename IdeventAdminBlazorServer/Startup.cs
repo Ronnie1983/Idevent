@@ -41,8 +41,9 @@ namespace IdeventAdminBlazorServer
             services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            // "vores" injections
+            // custom injections
             services.AddSingleton<CompanyRepository>();
+            services.AddSingleton<ChipRepository>();
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
