@@ -88,6 +88,11 @@ namespace IdeventTests
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.Index>(), "Chips Oversigt", "Chips");
         }
+        [TestMethod]
+        public void ChipsAddChipLoads()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.AddChip>(), "Add Chip", "AddChip");
+        }
 
         [TestMethod]
         public void CompanyDetailsLoads()
