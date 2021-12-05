@@ -1,8 +1,26 @@
 ﻿@page "/Terminal"
 @layout NonAdminLayout
+<style>
+    body {
+        background-color: #D4E9FF;
+    }
+</style>
 
-<h1>Terminal</h1>
+<div class="row">
+    <h1 class="col-md-12 mx-auto" style="text-align:center;">Idevent</h1>
+
+</div>
+<div class="row">
+    <div class="cirkel col-md-12 mx-auto"><h3>@_cirkelText</h3></div>
+    <div class="col-md-12 mx-auto">
+        <h4 style="font-size: 50px; text-align:center;">@_message</h4>
+    </div>
+</div>
+
+
+
 
 @code {
-
+    private string _cirkelText = "Ready";
+    private string _message = "Please scan chip to login";
 }

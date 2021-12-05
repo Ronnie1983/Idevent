@@ -48,3 +48,23 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+.cirkel {
+    position: relative;
+    width: min(97%,400px);
+    padding-bottom: min(97%,400px);
+    background: #EAF676;
+    border-radius: 50%;
+    border-color: blue;
+    border-width: thick;
+    border-style: solid;
+}
+
+.cirkel h3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    font-size: 50px;
+}
