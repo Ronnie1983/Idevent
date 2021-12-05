@@ -40,7 +40,7 @@ namespace IdeventTests.IntegrationTests
         public void Init()
         {
             // This assummes that you've generated the database via the SQL Server Database project, hence no "create tables" here.
-            string insertScriptFileName = "Script.InsertTestData.sql";
+            string insertScriptFileName = "Script.InsertTestData.sql"; // inserts 5 rows of data in all tables.
             string insertScript = ReadSqlScript(insertScriptFileName);
             ExecuteNonQuery(insertScript, insertScriptFileName);
 
