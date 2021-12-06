@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +39,7 @@ namespace IdeventLibrary.Models
             get => _id;
             set => _id = value;
         }
-
+        [MinLength(1, ErrorMessage ="Invalid Chip UID")]
         public string HashedId
         {
             get => _hashedId;
@@ -68,7 +69,7 @@ namespace IdeventLibrary.Models
             get => _event;
             set => _event = value;
         }
-
+        [Required]
         public CompanyModel Company
         {
             get => _company;

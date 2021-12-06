@@ -18,6 +18,7 @@ using IdeventAdminBlazorServer.Data;
 using IdeventLibrary.Models;
 using Microsoft.EntityFrameworkCore.Design;
 using IdeventLibrary;
+using IdeventLibrary.Repositories;
 
 namespace IdeventAdminBlazorServer
 {
@@ -39,6 +40,11 @@ namespace IdeventAdminBlazorServer
                     AppSettings.ConnectionString));
             services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            // custom injections
+            services.AddSingleton<CompanyRepository>();
+            services.AddSingleton<ChipRepository>();
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
