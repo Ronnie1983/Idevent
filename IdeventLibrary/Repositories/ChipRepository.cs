@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-//using System.Text.Json;
 using System.Threading.Tasks;
 
 
@@ -56,7 +55,7 @@ namespace IdeventLibrary.Repositories
             try
             {
                 string jsonContent = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/{id}"));
-                ChipModel chip = JsonSerializer.Deserialize<ChipModel>(jsonContent, Helpers.JsonSerializerOptions);
+                ChipModel chip = JsonConvert.DeserializeObject<ChipModel>(jsonContent);
 
                 return chip;
             }
@@ -77,7 +76,7 @@ namespace IdeventLibrary.Repositories
                 {
                     return null;
                 }
-                ChipModel chip = JsonSerializer.Deserialize<ChipModel>(jsonContent, Helpers.JsonSerializerOptions);
+                ChipModel chip = JsonConvert.DeserializeObject<ChipModel>(jsonContent);
 
                 return chip;
             }
