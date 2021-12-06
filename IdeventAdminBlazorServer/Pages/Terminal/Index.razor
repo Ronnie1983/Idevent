@@ -1,4 +1,8 @@
 ﻿@page "/Terminal"
+@using IdeventLibrary.Repositories
+@inject NavigationManager _navigationManager
+
+
 @layout NonAdminLayout
 <style>
     body {
@@ -8,19 +12,67 @@
 
 <div class="row">
     <h1 class="col-md-12 mx-auto" style="text-align:center;">Idevent</h1>
-
 </div>
+<ScanCirkle CirkelText="Working" Color="#bbb"/>
 <div class="row">
-    <div class="cirkel col-md-12 mx-auto"><h3>@_cirkelText</h3></div>
     <div class="col-md-12 mx-auto">
         <h4 style="font-size: 50px; text-align:center;">@_message</h4>
     </div>
 </div>
 
+<div>
+    <EditForm Model="_formInput" OnSubmit="@SubmitNFC">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <label>NFC Read test</label>
+            <InputTextSetFocus @bind-Value="@_formInput.Input"></InputTextSetFocus>
+        </div>
 
+    </EditForm>
+
+
+</div>
 
 
 @code {
-    private string _cirkelText = "Ready";
+    private string _keyInput;
+
+    private KeyInput referenceKey;
+
+    private NFCInputModel _formInput = new NFCInputModel();
+
     private string _message = "Please scan chip to login";
+
+    private ChipRepository _chipRepository = new ChipRepository();
+
+    public async Task SubmitNFC()
+    {
+
+        // do something
+        ChipModel chip = await ChipExists(_formInput.Input);
+        if (chip != null)
+        {
+            // TODO: Validere om chip tilhører en opperator
+            if (true)
+            {
+                _navigationManager.NavigateTo($"Ready/{chip.Id}");
+            }
+        }
+        else
+        {
+            
+        }
+
+        // Reset the Model for new input.
+        _formInput = new NFCInputModel();
+
+    }
+
+    public async Task<ChipModel> ChipExists(string chipId)
+    {
+        var result = await _chipRepository.GetBySecretId(chipId);
+        return result;
+    }
+
 }

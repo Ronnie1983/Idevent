@@ -54,7 +54,18 @@ namespace IdeventAPI.Controllers
             }
             return Ok(chip);
         }
-        
+
+        [HttpGet("Secret/{id}")]
+        public IActionResult GetById(string id)
+        {
+            ChipModel chip = _chipManager.GetBySecretId(id);
+            if (chip == null)
+            {
+                return NotFound();
+            }
+            return Ok(chip);
+        }
+
         [HttpPut]
         public IActionResult Update(int oldModelId, EventModel newModel)
         {

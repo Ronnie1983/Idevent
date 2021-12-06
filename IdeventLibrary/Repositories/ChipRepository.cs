@@ -40,6 +40,25 @@ namespace IdeventLibrary.Repositories
             return chip;
         }
 
+        public async Task<ChipModel> GetBySecretId(string id)
+        {
+            try
+            {
+                string jsonContent = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/Secret/{id}"));
+                if (string.IsNullOrEmpty(jsonContent))
+                {
+                    return null;
+                }
+                ChipModel chip = JsonSerializer.Deserialize<ChipModel>(jsonContent, Helpers.JsonSerializerOptions);
+
+                return chip;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
 
     }
 }
