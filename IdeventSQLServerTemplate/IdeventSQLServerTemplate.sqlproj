@@ -125,6 +125,9 @@
     <None Include="dbo\Scripts\Script.InsertTestData.sql" />
     <PostDeploy Include="dbo\Scripts\Script.InsertTestData-NoIdentity.sql" />
     <Build Include="dbo\StoredProcedures\spGetChipBySecretId.sql" />
+    <Build Include="dbo\StoredProcedures\spCreateChipGroup.sql" />
+    <Build Include="dbo\StoredProcedures\spCreateChip.sql" />
+
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />

@@ -88,7 +88,13 @@
                         <td>@chip.ValidTo.ToString("d")</td>
                         <td>@chip.Company.Name</td>
                         <td>@chip.Group.Name</td>
-                        <td>@chip.Event.Name</td>
+                        @if(@chip.Event == null)
+                        {
+                        <td>-</td>
+                        }
+                        else{
+                            <td>@chip.Event.Name</td>
+                        }
                         <td>
                             <div class="btn-group">
                                 @*<NavigateButton PageToNavigateTo=@(NavigationArgument("EditEvent/", eventModel.Id)) ButtonText="Edit event"/>*@

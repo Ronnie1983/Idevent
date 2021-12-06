@@ -1,6 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
+using IdeventLibrary.Repositories;
 
 namespace IdeventTests
 {
@@ -15,6 +17,9 @@ namespace IdeventTests
         [TestInitialize]
         public void Inititialise()
         {
+            _testContext.JSInterop.SetupVoid("BlazorFocusElement", _ => true);
+            _testContext.Services.AddSingleton<CompanyRepository>(new CompanyRepository());
+            _testContext.Services.AddSingleton<ChipRepository>(new ChipRepository());
             _navManager = _testContext.Services.GetService<NavigationManager>();
         }
         [TestMethod]
@@ -87,6 +92,12 @@ namespace IdeventTests
         public void ChipsEditChipCancelBtn()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.Index>(), "Chips Oversigt", "Chips");
+        }
+        [TestMethod]
+        public void ChipsAddChipLoads()
+        {
+            
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.AddChip>(), "Add Chip", "AddChip");
         }
 
         [TestMethod]
