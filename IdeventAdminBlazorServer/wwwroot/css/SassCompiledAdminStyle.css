@@ -6,6 +6,10 @@
   text-align: center;
 }
 
+.form-group label {
+  font-weight: bold;
+}
+
 .loader {
   border: 8px solid #f3f3f3;
   /* Light grey */

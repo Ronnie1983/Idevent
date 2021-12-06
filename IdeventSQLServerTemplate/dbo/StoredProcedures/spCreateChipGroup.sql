@@ -1,0 +1,8 @@
+﻿CREATE PROCEDURE [dbo].[spCreateChipGroup]
+	@Name NVARCHAR(50)
+AS
+BEGIN
+INSERT INTO ChipGroups
+OUTPUT INSERTED.Id
+VALUES (@Name)
+END

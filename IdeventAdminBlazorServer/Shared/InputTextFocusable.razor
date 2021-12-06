@@ -1,0 +1,17 @@
+﻿@inherits InputText
+@inject IJSRuntime JSRuntime
+
+<input @ref="inputElement"
+        @attributes="AdditionalAttributes"
+        class="@CssClass"
+        value=@CurrentValue
+        @onchange="EventCallback.Factory.CreateBinder<string>(this, __value => CurrentValueAsString = __value, CurrentValueAsString)"/>
+
+@code {
+    private ElementReference inputElement;
+
+    public ValueTask FocusAsync()
+    {
+        return JSRuntime.FocusAsync(inputElement);
+    }
+}
