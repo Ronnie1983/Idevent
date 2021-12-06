@@ -5,9 +5,13 @@
 @inject ChipRepository chipRepository
 
 <h1>Add Chip</h1>
-@_displayMessage @* _displayMessage is a RenderFragment *@
+@if (_displayMessage is not null)
+{
+    @_displayMessage
+    // _displayMessage is a RenderFragment
+}
 
-<EditForm Model="_chip" OnValidSubmit="HandleValidSubmitChip" OnInvalidSubmit="HandleInvalidSubmit">
+<EditForm Model="_chip" OnValidSubmit="HandleValidSubmitChip">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -37,16 +41,14 @@
     {
         <div class="form-group">
             <label>Company</label>
-            <InputSelect @bind-Value=_selectedCompany.Id class="form-control" @onchange="@SelectCompanyAndShowEventSelection">
-
+            <select class="form-control" value="" @onchange="e => SelectCompanyAndShowEventSelection(e)">
                 <option value="0" selected>Select company</option>
-
                 @foreach (CompanyModel company in _companies)
                 {
-                <option value=@company.Id>@company.Name</option>
+                    <option value=@company.Id>@company.Name</option>
                 }
-        </InputSelect>
-    </div>
+            </select>
+        </div>
     }
 
     @*   <div class="form-group">
@@ -72,11 +74,11 @@
 
 
 @code {
-    private ChipModel _chip;
+    private ChipModel _chip = new ChipModel();
     private InputTextFocusable _chipUIDInput;
-    private List<CompanyModel> _companies;
+    private List<CompanyModel> _companies = new List<CompanyModel>();
     private RenderFragment _displayMessage;
-    private CompanyModel _selectedCompany = new CompanyModel();
+    private int _selectedCompanyId;
 
     protected override async Task OnInitializedAsync()
     {
@@ -96,9 +98,9 @@
             await _chipUIDInput.FocusAsync();
         }
     }
-    private void SelectCompanyAndShowEventSelection()
+    private void SelectCompanyAndShowEventSelection(ChangeEventArgs e)
     {
-        _chip.Company = _companies.Find(company => company.Id == _selectedCompany.Id);
+        _chip.Company = _companies.Find(company => company.Id == Convert.ToInt32(e.Value));
         // TODO: Retrieve events connected to the selected company.
     }
     private async Task HandleValidSubmitChip()
@@ -117,12 +119,6 @@
         await _chipUIDInput.FocusAsync();
 
     }
-    private void HandleInvalidSubmit()
-    {
-        // Temporary hack. TODO: fix @onchange SelectCompanyAndShowEventSelection
-        Console.WriteLine(_selectedCompany.Id);
-        _chip.Company = _companies.Find(company => company.Id == _selectedCompany.Id);
-    }
     /// <summary>
     /// Makes a RenderFragment with a div.alert that is either success or danger.
     /// </summary>
@@ -133,7 +129,8 @@
     {
         if (isError)
         {
-            return @<div class="alert alert-danger">@message</div>;
+            return
+    @<div class="alert alert-danger">@message</div>;
         }
 
         return @<div class="alert alert-success">@message</div>;
