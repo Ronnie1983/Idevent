@@ -1,12 +1,14 @@
 ﻿using IdeventLibrary.Models;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
+//using System.Text.Json;
 using System.Threading.Tasks;
+
 
 
 namespace IdeventLibrary.Repositories
@@ -22,14 +24,14 @@ namespace IdeventLibrary.Repositories
 
         public async Task<ChipModel> CreateAsync(ChipModel newChipModel)
         {
-            string json = JsonSerializer.Serialize(newChipModel);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            string json = JsonConvert.SerializeObject(newChipModel);
+            StringContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync(new Uri($"{_baseUrl}"), content);
+            var response = await _httpClient.PostAsync(new Uri($"{_baseUrl}"), httpContent);
             if (response.IsSuccessStatusCode)
             {
                 string newItemAsJson = await _httpClient.GetStringAsync(response.Headers.Location.AbsoluteUri);
-                ChipModel newItem = JsonSerializer.Deserialize<ChipModel>(newItemAsJson);
+                ChipModel newItem = JsonConvert.DeserializeObject<ChipModel>(newItemAsJson);
                 return newItem;
             }
             return null;
@@ -40,7 +42,7 @@ namespace IdeventLibrary.Repositories
             try
             {
                 string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
-                var chipList = JsonSerializer.Deserialize<List<ChipModel>>(jsonContent, Helpers.JsonSerializerOptions);
+                var chipList = JsonConvert.DeserializeObject<List<ChipModel>>(jsonContent);
                 return chipList;
             }
             catch
@@ -51,7 +53,7 @@ namespace IdeventLibrary.Repositories
         public async Task<ChipModel> GetById(int id)
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/{id}"));
-            ChipModel chip = JsonSerializer.Deserialize<ChipModel>(jsonContent, Helpers.JsonSerializerOptions);
+            ChipModel chip = JsonConvert.DeserializeObject<ChipModel>(jsonContent);
             
             return chip;
         }

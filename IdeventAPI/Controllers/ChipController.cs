@@ -24,12 +24,12 @@ namespace IdeventAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(ChipModel model)
+        public ActionResult Create(ChipModel model)
         {
-            int result = _chipManager.Create(model);
-            if(result > 0)
+            int id = _chipManager.Create(model);
+            if(id > 0)
             {
-                return Ok(result);
+                return CreatedAtAction(nameof(GetById), new { id }, model);
             }
             return BadRequest();
         }

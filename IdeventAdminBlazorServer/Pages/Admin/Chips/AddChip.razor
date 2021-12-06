@@ -98,7 +98,7 @@
     }
     private void SelectCompanyAndShowEventSelection()
     {
-        _chip.Company = _selectedCompany;
+        _chip.Company = _companies.Find(company => company.Id == _selectedCompany.Id);
         // TODO: Retrieve events connected to the selected company.
     }
     private async Task HandleValidSubmitChip()
@@ -112,7 +112,7 @@
             return;
         }
 
-        _displayMessage = MakeDisplayMessage($"{_chip.HashedId} was created (not implemented)", false);
+        _displayMessage = MakeDisplayMessage($"{_chip.HashedId} was created.", false);
         _chip.HashedId = "";
         await _chipUIDInput.FocusAsync();
 
@@ -121,7 +121,7 @@
     {
         // Temporary hack. TODO: fix @onchange SelectCompanyAndShowEventSelection
         Console.WriteLine(_selectedCompany.Id);
-        _chip.Company = _selectedCompany;
+        _chip.Company = _companies.Find(company => company.Id == _selectedCompany.Id);
     }
     /// <summary>
     /// Makes a RenderFragment with a div.alert that is either success or danger.
