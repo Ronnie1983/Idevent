@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+
 namespace IdeventLibrary.Repositories
 {
     public class ChipRepository
@@ -17,6 +18,21 @@ namespace IdeventLibrary.Repositories
         
         public ChipRepository()
         {         
+        }
+
+        public async Task<ChipModel> CreateAsync(ChipModel newChipModel)
+        {
+            string json = JsonSerializer.Serialize(newChipModel);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(new Uri($"{_baseUrl}"), content);
+            if (response.IsSuccessStatusCode)
+            {
+                string newItemAsJson = await _httpClient.GetStringAsync(response.Headers.Location.AbsoluteUri);
+                ChipModel newItem = JsonSerializer.Deserialize<ChipModel>(newItemAsJson);
+                return newItem;
+            }
+            return null;
         }
 
         public async Task<List<ChipModel>> GetAllAsync()
