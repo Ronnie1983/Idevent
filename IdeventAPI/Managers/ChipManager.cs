@@ -73,6 +73,8 @@ namespace IdeventAPI.Managers
                 {
                     output.ProductsOnChip.Add(item.Name, item.Amount);
                 }
+
+               
                 return output;
             }
             catch(SqlException ex)
@@ -91,7 +93,7 @@ namespace IdeventAPI.Managers
             }
         }
 
-        internal ChipModel GetBySecretId(string id)
+        public ChipModel GetBySecretId(string id)
         {
             try
             {

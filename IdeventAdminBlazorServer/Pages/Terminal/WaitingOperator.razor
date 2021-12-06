@@ -21,12 +21,27 @@
     </div>
 </div>
 
+<table>
+    <thead>
 
+    </thead>
+    <tbody>
+        @foreach(var item in _chip.ProductsOnChip)
+        {
+            <tr>
+                <td>item</td>
+            </tr>
 
-@code {
+        }
+    </tbody>
+</table>
+
+    @code {
     [Parameter]
     public string Id { get; set; }
 
-     private string _message = "Waiting operator";
+    private string _message = "Waiting operator";
+
+    private ChipModel _chip;
 
 }
