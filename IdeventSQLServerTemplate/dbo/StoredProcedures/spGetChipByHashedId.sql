@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[spGetChipBySecretId]
+﻿CREATE PROCEDURE [dbo].[spGetChipByHashedId]
 	@Id nvarchar(50)
 AS
 

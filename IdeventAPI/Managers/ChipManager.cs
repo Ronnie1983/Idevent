@@ -139,7 +139,7 @@ namespace IdeventAPI.Managers
             try
             {
                 // Columns: Chips.Id, ValidFrom, ValidTo, ChipGroups.Id, ChipGroups.Name, Id, CompanyName, Email, Id, EventName
-                string sql = "EXECUTE spGetChipBySecretId @Id";
+                string sql = "EXECUTE spGetChipByHashedId @Id";
                 var parameters = new { Id = id };
 
                 // TODO: Add UserModel to Query (for Users Email)

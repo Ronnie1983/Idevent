@@ -71,7 +71,7 @@ namespace IdeventLibrary.Repositories
         {
             try
             {
-                string jsonContent = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/Secret/{id}"));
+                string jsonContent = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/HashedId/{id}"));
                 if (string.IsNullOrEmpty(jsonContent))
                 {
                     return null;
