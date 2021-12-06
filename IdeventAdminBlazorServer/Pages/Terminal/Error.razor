@@ -1,10 +1,30 @@
-﻿@page "/Error"
+﻿@page "/Error/{destination}/{id}"
+@page "/Error/{destination}"
 @layout NonAdminLayout
+@inject NavigationManager _navigationManager
 
-<h3>Error</h3>
-<p>@Message</p>
+<div class="row">
+    <h1 class="col-md-12 mx-auto" style="text-align:center;">Idevent</h1>
+</div>
+<ScanCirkle CirkelText="Error" Color="#RED"/>
+<div class="row">
+    <div class="col-md-12 mx-auto">
+        <h4 style="font-size: 50px; text-align:center;">@_message</h4>
+    </div>
+</div>
 
 @code {
     [Parameter]
-    public string Message { get; set; } = "Something went wrong";
+    public string Destination { get; set; }
+
+    [Parameter]
+    public string Id { get; set; }
+
+    private string _message = "Something went wrong, try again";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await Task.Delay(5000);
+        _navigationManager.NavigateTo(Destination+"/"+Id);
+    }
 }

@@ -13,7 +13,7 @@
 <div class="row">
     <h1 class="col-md-12 mx-auto" style="text-align:center;">Idevent</h1>
 </div>
-<ScanCirkle CirkelText="Working" Color="#bbb"/>
+<ScanCirkle CirkelText="Ready" Color="#EAF676"/>
 <div class="row">
     <div class="col-md-12 mx-auto">
         <h4 style="font-size: 50px; text-align:center;">@_message</h4>
@@ -38,8 +38,6 @@
 @code {
     private string _keyInput;
 
-    private KeyInput referenceKey;
-
     private NFCInputModel _formInput = new NFCInputModel();
 
     private string _message = "Please scan chip to login";
@@ -53,7 +51,7 @@
         ChipModel chip = await ChipExists(_formInput.Input);
         if (chip != null)
         {
-            // TODO: Validere om chip tilhører en opperator
+            // TODO: Validere om chip tilhører en opperator til event
             if (true)
             {
                 _navigationManager.NavigateTo($"Ready/{chip.Id}");
@@ -61,7 +59,7 @@
         }
         else
         {
-            _navigationManager.NavigateTo($"Error");
+            _navigationManager.NavigateTo($"Error/Terminal");
         }
 
         // Reset the Model for new input.
