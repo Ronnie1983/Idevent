@@ -20,12 +20,12 @@
     </div>
 </div>
 
-<div>
+<div class="inputFieldScan">
     <EditForm Model="_formInput" OnSubmit="@SubmitNFC">
         <DataAnnotationsValidator />
         <ValidationSummary />
         <div class="form-group">
-            <label>NFC Read test</label>
+            
             <InputTextSetFocus @bind-Value="@_formInput.Input"></InputTextSetFocus>
         </div>
 

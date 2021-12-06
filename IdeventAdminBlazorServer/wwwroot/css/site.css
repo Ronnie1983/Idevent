@@ -58,6 +58,7 @@ a, .btn-link {
     border-color: blue;
     border-width: thick;
     border-style: solid;
+    z-index: 2;
 }
 
 .cirkel h3 {
@@ -67,4 +68,12 @@ a, .btn-link {
     transform: translate(-50%, -50%);
     margin: 0;
     font-size: 50px;
+}
+
+.inputFieldScan {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    z-index: 1;
+    transform: translate(-50%, -50%);
 }
