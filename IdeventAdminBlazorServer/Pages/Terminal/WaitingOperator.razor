@@ -20,28 +20,59 @@
         <h4 style="font-size: 50px; text-align:center;">@_message</h4>
     </div>
 </div>
-
-<table>
+<div class="row">
+    <table class="table col-md-12 mx-auto">
     <thead>
-
+        <tr>
+            <td>Product</td>
+            <td>Amount</td>
+        </tr>
     </thead>
     <tbody>
-        @foreach(var item in _chip.ProductsOnChip)
+        @if(_chip != null)
         {
-            <tr>
-                <td>item</td>
-            </tr>
+               @foreach(var item in _chip.ProductsOnChip)
+                    {
+                        <tr>
+                            <td>@item.Key</td>
+                            <td>@item.Value</td>
+                        </tr>
 
+                    }
         }
+     
     </tbody>
 </table>
+</div>
 
-    @code {
+
+@code {
     [Parameter]
     public string Id { get; set; }
 
     private string _message = "Waiting operator";
 
     private ChipModel _chip;
+    private ChipRepository _chipRepository = new ChipRepository();
 
+    protected override async Task OnInitializedAsync()
+    {
+        _chip = await _chipRepository.GetById(TryConvert(Id));
+    }
+
+    private int TryConvert(string value)
+    {
+        int result = 0;
+        try
+        {
+            result = Int32.Parse(value);
+
+        }
+        catch
+        {
+            Console.WriteLine("Unable to parse " + value);
+
+        }
+        return result;
+    }
 }

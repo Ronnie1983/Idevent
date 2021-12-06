@@ -34,10 +34,18 @@ namespace IdeventLibrary.Repositories
         }
         public async Task<ChipModel> GetById(int id)
         {
-            string jsonContent = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/{id}"));
-            ChipModel chip = JsonSerializer.Deserialize<ChipModel>(jsonContent, Helpers.JsonSerializerOptions);
+            try
+            {
+                string jsonContent = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/{id}"));
+                ChipModel chip = JsonSerializer.Deserialize<ChipModel>(jsonContent, Helpers.JsonSerializerOptions);
+
+                return chip;
+            }
+            catch
+            {
+                return null;
+            }
             
-            return chip;
         }
 
         public async Task<ChipModel> GetBySecretId(string id)
