@@ -1,0 +1,10 @@
+﻿@page "/Error"
+@layout NonAdminLayout
+
+<h3>Error</h3>
+<p>@Message</p>
+
+@code {
+    [Parameter]
+    public string Message { get; set; } = "Something went wrong";
+}
