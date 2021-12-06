@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace IdeventAPI.Managers
 {
@@ -21,6 +22,46 @@ namespace IdeventAPI.Managers
         {
             _dbConnection = new SqlConnection(connectionString);
         }
+
+        public int Create(ChipModel newChip)
+        {
+            try
+            {
+                string sql = "spCreateChip @HashedId, @ValidFrom, @ValidTo, @CompanyId, @EventId, @ChipGroupId, @UserId";
+               
+                DynamicParameters parameters = new();
+
+                parameters.Add("HashedId", newChip.HashedId);
+                parameters.Add("ValidFrom", newChip.ValidFrom);
+                parameters.Add("ValidTo", newChip.ValidTo);
+                parameters.Add("CompanyId", newChip.Company.Id);
+
+                parameters.Add("EventId", null);
+                parameters.Add("ChipGroupId", 1); // default chip group (will course error in case ChipGroupId 1 doesn't exist.)
+                parameters.Add("UserId", null);
+
+                if (newChip.Group != null)
+                {
+                    parameters.Add("ChipGroupId", newChip.Group.Id);
+                }
+                if(newChip.Event != null)
+                {
+                    parameters.Add("EventId", newChip.Event.Id);
+                }
+                Object newChipId = _dbConnection.ExecuteScalar(sql, parameters);
+                if (newChipId != null)
+                {
+                    return Convert.ToInt32(newChipId);
+                }
+                return 0;
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
+            }
+        }
+
         public List<ChipModel> GetAll()
         {
             try
@@ -75,7 +116,7 @@ namespace IdeventAPI.Managers
                 }
                 return output;
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
                 Console.WriteLine(ex);
                 throw;

@@ -24,9 +24,14 @@ namespace IdeventAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(EventModel model)
+        public ActionResult Create(ChipModel model)
         {
-            throw new NotImplementedException();
+            int id = _chipManager.Create(model);
+            if(id > 0)
+            {
+                return CreatedAtAction(nameof(GetById), new { id }, model);
+            }
+            return BadRequest();
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

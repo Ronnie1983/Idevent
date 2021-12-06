@@ -7,7 +7,7 @@
 <h1>Add Chip</h1>
 @_displayMessage @* _displayMessage is a RenderFragment *@
 
-<EditForm Model="_chip" OnValidSubmit="HandleValidSubmitChip">
+<EditForm Model="_chip" OnValidSubmit="HandleValidSubmitChip" OnInvalidSubmit="HandleInvalidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -20,12 +20,12 @@
         <div>
             <div class="d-inline-block">
                 <label class="">From</label><br />
-                <InputDate @bind-Value=_chip.ValidFrom class="form-control"/>
+                <InputDate @bind-Value=_chip.ValidFrom class="form-control" />
             </div>
             <span>-</span>
             <div class="d-inline-block">
                 <label>To</label><br />
-                <InputDate @bind-Value=_chip.ValidTo class="form-control"/>
+                <InputDate @bind-Value=_chip.ValidTo class="form-control" />
             </div>
         </div>
     </div>
@@ -37,32 +37,32 @@
     {
         <div class="form-group">
             <label>Company</label>
-            <InputSelect @bind-Value=_selectedCompany.Id class="form-control">
+            <InputSelect @bind-Value=_selectedCompany.Id class="form-control" @onchange="@SelectCompanyAndShowEventSelection">
 
                 <option value="0" selected>Select company</option>
 
                 @foreach (CompanyModel company in _companies)
                 {
-                <option @onselect=SelectCompanyAndShowEventSelection value=@company.Id>@company.Name</option>
+                <option value=@company.Id>@company.Name</option>
                 }
         </InputSelect>
     </div>
     }
 
- @*   <div class="form-group">
+    @*   <div class="form-group">
         <label>Choose event (optional)</label>
-    </div>
-    <div class="form-group">
+        </div>
+        <div class="form-group">
         <label>text</label>
         - Group
-    </div>
-    <div class="form-group">
+        </div>
+        <div class="form-group">
         <label>text</label>
         - Event products
-    </div>
-    <div class="form-group">
+        </div>
+        <div class="form-group">
         <label>text</label>
-    </div>*@
+        </div>*@
 
     <button type="submit" class="btn btn-primary">Submit</button>
     <NavigateButton PageToNavigateTo="Chips" ButtonText="Cancel" HtmlClasses="btn btn-danger m-1" />
@@ -82,9 +82,9 @@
     {
         _chip = new ChipModel()
             {
-                 HashedId = "",
-                 ValidFrom = DateTimeOffset.Now,
-                 ValidTo = DateTimeOffset.Now.AddDays(5),
+                HashedId = "",
+                ValidFrom = DateTimeOffset.Now,
+                ValidTo = DateTimeOffset.Now.AddDays(5),
             };
         _companies = await companyRepository.GetAllAsync();
     }
@@ -98,24 +98,44 @@
     }
     private void SelectCompanyAndShowEventSelection()
     {
-        _chip.Company = _selectedCompany;
+        _chip.Company = _companies.Find(company => company.Id == _selectedCompany.Id);
         // TODO: Retrieve events connected to the selected company.
     }
-    private void HandleValidSubmitChip()
+    private async Task HandleValidSubmitChip()
     {
         // TODO: create chip
-         //chipRepository.CreateAsync(_chip);
-        _displayMessage = MakeDisplayMessage($"{_chip.HashedId} was created (not implemented)", false);
+        ChipModel submittedModel = await chipRepository.CreateAsync(_chip);
+        if (submittedModel is null)
+        {
+            _displayMessage = MakeDisplayMessage("Failed to create chip.", true);
 
+            return;
+        }
+
+        _displayMessage = MakeDisplayMessage($"{_chip.HashedId} was created.", false);
         _chip.HashedId = "";
+        await _chipUIDInput.FocusAsync();
+
     }
+    private void HandleInvalidSubmit()
+    {
+        // Temporary hack. TODO: fix @onchange SelectCompanyAndShowEventSelection
+        Console.WriteLine(_selectedCompany.Id);
+        _chip.Company = _companies.Find(company => company.Id == _selectedCompany.Id);
+    }
+    /// <summary>
+    /// Makes a RenderFragment with a div.alert that is either success or danger.
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="isError"></param>
+    /// <returns></returns>
     private RenderFragment MakeDisplayMessage(string message, bool isError)
     {
         if (isError)
         {
-            return 
-    @<div class="alert alert-danger">@message</div>;
+            return @<div class="alert alert-danger">@message</div>;
         }
+
         return @<div class="alert alert-success">@message</div>;
     }
 }

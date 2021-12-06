@@ -20,7 +20,14 @@
         <PropertyDisplay PropertyName="Valid To" PropertyValue="@(_chip.ValidTo.ToString("d"))" />
         <PropertyDisplay PropertyName="Company" PropertyValue="@(_chip.Company.Name)" />
         <PropertyDisplay PropertyName="Company Phone Number" PropertyValue="@(_chip.Company.PhoneNumber)" />
-        <PropertyDisplay PropertyName="Event" PropertyValue="@(_chip.Event.Name)" />
+        @if (_chip.Event == null)
+        {
+            <PropertyDisplay PropertyName="Event" PropertyValue="Not connected to event" />
+        }
+        else
+        {
+            <PropertyDisplay PropertyName="Event" PropertyValue="@(_chip.Event.Name)" />
+        }
         <PropertyDisplay PropertyName="Group" PropertyValue="@(_chip.Group.Name)" />
         <div><span class="fw-bold">Products</span></div>
         @if (_chip.ProductsOnChip.Count > 0 & _chip.ProductsOnChip != null)
