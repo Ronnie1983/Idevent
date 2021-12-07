@@ -63,7 +63,7 @@ namespace IdeventAPI.Controllers
         [HttpGet("HashedId/{id}")]
         public IActionResult GetById(string id)
         {
-            ChipModel chip = _chipManager.GetBySecretId(id);
+            ChipModel chip = _chipManager.GetByHashedId(id);
             if (chip == null)
             {
                 return NotFound();

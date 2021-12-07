@@ -134,7 +134,7 @@ namespace IdeventAPI.Managers
             }
         }
 
-        public ChipModel GetBySecretId(string id)
+        public ChipModel GetByHashedId(string id)
         {
             try
             {
