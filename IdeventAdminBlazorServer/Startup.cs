@@ -44,6 +44,7 @@ namespace IdeventAdminBlazorServer
             // custom injections
             services.AddSingleton<CompanyRepository>();
             services.AddSingleton<ChipRepository>();
+            services.AddSingleton<EventRepository>();
 
             services.AddRazorPages();
             services.AddServerSideBlazor();

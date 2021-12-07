@@ -24,9 +24,9 @@ namespace IdeventAPI.Managers
         {
             try
             {
-                string sql = "spCreateChipGroup @Name";
-                var parameters = new { Name = newChipGroup.Name };
-                Object createdId = _dbConnection.ExecuteScalar(sql, parameters, null, null, CommandType.StoredProcedure);
+                string sql = "spCreateChipGroup @Name, @EventId";
+                var parameters = new { Name = newChipGroup.Name, EventId = newChipGroup.EventId };
+                Object createdId = _dbConnection.ExecuteScalar(sql, parameters);
                 if(createdId != null)
                 {
                     return Convert.ToInt32(createdId);
