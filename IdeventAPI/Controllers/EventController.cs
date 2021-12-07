@@ -30,7 +30,7 @@ namespace IdeventAPI.Controllers
             int createdId = _eventManager.Create(model);
             if (createdId > 0)
             {
-                CreatedAtAction(nameof(GetById), new { Id = createdId }, model); // Id = createdId might cause issue?
+                return CreatedAtAction(nameof(GetById), new { Id = createdId }, model); // Id = createdId might cause issue?
             }
             return BadRequest();
         }
