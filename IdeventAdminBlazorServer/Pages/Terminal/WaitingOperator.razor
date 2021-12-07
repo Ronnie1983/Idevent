@@ -1,0 +1,73 @@
+﻿@page "/chipContent/{id}"
+
+@using IdeventLibrary.Repositories
+@inject NavigationManager _navigationManager
+
+
+@layout NonAdminLayout
+
+<div class="row">
+    <h1 class="col-md-12 mx-auto text-center">Idevent</h1>
+</div>
+<ScanCircle CircleText="Success" Color="#00C206"/>
+<div class="row">
+    <div class="col-md-12 mx-auto">
+        <h2 class="text-center">@_message</h2>
+    </div>
+</div>
+<div class="row">
+    <table class="table col-md-12 mx-auto">
+    <thead>
+        <tr>
+            <td>Product</td>
+            <td>Amount</td>
+        </tr>
+    </thead>
+    <tbody>
+        @if(_chip != null)
+        {
+               @foreach(var item in _chip.ProductsOnChip)
+                    {
+                        <tr>
+                            <td>@item.Key</td>
+                            <td>@item.Value</td>
+                        </tr>
+
+                    }
+        }
+     
+    </tbody>
+</table>
+</div>
+
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    private string _message = "Waiting operator";
+
+    private ChipModel _chip;
+    private ChipRepository _chipRepository = new ChipRepository();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _chip = await _chipRepository.GetById(TryConvert(Id));
+    }
+
+    private int TryConvert(string value)
+    {
+        int result = 0;
+        try
+        {
+            result = Int32.Parse(value);
+
+        }
+        catch
+        {
+            Console.WriteLine("Unable to parse " + value);
+
+        }
+        return result;
+    }
+}

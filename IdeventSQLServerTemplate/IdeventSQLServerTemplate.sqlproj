@@ -124,6 +124,7 @@
     <None Include="dbo\Scripts\Script.DropAllTables-NoIdentity.sql" />
     <None Include="dbo\Scripts\Script.InsertTestData.sql" />
     <PostDeploy Include="dbo\Scripts\Script.InsertTestData-NoIdentity.sql" />
+    <Build Include="dbo\StoredProcedures\spGetChipByHashedId.sql" />
     <Build Include="dbo\StoredProcedures\spCreateChipGroup.sql" />
     <Build Include="dbo\StoredProcedures\spCreateChip.sql" />
   </ItemGroup>

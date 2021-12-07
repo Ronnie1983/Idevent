@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-//using System.Text.Json;
 using System.Threading.Tasks;
 
 
@@ -52,10 +51,39 @@ namespace IdeventLibrary.Repositories
         }
         public async Task<ChipModel> GetById(int id)
         {
-            string jsonContent = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/{id}"));
-            ChipModel chip = JsonConvert.DeserializeObject<ChipModel>(jsonContent);
+
+            try
+            {
+                string jsonContent = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/{id}"));
+                ChipModel chip = JsonConvert.DeserializeObject<ChipModel>(jsonContent);
+
+                return chip;
+            }
+            catch
+            {
+                return null;
+            }
+
             
-            return chip;
+        }
+
+        public async Task<ChipModel> GetBySecretId(string id)
+        {
+            try
+            {
+                string jsonContent = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/HashedId/{id}"));
+                if (string.IsNullOrEmpty(jsonContent))
+                {
+                    return null;
+                }
+                ChipModel chip = JsonConvert.DeserializeObject<ChipModel>(jsonContent);
+
+                return chip;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 

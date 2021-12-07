@@ -2,6 +2,7 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #D4E9FF;
 }
 
 a, .btn-link {
@@ -48,3 +49,32 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+.circle {
+    position: relative;
+    width: min(97%,400px);
+    padding-bottom: min(97%,400px);
+    background: #EAF676;
+    border-radius: 50%;
+    border-color: blue;
+    border-width: thick;
+    border-style: solid;
+    z-index: 2;
+}
+
+.circle h3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    font-size: 50px;
+}
+
+.inputFieldScan {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+}

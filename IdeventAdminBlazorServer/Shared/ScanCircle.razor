@@ -1,0 +1,11 @@
+﻿<div class="row">
+    <div class="circle col-md-12 mx-auto" style="background: @Color;"><h3>@CircleText</h3></div>
+</div>
+
+@code {
+    [Parameter]
+    public string CircleText { get; set; }
+
+    [Parameter]
+    public string Color { get; set; } = "#EAF676";
+}

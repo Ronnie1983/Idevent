@@ -1,0 +1,20 @@
+﻿
+
+@code {
+    [Parameter]
+    public bool Success { get; set; } = false;
+    public string Input{ get; set; }
+    public String Output{ get; set; }
+    private NFCInputModel _formInput = new NFCInputModel();
+
+    public void SubmitNFC()
+    {
+
+        Success = false;
+        // do something
+
+        // Reset the Model for new input.
+        _formInput = new NFCInputModel();
+        
+    }
+}

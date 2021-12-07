@@ -59,7 +59,18 @@ namespace IdeventAPI.Controllers
             }
             return Ok(chip);
         }
-        
+
+        [HttpGet("HashedId/{id}")]
+        public IActionResult GetById(string id)
+        {
+            ChipModel chip = _chipManager.GetByHashedId(id);
+            if (chip == null)
+            {
+                return NotFound();
+            }
+            return Ok(chip);
+        }
+
         [HttpPut]
         public IActionResult Update(int oldModelId, EventModel newModel)
         {
