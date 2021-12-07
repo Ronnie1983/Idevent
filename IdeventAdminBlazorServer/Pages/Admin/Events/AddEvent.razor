@@ -1,14 +1,34 @@
 ﻿@page "/AddEvent"
-
+@inject CompanyRepository companyRepository
 <h1>Add Event</h1>
 
-@*<EditForm Model="_event">
-    <InputText @bind-Value=_event.Name/>
-    <InputText @bind-Value=_event.Name/>
+<EditForm Model="_event" OnValidSubmit="HandleValidEventSubmit">
+    <div class="form-group">
+        <label>Event name</label>
+        <InputTextSetFocus class="form-control" placeholder="Eventnavn årgang 2022" @bind-Value=_event.Name />
+    </div>
+    <SelectCompany Companies=_companies OnChangeCallback=SelectCompany />
 
-</EditForm>*@
+    <button type="submit" class="btn btn-primary m-4">Submit</button>
+    <NavigateButton ButtonText="Back to events" PageToNavigateTo="Events"></NavigateButton>
+</EditForm>
 @code {
-    private EventModel _event;
+    private EventModel _event = new EventModel();
+    private List<CompanyModel> _companies;
 
+    protected override async Task OnParametersSetAsync()
+    {
+
+        _companies = await companyRepository.GetAllAsync();
+    }
+
+    private void SelectCompany(ChangeEventArgs e)
+    {
+        _event.Company = _companies.Find(x => x.Id == Convert.ToInt32(e.Value));
+    }
+    private void HandleValidEventSubmit()
+    {
+        
+    }
 
 }
