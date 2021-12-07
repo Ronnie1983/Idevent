@@ -24,6 +24,8 @@ namespace IdeventLibrary.Models
         }
         public int Id { get; set; }
         [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
         public string Name { get; set; }
         [Required]
         public CompanyModel Company { get; set; }

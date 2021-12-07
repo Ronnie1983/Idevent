@@ -1,8 +1,14 @@
 ﻿@page "/AddEvent"
 @inject CompanyRepository companyRepository
+@inject EventRepository eventRepository
 <h1>Add Event</h1>
-
-<EditForm Model="_event" OnValidSubmit="HandleValidEventSubmit">
+@if (_message != null)
+{
+    @_message
+}
+<EditForm Model="_event" OnValidSubmit="HandleValidEventSubmitAsync">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
     <div class="form-group">
         <label>Event name</label>
         <InputTextSetFocus class="form-control" placeholder="Eventnavn årgang 2022" @bind-Value=_event.Name />
@@ -10,15 +16,15 @@
     <SelectCompany Companies=_companies OnChangeCallback=SelectCompany />
 
     <button type="submit" class="btn btn-primary m-4">Submit</button>
-    <NavigateButton ButtonText="Back to events" PageToNavigateTo="Events"></NavigateButton>
+    <NavigateButton ButtonText="Back to events" PageToNavigateTo="Events" HtmlClasses="btn-secondary"></NavigateButton>
 </EditForm>
 @code {
     private EventModel _event = new EventModel();
     private List<CompanyModel> _companies;
+    private RenderFragment _message;
 
     protected override async Task OnParametersSetAsync()
     {
-
         _companies = await companyRepository.GetAllAsync();
     }
 
@@ -26,9 +32,17 @@
     {
         _event.Company = _companies.Find(x => x.Id == Convert.ToInt32(e.Value));
     }
-    private void HandleValidEventSubmit()
+    private async Task HandleValidEventSubmitAsync()
     {
-        
+        EventModel createdModel = await eventRepository.Create(_event);
+        if (createdModel == null)
+        {
+            _message = @<div class="alert alert-danger">Failed to create event</div>;
+        }
+        else
+        {
+            _message = @<div class="alert alert-success">@createdModel.Name created</div>;
+        }
     }
 
 }
