@@ -112,7 +112,7 @@ namespace IdeventTests
         }
 
         [TestMethod]
-        public void TerminaFirstScanPage()
+        public void TerminalFirstScanPage()
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Terminal.Index>(), "Ready", "Terminal");
         }
