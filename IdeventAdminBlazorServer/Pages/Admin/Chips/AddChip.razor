@@ -37,19 +37,8 @@
         <label>User E-mail</label>
         <InputText class="form-control disabled" @bind-Value=_chip.User.Email/>
         </div>*@
-    @if (_companies is not null)
-    {
-        <div class="form-group">
-            <label>Company</label>
-            <select class="form-control" value="" @onchange="e => SelectCompanyAndShowEventSelection(e)">
-                <option value="0" selected>Select company</option>
-                @foreach (CompanyModel company in _companies)
-                {
-                    <option value=@company.Id>@company.Name</option>
-                }
-            </select>
-        </div>
-    }
+
+    <SelectCompany OnChangeCallback=SelectCompanyAndShowEventSelection Companies=_companies/>
 
     @*   <div class="form-group">
         <label>Choose event (optional)</label>
@@ -78,7 +67,7 @@
     private InputTextFocusable _chipUIDInput;
     private List<CompanyModel> _companies = new List<CompanyModel>();
     private RenderFragment _displayMessage;
-    private int _selectedCompanyId;
+    //private int _selectedCompanyId;
 
     protected override async Task OnInitializedAsync()
     {
@@ -105,7 +94,6 @@
     }
     private async Task HandleValidSubmitChip()
     {
-        // TODO: create chip
         ChipModel submittedModel = await chipRepository.CreateAsync(_chip);
         if (submittedModel is null)
         {
