@@ -27,15 +27,18 @@ namespace IdeventAPI.Controllers
         [HttpPost]
         public IActionResult Create(EventModel model)
         {
-            throw new NotImplementedException();
             int createdId = _eventManager.Create(model);
-            CreatedAtAction(nameof(GetById), new {Id = createdId}, model);
+            if (createdId > 0)
+            {
+                CreatedAtAction(nameof(GetById), new { Id = createdId }, model); // Id = createdId might cause issue?
+            }
+            return BadRequest();
         }
         [HttpGet]
         public IActionResult GetAll()
         {
             var events = _eventManager.GetAll();
-            
+
             if (events.Count == 0)
             {
                 return Ok(new List<EventModel>());
@@ -46,14 +49,14 @@ namespace IdeventAPI.Controllers
         public IActionResult GetById(int id)
         {
             var eventModel = _eventManager.GetById(id);
-                if(eventModel == null)
-                {
-                    return NotFound();
-                }
+            if (eventModel == null)
+            {
+                return NotFound();
+            }
 
             return Ok(eventModel);
         }
-        
+
         [HttpPut]
         public IActionResult Update(int oldModelId, EventModel newModel)
         {
