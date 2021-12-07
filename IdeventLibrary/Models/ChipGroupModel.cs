@@ -32,5 +32,7 @@ namespace IdeventLibrary.Models
             get => _name;
             set => _name = value;
         }
+
+        public int EventId { get; set; }
     }
 }
