@@ -27,6 +27,7 @@ namespace IdeventAPI.Controllers
         [HttpPost]
         public IActionResult Create(EventModel model)
         {
+            throw new NotImplementedException();
             int createdId = _eventManager.Create(model);
             CreatedAtAction(nameof(GetById), new {Id = createdId}, model);
         }

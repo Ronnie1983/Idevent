@@ -12,6 +12,7 @@ ALTER TABLE dbo.[AspNetUsers] DROP CONSTRAINT[FK_AspNetUsers_AddressModel_Invoic
 ALTER TABLE dbo.[AspNetUsers] DROP CONSTRAINT[FK_AspNetUsers_CompanyModel_CompanyId]
 ALTER TABLE dbo.[AspNetUserTokens] DROP CONSTRAINT[FK_AspNetUserTokens_AspNetUsers_UserId]
 ALTER TABLE dbo.[ChipContents] DROP CONSTRAINT[FK_ChipContents_ToStandProducts]
+ALTER TABLE dbo.[ChipGroups] DROP CONSTRAINT[FK_ChipGroups_Events]
 ALTER TABLE dbo.[Chips] DROP CONSTRAINT[FK_Chips_ToCompanies]
 ALTER TABLE dbo.[Chips] DROP CONSTRAINT[FK_Chips_ToEvents]
 ALTER TABLE dbo.[Chips] DROP CONSTRAINT[FK_Chips_ToChipGroups]

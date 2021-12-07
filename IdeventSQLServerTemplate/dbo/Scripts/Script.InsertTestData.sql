@@ -72,18 +72,18 @@ VALUES
   ('lacus. Nulla',9,4),
   ('mauris',9,4);
  -- ChipGroups
- INSERT INTO [ChipGroups] (Name)
+ INSERT INTO [ChipGroups] (Name, FK_EventId)
 VALUES
-  ('ullamcorper, velit'),
-  ('ipsum'),
-  ('risus odio,'),
-  ('lacus. Nulla'),
-  ('mauris');
+  ('ullamcorper, velit', 1),
+  ('ipsum', 5),
+  ('risus odio,', 2),
+  ('lacus. Nulla', 4),
+  ('mauris', 3);
  -- Chips
  INSERT INTO Chips(HashedId,ValidFrom,ValidTo,FK_ChipGroupId,FK_UserId,FK_CompanyId,FK_EventId)
 VALUES
-  ('urna,','2021-08-21 05:49:12','2022-01-31 08:21:28',3,4,3,3),
-  ('mauris.','2021-10-08 14:22:23','2022-01-30 17:11:37',3,5,2,4),
+  ('urna,','2021-08-21 05:49:12','2022-01-31 08:21:28',3,4,3,2),
+  ('mauris.','2021-10-08 14:22:23','2022-01-30 17:11:37',3,5,2,2),
   ('sapien','2021-09-19 23:01:21','2022-01-25 13:12:05',2,2,3,5),
   ('nunc','2021-10-01 05:26:11','2022-01-22 04:17:35',3,3,3,2),
   ('enim.','2021-10-28 12:57:59','2022-01-29 03:27:12',1,2,2,1);

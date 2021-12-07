@@ -258,11 +258,11 @@ PRINT N'Creating Table [dbo].[ChipGroups]...';
 
 
 CREATE TABLE [dbo].[ChipGroups] (
-    [Id]   INT           IDENTITY (1, 1) NOT NULL,
-    [Name] NVARCHAR (50) NOT NULL,
+    [Id]         INT           IDENTITY (1, 1) NOT NULL,
+    [Name]       NVARCHAR (50) NOT NULL,
+    [FK_EventId] INT           NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
-
 
 
 PRINT N'Creating Table [dbo].[Chips]...';
@@ -526,6 +526,11 @@ PRINT N'Creating Foreign Key [dbo].[FK_ChipContents_ToStandProducts]...';
 ALTER TABLE [dbo].[ChipContents] WITH NOCHECK
     ADD CONSTRAINT [FK_ChipContents_ToStandProducts] FOREIGN KEY ([FK_StandProductId]) REFERENCES [dbo].[StandProducts] ([Id]);
 
+
+PRINT N'Creating Foreign Key [dbo].[FK_ChipGroups_Events]...';
+
+ALTER TABLE [dbo].[ChipGroups] WITH NOCHECK
+ADD CONSTRAINT [FK_ChipGroups_Events] FOREIGN KEY ([FK_EventId]) REFERENCES [dbo].[Events] ([Id]);
 
 
 PRINT N'Creating Foreign Key [dbo].[FK_Chips_ToCompanies]...';
