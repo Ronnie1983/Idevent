@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace IdeventAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]/")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace IdeventAPI.Controllers
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public IActionResult GetById(string id)
         {
             var user = _userManager.GetById(id);
             if (user == null)

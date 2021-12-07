@@ -13,28 +13,17 @@
 
 @if (_profileData != null)
 {
-    <table class="table table-light table-striped table-hover">
-        <thead>
-        <tr>
-            <th scope="col">Profile ID</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Role</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (UserModel userModel in _profileData)
-        {
-            <tr>
-                <td>@userModel.Id</td>
-                <td>@userModel.Email</td>
-                <td>@userModel.PhoneNumber</td>
-                <td>@userModel.Role</td>
-            </tr>
-        }
-        </tbody>
-    </table>
+     <div class="form-group">
+        <label for="@_profileData.Id">Id</label> 
+        <label class="form-control" id="id" Value="@_profileData.Id" placeholder="Id">@_profileData.Id</label>
+    </div>
+    <div class="form-group">
+        <label for="@_profileData.Email">Email</label> 
+        <label class="form-control" id="email" Value="@_profileData.Email" placeholder="Email">"@_profileData.Email</label>
+    </div>
 }
+
+<br/>
 
 <NavigateButton PageToNavigateTo="Home" ButtonText="Back"/>
 
@@ -45,21 +34,15 @@
     public string Id { get; set; }
     private string _key;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         _key = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-    }
 
-    private List<UserModel> _profileData;
-    
-
-    protected override async Task OnIntializedAsync()
-    {
         try
         {
-            ProfileRepository ProfileRepo = new ProfileRepository();
+            UserRepository userRepo = new UserRepository();
 
-            _profileData = await ProfileRepo.GetAllAsync();
+            _profileData = await userRepo.GetUserById(_key);
         }
         catch (Exception e)
         {
@@ -67,5 +50,7 @@
         }
     }
 
-  
+    private UserModel _profileData;
+
+
 }

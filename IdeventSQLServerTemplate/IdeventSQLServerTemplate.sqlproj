@@ -126,6 +126,7 @@
     <Build Include="dbo\StoredProcedures\spGetChipByHashedId.sql" />
     <Build Include="dbo\StoredProcedures\spCreateChipGroup.sql" />
     <Build Include="dbo\StoredProcedures\spCreateChip.sql" />
+    <Build Include="spGetUserById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />
