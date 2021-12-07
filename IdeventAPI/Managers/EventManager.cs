@@ -23,6 +23,21 @@ namespace IdeventAPI.Managers
             _dbConnection = new SqlConnection(connectionString);
         }
 
+        public int Create(EventModel model)
+        {
+            string sql = "EXECUTE spCreateEvent @Name, @CompanyId";
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("Name", model.Name);
+            parameters.Add("CompanyId", model.Company.Id);
+
+            Object createdEventId = _dbConnection.ExecuteScalar(sql, parameters);
+            if (createdEventId != null)
+            {
+                return Convert.ToInt32(createdEventId);
+            }
+            return 0;
+        }
+
         public List<EventModel> GetAll()
         {
             // Column order: (Event)Id, Name, NumberOfConnectedChips, (Company)Id, CompanyName
@@ -39,6 +54,8 @@ namespace IdeventAPI.Managers
 
             return events;
         }
+
+
 
         public EventModel GetById(int id)
         {
