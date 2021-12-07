@@ -111,6 +111,30 @@ namespace IdeventTests
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Companies.EditCompany>(), "Edit Company", "CompanyEdit/1");
         }
 
+        [TestMethod]
+        public void TerminalFirstScanPage()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Terminal.Index>(), "Ready", "Terminal");
+        }
+
+        [TestMethod]
+        public void TerminalErrorPage()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Terminal.Error>(), "Error", "Error/Template");
+        }
+
+        [TestMethod]
+        public void TerminalUserScanPage()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Terminal.ReadyState>(), "Ready", "Ready/1");
+        }
+
+        [TestMethod]
+        public void TerminalWaitingForOperatorPage()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Terminal.WaitingOperator>(), "Success", "chipContent/1");
+        }
+
         /// <summary>
         /// Tests if a specified page loads with an expected title.
         /// </summary>

@@ -41,6 +41,21 @@ namespace IdeventTests.IntegrationTests
             Assert.IsNull(chip);
         }
 
+        [TestMethod]
+        public void GetChipByHashedId()
+        {
+            ChipModel chip = _chipManager.GetByHashedId("urna");
+
+            Assert.IsInstanceOfType(chip, typeof(ChipModel));
+        }
+
+        [TestMethod]
+        public void GetByHashedIdReturnsNullIfNotFound()
+        {
+            ChipModel chip = _chipManager.GetByHashedId("findes_ikke");
+            Assert.IsNull(chip);
+        }
+
 
     }
 }
