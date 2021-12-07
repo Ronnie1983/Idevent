@@ -1,6 +1,8 @@
 ﻿using IdeventLibrary;
 using System.Data;
 using System.Data.SqlClient;
+using Dapper;
+using IdeventLibrary.Models;
 
 namespace IdeventAPI.Managers
 {
@@ -15,6 +17,13 @@ namespace IdeventAPI.Managers
         public UserManager(string connectionString)
         {
             _dbConnection = new SqlConnection(connectionString);
+        }
+
+        public UserModel GetById(int id)
+        {
+            string sql = "EXECUTE spGetUserById @UserId";
+            var result = _dbConnection.Query(sql, mapping, new { userId = id }).AsList();
+            return result[0];
         }
     }
 }

@@ -1,7 +1,71 @@
-﻿@page "/Profile"
+﻿@page "/Profile/{Id}"
+@page "/Profile"
+
+@using IdeventLibrary.Repositories
+@using System.Security.Claims
+
+@inject NavigationManager _navigationManager
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
 
 <h1>Profile</h1>
 
-@code {
+@_key
 
+@if (_profileData != null)
+{
+    <table class="table table-light table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Profile ID</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Role</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (UserModel userModel in _profileData)
+        {
+            <tr>
+                <td>@userModel.Id</td>
+                <td>@userModel.Email</td>
+                <td>@userModel.PhoneNumber</td>
+                <td>@userModel.Role</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+<NavigateButton PageToNavigateTo="Home" ButtonText="Back"/>
+
+
+@code {
+    [Parameter]
+
+    public string Id { get; set; }
+    private string _key;
+
+    protected override void OnInitialized()
+    {
+        _key = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+    }
+
+    private List<UserModel> _profileData;
+    
+
+    protected override async Task OnIntializedAsync()
+    {
+        try
+        {
+            ProfileRepository ProfileRepo = new ProfileRepository();
+
+            _profileData = await ProfileRepo.GetAllAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+
+  
 }
