@@ -18,7 +18,22 @@ namespace IdeventTests.IntegrationTests
             _eventManager = new EventManager(TestSettings.ConnectionString);
         }
 
+        [TestMethod]
+        public void CreateAddsEventToDatabase()
+        {
+            EventModel newEvent = new EventModel()
+            {
+                Name = "My event",
+                Company = new CompanyModel() { Id = 1}
+            };
+            int countBefore = _eventManager.GetAll().Count;
+            int countAfter;
 
+            _eventManager.Create(newEvent);
+            countAfter = _eventManager.GetAll().Count;
+
+            Assert.AreEqual(countBefore + 1, countAfter);
+        }
         [TestMethod]
         public void GetAllReturnsList()
         {
