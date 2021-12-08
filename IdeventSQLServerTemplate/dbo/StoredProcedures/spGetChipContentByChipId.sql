@@ -2,7 +2,7 @@
 	@ChipId int
 AS
 BEGIN
-	SELECT StandProducts.Name, ChipContents.Amount 
+	SELECT ChipContents.Id, StandProducts.Name, StandProducts.Value, ChipContents.Amount , StandProducts.FK_EventStandId AS EventStandId
 	FROM ChipContents
 	INNER JOIN StandProducts ON ChipContents.FK_StandProductId = StandProducts.Id
 	WHERE ChipContents.FK_ChipId = @ChipId

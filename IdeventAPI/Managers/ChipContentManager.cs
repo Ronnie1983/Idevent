@@ -1,6 +1,11 @@
 ﻿using IdeventLibrary;
+using System;
+using Dapper;
 using System.Data;
 using System.Data.SqlClient;
+using IdeventLibrary.Models;
+using System.Data.SqlClient;
+using System.Collections.Generic;
 
 namespace IdeventAPI.Managers
 {
@@ -15,6 +20,13 @@ namespace IdeventAPI.Managers
         public ChipContentManager(string connectionString)
         {
             _dbConnection = new SqlConnection(connectionString);
+        }
+
+        public List<StandProductModel> GetAllByChipId(int id)
+        {
+            string sql = "EXECUTE spGetChipContentByChipId @Id";
+            List<StandProductModel> result = _dbConnection.Query<StandProductModel>(sql, new {Id = id}).AsList();
+            return result;
         }
     }
 }
