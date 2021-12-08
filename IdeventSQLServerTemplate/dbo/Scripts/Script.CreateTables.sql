@@ -274,7 +274,7 @@ CREATE TABLE [dbo].[Chips] (
     [HashedId]       NVARCHAR (50)      NOT NULL,
     [ValidFrom]      DATETIMEOFFSET (7) NOT NULL,
     [ValidTo]        DATETIMEOFFSET (7) NOT NULL,
-    [FK_ChipGroupId] INT                NOT NULL,
+    [FK_ChipGroupId] INT                NULL,
     [FK_UserId]      INT                NULL,
     [FK_CompanyId]   INT                NOT NULL,
     [FK_EventId]     INT                NULL,
