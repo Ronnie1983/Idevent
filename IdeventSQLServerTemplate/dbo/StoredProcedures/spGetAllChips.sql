@@ -7,5 +7,5 @@ BEGIN
 	FROM Chips
 	INNER JOIN CompanyModel ON Chips.FK_CompanyId = CompanyModel.Id
 	LEFT JOIN Events ON Chips.FK_EventId = Events.Id
-	INNER JOIN ChipGroups ON Chips.FK_ChipGroupId = ChipGroups.Id
+	LEFT JOIN ChipGroups ON Chips.FK_ChipGroupId = ChipGroups.Id
 END
