@@ -20,6 +20,7 @@ namespace IdeventTests
             _testContext.JSInterop.SetupVoid("BlazorFocusElement", _ => true);
             _testContext.Services.AddSingleton<CompanyRepository>(new CompanyRepository());
             _testContext.Services.AddSingleton<ChipRepository>(new ChipRepository());
+            _testContext.Services.AddSingleton<EventRepository>(new EventRepository());
             _navManager = _testContext.Services.GetService<NavigationManager>();
         }
         [TestMethod]

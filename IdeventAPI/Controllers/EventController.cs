@@ -25,12 +25,12 @@ namespace IdeventAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(EventModel model) // Maybe only works with ActionResult (not IActionResult)
+        public ActionResult Create(EventModel model) // Maybe only works with ActionResult (not IActionResult)
         {
             int createdId = _eventManager.Create(model);
             if (createdId > 0)
             {
-                CreatedAtAction(nameof(GetById), new { Id = createdId }, model); // Id = createdId might cause issue?
+                return CreatedAtAction(nameof(GetById), new { Id = createdId }, model); // Id = createdId might cause issue?
             }
             return BadRequest();
         }
