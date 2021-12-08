@@ -93,17 +93,26 @@
     }
     private async Task HandleValidSubmitChip()
     {
-        ChipModel submittedModel = await chipRepository.CreateAsync(_chip);
-        if (submittedModel is null)
+        try
         {
-            _displayMessage = MakeDisplayMessage("Failed to create chip.", true);
+            ChipModel submittedModel = await chipRepository.CreateAsync(_chip);
+            if (submittedModel is null)
+            {
+                _displayMessage = MakeDisplayMessage("Failed to create chip.", true);
 
-            return;
+                return;
+            }
+
+            _displayMessage = MakeDisplayMessage($"{_chip.HashedId} was created.", false);
+            _chip.HashedId = "";
+            await _chipUIDInput.FocusAsync();
         }
-
-        _displayMessage = MakeDisplayMessage($"{_chip.HashedId} was created.", false);
-        _chip.HashedId = "";
-        await _chipUIDInput.FocusAsync();
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            _displayMessage = MakeDisplayMessage($"Failed to create chip. {e.Message}", true);
+        }
+       
 
     }
     /// <summary>
@@ -112,7 +121,7 @@
     /// <param name="message"></param>
     /// <param name="isError"></param>
     /// <returns></returns>
-    private RenderFragment MakeDisplayMessage(string message, bool isError)
+    private static RenderFragment MakeDisplayMessage(string message, bool isError)
     {
         if (isError)
         {
