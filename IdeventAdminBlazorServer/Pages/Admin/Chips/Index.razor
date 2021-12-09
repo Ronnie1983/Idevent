@@ -87,7 +87,14 @@
                         <td>@chip.ValidFrom.ToString("d")</td>
                         <td>@chip.ValidTo.ToString("d")</td>
                         <td>@chip.Company.Name</td>
-                        <td>@chip.Group.Name</td>
+
+                        @if(@chip.Group == null)
+                        {
+                        <td>-</td>
+                        }
+                        else{
+                            <td>@chip.Group.Name</td>
+                        }
                         @if(@chip.Event == null)
                         {
                         <td>-</td>
