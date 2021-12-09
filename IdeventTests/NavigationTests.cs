@@ -132,6 +132,7 @@ namespace IdeventTests
         [TestMethod]
         public void TerminalWaitingForOperatorPage()
         {
+
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Terminal.WaitingOperator>(), "Success", "chipContent/1");
         }
 

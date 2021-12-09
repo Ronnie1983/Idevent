@@ -11,8 +11,6 @@
 
 @layout NonAdminLayout
 
-@_eventStandId
-
 <div class="row">
     <h1 class="col-md-12 mx-auto text-center">Idevent</h1>
 </div>
@@ -65,7 +63,8 @@
 
     private ChipModel _chip;
     private ChipRepository _chipRepository = new ChipRepository();
-    private int _eventStandId = 0;
+    //TODO bør ikke være et. Men er der for testens skyld lige nu
+    private int _eventStandId = 1;
 
     protected override async Task OnInitializedAsync()
     {
@@ -79,9 +78,6 @@
            .Build();
 
         string claimId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-        //string claimId1 = 
-
-        
 
         _hubConnection.On<int>("GetStand", (stand) =>
         {
