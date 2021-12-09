@@ -99,9 +99,10 @@
         _companyEvents = await _eventRepository.GetAllByCompanyIdAsync(selectedValue);
         // TODO: Retrieve events connected to the selected company.
     }
-    private void SelectEventAndShowChipSettings()
+    private void SelectEventAndShowChipSettings(ChangeEventArgs e)
     {
-
+        int selectedValue = Convert.ToInt32(e.Value);
+        _chip.Event = _companyEvents.Find(companyEvent => companyEvent.Company.Id == selectedValue);
     }
     private async Task HandleValidSubmitChip()
     {

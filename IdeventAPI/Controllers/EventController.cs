@@ -45,7 +45,7 @@ namespace IdeventAPI.Controllers
             }
             return Ok(events);
         }
-        [HttpGet("{companyId}")]
+        [HttpGet("CompanyId/{companyId}")]
         public IActionResult GetAllByCompanyId(int companyId)
         {
             List<EventModel> events = _eventManager.GetAllByCompanyId(companyId);
