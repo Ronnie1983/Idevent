@@ -81,6 +81,6 @@ namespace IdeventLibrary.Models
             set => _productsOnChip = value;
         }
 
-        public List<StandProductModel> StandsProducts { get; set; }
+        public List<StandProductModel> StandProducts { get; set; }
     }
 }

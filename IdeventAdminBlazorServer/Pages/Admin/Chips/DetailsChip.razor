@@ -38,10 +38,10 @@
         }
         
         <div><span class="fw-bold">Products</span></div>
-        @if (_chip.StandsProducts.Count > 0 & _chip.StandsProducts != null)
+        @if (_chip.StandProducts.Count > 0 & _chip.StandProducts != null)
         {
             <div>
-                @foreach (var product in _chip.StandsProducts)
+                @foreach (var product in _chip.StandProducts)
                 {
                     <span>@product.Name</span>
                     <span>@product.Amount</span><br />
