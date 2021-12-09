@@ -66,8 +66,8 @@
 
     private ChipModel _chip;
     private ChipRepository _chipRepository = new ChipRepository();
-    //TODO bør ikke være et. Men er der for testens skyld lige nu
-    private int _eventStandId = 1;
+   
+    public int EventStandId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -84,7 +84,7 @@
         //string claimId = _userManager.GetUserId(ClaimsPrincipal.Current);
         _hubConnection.On<int>("GetStand", (stand) =>
         {
-            _eventStandId = stand;
+            EventStandId = stand;
             
             StateHasChanged();
         });
