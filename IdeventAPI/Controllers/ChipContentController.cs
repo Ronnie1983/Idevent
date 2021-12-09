@@ -12,21 +12,14 @@ namespace IdeventAPI.Controllers
     public class ChipContentController : ControllerBase
     {
         private ChipContentManager _chipContentManager = new ChipContentManager();
-        // GET: api/<ChipContentController>
+        // GET: <ChipContentController>
         //[HttpGet]
         //public IEnumerable<string> Get()
         //{
         //    return new string[] { "value1", "value2" };
         //}
 
-        // GET api/<ChipContentController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // GET content from chip api/<ChipContentController>/5
+        // GET content from chip <ChipContentController>/5
         [HttpGet("chipcontent/{id}")]
         public IActionResult GetByChipId(int id)
         {
@@ -39,19 +32,19 @@ namespace IdeventAPI.Controllers
             return Ok(products);
         }
 
-        // POST api/<ChipContentController>
+        // POST <ChipContentController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/<ChipContentController>/5
+        // PUT <ChipContentController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<ChipContentController>/5
+        // DELETE <ChipContentController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
