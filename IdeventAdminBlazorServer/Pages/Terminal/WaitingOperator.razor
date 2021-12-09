@@ -1,8 +1,16 @@
 ﻿@page "/chipContent/{id}"
 
 @using IdeventLibrary.Repositories
+@using IdeventAdminBlazorServer.Common
+@using System.Security.Claims
+@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Authorization
 @inject NavigationManager _navigationManager
+@*@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor*@
+@*@inject UserManager<UserModel> _userManager*@
 
+    
 
 @layout NonAdminLayout
 
@@ -26,12 +34,17 @@
     <tbody>
         @if(_chip != null)
         {
-               @foreach(var item in _chip.ProductsOnChip)
+               @foreach(var item in _chip.StandsProducts)
                     {
-                        <tr>
-                            <td>@item.Key</td>
-                            <td>@item.Value</td>
-                        </tr>
+                    @if(item.EventStandId == EventStandId)
+                        {
+                           <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Amount</td>
+                            </tr> 
+
+                        }
+                        
 
                     }
         }
@@ -45,14 +58,39 @@
     [Parameter]
     public string Id { get; set; }
 
+    private HubConnection _hubConnection;
+    public bool IsConnected => _hubConnection.State == HubConnectionState.Connected;
+    private List<string> _messages = new List<string>();
+
     private string _message = "Waiting operator";
 
     private ChipModel _chip;
     private ChipRepository _chipRepository = new ChipRepository();
+   
+    public int EventStandId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         _chip = await _chipRepository.GetById(TryConvert(Id));
+
+        _hubConnection = new HubConnectionBuilder()
+           .WithUrl(_navigationManager.ToAbsoluteUri("/connectionhub"),options =>
+                 {
+                    options.UseDefaultCredentials = true;
+                })
+           .Build();
+
+        //string claimId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //string claimId = _userManager.GetUserId(ClaimsPrincipal.Current);
+        _hubConnection.On<int>("GetStand", (stand) =>
+        {
+            EventStandId = stand;
+            
+            StateHasChanged();
+        });
+
+        await _hubConnection.StartAsync();
+        await _hubConnection.SendAsync("AskForStand");
     }
 
     private int TryConvert(string value)
@@ -69,5 +107,13 @@
 
         }
         return result;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_hubConnection is not null)
+        {
+            await _hubConnection.DisposeAsync();
+        }
     }
 }

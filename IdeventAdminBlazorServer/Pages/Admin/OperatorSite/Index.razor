@@ -1,7 +1,47 @@
-﻿@page "/OperatorSite"
+﻿@using IdeventLibrary.Repositories;
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager NavigationManager
+
+@page "/OperatorSite"
 
 <h1>Operator's Site</h1>
 
+<SelectStands OnChangeCallback=ChangeStand EventStands=_eventStandList/>
+
+
+
 @code {
+    private List<EventStandModel> _eventStandList = new List<EventStandModel>();
+    private EventStandRepository _eventStandRepo = new EventStandRepository();
+    private UserModel _user;
+    private int _bindItem;
+    private HubConnection _hubConnection;
+    private List<string> _messages = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        //TODO Husk at ændre så event id ikke er konstant
+        _eventStandList = await _eventStandRepo.GetAllByEventIdAsync(1);
+
+        _hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/connectionhub"),options =>
+                {
+                   options.UseDefaultCredentials = true;
+               })
+            .Build();
+
+        _hubConnection.On<string>("RecieveStand", (id) =>
+        {
+            _hubConnection.SendAsync("SendSelectedStand", _bindItem, id);
+        });
+
+        await _hubConnection.StartAsync();
+    }
+
+    private void ChangeStand(ChangeEventArgs e)
+    {
+        _bindItem = Convert.ToInt32(e.Value);
+    }
+
 
 }

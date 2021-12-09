@@ -16,6 +16,8 @@ namespace IdeventLibrary.Models
         public string Role { get; set; }
         public CompanyModel Company { get; set; }
         public AddressModel Address { get; set; }
-        public AddressModel InvoiceAddress { get; set; } 
+        public AddressModel InvoiceAddress { get; set; }
+
+        //public int AssignetToEventId { get; set; }
     }
 }
