@@ -4,7 +4,6 @@ using Dapper;
 using System.Data;
 using System.Data.SqlClient;
 using IdeventLibrary.Models;
-using System.Data.SqlClient;
 using System.Collections.Generic;
 
 namespace IdeventAPI.Managers
