@@ -37,7 +37,7 @@ namespace IdeventLibrary.Models
             get { return _name; }
             set { _name = value; }
         }
-       [JsonIgnore]
+       //[JsonIgnore]
         public EventModel Event
         {
             get { return _event; }
