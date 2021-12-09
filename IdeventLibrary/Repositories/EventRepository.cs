@@ -13,7 +13,7 @@ namespace IdeventLibrary.Repositories
 {
     public class EventRepository
     {
-        private static string _baseUrl = $"{Helpers.ApiBaseUrl}/Event"; // TODO: change to online API
+        private static string _baseUrl = $"{Helpers.ApiBaseUrl}/Event";
         private static HttpClient _httpClient = new HttpClient();
         
         public EventRepository()
@@ -40,6 +40,13 @@ namespace IdeventLibrary.Repositories
             string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
             var eventList = JsonConvert.DeserializeObject<List<EventModel>>(jsonContent);
             
+            return eventList;
+        }
+        public async Task<List<EventModel>> GetAllByCompanyIdAsync()
+        {
+            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
+            var eventList = JsonConvert.DeserializeObject<List<EventModel>>(jsonContent);
+
             return eventList;
         }
 

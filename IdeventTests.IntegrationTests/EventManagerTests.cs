@@ -37,7 +37,7 @@ namespace IdeventTests.IntegrationTests
         [TestMethod]
         public void GetAllReturnsList()
         {
-            List<EventModel> events = new();
+            List<EventModel> events;
             events = _eventManager.GetAll();
 
             Assert.IsInstanceOfType(events, typeof(List<EventModel>));
@@ -48,6 +48,14 @@ namespace IdeventTests.IntegrationTests
             EventModel model = _eventManager.GetById(1);
             Assert.IsNotNull(model);
             Assert.IsInstanceOfType(model, typeof(EventModel));
+        }
+        [TestMethod]
+        public void GetAllByCompanyId()
+        {
+            List<EventModel> events;
+            events = _eventManager.GetAllByCompanyId(1);
+
+            Assert.IsInstanceOfType(events, typeof(List<EventModel>));
         }
 
 
