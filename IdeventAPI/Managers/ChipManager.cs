@@ -13,15 +13,17 @@ namespace IdeventAPI.Managers
     public class ChipManager
     {
         IDbConnection _dbConnection;
-        private ChipContentManager _contentManager = new ChipContentManager();
+        private ChipContentManager _contentManager;
 
         public ChipManager()
         {
             _dbConnection = new SqlConnection(AppSettings.ConnectionString);
+            _contentManager = new ChipContentManager();
         }
         public ChipManager(string connectionString)
         {
             _dbConnection = new SqlConnection(connectionString);
+            _contentManager = new ChipContentManager(connectionString);
         }
 
         public int Create(ChipModel newChip)
