@@ -2,8 +2,9 @@
 	@companyId int
 AS
 BEGIN
-	SELECT Ev.Id, Ev.Name, Company.Id, Company.Name 
-	FROM Events as Ev
-	INNER JOIN CompanyModel as Company ON FK_CompanyId = Company.Id
-	WHERE Ev.FK_CompanyId = @companyId
+	SELECT E.Id, E.Name,
+	CompanyModel.Id, CompanyModel.Name, CompanyModel.Email, CompanyModel.CVR, CompanyModel.PhoneNumber
+	FROM Events as E
+	INNER JOIN CompanyModel ON FK_CompanyId = CompanyModel.Id
+	WHERE E.FK_CompanyId = @companyId
 END

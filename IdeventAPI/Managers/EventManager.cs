@@ -60,8 +60,13 @@ namespace IdeventAPI.Managers
             // Columns: Event.Id, Name, Company.Id, Name
             string sql = "EXECUTE spGetAllEventsByCompanyId @companyId";
             var parameters = new { companyId };
+            Func<EventModel, CompanyModel, EventModel> mapping = (eventModel, company) =>
+            {
+                eventModel.Company = company;
+                return eventModel;
+            };
 
-            List<EventModel> output = _dbConnection.Query<EventModel>(sql, parameters).AsList();
+            List<EventModel> output = _dbConnection.Query(sql, mapping, parameters).AsList();
             
             return output;
         }
