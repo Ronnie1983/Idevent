@@ -40,7 +40,7 @@ namespace IdeventAPI.Managers
                 parameters.Add("CompanyId", newChip.Company.Id);
 
                 parameters.Add("EventId", null);
-                parameters.Add("ChipGroupId", null); // default chip group (will course error in case ChipGroupId 1 doesn't exist.)
+                parameters.Add("ChipGroupId", null);
                 parameters.Add("UserId", null);
 
                 if (newChip.Group != null)
