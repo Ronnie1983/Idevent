@@ -57,6 +57,7 @@ namespace IdeventAPI.Managers
 
         public List<EventModel> GetAllByCompanyId(int companyId)
         {
+            // Columns: Event.Id, Name, Company.Id, Name
             string sql = "EXECUTE spGetAllEventsByCompanyId @companyId";
             var parameters = new { companyId };
 
