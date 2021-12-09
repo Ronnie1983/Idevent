@@ -15,7 +15,7 @@
 {
     <section>
         <PropertyDisplay PropertyName="ID" PropertyValue="@(_chip.Id.ToString())" />
-        <PropertyDisplay PropertyName="User E-mail" PropertyValue="MISSING DATA" /> <!-- TODO: Display User E-mail -->
+        <PropertyDisplay PropertyName="User E-mail" PropertyValue="Not connected to a user" /> <!-- TODO: Display User E-mail -->
     <PropertyDisplay PropertyName="Valid From" PropertyValue="@(_chip.ValidFrom.ToString("d"))" />
         <PropertyDisplay PropertyName="Valid To" PropertyValue="@(_chip.ValidTo.ToString("d"))" />
         <PropertyDisplay PropertyName="Company" PropertyValue="@(_chip.Company.Name)" />
@@ -28,15 +28,23 @@
         {
             <PropertyDisplay PropertyName="Event" PropertyValue="@(_chip.Event.Name)" />
         }
-        <PropertyDisplay PropertyName="Group" PropertyValue="@(_chip.Group.Name)" />
+        @if (_chip.Group == null)
+        {
+            <PropertyDisplay PropertyName="Group" PropertyValue="Not connected to a group" />
+        }
+        else
+        {
+            <PropertyDisplay PropertyName="Group" PropertyValue="@(_chip.Group.Name)" />
+        }
+        
         <div><span class="fw-bold">Products</span></div>
-        @if (_chip.ProductsOnChip.Count > 0 & _chip.ProductsOnChip != null)
+        @if (_chip.StandsProducts.Count > 0 & _chip.StandsProducts != null)
         {
             <div>
-                @foreach (var product in _chip.ProductsOnChip)
+                @foreach (var product in _chip.StandsProducts)
                 {
-                    <span>@product.Key</span>
-                    <span>@product.Value</span>
+                    <span>@product.Name</span>
+                    <span>@product.Amount</span><br />
                 }
             </div>
         }
