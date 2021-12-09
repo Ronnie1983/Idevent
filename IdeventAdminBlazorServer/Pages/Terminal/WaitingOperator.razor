@@ -4,10 +4,13 @@
 @using IdeventAdminBlazorServer.Common
 @using System.Security.Claims
 @using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Authorization
 @inject NavigationManager _navigationManager
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
+@inject UserManager<UserModel> _userManager
 
+    
 
 @layout NonAdminLayout
 
@@ -72,13 +75,13 @@
 
         _hubConnection = new HubConnectionBuilder()
            .WithUrl(_navigationManager.ToAbsoluteUri("/connectionhub"),options =>
-                {
-                   options.UseDefaultCredentials = true;
-               })
+                 {
+                    options.UseDefaultCredentials = true;
+                })
            .Build();
 
-        string claimId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
+        //string claimId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //string claimId = _userManager.GetUserId(ClaimsPrincipal.Current);
         _hubConnection.On<int>("GetStand", (stand) =>
         {
             _eventStandId = stand;
@@ -87,7 +90,7 @@
         });
 
         await _hubConnection.StartAsync();
-        await _hubConnection.SendAsync("AskForStand", claimId);
+        await _hubConnection.SendAsync("AskForStand");
     }
 
     private int TryConvert(string value)

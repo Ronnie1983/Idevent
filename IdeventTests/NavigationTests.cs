@@ -3,6 +3,8 @@ using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using IdeventLibrary.Repositories;
+using IdeventLibrary.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace IdeventTests
 {
@@ -17,10 +19,12 @@ namespace IdeventTests
         [TestInitialize]
         public void Inititialise()
         {
+            //_testContext.Services.AddSingleton(Microsoft.AspNetCore.Http.IHttpContextAccessor,);
             _testContext.JSInterop.SetupVoid("BlazorFocusElement", _ => true);
             _testContext.Services.AddSingleton<CompanyRepository>(new CompanyRepository());
             _testContext.Services.AddSingleton<ChipRepository>(new ChipRepository());
             _navManager = _testContext.Services.GetService<NavigationManager>();
+      
         }
         [TestMethod]
         public void DashboardIndexLoads()
@@ -132,7 +136,7 @@ namespace IdeventTests
         [TestMethod]
         public void TerminalWaitingForOperatorPage()
         {
-
+            
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Terminal.WaitingOperator>(), "Success", "chipContent/1");
         }
 

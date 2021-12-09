@@ -15,11 +15,11 @@ namespace IdeventAdminBlazorServer.Hubs
             await Clients.Client(client).SendAsync("GetStand", stand);
         }
 
-        public async Task AskForStand(string client)
+        public async Task AskForStand()
         {
-            var t = Context.UserIdentifier;
+            var user = Context.UserIdentifier;
             //await Clients.User(client).SendAsync("RecieveStand", Context.ConnectionId);
-            await Clients.User(t).SendAsync("RecieveStand", Context.ConnectionId);
+            await Clients.User(user).SendAsync("RecieveStand", Context.ConnectionId);
         }
     }
 }
