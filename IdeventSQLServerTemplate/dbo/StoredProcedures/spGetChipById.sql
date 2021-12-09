@@ -12,7 +12,7 @@ BEGIN
 	Events.Id, Events.Name
 	FROM Chips
 	INNER JOIN CompanyModel ON Chips.FK_CompanyId = CompanyModel.Id
-	INNER JOIN ChipGroups ON Chips.FK_ChipGroupId = ChipGroups.Id
+	LEFT JOIN ChipGroups ON Chips.FK_ChipGroupId = ChipGroups.Id
 	LEFT JOIN Events ON Chips.FK_EventId = Events.Id
 	--LEFT JOIN AspNetUsers ON Chips.FK_UserId = AspNetUsers.Id
 	WHERE Chips.Id = @Id

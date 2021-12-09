@@ -27,7 +27,6 @@ namespace IdeventLibrary.Repositories
             StringContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync(new Uri($"{_baseUrl}"), httpContent);
-            string test = "";
             if (response.IsSuccessStatusCode)
             {
                 string newItemAsJson = await _httpClient.GetStringAsync(response.Headers.Location.AbsoluteUri);
