@@ -92,11 +92,11 @@
             await _chipUIDInput.FocusAsync();
         }
     }
-    private void SelectCompanyAndShowEventSelection(ChangeEventArgs e)
+    private async Task SelectCompanyAndShowEventSelection(ChangeEventArgs e)
     {
         int selectedValue = Convert.ToInt32(e.Value);
         _chip.Company = _companies.Find(company => company.Id == selectedValue);
-        _companyEvents = _eventRepository.GetAllByCompanyId(selectedValue);
+        _companyEvents = await _eventRepository.GetAllByCompanyIdAsync(selectedValue);
         // TODO: Retrieve events connected to the selected company.
     }
     private void SelectEventAndShowChipSettings()
