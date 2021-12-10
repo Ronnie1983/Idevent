@@ -111,19 +111,6 @@ namespace IdeventAPI.Managers
                 // Gets products from chip content
                 output.StandProducts = _contentManager.GetAllByChipId(Convert.ToInt32(output.Id));
 
-                //-----------------------------------------
-                // TODO Kan muligvis slette
-                // StandProducts.Name, ChipContents.Amount
-                sql = "EXECUTE spGetChipContentByChipId @Id";
-                IEnumerable<dynamic> productsOnChip = _dbConnection.Query(sql, parameters);
-
-                output.ProductsOnChip = new Dictionary<string, int>();
-                foreach (dynamic item in productsOnChip)
-                {
-                    output.ProductsOnChip.Add(item.Name, item.Amount);
-                }
-                //--------------------------------------
-
                 return output;
             }
             catch (SqlException ex)

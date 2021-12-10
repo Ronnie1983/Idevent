@@ -75,11 +75,6 @@ namespace IdeventLibrary.Models
             get => _company;
             set => _company = value;
         }
-        public Dictionary<string, int> ProductsOnChip
-        {
-            get => _productsOnChip;
-            set => _productsOnChip = value;
-        }
 
         public List<StandProductModel> StandProducts { get; set; }
     }
