@@ -20,7 +20,7 @@ namespace IdeventLibrary.Repositories
 
         public async Task<ChipGroupModel> CreateAsync(ChipGroupModel newChipGroup)
         {
-            
+
             string json = JsonConvert.SerializeObject(newChipGroup);
             StringContent httpContent = new StringContent(json);
             HttpResponseMessage response = await _httpClient.PostAsync(_baseUrl, httpContent);
@@ -31,5 +31,12 @@ namespace IdeventLibrary.Repositories
             }
             return null;
         }
+        public async Task<List<ChipGroupModel>> GetAllByEventIdAsync(int eventId)
+        {
+            string json = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/{eventId}"));
+            List<ChipGroupModel> deserializedModelList = JsonConvert.DeserializeObject<List<ChipGroupModel>>(json);
+            return deserializedModelList;
+        }
+
     }
 }
