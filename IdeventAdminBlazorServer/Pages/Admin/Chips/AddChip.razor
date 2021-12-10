@@ -47,20 +47,17 @@
     }
 
 
-    @*   <div class="form-group">
-        <label>Choose event (optional)</label>
-        </div>
-        <div class="form-group">
-        <label>text</label>
-        - Group
-        </div>
-        <div class="form-group">
+    <div class="form-group">
+        <label>New group</label>
+        <InputText @bind-Value="_chip.Group.Name"/>
+        <label>Choose existing group</label>
+        <SelectGroup OnChangeCallback=ShowProductsInGroup Groups=_eventGroups/>
+    </div>
+    <div class="form-group">
         <label>text</label>
         - Event products
-        </div>
-        <div class="form-group">
-        <label>text</label>
-        </div>*@
+    </div>
+
 
     <button type="submit" class="btn btn-primary">Submit</button>
     <NavigateButton PageToNavigateTo="Chips" ButtonText="Cancel" HtmlClasses="btn btn-danger m-1" />
@@ -75,6 +72,7 @@
     private List<CompanyModel> _companies = new List<CompanyModel>();
     private List<EventModel> _companyEvents;
     private RenderFragment _displayMessage;
+    private List<ChipGroupModel> _eventGroups;
 
     protected override async Task OnInitializedAsync()
     {
@@ -103,13 +101,13 @@
     private void SelectEventAndShowChipSettings(ChangeEventArgs e)
     {
         int selectedValue = Convert.ToInt32(e.Value);
-        if(_companyEvents == null)
+        if (_companyEvents == null)
         {
-            _displayMessage = MakeDisplayMessage("Something went wrong when fetching events associated with the selected company.", true);
+            _displayMessage = Common.Helpers.MakeDisplayMessage("Something went wrong when fetching events associated with the selected company.", true);
             return;
         }
-
         _chip.Event = _companyEvents.Find(companyEvent => companyEvent.Id == selectedValue);
+        _eventGroups = _chipGroupRepository.GetAllByEventId(selectedValue);
     }
     private async Task HandleValidSubmitChip()
     {
@@ -118,37 +116,22 @@
             ChipModel submittedModel = await _chipRepository.CreateAsync(_chip);
             if (submittedModel is null)
             {
-                _displayMessage = MakeDisplayMessage("Failed to create chip.", true);
+                _displayMessage = Common.Helpers.MakeDisplayMessage("Failed to create chip.", true);
 
                 return;
             }
 
-            _displayMessage = MakeDisplayMessage($"{_chip.HashedId} was created.", false);
+            _displayMessage = Common.Helpers.MakeDisplayMessage($"{_chip.HashedId} was created.", false);
             _chip.HashedId = "";
             await _chipUIDInput.FocusAsync();
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            _displayMessage = MakeDisplayMessage($"Failed to create chip. {e.Message}", true);
+            _displayMessage = Common.Helpers.MakeDisplayMessage($"Failed to create chip. {e.Message}", true);
         }
 
 
     }
-    /// <summary>
-    /// Makes a RenderFragment with a div.alert that is either success or danger.
-    /// </summary>
-    /// <param name="message"></param>
-    /// <param name="isError"></param>
-    /// <returns></returns>
-    private static RenderFragment MakeDisplayMessage(string message, bool isError)
-    {
-        if (isError)
-        {
-            return
-    @<div class="alert alert-danger">@message</div>;
-        }
 
-        return @<div class="alert alert-success">@message</div>;
-    }
 }

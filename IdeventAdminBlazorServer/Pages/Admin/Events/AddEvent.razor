@@ -37,11 +37,11 @@
         EventModel createdModel = await eventRepository.Create(_event);
         if (createdModel == null)
         {
-            _message = @<div class="alert alert-danger">Failed to create event</div>;
+            _message = Common.Helpers.MakeDisplayMessage("Failed to create event", true);
         }
         else
         {
-            _message = @<div class="alert alert-success">@createdModel.Name created</div>;
+            _message = Common.Helpers.MakeDisplayMessage($"{createdModel.Name} created", false);
         }
     }
 
