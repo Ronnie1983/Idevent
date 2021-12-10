@@ -37,7 +37,12 @@ namespace IdeventAPI.Controllers
         [HttpGet("{chipGroupId}")]
         public IActionResult GetById(int chipGroupId)
         {
-            throw new NotImplementedException();
+            ChipGroupModel chipGroup = _groupManager.GetById(chipGroupId);
+            if(chipGroup == null)
+            {
+                return NotFound();
+            }
+            return Ok(chipGroup);
         }
     }
 }

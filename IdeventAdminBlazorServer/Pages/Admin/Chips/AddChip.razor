@@ -47,18 +47,36 @@
         <SelectEvent OnChangeCallback=SelectEventAndShowChipSettings Events=_companyEvents />
     }
 
+    @if (_chip.Event != null && _chip.StandProducts != null)
+    {
+        <div class="form-group">
+            <label>New group</label>
+            <InputText @bind-Value="_chip.Group.Name" />
+            <SelectGroup OnChangeCallback=UpdateProductAmountsBasedOnGroup ChipGroups=_eventGroups />
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Event product</th>
+                    <th>-</th>
+                    <th>Amounts</th>
+                    <th>+</th>
+                </tr>
+            </thead>
+            <tbody>
 
-    <div class="form-group">
-        <label>New group</label>
-        <InputText @bind-Value="_chip.Group.Name"/>
-        <label>Choose existing group</label>
-        <SelectGroup OnChangeCallback=UpdateProductAmountsBasedOnGroup Groups=_eventGroups/>
-    </div>
-    <div class="form-group">
-        <label>text</label>
-        - Event products
-    </div>
-
+                @foreach (var item in _chip.StandProducts)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td><button type="button" class="bg-danger">-</button></td>
+                        <td>@item.Amount</td>
+                        <td><button type="button" class="bg-success">+</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 
     <button type="submit" class="btn btn-primary">Submit</button>
     <NavigateButton PageToNavigateTo="Chips" ButtonText="Cancel" HtmlClasses="btn btn-danger m-1" />
@@ -99,18 +117,21 @@
     }
     private async Task SelectEventAndShowChipSettings(ChangeEventArgs e)
     {
-        int selectedValue = Convert.ToInt32(e.Value);
-        if (_companyEvents == null)
+        try
         {
-            _displayMessage = Common.Helpers.MakeDisplayMessage("Something went wrong when fetching events associated with the selected company.", true);
-            return;
-        }
-        _chip.Event = _companyEvents.Find(companyEvent => companyEvent.Id == selectedValue);
-        _eventGroups = await _chipGroupRepository.GetAllByEventIdAsync(selectedValue);
+            int selectedValue = Convert.ToInt32(e.Value);
+            if (_companyEvents == null)
+            {
+                _displayMessage = Common.Helpers.MakeDisplayMessage("Something went wrong when fetching events associated with the selected company.", true);
+                return;
+            }
+            _chip.Event = _companyEvents.Find(companyEvent => companyEvent.Id == selectedValue);
 
-        // Temporary static data
-        // TODO: Fetch all stand products available for an event.
-        _chip.StandProducts = new List<StandProductModel>()
+            _eventGroups = await _chipGroupRepository.GetAllByEventIdAsync(selectedValue);
+            _chip.Group = new ChipGroupModel();
+            // Temporary static data
+            // TODO: Fetch all stand products available for an event.
+            _chip.StandProducts = new List<StandProductModel>()
         {
             new StandProductModel("Vand", 5, new EventStandModel()),
             new StandProductModel("Sandwich", 5, new EventStandModel()),
@@ -121,7 +142,11 @@
             new StandProductModel("Tuborg Classic", 5, new EventStandModel()),
             new StandProductModel("Vin", 5, new EventStandModel()),
           };
-        
+        }
+        catch (Exception ex)
+        {
+            _displayMessage = Common.Helpers.MakeDisplayMessage(ex.Message, true);
+        }
     }
     private async Task HandleValidSubmitChip()
     {
@@ -145,8 +170,14 @@
             _displayMessage = Common.Helpers.MakeDisplayMessage($"Failed to create chip. {e.Message}", true);
         }
     }
-    private void UpdateProductAmountsBasedOnGroup()
+    private void UpdateProductAmountsBasedOnGroup(ChangeEventArgs e)
     {
+        int selectedGroupId = Convert.ToInt32(e.Value);
+        if (selectedGroupId != 0)
+        {
+            _chip.Group = _eventGroups.Find(x => x.Id == selectedGroupId);
+        }
+
         // TODO: update the amounts shown for products.
     }
 

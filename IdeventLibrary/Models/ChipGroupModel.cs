@@ -15,10 +15,10 @@ namespace IdeventLibrary.Models
         {
         }
 
-        public ChipGroupModel(int id, string name)
+        public ChipGroupModel(string name, int eventId)
         {
-            _id = id;
-            _name = name;
+            Name = name;
+            EventId = eventId;
         }
 
         public int Id

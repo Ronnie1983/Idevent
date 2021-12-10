@@ -33,7 +33,7 @@ namespace IdeventLibrary.Repositories
         }
         public async Task<List<ChipGroupModel>> GetAllByEventIdAsync(int eventId)
         {
-            string json = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/{eventId}"));
+            string json = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/EventId/{eventId}"));
             List<ChipGroupModel> deserializedModelList = JsonConvert.DeserializeObject<List<ChipGroupModel>>(json);
             return deserializedModelList;
         }

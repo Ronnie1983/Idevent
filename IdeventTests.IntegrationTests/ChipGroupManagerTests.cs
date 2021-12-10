@@ -21,7 +21,10 @@ namespace IdeventTests.IntegrationTests
         [TestMethod]
         public void CreateInsertsDataInDatabase()
         {
+            ChipGroupModel newChipGroup = new ChipGroupModel();
+            _chipGroupManager.Create();
             Assert.Fail("Test not made");
+
         }
 
         [TestMethod]
@@ -31,6 +34,13 @@ namespace IdeventTests.IntegrationTests
             chipGroups = _chipGroupManager.GetAllByEventId(3); // TODO: check if test data suits this id.
 
             Assert.IsInstanceOfType(chipGroups, typeof(List<ChipGroupModel>));
+        }
+        [TestMethod]
+        public void GetByIdReturnsChipGroup()
+        {
+            ChipGroupModel chipGroup = _chipGroupManager.GetById(3);
+
+            Assert.IsInstanceOfType(chipGroup, typeof(ChipGroupModel));
         }
     }
 }
