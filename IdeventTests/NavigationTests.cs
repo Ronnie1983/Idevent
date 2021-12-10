@@ -24,6 +24,7 @@ namespace IdeventTests
             _testContext.Services.AddSingleton<CompanyRepository>(new CompanyRepository());
             _testContext.Services.AddSingleton<ChipRepository>(new ChipRepository());
             _testContext.Services.AddSingleton<EventRepository>(new EventRepository());
+            _testContext.Services.AddSingleton<ChipGroupRepository>(new ChipGroupRepository());
             _navManager = _testContext.Services.GetService<NavigationManager>();
       
         }
