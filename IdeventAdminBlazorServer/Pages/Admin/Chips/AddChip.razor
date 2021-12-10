@@ -1,8 +1,9 @@
 ﻿@page "/AddChip"
 @using IdeventLibrary.Repositories
 @inject IJSRuntime JSRuntime
-@inject CompanyRepository companyRepository
-@inject ChipRepository chipRepository
+@inject CompanyRepository _companyRepository
+@inject ChipRepository _chipRepository
+@inject EventRepository _eventRepository
 
 <h1>Add Chip</h1>
 @if (_displayMessage is not null)
@@ -38,7 +39,13 @@
         <InputText class="form-control disabled" @bind-Value=_chip.User.Email/>
         </div>*@
 
-    <SelectCompany OnChangeCallback=SelectCompanyAndShowEventSelection Companies=_companies/>
+    <SelectCompany OnChangeCallback=SelectCompanyAndShowEventSelection Companies=_companies />
+
+    @if (_chip.Company != null)
+    {
+        <SelectEvent OnChangeCallback=SelectEventAndShowChipSettings Events=_companyEvents />
+    }
+
 
     @*   <div class="form-group">
         <label>Choose event (optional)</label>
@@ -66,6 +73,7 @@
     private ChipModel _chip = new ChipModel();
     private InputTextFocusable _chipUIDInput;
     private List<CompanyModel> _companies = new List<CompanyModel>();
+    private List<EventModel> _companyEvents;
     private RenderFragment _displayMessage;
 
     protected override async Task OnInitializedAsync()
@@ -76,7 +84,7 @@
                 ValidFrom = DateTimeOffset.Now,
                 ValidTo = DateTimeOffset.Now.AddDays(5),
             };
-        _companies = await companyRepository.GetAllAsync();
+        _companies = await _companyRepository.GetAllAsync();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -86,16 +94,28 @@
             await _chipUIDInput.FocusAsync();
         }
     }
-    private void SelectCompanyAndShowEventSelection(ChangeEventArgs e)
+    private async Task SelectCompanyAndShowEventSelection(ChangeEventArgs e)
     {
-        _chip.Company = _companies.Find(company => company.Id == Convert.ToInt32(e.Value));
-        // TODO: Retrieve events connected to the selected company.
+        int selectedValue = Convert.ToInt32(e.Value);
+        _chip.Company = _companies.Find(company => company.Id == selectedValue);
+        _companyEvents = await _eventRepository.GetAllByCompanyIdAsync(selectedValue);
+    }
+    private void SelectEventAndShowChipSettings(ChangeEventArgs e)
+    {
+        int selectedValue = Convert.ToInt32(e.Value);
+        if(_companyEvents == null)
+        {
+            _displayMessage = MakeDisplayMessage("Something went wrong when fetching events associated with the selected company.", true);
+            return;
+        }
+
+        _chip.Event = _companyEvents.Find(companyEvent => companyEvent.Id == selectedValue);
     }
     private async Task HandleValidSubmitChip()
     {
         try
         {
-            ChipModel submittedModel = await chipRepository.CreateAsync(_chip);
+            ChipModel submittedModel = await _chipRepository.CreateAsync(_chip);
             if (submittedModel is null)
             {
                 _displayMessage = MakeDisplayMessage("Failed to create chip.", true);
@@ -112,7 +132,7 @@
             Console.WriteLine(e);
             _displayMessage = MakeDisplayMessage($"Failed to create chip. {e.Message}", true);
         }
-       
+
 
     }
     /// <summary>

@@ -16,9 +16,12 @@ namespace IdeventLibrary.Models
             
         }
 
-        public AddressModel(string streetAddress, string city, string country, string zipcode)
+        public AddressModel(string streetAddress, string city, string country, string postalCode)
         {
-
+            StreetAddress = streetAddress;
+            City = city;
+            Country = country;
+            PostalCode = postalCode;
         }
 
         public int Id

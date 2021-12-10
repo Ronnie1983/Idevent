@@ -1,0 +1,34 @@
+﻿@if (Events is not null)
+{
+    <div class="form-group">
+        <label>Event</label>
+        @if (Events.Count == 0)
+        {
+            <p>No events to select. Go to the events page to create one.</p>
+        }
+        else
+        {
+            <select class="form-control" value="@_preselectedValue" @onchange="OnChangeCallback">
+                <option value="0" selected>Select event</option>
+                @foreach (EventModel @eventModel in Events)
+                {
+                    <option value=@eventModel.Id>@eventModel.Name</option>
+                }
+            </select>
+        }
+    </div>
+}
+else
+{
+    <Loader LoadingMessage="Fetching events to choose from..."></Loader>
+}
+
+@code {
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnChangeCallback { get; set; }
+
+    [Parameter]
+    public List<EventModel> Events { get; set; }
+
+    private int _preselectedValue = 0;
+}

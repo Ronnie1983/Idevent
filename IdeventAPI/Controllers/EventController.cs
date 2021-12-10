@@ -37,7 +37,18 @@ namespace IdeventAPI.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var events = _eventManager.GetAll();
+            List<EventModel> events = _eventManager.GetAll();
+
+            if (events.Count == 0)
+            {
+                return Ok(new List<EventModel>());
+            }
+            return Ok(events);
+        }
+        [HttpGet("CompanyId/{companyId}")]
+        public IActionResult GetAllByCompanyId(int companyId)
+        {
+            List<EventModel> events = _eventManager.GetAllByCompanyId(companyId);
 
             if (events.Count == 0)
             {
@@ -48,7 +59,7 @@ namespace IdeventAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var eventModel = _eventManager.GetById(id);
+            EventModel eventModel = _eventManager.GetById(id);
             if (eventModel == null)
             {
                 return NotFound();

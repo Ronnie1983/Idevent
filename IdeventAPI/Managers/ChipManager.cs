@@ -40,7 +40,7 @@ namespace IdeventAPI.Managers
                 parameters.Add("CompanyId", newChip.Company.Id);
 
                 parameters.Add("EventId", null);
-                parameters.Add("ChipGroupId", 1); // default chip group (will course error in case ChipGroupId 1 doesn't exist.)
+                parameters.Add("ChipGroupId", null);
                 parameters.Add("UserId", null);
 
                 if (newChip.Group != null)
@@ -109,7 +109,7 @@ namespace IdeventAPI.Managers
                     }, parameters, splitOn: "Id").Single();
 
                 // Gets products from chip content
-                output.StandsProducts = _contentManager.GetAllByChipId(Convert.ToInt32(output.Id));
+                output.StandProducts = _contentManager.GetAllByChipId(Convert.ToInt32(output.Id));
 
                 //-----------------------------------------
                 // TODO Kan muligvis slette
@@ -162,7 +162,7 @@ namespace IdeventAPI.Managers
                     }, parameters, splitOn: "Id").Single();
 
                 
-                output.StandsProducts = _contentManager.GetAllByChipId(Convert.ToInt32(output.Id));
+                output.StandProducts = _contentManager.GetAllByChipId(Convert.ToInt32(output.Id));
 
                 return output;
             }
