@@ -21,10 +21,14 @@ namespace IdeventTests.IntegrationTests
         [TestMethod]
         public void CreateInsertsDataInDatabase()
         {
-            ChipGroupModel newChipGroup = new ChipGroupModel();
-            _chipGroupManager.Create();
-            Assert.Fail("Test not made");
+            ChipGroupModel newChipGroup = new ChipGroupModel("My Group", 2);
+            //int beforeCreate = _chipGroupManager = _chipGroupManager.GetAll();
 
+            int idOfCreatedGroup = _chipGroupManager.Create(newChipGroup);
+            //int afterCreate = _chipGroupManager.GetAll();
+
+            //Assert.AreEqual(beforeCreate + 1, afterCreate);
+            Assert.AreEqual(idOfCreatedGroup, 6);
         }
 
         [TestMethod]
