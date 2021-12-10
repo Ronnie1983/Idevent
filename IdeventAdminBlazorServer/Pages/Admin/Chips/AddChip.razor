@@ -53,9 +53,17 @@
             <label class="largeLabel">Select existing group or create a new one</label>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>New group name</label>
-                    <InputText class="form-control" @bind-Value="_chip.Group.Name" placeholder="New group name" />
                     <SelectGroup OnChangeCallback=UpdateProductAmountsBasedOnGroup ChipGroups=_eventGroups />
+                    <button class="btn btn-primary" @onclick="ToggleMakeNewGroup">Create new group</button>
+                    @if (_showMakeNewGroup == true)
+                    {
+                        <div> <!-- Collapse this with bootstrap data-toggle (see AddCompany.razor) -->
+                        <label>New group name</label>
+                        <InputText class="form-control" @bind-Value="_newChipGroup.Name" placeholder="New group name" />
+                        <button type="button" @onclick="CreateGroup"  class="btn btn-primary">Create group</button>
+                        <button type="button" @onclick="ToggleMakeNewGroup" class="btn btn-warning">Close</button>
+                      </div>
+                    }
                 </div>
             </div>
             <div class="col-md-6">
@@ -102,6 +110,8 @@
     private List<EventModel> _companyEvents;
     private RenderFragment _displayMessage;
     private List<ChipGroupModel> _eventGroups;
+    private ChipGroupModel _newChipGroup = new ChipGroupModel();
+    private bool _showMakeNewGroup = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -141,9 +151,9 @@
 
             _eventGroups = await _chipGroupRepository.GetAllByEventIdAsync(selectedValue);
             _chip.Group = new ChipGroupModel();
+
             // Temporary static data
             // TODO: Fetch all stand products available for an event.
-            
             _chip.StandProducts = new List<StandProductModel>()
         {
             new StandProductModel("Vand", 5, new EventStandModel()),
@@ -194,7 +204,30 @@
         {
             _chip.Group = new ChipGroupModel();
         }
-        // TODO: update the amounts shown for products.
+    }
+    private void ToggleMakeNewGroup()
+    {
+        _showMakeNewGroup = !_showMakeNewGroup;
+    }
+    private async Task CreateGroup()
+    {
+        try
+        {
+            _newChipGroup.EventId = _chip.Event.Id;
+            ChipGroupModel newlyCreatedGroup = await _chipGroupRepository.CreateAsync(_newChipGroup);
+            if(newlyCreatedGroup == null)
+            {
+                throw new NullReferenceException("newlyCreatedGroup is null. Check if CreateAsync() in ChipGroupRepository works.");
+            }
+            _displayMessage = Common.Helpers.MakeDisplayMessage($"Created the chip group: {_newChipGroup.Name} successfully.", false);
+            _eventGroups.Add(newlyCreatedGroup);
+
+            ToggleMakeNewGroup();
+        }
+        catch (Exception ex)
+        {
+            _displayMessage = Common.Helpers.MakeDisplayMessage($"Failed to create new group. {ex.Message}", true);
+        }
     }
 
 }
