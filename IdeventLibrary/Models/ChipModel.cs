@@ -17,7 +17,6 @@ namespace IdeventLibrary.Models
         //private User _userId; TODO: Update ChipModel with UserModel.
         private EventModel _event;
         private CompanyModel _company;
-        private Dictionary<string, int> _productsOnChip;
 
         public ChipModel()
         {
