@@ -30,8 +30,9 @@ namespace IdeventAPI.Controllers
         [HttpGet("EventId/{eventId}")]
         public IActionResult GetAllByEventId(int eventId)
         {
-            throw new NotImplementedException();
-            _groupManager.GetAllByEventId();
+            List<ChipGroupModel> chipGroups = _groupManager.GetAllByEventId(eventId);
+
+            return Ok(chipGroups);
         }
         [HttpGet("{chipGroupId}")]
         public IActionResult GetById(int chipGroupId)

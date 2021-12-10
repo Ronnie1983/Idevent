@@ -4,7 +4,7 @@
 @inject CompanyRepository _companyRepository
 @inject ChipRepository _chipRepository
 @inject EventRepository _eventRepository
-@inject ChipGroupRepository _chipGroupRepository;
+@inject ChipGroupRepository _chipGroupRepository
 
 <h1>Add Chip</h1>
 @if (_displayMessage is not null)
@@ -52,7 +52,7 @@
         <label>New group</label>
         <InputText @bind-Value="_chip.Group.Name"/>
         <label>Choose existing group</label>
-        <SelectGroup OnChangeCallback=ShowProductsInGroup Groups=_eventGroups/>
+        <SelectGroup OnChangeCallback=UpdateProductAmountsBasedOnGroup Groups=_eventGroups/>
     </div>
     <div class="form-group">
         <label>text</label>
@@ -63,8 +63,6 @@
     <button type="submit" class="btn btn-primary">Submit</button>
     <NavigateButton PageToNavigateTo="Chips" ButtonText="Cancel" HtmlClasses="btn btn-danger m-1" />
 </EditForm>
-
-
 
 
 @code {
@@ -99,7 +97,7 @@
         _chip.Company = _companies.Find(company => company.Id == selectedValue);
         _companyEvents = await _eventRepository.GetAllByCompanyIdAsync(selectedValue);
     }
-    private void SelectEventAndShowChipSettings(ChangeEventArgs e)
+    private async Task SelectEventAndShowChipSettings(ChangeEventArgs e)
     {
         int selectedValue = Convert.ToInt32(e.Value);
         if (_companyEvents == null)
@@ -108,7 +106,22 @@
             return;
         }
         _chip.Event = _companyEvents.Find(companyEvent => companyEvent.Id == selectedValue);
-        _eventGroups = _chipGroupRepository.GetAllByEventId(selectedValue);
+        _eventGroups = await _chipGroupRepository.GetAllByEventIdAsync(selectedValue);
+
+        // Temporary static data
+        // TODO: Fetch all stand products available for an event.
+        _chip.StandProducts = new List<StandProductModel>()
+        {
+            new StandProductModel("Vand", 5, new EventStandModel()),
+            new StandProductModel("Sandwich", 5, new EventStandModel()),
+            new StandProductModel("Mars chokoladebar", 5, new EventStandModel()),
+            new StandProductModel("Sneakers chokoladebar", 5, new EventStandModel()),
+            new StandProductModel("Twix chokoladebar", 5, new EventStandModel()),
+            new StandProductModel("Sodavand", 5, new EventStandModel()),
+            new StandProductModel("Tuborg Classic", 5, new EventStandModel()),
+            new StandProductModel("Vin", 5, new EventStandModel()),
+          };
+        
     }
     private async Task HandleValidSubmitChip()
     {
@@ -131,8 +144,10 @@
             Console.WriteLine(e);
             _displayMessage = Common.Helpers.MakeDisplayMessage($"Failed to create chip. {e.Message}", true);
         }
-
-
+    }
+    private void UpdateProductAmountsBasedOnGroup()
+    {
+        // TODO: update the amounts shown for products.
     }
 
 }
