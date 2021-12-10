@@ -99,7 +99,6 @@
         int selectedValue = Convert.ToInt32(e.Value);
         _chip.Company = _companies.Find(company => company.Id == selectedValue);
         _companyEvents = await _eventRepository.GetAllByCompanyIdAsync(selectedValue);
-        // TODO: Retrieve events connected to the selected company.
     }
     private void SelectEventAndShowChipSettings(ChangeEventArgs e)
     {
