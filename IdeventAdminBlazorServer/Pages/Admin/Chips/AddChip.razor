@@ -49,33 +49,45 @@
 
     @if (_chip.Event != null && _chip.StandProducts != null)
     {
-        <div class="form-group">
-            <label>New group</label>
-            <InputText @bind-Value="_chip.Group.Name" />
-            <SelectGroup OnChangeCallback=UpdateProductAmountsBasedOnGroup ChipGroups=_eventGroups />
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Event product</th>
-                    <th>-</th>
-                    <th>Amounts</th>
-                    <th>+</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="row">
+            <label class="largeLabel">Select existing group or create a new one</label>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>New group name</label>
+                    <InputText class="form-control" @bind-Value="_chip.Group.Name" placeholder="New group name" />
+                    <SelectGroup OnChangeCallback=UpdateProductAmountsBasedOnGroup ChipGroups=_eventGroups />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="largeLabel">Choose products on chip</label>
+                <table class="text-center">
+                    <thead>
+                        <tr>
+                            <th>Event product</th>
+                            <th>-</th>
+                            <th>Amounts</th>
+                            <th>+</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                @foreach (var item in _chip.StandProducts)
-                {
-                    <tr>
-                        <td>@item.Name</td>
-                        <td><button type="button" class="bg-danger">-</button></td>
-                        <td>@item.Amount</td>
-                        <td><button type="button" class="bg-success">+</button></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                        @foreach (var item in _chip.StandProducts)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>
+                                    <button type="button" class="bg-danger fw-bold customCircleBtn">-</button>
+                                </td>
+                                <td>@item.Amount</td>
+                                <td>
+                                    <button type="button" class="bg-success fw-bold customCircleBtn">+</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     }
 
     <button type="submit" class="btn btn-primary">Submit</button>
@@ -131,6 +143,7 @@
             _chip.Group = new ChipGroupModel();
             // Temporary static data
             // TODO: Fetch all stand products available for an event.
+            
             _chip.StandProducts = new List<StandProductModel>()
         {
             new StandProductModel("Vand", 5, new EventStandModel()),
@@ -177,7 +190,10 @@
         {
             _chip.Group = _eventGroups.Find(x => x.Id == selectedGroupId);
         }
-
+        else
+        {
+            _chip.Group = new ChipGroupModel();
+        }
         // TODO: update the amounts shown for products.
     }
 
