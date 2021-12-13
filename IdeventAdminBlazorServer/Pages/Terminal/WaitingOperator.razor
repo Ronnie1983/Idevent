@@ -7,8 +7,8 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Authorization
 @inject NavigationManager _navigationManager
-@*@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor*@
-@*@inject UserManager<UserModel> _userManager*@
+@inject ChipRepository _chipRepository
+@inject ChipContentRepository _chipContentRepository
 
     
 
@@ -34,7 +34,7 @@
     <tbody>
         @if(_chip != null)
         {
-               @foreach(var item in _chip.StandProducts)
+               @foreach(var item in _productList)
                     {
                     @if(item.EventStandId == EventStandId)
                         {
@@ -65,32 +65,42 @@
     private string _message = "Waiting operator";
 
     private ChipModel _chip;
-    private ChipRepository _chipRepository = new ChipRepository();
-   
+
+    List<StandProductModel> _productList;
+
     public int EventStandId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         _chip = await _chipRepository.GetById(TryConvert(Id));
-
+        _productList = new List<StandProductModel>();
+        //Opretter forbindelse til Hub
         _hubConnection = new HubConnectionBuilder()
            .WithUrl(_navigationManager.ToAbsoluteUri("/connectionhub"),options =>
-                 {
-                    options.UseDefaultCredentials = true;
-                })
+                   {
+                      options.UseDefaultCredentials = true;
+                  })
            .Build();
 
-        //string claimId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-        //string claimId = _userManager.GetUserId(ClaimsPrincipal.Current);
-        _hubConnection.On<int>("GetStand", (stand) =>
+        //Lytter i Eventhub på funktionen GetStand
+        _hubConnection.On<int>("GetStand", async (stand) =>
         {
             EventStandId = stand;
-            
+            await GetProducts();
             StateHasChanged();
         });
 
         await _hubConnection.StartAsync();
+
+        //Sender en request til Hub funktionen AskForStand
         await _hubConnection.SendAsync("AskForStand");
+
+    }
+
+    private async Task GetProducts()
+    {
+        _productList = await _chipContentRepository.GetAllContentByStandIdAndChipIdAsync(_chip.Id, EventStandId);
+        StateHasChanged();
     }
 
     private int TryConvert(string value)

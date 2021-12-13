@@ -27,5 +27,12 @@ namespace IdeventAPI.Managers
             List<StandProductModel> result = _dbConnection.Query<StandProductModel>(sql, new {Id = id}).AsList();
             return result;
         }
+
+        public List<StandProductModel> GetAllByChipAndStandId(int chipId, int standId)
+        {
+            string sql = "EXECUTE spGetStandProductAndContentByChipId @chipId, @standId ";
+            List<StandProductModel> result = _dbConnection.Query<StandProductModel>(sql, new { chipId = chipId, standId = standId }).AsList();
+            return result;
+        }
     }
 }

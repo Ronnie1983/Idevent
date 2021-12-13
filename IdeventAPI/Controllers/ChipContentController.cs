@@ -32,6 +32,19 @@ namespace IdeventAPI.Controllers
             return Ok(products);
         }
 
+        // GET content from chip <ChipContentController>/5
+        [HttpGet("{chipId}/{standId}")]
+        public IActionResult GetByChipId(int chipId, int standId)
+        {
+            var products = _chipContentManager.GetAllByChipAndStandId(chipId, standId);
+            if (products.Count == 0)
+            {
+                //return StatusCode(204, new List<StandProductModel>());
+                return Ok(new List<StandProductModel>());
+            }
+            return Ok(products);
+        }
+
         // POST <ChipContentController>
         [HttpPost]
         public void Post([FromBody] string value)

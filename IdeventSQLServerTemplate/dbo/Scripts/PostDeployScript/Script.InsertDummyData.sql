@@ -41,7 +41,16 @@ BEGIN
     IF NOT EXISTS(SELECT * FROM StandFunctionalities AS SF WHERE SF.Name = 'Default')
     INSERT INTO StandFunctionalities(Name)
                             VALUES('Default')
-END
 
 /* EventStand Data */
+    IF NOT EXISTS(SELECT * FROM EventStands AS ES WHERE ES.Name = 'Food')
+    INSERT INTO EventStands VALUES('Food',1,1)
 
+/* Chips Data */
+    IF NOT EXISTS(SELECT * FROM Chips AS CH WHERE CH.HashedId = 'hash')
+    INSERT INTO Chips VALUES('hash','11-11-2020','11-11-2022',null,'3bfd3335-2b1c-4e5e-b88f-e2f5b8b12f4e',1,1)
+
+/* Product Data */
+    IF NOT EXISTS(SELECT * FROM StandProducts AS PR WHERE PR.Name = 'Pizza')
+    INSERT INTO StandProducts VALUES('Pizza',10,1)
+END
