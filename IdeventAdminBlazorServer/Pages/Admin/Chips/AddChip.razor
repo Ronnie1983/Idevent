@@ -56,42 +56,50 @@
                 <div class="form-group">
                     <SelectGroup OnChangeCallback=UpdateProductAmountsBasedOnGroup ChipGroups=_eventGroups />
                     <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#makeNewGroupPanel" aria-expanded="true" aria-controls="collapseOne">Create new group</button>
-                        <div id="makeNewGroupPanel" class="collapse">
+                    <div id="makeNewGroupPanel" class="collapse">
                         <label>New group name</label>
                         <InputText class="form-control" @bind-Value="_newChipGroup.Name" placeholder="New group name" />
-                        <button type="button" @onclick="CreateGroup"  class="btn btn-primary">Create group</button>
+                        <button type="button" @onclick="CreateGroup" class="btn btn-primary">Create group</button>
                         <button type="button" data-bs-toggle="collapse" data-bs-target="#makeNewGroupPanel" class="btn btn-warning">Close</button>
-                      </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <label class="largeLabel">Choose products on chip</label>
-                <table class="text-center">
-                    <thead>
-                        <tr>
-                            <th>Event product</th>
-                            <th>-</th>
-                            <th>Amounts</th>
-                            <th>+</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @foreach (var item in _chip.StandProducts)
-                        {
+                @if (_chip.StandProducts.Count == 0)
+                {
+                    <p>There are not any products associated with the selected event.</p>
+                }
+                else
+                {
+                    <table class="text-center">
+                        <thead>
                             <tr>
-                                <td>@item.Name</td>
-                                <td>
-                                    <button type="button" class="bg-danger fw-bold customCircleBtn">-</button>
-                                </td>
-                                <td>@item.Amount</td>
-                                <td>
-                                    <button type="button" class="bg-success fw-bold customCircleBtn">+</button>
-                                </td>
+                                <th>Event product</th>
+                                <th>-</th>
+                                <th>Amounts</th>
+                                <th>+</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in _chip.StandProducts)
+                            {
+                                <tr>
+                                    <td>@product.Name</td>
+                                    <td>
+                                        <button type="button" class="bg-danger fw-bold customCircleBtn" @onclick="() => {if(product.Amount >0){product.Amount--;}}">-</button>
+                                    </td>
+                                    <td><input type="number" class="text-center" value="@product.Amount" /></td>
+                                    <td>
+                                        <button type="button" class="bg-success fw-bold customCircleBtn" @onclick="() => {product.Amount++;}">+</button>
+                                    </td>
+                                </tr>
+                            }
+                            }
+
+                        </tbody>
+                    </table>
+                }
             </div>
         </div>
     }
@@ -139,30 +147,18 @@
     {
         try
         {
-            int selectedValue = Convert.ToInt32(e.Value);
+            int selectedEventId = Convert.ToInt32(e.Value);
             if (_companyEvents == null)
             {
                 _displayMessage = Common.Helpers.MakeDisplayMessage("Something went wrong when fetching events associated with the selected company.", true);
                 return;
             }
-            _chip.Event = _companyEvents.Find(companyEvent => companyEvent.Id == selectedValue);
+            _chip.Event = _companyEvents.Find(companyEvent => companyEvent.Id == selectedEventId);
 
-            _eventGroups = await _chipGroupRepository.GetAllByEventIdAsync(selectedValue);
+            _eventGroups = await _chipGroupRepository.GetAllByEventIdAsync(selectedEventId);
             _chip.Group = new ChipGroupModel();
 
-            // Temporary static data
-            // TODO: Fetch all stand products available for an event.
-            _chip.StandProducts = new List<StandProductModel>()
-        {
-            new StandProductModel("Vand", 5, new EventStandModel()),
-            new StandProductModel("Sandwich", 5, new EventStandModel()),
-            new StandProductModel("Mars chokoladebar", 5, new EventStandModel()),
-            new StandProductModel("Sneakers chokoladebar", 5, new EventStandModel()),
-            new StandProductModel("Twix chokoladebar", 5, new EventStandModel()),
-            new StandProductModel("Sodavand", 5, new EventStandModel()),
-            new StandProductModel("Tuborg Classic", 5, new EventStandModel()),
-            new StandProductModel("Vin", 5, new EventStandModel()),
-          };
+            _chip.StandProducts = await _productRepository.GetAllProductsByEventIdAsync(selectedEventId);
         }
         catch (Exception ex)
         {
@@ -210,7 +206,7 @@
         {
             _newChipGroup.EventId = _chip.Event.Id;
             ChipGroupModel newlyCreatedGroup = await _chipGroupRepository.CreateAsync(_newChipGroup);
-            if(newlyCreatedGroup == null)
+            if (newlyCreatedGroup == null)
             {
                 throw new NullReferenceException("newlyCreatedGroup is null. Check if CreateAsync() in ChipGroupRepository works.");
             }

@@ -56,7 +56,7 @@ namespace IdeventAPI.Managers
         }
         public List<StandProductModel> GetAllByEventId(int eventId)
         {
-            string sql = "EXECUTE spGetProductsByEventId @eventId";
+            string sql = "EXECUTE spGetAllProductsByEventId @eventId";
             var parameters = new { eventId };
 
             List<StandProductModel> products = _dbConnection.Query<StandProductModel>(sql, parameters).AsList();
