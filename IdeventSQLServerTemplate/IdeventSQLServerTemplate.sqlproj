@@ -132,6 +132,8 @@
     <Build Include="dbo\StoredProcedures\spGetChipGroupById.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllProductsByEventId.sql" />
     <Build Include="dbo\StoredProcedures\spCreateChipContent.sql" />
+    <Build Include="dbo\StoredProcedures\spCreateStandFunctionality.sql" />
+    <Build Include="dbo\StoredProcedures\spGetStandFunctionalityById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />
