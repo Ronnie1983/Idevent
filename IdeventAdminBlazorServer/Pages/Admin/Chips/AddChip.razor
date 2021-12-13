@@ -168,6 +168,7 @@
     {
         try
         {
+            bool success = true;
             ChipModel submittedModel = await _chipRepository.CreateAsync(_chip);
 
             if (submittedModel is null)
@@ -176,16 +177,22 @@
 
                 return;
             }
+            if(_chip.StandProducts != null)
+            {
+                success = await _chipContentRepository.CreateMultipleAsync(_chip.StandProducts, _chip.Group.Id, _chip.Event.Id);
+                if(success == false){
+                    _displayMessage = Common.Helpers.MakeDisplayMessage($"{_chip.HashedId} was created, but without content.", true);
+                    _chip.HashedId = "";
+                    await _chipUIDInput.FocusAsync();
+                    return;
+                }
+            }
 
-            bool result = await _chipContentRepository.CreateMultipleAsync(_chip.StandProducts, _chip.Group.Id, _chip.Event.Id);
-            if(result == false){
-                _displayMessage = Common.Helpers.MakeDisplayMessage($"{_chip.HashedId} was created, but without content.", true);
-            }
-            else{
-                _displayMessage = Common.Helpers.MakeDisplayMessage($"{_chip.HashedId} was created.", false);
-            }
+            _displayMessage = Common.Helpers.MakeDisplayMessage($"{_chip.HashedId} was created.", false);
             _chip.HashedId = "";
             await _chipUIDInput.FocusAsync();
+            // TODO: Make it 'save' (in-memory) the previous entrys products
+            //List<StandProductModel> previousEntrysProducts = _chip.StandProducts;
         }
         catch (Exception e)
         {

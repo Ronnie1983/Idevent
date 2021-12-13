@@ -43,7 +43,7 @@ namespace IdeventAPI.Managers
                 parameters.Add("ChipGroupId", null);
                 parameters.Add("UserId", null);
 
-                if (newChip.Group != null)
+                if (newChip.Group.Name != null)
                 {
                     parameters.Add("ChipGroupId", newChip.Group.Id);
                 }
