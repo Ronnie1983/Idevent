@@ -49,6 +49,8 @@ namespace IdeventAdminBlazorServer
             services.AddSingleton<ChipRepository>();
             services.AddSingleton<EventRepository>();
             services.AddSingleton<ChipGroupRepository>();
+            services.AddSingleton<StandProductRepository>();
+            services.AddSingleton<ChipContentRepository>();
 
 
             services.AddSignalR();

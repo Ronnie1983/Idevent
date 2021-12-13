@@ -34,7 +34,6 @@ namespace IdeventAPI.Controllers
             return Ok(products);
         }
 
-        // GET api/<ProductController>/5
         [HttpGet("standid/{id}")]
         public IActionResult GetAllByStandId(int id)
         {
@@ -46,8 +45,17 @@ namespace IdeventAPI.Controllers
             }
             return Ok(products);
         }
-
-        // GET api/<ProductController>/5
+        [HttpGet("EventId/{id}")]
+        public IActionResult GetAllByEventId(int id)
+        {
+            var products = _productManager.GetAllByEventId(id);
+            if (products.Count == 0)
+            {
+                return Ok(new List<StandProductModel>());
+            }
+            return Ok(products);
+        }
+        // GET <ProductController>/5
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
