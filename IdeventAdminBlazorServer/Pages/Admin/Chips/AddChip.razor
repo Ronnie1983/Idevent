@@ -54,14 +54,14 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <SelectGroup OnChangeCallback=UpdateProductAmountsBasedOnGroup ChipGroups=_eventGroups />
-                    <button class="btn btn-primary" @onclick="ToggleMakeNewGroup">Create new group</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#makeNewGroupPanel" aria-expanded="true" aria-controls="collapseOne">Create new group</button>
                     @if (_showMakeNewGroup == true)
                     {
-                        <div> <!-- Collapse this with bootstrap data-toggle (see AddCompany.razor) -->
+                        <div id="makeNewGroupPanel" class="collapse"> <!-- Collapse this with bootstrap data-toggle (see AddCompany.razor) -->
                         <label>New group name</label>
                         <InputText class="form-control" @bind-Value="_newChipGroup.Name" placeholder="New group name" />
                         <button type="button" @onclick="CreateGroup"  class="btn btn-primary">Create group</button>
-                        <button type="button" @onclick="ToggleMakeNewGroup" class="btn btn-warning">Close</button>
+                        <button type="button" data-toggle="collapse" data-target="#makeNewGroupPanel" class="btn btn-warning">Close</button>
                       </div>
                     }
                 </div>
