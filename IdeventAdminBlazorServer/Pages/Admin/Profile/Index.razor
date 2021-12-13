@@ -1,6 +1,8 @@
 ﻿@page "/Profile/{Id}"
 @page "/Profile"
 
+@attribute [Authorize]
+
 @using IdeventLibrary.Repositories
 @using System.Security.Claims
 
@@ -30,10 +32,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _key = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
         try
         {
+            _key = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             UserRepository userRepo = new UserRepository();
 
             _profileData = await userRepo.GetUserById(_key);
