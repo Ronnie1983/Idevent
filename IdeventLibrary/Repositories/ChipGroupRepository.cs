@@ -22,12 +22,13 @@ namespace IdeventLibrary.Repositories
         {
 
             string json = JsonConvert.SerializeObject(newChipGroup);
-            StringContent httpContent = new StringContent(json);
+            StringContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await _httpClient.PostAsync(_baseUrl, httpContent);
             if (response.IsSuccessStatusCode)
             {
-                throw new NotImplementedException();
-                // do the success scenario
+                string newItemAsJson = await _httpClient.GetStringAsync(response.Headers.Location.AbsoluteUri);
+                ChipGroupModel newItem = JsonConvert.DeserializeObject<ChipGroupModel>(newItemAsJson);
+                return newItem;
             }
             return null;
         }

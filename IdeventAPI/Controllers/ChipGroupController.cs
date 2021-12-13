@@ -18,7 +18,7 @@ namespace IdeventAPI.Controllers
             int newGroupId = _groupManager.Create(newChipGroup);
             if (newGroupId > 0)
             {
-                return CreatedAtAction(nameof(GetById), new { id = newGroupId }, newChipGroup);
+                return CreatedAtAction(nameof(GetById), new { chipGroupId = newGroupId }, newChipGroup);
             }
             return BadRequest();
         }

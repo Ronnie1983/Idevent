@@ -55,15 +55,12 @@
                 <div class="form-group">
                     <SelectGroup OnChangeCallback=UpdateProductAmountsBasedOnGroup ChipGroups=_eventGroups />
                     <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#makeNewGroupPanel" aria-expanded="true" aria-controls="collapseOne">Create new group</button>
-                    @if (_showMakeNewGroup == true)
-                    {
                         <div id="makeNewGroupPanel" class="collapse"> <!-- Collapse this with bootstrap data-toggle (see AddCompany.razor) -->
                         <label>New group name</label>
                         <InputText class="form-control" @bind-Value="_newChipGroup.Name" placeholder="New group name" />
                         <button type="button" @onclick="CreateGroup"  class="btn btn-primary">Create group</button>
-                        <button type="button" data-toggle="collapse" data-target="#makeNewGroupPanel" class="btn btn-warning">Close</button>
+                        <button type="button" data-bs-toggle="collapse" data-bs-target="#makeNewGroupPanel" class="btn btn-warning">Close</button>
                       </div>
-                    }
                 </div>
             </div>
             <div class="col-md-6">
@@ -205,10 +202,7 @@
             _chip.Group = new ChipGroupModel();
         }
     }
-    private void ToggleMakeNewGroup()
-    {
-        _showMakeNewGroup = !_showMakeNewGroup;
-    }
+
     private async Task CreateGroup()
     {
         try
@@ -221,8 +215,6 @@
             }
             _displayMessage = Common.Helpers.MakeDisplayMessage($"Created the chip group: {_newChipGroup.Name} successfully.", false);
             _eventGroups.Add(newlyCreatedGroup);
-
-            ToggleMakeNewGroup();
         }
         catch (Exception ex)
         {
