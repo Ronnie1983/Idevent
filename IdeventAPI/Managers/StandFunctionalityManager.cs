@@ -32,7 +32,7 @@ namespace IdeventAPI.Managers
         }
         public int Create(StandFunctionalityModel newFunctionality)
         {
-            string sql = "EXECUTE spCreateFunctionality @Name"; // TODO: make spCreateFunctionlity
+            string sql = "EXECUTE spCreateStandFunctionality @Name";
             var parameters = new { newFunctionality.Name };
             object createdId = _dbConnection.ExecuteScalar(sql, parameters);
             if(createdId != null)
@@ -44,10 +44,10 @@ namespace IdeventAPI.Managers
 
         public StandFunctionalityModel GetById(int id)
         {
-            string sql = "EXECUTE spGetFunctionlaityById @Id"; // TODO: make spGetFunctionalityById
+            string sql = "EXECUTE spGetStandFunctionalityById @Id";
             var parameters = new { Id = id };
 
-            StandFunctionalityModel standFunctionality = _dbConnection.Query(sql, parameters).Single();
+            StandFunctionalityModel standFunctionality = _dbConnection.Query<StandFunctionalityModel>(sql, parameters).Single();
 
             return standFunctionality;
         }
