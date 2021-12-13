@@ -143,5 +143,6 @@
     <None Include="dbo\PublishProfiles\ThomasLaptop.publish.xml" />
     <None Include="dbo\PublishProfiles\ThomasLaptopTestDB.publish.xml" />
     <None Include="dbo\PublishProfiles\ThomasDesktopTestDB.publish.xml" />
+    <None Include="dbo\PublishProfiles\Mads.publish.xml" />
   </ItemGroup>
 </Project>

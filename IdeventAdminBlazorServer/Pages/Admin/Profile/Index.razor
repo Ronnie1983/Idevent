@@ -1,7 +1,52 @@
-﻿@page "/Profile"
+﻿@page "/Profile/{Id}"
+@page "/Profile"
+
+@attribute [Authorize]
+
+@using IdeventLibrary.Repositories
+@using System.Security.Claims
+
+@inject NavigationManager _navigationManager
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
 
 <h1>Profile</h1>
 
+@if (_profileData != null)
+{
+    <section>
+        <PropertyDisplay PropertyName="Id" PropertyValue="@(_profileData.Id)"/>
+        <PropertyDisplay PropertyName="Email" PropertyValue="@(_profileData.Email)"/>
+    </section>
+}
+
+<br/>
+
+<NavigateButton PageToNavigateTo="Home" ButtonText="Back"/>
+
+
 @code {
+    [Parameter]
+
+    public string Id { get; set; }
+    private string _key;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _key = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            UserRepository userRepo = new UserRepository();
+
+            _profileData = await userRepo.GetUserById(_key);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+
+    private UserModel _profileData;
+
 
 }
