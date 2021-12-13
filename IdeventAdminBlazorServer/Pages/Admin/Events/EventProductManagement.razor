@@ -236,7 +236,7 @@
         _toggleAddStand = !_toggleAddStand;
         if (_standFunctionalities.Count <= 0)
         {
-            _standFunctionalityRepository.Create(new StandFunctionalityModel("Default"));
+            //_standFunctionalityRepository.Create(new StandFunctionalityModel("Default"));
             _bindItem = 1; // if no functionalties exists just set the id to 1. (
             return;
         }
