@@ -131,6 +131,7 @@
     <Build Include="dbo\StoredProcedures\spGetAllChipGroupsByEventId.sql" />
     <Build Include="dbo\StoredProcedures\spGetChipGroupById.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllProductsByEventId.sql" />
+    <Build Include="dbo\StoredProcedures\spCreateChipContent.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />

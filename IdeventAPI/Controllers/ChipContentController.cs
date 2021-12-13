@@ -2,6 +2,7 @@
 using IdeventAPI.Managers;
 using IdeventLibrary.Models;
 using System.Collections.Generic;
+using System;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,22 +33,25 @@ namespace IdeventAPI.Controllers
             return Ok(products);
         }
 
-        // POST <ChipContentController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult CreateMultiple([FromBody] List<ChipContentModel> contentsToBeCreated)
         {
+            bool success = _chipContentManager.CreateMultiple(contentsToBeCreated);
+            if(success) return Ok(success);
+
+            return BadRequest(contentsToBeCreated);
         }
 
-        // PUT <ChipContentController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+            throw new NotImplementedException();
         }
 
-        // DELETE <ChipContentController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            throw new NotImplementedException();
         }
     }
 }

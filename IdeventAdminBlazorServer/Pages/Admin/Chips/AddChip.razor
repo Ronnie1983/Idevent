@@ -6,6 +6,7 @@
 @inject EventRepository _eventRepository
 @inject ChipGroupRepository _chipGroupRepository
 @inject StandProductRepository _productRepository
+@inject ChipContentRepository _chipContentRepository
 
 <h1>Add Chip</h1>
 @if (_displayMessage is not null)
@@ -95,7 +96,6 @@
                                     </td>
                                 </tr>
                             }
-
                         </tbody>
                     </table>
                 }
@@ -169,6 +169,7 @@
         try
         {
             ChipModel submittedModel = await _chipRepository.CreateAsync(_chip);
+            _chipContentRepository.
             if (submittedModel is null)
             {
                 _displayMessage = Common.Helpers.MakeDisplayMessage("Failed to create chip.", true);
