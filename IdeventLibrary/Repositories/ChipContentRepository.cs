@@ -16,6 +16,7 @@ namespace IdeventLibrary.Repositories
 
         public async Task<bool> CreateAsync(StandProductModel standProduct, int chipId, int chipGroupId)
         {
+            // Not implemented in the API.
             bool success = false;
             ChipContentModel chipContentModel = new ChipContentModel(standProduct, chipId, chipGroupId);
 
@@ -37,7 +38,10 @@ namespace IdeventLibrary.Repositories
             List<ChipContentModel> chipContents = new List<ChipContentModel>();
             foreach (StandProductModel standProduct in standProducts)
             {
-                chipContents.Add(new ChipContentModel(standProduct, chipId, chipGroupId));
+                if (standProduct.Amount > 0)
+                {
+                    chipContents.Add(new ChipContentModel(standProduct, chipId, chipGroupId));
+                }
             }
 
             string json = JsonConvert.SerializeObject(chipContents);

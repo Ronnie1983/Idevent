@@ -33,7 +33,7 @@ namespace IdeventAPI.Controllers
             return Ok(products);
         }
 
-        [HttpPost]
+        [HttpPost("Multiple")]
         public IActionResult CreateMultiple([FromBody] List<ChipContentModel> contentsToBeCreated)
         {
             bool success = _chipContentManager.CreateMultiple(contentsToBeCreated);

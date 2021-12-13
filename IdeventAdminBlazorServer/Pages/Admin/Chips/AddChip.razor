@@ -169,7 +169,7 @@
         try
         {
             ChipModel submittedModel = await _chipRepository.CreateAsync(_chip);
-            _chipContentRepository.
+
             if (submittedModel is null)
             {
                 _displayMessage = Common.Helpers.MakeDisplayMessage("Failed to create chip.", true);
@@ -177,7 +177,13 @@
                 return;
             }
 
-            _displayMessage = Common.Helpers.MakeDisplayMessage($"{_chip.HashedId} was created.", false);
+            bool result = await _chipContentRepository.CreateMultipleAsync(_chip.StandProducts, _chip.Group.Id, _chip.Event.Id);
+            if(result == false){
+                _displayMessage = Common.Helpers.MakeDisplayMessage($"{_chip.HashedId} was created, but without content.", true);
+            }
+            else{
+                _displayMessage = Common.Helpers.MakeDisplayMessage($"{_chip.HashedId} was created.", false);
+            }
             _chip.HashedId = "";
             await _chipUIDInput.FocusAsync();
         }
