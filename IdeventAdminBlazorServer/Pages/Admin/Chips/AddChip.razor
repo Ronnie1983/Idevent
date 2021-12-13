@@ -86,15 +86,14 @@
                             {
                                 <tr>
                                     <td>@product.Name</td>
-                                    <td>
+                                    <td class="px-2">
                                         <button type="button" class="bg-danger fw-bold customCircleBtn" @onclick="() => {if(product.Amount >0){product.Amount--;}}">-</button>
                                     </td>
                                     <td><input type="number" class="text-center" value="@product.Amount" /></td>
-                                    <td>
+                                    <td class="px-2">
                                         <button type="button" class="bg-success fw-bold customCircleBtn" @onclick="() => {product.Amount++;}">+</button>
                                     </td>
                                 </tr>
-                            }
                             }
 
                         </tbody>
