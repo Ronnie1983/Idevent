@@ -177,10 +177,11 @@
 
                 return;
             }
-            if(_chip.StandProducts != null)
+            if (_chip.StandProducts != null)
             {
                 success = await _chipContentRepository.CreateMultipleAsync(_chip.StandProducts, _chip.Group.Id, _chip.Event.Id);
-                if(success == false){
+                if (success == false)
+                {
                     _displayMessage = Common.Helpers.MakeDisplayMessage($"{_chip.HashedId} was created, but without content.", true);
                     _chip.HashedId = "";
                     await _chipUIDInput.FocusAsync();
