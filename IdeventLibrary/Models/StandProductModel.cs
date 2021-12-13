@@ -37,7 +37,7 @@ namespace IdeventLibrary.Models
                 EventStandId = EventStandModel.Id;
             } 
         }
-
+        public int Amount { get; set; }
         public int EventStandId { get; set; }
     }
 }

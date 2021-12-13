@@ -3,6 +3,8 @@ using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using IdeventLibrary.Repositories;
+using IdeventLibrary.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace IdeventTests
 {
@@ -17,10 +19,14 @@ namespace IdeventTests
         [TestInitialize]
         public void Inititialise()
         {
+            
             _testContext.JSInterop.SetupVoid("BlazorFocusElement", _ => true);
             _testContext.Services.AddSingleton<CompanyRepository>(new CompanyRepository());
             _testContext.Services.AddSingleton<ChipRepository>(new ChipRepository());
+            _testContext.Services.AddSingleton<EventRepository>(new EventRepository());
+            _testContext.Services.AddSingleton<ChipGroupRepository>(new ChipGroupRepository());
             _navManager = _testContext.Services.GetService<NavigationManager>();
+      
         }
         [TestMethod]
         public void DashboardIndexLoads()
@@ -132,7 +138,9 @@ namespace IdeventTests
         [TestMethod]
         public void TerminalWaitingForOperatorPage()
         {
-            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Terminal.WaitingOperator>(), "Success", "chipContent/1");
+            var ctx = _testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Terminal.WaitingOperator>();
+            ctx.Instance.EventStandId = 1;
+            LoadPageTest(ctx, "Success", "chipContent/1");
         }
 
         /// <summary>

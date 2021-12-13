@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[spCreateEvent]
-	@Name int,
+	@Name NVARCHAR(50),
 	@CompanyId int
 AS
 BEGIN

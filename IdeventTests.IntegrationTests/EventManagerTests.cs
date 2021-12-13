@@ -18,14 +18,30 @@ namespace IdeventTests.IntegrationTests
             _eventManager = new EventManager(TestSettings.ConnectionString);
         }
 
-
         [TestMethod]
-        public void GetAllReturnsList()
+        public void CreateAddsEventToDatabase()
         {
-            List<EventModel> events = new();
+            EventModel newEvent = new EventModel()
+            {
+                Name = "My event",
+                Company = new CompanyModel() { Id = 1}
+            };
+            int countBefore = _eventManager.GetAll().Count;
+            int countAfter;
+
+            _eventManager.Create(newEvent);
+            countAfter = _eventManager.GetAll().Count;
+
+            Assert.AreEqual(countBefore + 1, countAfter);
+        }
+        [TestMethod]
+        public void GetAllReturnsNonEmptyList()
+        {
+            List<EventModel> events;
             events = _eventManager.GetAll();
 
             Assert.IsInstanceOfType(events, typeof(List<EventModel>));
+            Assert.IsTrue(events.Count > 0);
         }
         [TestMethod]
         public void GetByIdReturnsModel()
@@ -33,6 +49,15 @@ namespace IdeventTests.IntegrationTests
             EventModel model = _eventManager.GetById(1);
             Assert.IsNotNull(model);
             Assert.IsInstanceOfType(model, typeof(EventModel));
+        }
+        [TestMethod]
+        public void GetAllByCompanyIdReturnsNonEmptyList()
+        {
+            List<EventModel> events;
+            events = _eventManager.GetAllByCompanyId(5);
+
+            Assert.IsInstanceOfType(events, typeof(List<EventModel>));
+            Assert.IsTrue(events.Count > 0);
         }
 
 

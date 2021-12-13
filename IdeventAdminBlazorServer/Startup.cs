@@ -19,6 +19,9 @@ using IdeventLibrary.Models;
 using Microsoft.EntityFrameworkCore.Design;
 using IdeventLibrary;
 using IdeventLibrary.Repositories;
+using IdeventAdminBlazorServer.Hubs;
+using Microsoft.AspNetCore.SignalR;
+using IdeventAdminBlazorServer.Common;
 
 namespace IdeventAdminBlazorServer
 {
@@ -45,7 +48,11 @@ namespace IdeventAdminBlazorServer
             services.AddSingleton<CompanyRepository>();
             services.AddSingleton<ChipRepository>();
             services.AddSingleton<EventRepository>();
+            services.AddSingleton<ChipGroupRepository>();
 
+
+            services.AddSignalR();
+            services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
@@ -71,7 +78,7 @@ namespace IdeventAdminBlazorServer
             app.UseStaticFiles();
 
             app.UseRouting();
-
+           
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -79,6 +86,7 @@ namespace IdeventAdminBlazorServer
             {
                 endpoints.MapControllers();
                 endpoints.MapBlazorHub();
+                endpoints.MapHub<ConnectionHub>("connectionHub");
                 endpoints.MapFallbackToPage("/_Host");
             });
         }

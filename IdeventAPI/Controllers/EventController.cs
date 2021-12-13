@@ -25,19 +25,30 @@ namespace IdeventAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(EventModel model) // Maybe only works with ActionResult (not IActionResult)
+        public ActionResult Create(EventModel model) // Maybe only works with ActionResult (not IActionResult)
         {
             int createdId = _eventManager.Create(model);
             if (createdId > 0)
             {
-                CreatedAtAction(nameof(GetById), new { Id = createdId }, model); // Id = createdId might cause issue?
+                return CreatedAtAction(nameof(GetById), new { Id = createdId }, model); // Id = createdId might cause issue?
             }
             return BadRequest();
         }
         [HttpGet]
         public IActionResult GetAll()
         {
-            var events = _eventManager.GetAll();
+            List<EventModel> events = _eventManager.GetAll();
+
+            if (events.Count == 0)
+            {
+                return Ok(new List<EventModel>());
+            }
+            return Ok(events);
+        }
+        [HttpGet("CompanyId/{companyId}")]
+        public IActionResult GetAllByCompanyId(int companyId)
+        {
+            List<EventModel> events = _eventManager.GetAllByCompanyId(companyId);
 
             if (events.Count == 0)
             {
@@ -48,7 +59,7 @@ namespace IdeventAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var eventModel = _eventManager.GetById(id);
+            EventModel eventModel = _eventManager.GetById(id);
             if (eventModel == null)
             {
                 return NotFound();

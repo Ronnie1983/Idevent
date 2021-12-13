@@ -13,14 +13,17 @@ namespace IdeventAPI.Managers
     public class ChipManager
     {
         IDbConnection _dbConnection;
+        private ChipContentManager _contentManager;
 
         public ChipManager()
         {
             _dbConnection = new SqlConnection(AppSettings.ConnectionString);
+            _contentManager = new ChipContentManager();
         }
         public ChipManager(string connectionString)
         {
             _dbConnection = new SqlConnection(connectionString);
+            _contentManager = new ChipContentManager(connectionString);
         }
 
         public int Create(ChipModel newChip)
@@ -37,7 +40,7 @@ namespace IdeventAPI.Managers
                 parameters.Add("CompanyId", newChip.Company.Id);
 
                 parameters.Add("EventId", null);
-                parameters.Add("ChipGroupId", 1); // default chip group (will course error in case ChipGroupId 1 doesn't exist.)
+                parameters.Add("ChipGroupId", null);
                 parameters.Add("UserId", null);
 
                 if (newChip.Group != null)
@@ -105,17 +108,9 @@ namespace IdeventAPI.Managers
                         return chipModel;
                     }, parameters, splitOn: "Id").Single();
 
-                // StandProducts.Name, ChipContents.Amount
-                sql = "EXECUTE spGetChipContentByChipId @Id";
-                IEnumerable<dynamic> productsOnChip = _dbConnection.Query(sql, parameters);
+                // Gets products from chip content
+                output.StandProducts = _contentManager.GetAllByChipId(Convert.ToInt32(output.Id));
 
-                output.ProductsOnChip = new Dictionary<string, int>();
-                foreach (dynamic item in productsOnChip)
-                {
-                    output.ProductsOnChip.Add(item.Name, item.Amount);
-                }
-
-               
                 return output;
             }
             catch (SqlException ex)
@@ -153,15 +148,9 @@ namespace IdeventAPI.Managers
                         return chipModel;
                     }, parameters, splitOn: "Id").Single();
 
-                // StandProducts.Name, ChipContents.Amount
-                sql = "EXECUTE spGetChipContentByChipId @Id";
-                IEnumerable<dynamic> productsOnChip = _dbConnection.Query(sql, parameters);
+                
+                output.StandProducts = _contentManager.GetAllByChipId(Convert.ToInt32(output.Id));
 
-                output.ProductsOnChip = new Dictionary<string, int>();
-                foreach (dynamic item in productsOnChip)
-                {
-                    output.ProductsOnChip.Add(item.Name, item.Amount);
-                }
                 return output;
             }
             catch (SqlException ex)

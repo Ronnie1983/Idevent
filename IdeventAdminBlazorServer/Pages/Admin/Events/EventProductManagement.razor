@@ -216,7 +216,8 @@
     {
         _eventStandReq.Event = _eventModel;
         _eventStandReq.Functionality = _standFunctionalities.Find(x => x.Id == _bindItem);
-        var result = await _eventStandRepository.CreateAsync(new EventStandModel(_eventStandReq.Name,_eventStandReq.Event, _eventStandReq.Functionality));
+        var standToCreate = new EventStandModel(_eventStandReq.Name, _eventStandReq.Event, _eventStandReq.Functionality);
+        var result = await _eventStandRepository.CreateAsync(standToCreate);
         if(result != null)
         {
             _eventModel.EventStands.Add(result);

@@ -55,19 +55,34 @@ namespace IdeventAPI.Managers
             return events;
         }
 
-
-
-        public EventModel GetById(int id)
+        public List<EventModel> GetAllByCompanyId(int companyId)
         {
-            string sql = $"EXECUTE spGetEventById @param1";
-
-            EventModel events = _dbConnection.Query<EventModel, CompanyModel, EventModel>(sql, (eventModel, company) =>
+            // Columns: Event.Id, Name, Company.Id, Name
+            string sql = "EXECUTE spGetAllEventsByCompanyId @companyId";
+            var parameters = new { companyId };
+            Func<EventModel, CompanyModel, EventModel> mapping = (eventModel, company) =>
             {
                 eventModel.Company = company;
                 return eventModel;
-            },new {param1 = id}, splitOn: "Id").Single();
+            };
 
-            return events;
+            List<EventModel> output = _dbConnection.Query(sql, mapping, parameters).AsList();
+            
+            return output;
+        }
+
+        public EventModel GetById(int id)
+        {
+            // Columns: Event.Id, Name, NumberOfConnectedChips, Company.Id, Name, Email, CVR, PhoneNumber
+            string sql = $"EXECUTE spGetEventById @eventId";
+            // CompanyModel property order: Id, Name, Email, InvoiceAddress, Address, CVR, PhoneNumber, Note, Active,Logo
+            EventModel eventModel = _dbConnection.Query<EventModel, CompanyModel, EventModel>(sql, (eventModel, company) =>
+            {
+                eventModel.Company = company;
+                return eventModel;
+            },new {eventId = id}, splitOn: "Id").Single();
+
+            return eventModel;
         }
     }
 }
