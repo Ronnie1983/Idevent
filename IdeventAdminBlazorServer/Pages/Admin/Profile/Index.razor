@@ -9,18 +9,12 @@
 
 <h1>Profile</h1>
 
-@_key
-
 @if (_profileData != null)
 {
-     <div class="form-group">
-        <label for="@_profileData.Id">Id</label> 
-        <label class="form-control" id="id" Value="@_profileData.Id" placeholder="Id">@_profileData.Id</label>
-    </div>
-    <div class="form-group">
-        <label for="@_profileData.Email">Email</label> 
-        <label class="form-control" id="email" Value="@_profileData.Email" placeholder="Email">"@_profileData.Email</label>
-    </div>
+    <section>
+        <PropertyDisplay PropertyName="Id" PropertyValue="@(_profileData.Id)"/>
+        <PropertyDisplay PropertyName="Email" PropertyValue="@(_profileData.Email)"/>
+    </section>
 }
 
 <br/>
