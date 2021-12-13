@@ -24,7 +24,7 @@ namespace IdeventLibrary.Repositories
             if (response.IsSuccessStatusCode)
             {
                 string jsonString = await _httpClient.GetStringAsync(response.Headers.Location.AbsoluteUri);
-                var createdFunctionality = JsonSerializer.Deserialize<StandFunctionalityModel>(jsonString);
+                var createdFunctionality = JsonSerializer.Deserialize<StandFunctionalityModel>(jsonString, Helpers.JsonSerializerOptions);
                 return createdFunctionality;
             }
             return null;
