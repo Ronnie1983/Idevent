@@ -17,7 +17,6 @@ namespace IdeventLibrary.Models
         //private User _userId; TODO: Update ChipModel with UserModel.
         private EventModel _event;
         private CompanyModel _company;
-        private Dictionary<string, int> _productsOnChip;
 
         public ChipModel()
         {
@@ -74,11 +73,6 @@ namespace IdeventLibrary.Models
         {
             get => _company;
             set => _company = value;
-        }
-        public Dictionary<string, int> ProductsOnChip
-        {
-            get => _productsOnChip;
-            set => _productsOnChip = value;
         }
 
         public List<StandProductModel> StandProducts { get; set; }

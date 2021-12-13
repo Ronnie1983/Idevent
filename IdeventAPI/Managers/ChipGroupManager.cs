@@ -4,6 +4,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System;
 using Dapper;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace IdeventAPI.Managers
 {
@@ -25,7 +27,7 @@ namespace IdeventAPI.Managers
             try
             {
                 string sql = "spCreateChipGroup @Name, @EventId";
-                var parameters = new { Name = newChipGroup.Name, EventId = newChipGroup.EventId };
+                var parameters = new { newChipGroup.Name, newChipGroup.EventId };
                 Object createdId = _dbConnection.ExecuteScalar(sql, parameters);
                 if(createdId != null)
                 {
@@ -37,6 +39,45 @@ namespace IdeventAPI.Managers
             {
                 Console.WriteLine(ex);
                 return 0;
+            }
+        }
+        public List<ChipGroupModel> GetAllByEventId(int eventId)
+        {
+            try
+            {
+                string sql = "EXECUTE spGetAllChipGroupsByEventId @eventId";
+                var parameters = new { eventId };
+
+                List<ChipGroupModel> chipGroups = _dbConnection.Query<ChipGroupModel>(sql, parameters).AsList();
+
+                return chipGroups;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+        public ChipGroupModel GetById(int chipGroupId)
+        {
+            try
+            {
+                string sql = "EXECUTE spGetChipGroupById @chipGroupId";
+                var parameters = new { chipGroupId };
+
+                var output = _dbConnection.Query<ChipGroupModel>(sql, parameters).AsList();
+                if(output.Count <= 0)
+                {
+                    return null;
+                }
+                ChipGroupModel chipGroup = output[0];
+                return chipGroup;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
             }
         }
     }

@@ -128,6 +128,8 @@
     <Build Include="dbo\StoredProcedures\spCreateChip.sql" />
     <Build Include="dbo\StoredProcedures\spCreateEvent.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllEventsByCompanyId.sql" />
+    <Build Include="dbo\StoredProcedures\spGetAllChipGroupsByEventId.sql" />
+    <Build Include="dbo\StoredProcedures\spGetChipGroupById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />
