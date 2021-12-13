@@ -156,7 +156,6 @@
 
         }
         //_eventStandReq.NewStandFuncName = _standFunctionalities[0];
-
     }
 
     private int TryConvert(string value)
@@ -231,14 +230,13 @@
         await _eventStandRepository.UpdateNameAsync(stand, _newStandName);
     }
 
-    private void ToggleAddStand()
+    private async Task ToggleAddStand()
     {
         _toggleAddStand = !_toggleAddStand;
         if (_standFunctionalities.Count <= 0)
         {
-            //_standFunctionalityRepository.Create(new StandFunctionalityModel("Default"));
-            _bindItem = 1; // if no functionalties exists just set the id to 1. (
-            return;
+            StandFunctionalityModel defaultFunctionality = await _standFunctionalityRepository.Create(new StandFunctionalityModel("Default"));
+            _standFunctionalities.Add(defaultFunctionality);
         }
         _bindItem = _standFunctionalities[0].Id; // TODO: causes error if no functionalities in database.
     }
