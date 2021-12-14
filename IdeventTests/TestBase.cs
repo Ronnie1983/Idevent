@@ -12,7 +12,6 @@ namespace IdeventTests
         public void TestInit()
         {
             _testContext = new Bunit.TestContext();
-            
         }
         [TestCleanup]
         public void TestCleanup()
