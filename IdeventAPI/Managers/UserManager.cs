@@ -1,7 +1,9 @@
-﻿using IdeventLibrary;
 using System;
+using IdeventLibrary;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+
 using Dapper;
 using IdeventLibrary.Models;
 
@@ -20,6 +22,7 @@ namespace IdeventAPI.Managers
             _dbConnection = new SqlConnection(connectionString);
         }
 
+
         private Func<UserModel, CompanyModel, AddressModel, AddressModel, UserModel> mapping = (userModel, companyModel, addressModel, InvoiceModel) =>
         {
             userModel.Address = addressModel;
@@ -34,6 +37,13 @@ namespace IdeventAPI.Managers
             string sql = "EXECUTE spGetUserByEmail @email";
             var result = _dbConnection.Query(sql, mapping, new { email = email }).AsList();
             return result[0];
+
+        public UserModel GetById(string id)
+        {
+            string sql = "EXECUTE spGetUserById @userId";
+            UserModel result = _dbConnection.QuerySingle<UserModel>(sql, new { userId = id });
+            return result;
+
         }
     }
 }

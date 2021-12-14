@@ -26,7 +26,7 @@
                                     <InputText class="form-control" id="name" @bind-Value="_eventStandReq.Name" placeholder="Stand Name"/>
                                 </div>
                                 <div class="form-group col-4">
-                                    <label for="@_eventStandReq.standProducts">Group</label> 
+                                    <label for="@_eventStandReq.standProducts">Functionality</label> 
                                     <InputSelect class="form-control" id="value" @bind-Value="_bindItem">
                                         @foreach(StandFunctionalityModel item in _standFunctionalities){
                                                 <option value="@item.Id">@item.Name</option>
@@ -158,7 +158,6 @@
 
         }
         //_eventStandReq.NewStandFuncName = _standFunctionalities[0];
-
     }
 
     private int TryConvert(string value)
@@ -235,13 +234,13 @@
         await _eventStandRepository.UpdateNameAsync(stand, _newStandName);
     }
 
-    private void ToggleAddStand()
+    private async Task ToggleAddStand()
     {
         _toggleAddStand = !_toggleAddStand;
         if (_standFunctionalities.Count <= 0)
         {
-            _bindItem = 1; // if no functionalties exists just set the id to 1. (
-            return;
+            StandFunctionalityModel defaultFunctionality = await _standFunctionalityRepository.Create(new StandFunctionalityModel("Default"));
+            _standFunctionalities.Add(defaultFunctionality);
         }
         _bindItem = _standFunctionalities[0].Id; // TODO: causes error if no functionalities in database.
     }

@@ -12,7 +12,7 @@ namespace IdeventAPI.Controllers
     [ApiController]
     public class StandFunctionalityController : ControllerBase
     {
-        private StandFunctionalityManager _manager = new StandFunctionalityManager();
+        private StandFunctionalityManager _functionalityManager = new StandFunctionalityManager();
 
         private readonly ILogger<StandFunctionalityController> _logger;
 
@@ -25,7 +25,7 @@ namespace IdeventAPI.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var functions = _manager.GetAll();
+            var functions = _functionalityManager.GetAll();
             if(functions.Count == 0)
             {
                 return Ok(new List<StandFunctionalityModel>());
@@ -35,15 +35,22 @@ namespace IdeventAPI.Controllers
 
         // GET api/<StandFunctionalityController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult GetById(int id)
         {
-            return "value";
+            StandFunctionalityModel model = _functionalityManager.GetById(id);
+            return Ok(model);
         }
 
-        // POST api/<StandFunctionalityController>
+        // POST <StandFunctionalityController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult Create([FromBody] StandFunctionalityModel newFunctionality)
         {
+            int createdId = _functionalityManager.Create(newFunctionality);
+            if(createdId == 0)
+            {
+                return BadRequest();
+            }
+            return CreatedAtAction(nameof(GetById), new {id = createdId}, newFunctionality);
         }
 
         // PUT api/<StandFunctionalityController>/5

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+=======
+using System.Collections.Generic;
 using IdeventAPI.Managers;
 using IdeventLibrary.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace IdeventAPI.Controllers
 {
@@ -20,6 +22,7 @@ namespace IdeventAPI.Controllers
         {
             _logger = logger;
         }
+
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]

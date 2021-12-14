@@ -1,0 +1,33 @@
+﻿@if (ChipGroups is not null)
+{
+    <div class="form-group">
+        @if (ChipGroups.Count == 0)
+        {
+            <p>No existing groups available. Make a new one!</p>
+        }
+        else
+        {
+            <select class="form-control" value="@_preselectedValue" @onchange="OnChangeCallback">
+                <option value="0" selected>Choose existing group</option>
+                @foreach (ChipGroupModel group in ChipGroups)
+                {
+                    <option value=@group.Id>@group.Name</option>
+                }
+            </select>
+        }
+    </div>
+}
+else
+{
+    <Loader LoadingMessage="Fetching available groups..."></Loader>
+}
+
+@code {
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnChangeCallback { get; set; }
+
+    [Parameter]
+    public List<ChipGroupModel> ChipGroups { get; set; }
+
+    private int _preselectedValue = 0;
+}

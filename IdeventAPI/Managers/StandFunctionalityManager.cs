@@ -30,5 +30,26 @@ namespace IdeventAPI.Managers
 
             return functions;
         }
+        public int Create(StandFunctionalityModel newFunctionality)
+        {
+            string sql = "EXECUTE spCreateStandFunctionality @Name";
+            var parameters = new { newFunctionality.Name };
+            object createdId = _dbConnection.ExecuteScalar(sql, parameters);
+            if(createdId != null)
+            {
+                return Convert.ToInt32(createdId);
+            }
+            return 0;
+        }
+
+        public StandFunctionalityModel GetById(int id)
+        {
+            string sql = "EXECUTE spGetStandFunctionalityById @Id";
+            var parameters = new { Id = id };
+
+            StandFunctionalityModel standFunctionality = _dbConnection.Query<StandFunctionalityModel>(sql, parameters).Single();
+
+            return standFunctionality;
+        }
     }
 }

@@ -20,6 +20,10 @@ namespace IdeventAPI.Managers
         {
             _dbConnection = new SqlConnection(connectionString);
         }
+        public int Create(ChipContentModel contentModel)
+        {
+            throw new NotImplementedException();
+        }
 
         private Func<StandProductModel, EventStandModel, StandProductModel> mapping = (standProductModel, eventStandModel) =>
         {
@@ -27,6 +31,40 @@ namespace IdeventAPI.Managers
 
             return standProductModel;
         };
+
+
+        public bool CreateMultiple(List<ChipContentModel> chipContentList)
+        {
+            bool success;
+            try
+            {
+                string sql = "EXECUTE spCreateChipContent @ProductId, @ChipId, @GroupId, @Amount";
+                DynamicParameters parameters = new DynamicParameters();
+
+                foreach (ChipContentModel content in chipContentList)
+                {
+                    parameters.Add("ProductId", content.StandProduct.Id);
+                    parameters.Add("ChipId", content.ChipId);
+                    parameters.Add("Amount", content.StandProduct.Amount);
+                    if (content.GroupId == 0)
+                    {
+                        parameters.Add("GroupId", null);
+                        _dbConnection.Execute(sql, parameters);
+                        continue;
+                    }
+                     parameters.Add("GroupId", content.GroupId);
+                    _dbConnection.Execute(sql, parameters);
+                }
+                success = true;
+                return success;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                success = false;
+                return success;
+            }
+        }
 
         public List<StandProductModel> GetAllByChipId(int id)
         {
