@@ -3,9 +3,9 @@
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 @inject NavigationManager NavigationManager
-@inject EventStandRepository _eventStandRepo
-@inject EventRepository _eventRepo
-@inject UserRepository _userRepo
+@inject EventStandRepository _eventStandRepository
+@inject EventRepository _eventRepository
+@inject UserRepository _userRepository
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 @page "/OperatorSite"
@@ -66,8 +66,8 @@
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        _user = await _userRepo.GetAsyncByEmail(user.Identity.Name);
-        _events = await _eventRepo.GetAllByCompanyIdAsync(_user.Company.Id);
+        _user = await _userRepository.GetAsyncByEmail(user.Identity.Name);
+        _events = await _eventRepository.GetAllByCompanyIdAsync(_user.Company.Id);
         _hubConnection = new HubConnectionBuilder()
             .WithUrl(NavigationManager.ToAbsoluteUri("/connectionhub"),options =>
                 {
@@ -94,7 +94,7 @@
     private async Task ChangeEvent(ChangeEventArgs e)
     {
         _bindEvent = Convert.ToInt32(e.Value);
-        _eventStandList = await _eventStandRepo.GetAllByEventIdAsync(_bindEvent);
+        _eventStandList = await _eventStandRepository.GetAllByEventIdAsync(_bindEvent);
         StateHasChanged();
         
 
