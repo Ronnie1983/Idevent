@@ -35,18 +35,16 @@
         @if(_chip != null)
         {
                @foreach(var item in _productList)
-                    {
+               {
                     @if(item.EventStandId == EventStandId)
-                        {
+                    {
                            <tr>
                                 <td>@item.Name</td>
                                 <td>@item.Amount</td>
                             </tr> 
 
-                        }
-                        
-
                     }
+               }
         }
      
     </tbody>
@@ -57,23 +55,20 @@
 @code {
     [Parameter]
     public string Id { get; set; }
-
+    private string _message = "Waiting operator";
     private HubConnection _hubConnection;
     public bool IsConnected => _hubConnection.State == HubConnectionState.Connected;
     private List<string> _messages = new List<string>();
+    private ChipModel _chip = null;
 
-    private string _message = "Waiting operator";
-
-    private ChipModel _chip;
-
-    List<StandProductModel> _productList;
+    List<StandProductModel> _productList = new List<StandProductModel>();
 
     public int EventStandId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         _chip = await _chipRepository.GetById(TryConvert(Id));
-        _productList = new List<StandProductModel>();
+        
         //Opretter forbindelse til Hub
         _hubConnection = new HubConnectionBuilder()
            .WithUrl(_navigationManager.ToAbsoluteUri("/connectionhub"),options =>
@@ -93,7 +88,7 @@
         await _hubConnection.StartAsync();
 
         //Sender en request til Hub funktionen AskForStand
-        await _hubConnection.SendAsync("AskForStand");
+        await _hubConnection.SendAsync("AskForStand", _chip);
 
     }
 

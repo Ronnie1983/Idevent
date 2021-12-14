@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using IdeventAdminBlazorServer.Common;
 using Microsoft.AspNetCore.Authorization;
+using IdeventLibrary.Models;
 
 namespace IdeventAdminBlazorServer.Hubs
 {
@@ -15,11 +16,11 @@ namespace IdeventAdminBlazorServer.Hubs
             await Clients.Client(client).SendAsync("GetStand", stand);
         }
 
-        public async Task AskForStand()
+        public async Task AskForStand(ChipModel chip)
         {
             var user = Context.UserIdentifier;
             //await Clients.User(client).SendAsync("RecieveStand", Context.ConnectionId);
-            await Clients.User(user).SendAsync("RecieveStand", Context.ConnectionId);
+            await Clients.User(user).SendAsync("RecieveStand", Context.ConnectionId, chip);
         }
     }
 }

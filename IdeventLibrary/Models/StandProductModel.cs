@@ -28,16 +28,30 @@ namespace IdeventLibrary.Models
         public string Name { get; set; }
         [Required]
         public int Value { get; set; }
-        [JsonIgnore]
+        
         public EventStandModel EventStandModel 
         { 
             get => eventStandModel; 
             set { 
                 eventStandModel = value;
-                EventStandId = EventStandModel.Id;
+                if(value != null)
+                {
+                    EventStandId = value.Id;
+                }
+                
             } 
         }
         public int Amount { get; set; }
         public int EventStandId { get; set; }
+
+        public bool ShouldSerializeEventStandModel()
+        {
+            return false;
+        }
+
+        //public bool ShouldDeserializeEventStandModel()
+        //{
+        //    return false;
+        //}
     }
 }

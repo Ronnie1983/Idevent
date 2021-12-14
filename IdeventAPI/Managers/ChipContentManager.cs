@@ -21,10 +21,17 @@ namespace IdeventAPI.Managers
             _dbConnection = new SqlConnection(connectionString);
         }
 
+        private Func<StandProductModel, EventStandModel, StandProductModel> mapping = (standProductModel, eventStandModel) =>
+        {
+            standProductModel.EventStandModel = eventStandModel;
+
+            return standProductModel;
+        };
+
         public List<StandProductModel> GetAllByChipId(int id)
         {
             string sql = "EXECUTE spGetChipContentByChipId @Id";
-            List<StandProductModel> result = _dbConnection.Query<StandProductModel>(sql, new {Id = id}).AsList();
+            List<StandProductModel> result = _dbConnection.Query(sql, mapping, new {Id = id}, splitOn: "Id").AsList();
             return result;
         }
 

@@ -1,4 +1,5 @@
 ﻿@using IdeventLibrary.Repositories
+@inject CompanyRepository _companyRepo;
 
 @page "/EventProductManagement/{EventId}"
 <h1>Event Product Management</h1>
@@ -149,6 +150,7 @@
 
         _eventModel = await _eventRepository.GetByIdAsync(TryConvert(EventId));
         _eventModel.EventStands = await _eventStandRepository.GetAllByEventIdAsync(TryConvert(EventId));
+        //_eventModel.Company = await _companyRepo.GetAsync(_eventModel.Company.Id);
         _standFunctionalities = await _standFunctionalityRepository.GetAll();
         foreach(var s in _eventModel.EventStands)
         {
@@ -204,6 +206,8 @@
     private async Task HandleValidSubmitProduct(EventStandModel eventStand)
     {
         _standProductReq.EventStandModel = eventStand;
+        //_standProductReq.EventStandModel.Event = _eventModel;
+       
         var result = await _standProductRepository.CreateAsync(_standProductReq);
         if (result != null)
         {
