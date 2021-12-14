@@ -109,7 +109,7 @@
 
 
 @code {
-    private ChipModel _chip = new ChipModel();
+    private ChipModel _chip = new ChipModel(){HashedId="", ValidFrom=DateTimeOffset.Now, ValidTo=DateTimeOffset.Now.AddDays(5)};
     private InputTextFocusable _chipUIDInput;
     private List<CompanyModel> _companies = new List<CompanyModel>();
     private List<EventModel> _companyEvents;
@@ -120,12 +120,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _chip = new ChipModel()
-            {
-                HashedId = "",
-                ValidFrom = DateTimeOffset.Now,
-                ValidTo = DateTimeOffset.Now.AddDays(5),
-            };
         _companies = await _companyRepository.GetAllAsync();
     }
 
@@ -174,12 +168,12 @@
             if (submittedModel is null)
             {
                 _displayMessage = Common.Helpers.MakeDisplayMessage("Failed to create chip.", true);
-
                 return;
             }
+            _chip.Id = submittedModel.Id;
             if (_chip.StandProducts != null)
             {
-                success = await _chipContentRepository.CreateMultipleAsync(_chip.StandProducts, _chip.Group.Id, _chip.Event.Id);
+                success = await _chipContentRepository.CreateMultipleAsync(_chip.StandProducts, _chip.Id, _chip.Group.Id);
                 if (success == false)
                 {
                     _displayMessage = Common.Helpers.MakeDisplayMessage($"{_chip.HashedId} was created, but without content.", true);
@@ -189,7 +183,7 @@
                 }
             }
 
-            _displayMessage = Common.Helpers.MakeDisplayMessage($"{_chip.HashedId} was created.", false);
+            _displayMessage = Common.Helpers.MakeDisplayMessage($"{_chip.HashedId} was created. Chip id: {_chip.Id}", false);
             _chip.HashedId = "";
             await _chipUIDInput.FocusAsync();
             // TODO: Make it 'save' (in-memory) the previous entrys products
