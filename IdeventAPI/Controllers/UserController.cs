@@ -20,12 +20,6 @@ namespace IdeventAPI.Controllers
         {
             _logger = logger;
         }
-        // GET: api/<UserController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
@@ -37,24 +31,6 @@ namespace IdeventAPI.Controllers
                 return NotFound();
             }
             return Ok(item);
-        }
-
-        // POST api/<UserController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
