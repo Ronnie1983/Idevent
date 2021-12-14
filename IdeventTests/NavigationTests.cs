@@ -28,6 +28,9 @@ namespace IdeventTests
             _testContext.Services.AddSingleton<ChipGroupRepository>(new ChipGroupRepository());
             _testContext.Services.AddSingleton<StandProductRepository>(new StandProductRepository());
             _testContext.Services.AddSingleton<ChipContentRepository>(new ChipContentRepository());
+            _testContext.Services.AddSingleton<UserRepository>(new UserRepository());
+            _testContext.Services.AddSingleton<StandFunctionalityRepository>(new StandFunctionalityRepository());
+            _testContext.Services.AddSingleton<EventStandRepository>(new EventStandRepository());
             _testContext.Services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());
 
             _navManager = _testContext.Services.GetService<NavigationManager>();
