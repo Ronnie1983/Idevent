@@ -34,7 +34,8 @@ namespace IdeventTests
             _testContext.Services.AddSingleton<EventStandRepository>(new EventStandRepository());
             _testContext.Services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());
             _testContext.Services.AddAuthorization();
-           
+            
+
             _navManager = _testContext.Services.GetService<NavigationManager>();
       
         }
@@ -66,9 +67,14 @@ namespace IdeventTests
         [TestMethod]
         public void OperatorSiteIndexLoads()
         {
-            var authContext = _testContext.AddTestAuthorization();
+            using var ctx = new Bunit.TestContext();
+            ctx.Services.AddSingleton<EventRepository>(new EventRepository());
+            ctx.Services.AddSingleton<EventStandRepository>(new EventStandRepository());
+            ctx.Services.AddSingleton<UserRepository>(new UserRepository());
+
+            var authContext = ctx.AddTestAuthorization();
             authContext.SetAuthorized("TEST USER",AuthorizationState.Authorized);
-            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.OperatorSite.Index>(), "Operator's Site", "OperatorSite");
+            LoadPageTest(ctx.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.OperatorSite.Index>(), "Operator's Site", "OperatorSite");
         }
         [TestMethod]
         public void ChipActivityLogIndexLoads()

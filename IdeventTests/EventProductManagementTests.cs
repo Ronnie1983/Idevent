@@ -20,6 +20,10 @@ namespace IdeventTests
         public void Inititialise()
         {
             _testContext.Services.AddSingleton<StandFunctionalityRepository>(new StandFunctionalityRepository());
+            _testContext.Services.AddSingleton<EventStandRepository>(new EventStandRepository());
+            _testContext.Services.AddSingleton<StandProductRepository>(new StandProductRepository());
+            _testContext.Services.AddSingleton<EventRepository>(new EventRepository());
+            _testContext.Services.AddSingleton<CompanyRepository>(new CompanyRepository());
             _navManager = _testContext.Services.GetService<NavigationManager>();
             
         }
