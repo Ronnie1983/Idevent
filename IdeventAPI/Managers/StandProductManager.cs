@@ -62,6 +62,15 @@ namespace IdeventAPI.Managers
 
             return products;
         }
+        public List<StandProductModel> GetAllByEventId(int eventId)
+        {
+            string sql = "EXECUTE spGetAllProductsByEventId @eventId";
+            var parameters = new { eventId };
+
+            List<StandProductModel> products = _dbConnection.Query<StandProductModel>(sql, parameters).AsList();
+
+            return products;
+        }
 
         public int Delete(int id)
         {

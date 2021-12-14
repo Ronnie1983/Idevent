@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -131,6 +131,12 @@
     <Build Include="dbo\StoredProcedures\spGetStandProductAndContentByChipId.sql" />
     <Build Include="dbo\StoredProcedures\GetUserById.sql" />
     <Build Include="dbo\StoredProcedures\spGetUserByEmail.sql" />
+    <Build Include="dbo\StoredProcedures\spGetAllChipGroupsByEventId.sql" />
+    <Build Include="dbo\StoredProcedures\spGetChipGroupById.sql" />
+    <Build Include="dbo\StoredProcedures\spGetAllProductsByEventId.sql" />
+    <Build Include="dbo\StoredProcedures\spCreateChipContent.sql" />
+    <Build Include="dbo\StoredProcedures\spCreateStandFunctionality.sql" />
+    <Build Include="dbo\StoredProcedures\spGetStandFunctionalityById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />
@@ -142,5 +148,6 @@
     <None Include="dbo\PublishProfiles\ThomasLaptop.publish.xml" />
     <None Include="dbo\PublishProfiles\ThomasLaptopTestDB.publish.xml" />
     <None Include="dbo\PublishProfiles\ThomasDesktopTestDB.publish.xml" />
+    <None Include="dbo\PublishProfiles\Mads.publish.xml" />
   </ItemGroup>
 </Project>
