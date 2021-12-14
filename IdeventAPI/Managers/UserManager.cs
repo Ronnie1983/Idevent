@@ -32,7 +32,7 @@ namespace IdeventAPI.Managers
             return userModel;
         };
 
-        public object GetByEmail(string email)
+        public UserModel GetByEmail(string email)
         {
             string sql = "EXECUTE spGetUserByEmail @email";
             var result = _dbConnection.Query(sql, mapping, new { email = email }).AsList();

@@ -21,7 +21,7 @@ namespace IdeventAPI.Controllers
         //}
 
         // GET content from chip <ChipContentController>/5
-        [HttpGet("chipcontent/{id}")]
+        [HttpGet("Chipcontent/{id}")]
         public IActionResult GetByChipId(int id)
         {
             var products = _chipContentManager.GetAllByChipId(id);
@@ -35,7 +35,7 @@ namespace IdeventAPI.Controllers
 
 
         // GET content from chip <ChipContentController>/5
-        [HttpGet("{chipId}/{standId}")]
+        [HttpGet("Chip/{chipId}/Stand/{standId}")]
         public IActionResult GetByChipId(int chipId, int standId)
         {
             var products = _chipContentManager.GetAllByChipAndStandId(chipId, standId);

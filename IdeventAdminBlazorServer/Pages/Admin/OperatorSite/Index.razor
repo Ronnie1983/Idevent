@@ -55,8 +55,8 @@
     @code {
         private List<EventStandModel> _eventStandList = new List<EventStandModel>();
         private UserModel _user;
-        private int _bindItem;
-        private int _bindEvent;
+        private int _bindStandId;
+        private int _bindEventId;
         private HubConnection _hubConnection;
         private List<string> _messages = new List<string>();
         private List<EventModel> _events = new List<EventModel>();
@@ -66,7 +66,7 @@
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        _user = await _userRepository.GetAsyncByEmail(user.Identity.Name);
+        _user = await _userRepository.GetByEmailAsync(user.Identity.Name);
         _events = await _eventRepository.GetAllByCompanyIdAsync(_user.Company.Id);
         _hubConnection = new HubConnectionBuilder()
             .WithUrl(NavigationManager.ToAbsoluteUri("/connectionhub"),options =>
@@ -77,7 +77,7 @@
 
         _hubConnection.On<string,ChipModel>("RecieveStand", (id,chip) =>
         {
-            _hubConnection.SendAsync("SendSelectedStand", _bindItem, id);
+            _hubConnection.SendAsync("SendSelectedStand", _bindStandId, id);
             _customerChip = chip;
             StateHasChanged();
         });
@@ -87,14 +87,14 @@
 
     private void ChangeStand(ChangeEventArgs e)
     {
-        _bindItem = Convert.ToInt32(e.Value);
+        _bindStandId = Convert.ToInt32(e.Value);
 
     }
 
     private async Task ChangeEvent(ChangeEventArgs e)
     {
-        _bindEvent = Convert.ToInt32(e.Value);
-        _eventStandList = await _eventStandRepository.GetAllByEventIdAsync(_bindEvent);
+        _bindEventId = Convert.ToInt32(e.Value);
+        _eventStandList = await _eventStandRepository.GetAllByEventIdAsync(_bindEventId);
         StateHasChanged();
         
 

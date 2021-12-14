@@ -63,7 +63,7 @@ namespace IdeventLibrary.Repositories
       
          public async Task<List<StandProductModel>> GetAllContentByStandIdAndChipIdAsync(int chipId, int standId)
         {
-            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl +"/"+ chipId +"/"+ standId));
+            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl +"/Chip/"+ chipId +"/Stand/"+ standId));
             List<StandProductModel> List = JsonConvert.DeserializeObject<List<StandProductModel>>(jsonContent);
 
             return List;
