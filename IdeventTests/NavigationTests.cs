@@ -6,6 +6,7 @@ using IdeventLibrary.Repositories;
 using IdeventLibrary.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Bunit.TestDoubles;
 
 namespace IdeventTests
 {
@@ -33,6 +34,7 @@ namespace IdeventTests
             _testContext.Services.AddSingleton<EventStandRepository>(new EventStandRepository());
             _testContext.Services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());
             _testContext.Services.AddAuthorization();
+           
             _navManager = _testContext.Services.GetService<NavigationManager>();
       
         }
@@ -64,6 +66,8 @@ namespace IdeventTests
         [TestMethod]
         public void OperatorSiteIndexLoads()
         {
+            var authContext = _testContext.AddTestAuthorization();
+            authContext.SetAuthorized("TEST USER",AuthorizationState.Authorized);
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.OperatorSite.Index>(), "Operator's Site", "OperatorSite");
         }
         [TestMethod]

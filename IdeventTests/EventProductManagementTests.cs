@@ -19,8 +19,9 @@ namespace IdeventTests
         [TestInitialize]
         public void Inititialise()
         {
-            _navManager = _testContext.Services.GetService<NavigationManager>();
             _testContext.Services.AddSingleton<StandFunctionalityRepository>(new StandFunctionalityRepository());
+            _navManager = _testContext.Services.GetService<NavigationManager>();
+            
         }
         [TestCleanup]
         public void Cleanup()
