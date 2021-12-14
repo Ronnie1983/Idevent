@@ -32,7 +32,7 @@ namespace IdeventTests
             _testContext.Services.AddSingleton<StandFunctionalityRepository>(new StandFunctionalityRepository());
             _testContext.Services.AddSingleton<EventStandRepository>(new EventStandRepository());
             _testContext.Services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());
-
+            _testContext.Services.AddAuthorization();
             _navManager = _testContext.Services.GetService<NavigationManager>();
       
         }
