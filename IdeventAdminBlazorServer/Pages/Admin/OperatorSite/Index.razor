@@ -11,14 +11,24 @@
 @page "/OperatorSite"
 
 <h1>Operator's Site</h1>
+@if(_bindStandId == 0)
+{
+    <SelectEvent OnChangeCallback=ChangeEvent Events=_events/>
+    <SelectStands OnChangeCallback=ChangeStand EventStands=_eventStandList/>
+} else
+{
+    <h4>Stand: @_eventStandList.Find(x => x.Id.Equals(_bindStandId)).Name</h4>
+}
 
-<SelectEvent OnChangeCallback=ChangeEvent Events=_events/>
-<SelectStands OnChangeCallback=ChangeStand EventStands=_eventStandList/>
 
 
 <div>
     <h3>Content</h3>
-    <div class="row">
+    
+    @if(_customerChip != null)
+        {
+    <div class="row bg-success">
+        <h3>Chip id: @_customerChip.Id</h3>
     <table class="table col-md-12 mx-auto">
     <thead>
         <tr>
@@ -27,8 +37,8 @@
         </tr>
     </thead>
     <tbody>
-        @if(_customerChip != null)
-        {
+        
+            
                @foreach(var item in _customerChip.StandProducts)
                {
                   @*  @if(item.EventStandId == EventStandId)
@@ -40,11 +50,18 @@
 
                     @*}*@
                }
-        }
+        
      
     </tbody>
-</table>
-</div>
+            </table>
+            </div>
+        } else
+        {
+         <div class="row bg-warning">
+              <h4>No chip scannet</h4>
+         </div>
+        }
+
 </div>
 <div>
 
