@@ -35,26 +35,25 @@ namespace IdeventTests.IntegrationTests
             Assert.IsInstanceOfType(company, typeof(CompanyModel));
         }
         [TestMethod]
-        public void CreateAddsToDatabase()
+        public void CreateAddsToDatabaseWithCorrectNameAndReturnsIdOfCreatedCompany()
         {
             CompanyModel companyToAdd = new CompanyModel
             {
                 Name = "Inception ApS",
                 Email = "noit@inception.com",
                 CVR = "12345678",
-                Address = new AddressModel("Operagade 521", "Roskilde", "Danmark", "4000"),
+                Address = new AddressModel(),
                 Active = true,
                 Logo = "Ikke defineret",
                 PhoneNumber = "+45 009998877"
             };
+            companyToAdd.Address.Id = 1;
             companyToAdd.InvoiceAddress = companyToAdd.Address;
 
-            int rowsAffected = _manager.Create(companyToAdd);
+            int createdId = _manager.Create(companyToAdd);
 
-            Assert.AreEqual(1, rowsAffected);
+            Assert.AreEqual(6, createdId);
             CompanyModel newCompanyfromDatabase = _manager.GetById(6);
-            Assert.AreEqual(companyToAdd.Address.City, newCompanyfromDatabase.Address.City);
-            Assert.AreEqual(companyToAdd.InvoiceAddress.City, newCompanyfromDatabase.InvoiceAddress.City);
             Assert.AreEqual(companyToAdd.Name, newCompanyfromDatabase.Name);
         }
         [TestMethod]
