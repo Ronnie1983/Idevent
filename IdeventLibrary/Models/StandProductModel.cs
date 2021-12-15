@@ -48,10 +48,5 @@ namespace IdeventLibrary.Models
         {
             return false;
         }
-
-        //public bool ShouldDeserializeEventStandModel()
-        //{
-        //    return false;
-        //}
     }
 }

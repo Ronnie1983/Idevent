@@ -85,6 +85,7 @@
         var user = authState.User;
         _user = await _userRepository.GetByEmailAsync(user.Identity.Name);
         _events = await _eventRepository.GetAllByCompanyIdAsync(_user.Company.Id);
+
         _hubConnection = new HubConnectionBuilder()
             .WithUrl(NavigationManager.ToAbsoluteUri("/connectionhub"),options =>
                 {
