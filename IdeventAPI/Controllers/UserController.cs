@@ -23,7 +23,7 @@ namespace IdeventAPI.Controllers
 
 
         // GET api/<UserController>/5
-        [HttpGet("{id}")]
+        [HttpGet("{email}")]
         public IActionResult GetByEmail(string email)
         {
             var item = _userManager.GetByEmail(email);
