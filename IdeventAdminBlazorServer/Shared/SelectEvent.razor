@@ -8,7 +8,7 @@
         }
         else
         {
-            <select class="form-control" value="@_preselectedValue" @onchange="OnChangeCallback">
+            <select id="eventSelect" class="form-control" value="@_preselectedValue" @onchange="OnChangeCallback">
                 <option value="0" selected>Select event</option>
                 @foreach (EventModel @eventModel in Events)
                 {

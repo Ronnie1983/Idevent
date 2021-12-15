@@ -7,21 +7,24 @@ using System.Threading.Tasks;
 
 namespace IdeventTests
 {
+    /// <summary>
+    /// You can copy the code from here and modify the class name to start a new TestClass.
+    /// </summary>
     [TestClass]
-    public class XXXTests
+    public class XXXTestTemplate : TestBase
     {
         [TestInitialize]
-        public void Init()
+        public void Setup()
         {
 
         }
         [TestCleanup]
-        public void CleanUp()
+        public void Teardown()
         {
 
         }
         [TestMethod]
-        public void TestMethod1()
+        public void Test1()
         {
 
         }

@@ -16,7 +16,7 @@ namespace IdeventLibrary.Models
         private bool _active;
         private string _note;
 
-        
+
         public CompanyModel()
         {
             _address = new AddressModel();
@@ -24,7 +24,16 @@ namespace IdeventLibrary.Models
             _logo = "no url";
             _note = "no note";
         }
-        public CompanyModel(string name, string email, string cvr, string phone, string street, string city, string postal, string country,string streetInvoice, string cityInvoice, string postalInvoice, string countryInvoice)
+        public CompanyModel(int id, string name)
+        {
+            Id = id;
+            Name = name;
+            _address = new AddressModel();
+            _invoiceAddress = new AddressModel();
+            _logo = "no url";
+            _note = "no note";
+        }
+        public CompanyModel(string name, string email, string cvr, string phone, string street, string city, string postal, string country, string streetInvoice, string cityInvoice, string postalInvoice, string countryInvoice)
         {
             Name = name;
             Email = email;
@@ -32,7 +41,7 @@ namespace IdeventLibrary.Models
             PhoneNumber = phone;
             Address = new AddressModel(street, city, country, postal);
             Address = new AddressModel(streetInvoice, cityInvoice, countryInvoice, postalInvoice);
-    
+
         }
 
         public int Id
@@ -83,7 +92,7 @@ namespace IdeventLibrary.Models
             get { return _phone; }
             set { _phone = value; }
         }
-        
+
         public string Note
         {
             get { return _note; }
@@ -101,6 +110,6 @@ namespace IdeventLibrary.Models
             get { return _logo; }
             set { _logo = value; }
         }
-       
+
     }
 }

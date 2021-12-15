@@ -11,6 +11,11 @@ namespace IdeventLibrary.Models
     public class EventModel
     {
         public EventModel(){}
+        public EventModel(int id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
         public EventModel(string name, CompanyModel company) 
         { 
             Name = name;
