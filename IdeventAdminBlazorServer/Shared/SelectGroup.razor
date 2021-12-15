@@ -7,7 +7,7 @@
         }
         else
         {
-            <select class="form-control" value="@_preselectedValue" @onchange="OnChangeCallback">
+            <select id="groupSelect" class="form-control" value="@_preselectedValue" @onchange="OnChangeCallback">
                 <option value="0" selected>Choose existing group</option>
                 @foreach (ChipGroupModel group in ChipGroups)
                 {

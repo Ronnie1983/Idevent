@@ -56,12 +56,12 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <SelectGroup OnChangeCallback=UpdateProductAmountsBasedOnGroup ChipGroups=_eventGroups />
-                    <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#makeNewGroupPanel" aria-expanded="true" aria-controls="collapseOne">Create new group</button>
+                    <button id="openNewGroupPanelBtn" type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#makeNewGroupPanel" aria-expanded="true" aria-controls="collapseOne">Create new group</button>
                     <div id="makeNewGroupPanel" class="collapse">
                         <label>New group name</label>
                         <InputText class="form-control" @bind-Value="_newChipGroup.Name" placeholder="New group name" />
-                        <button type="button" @onclick="CreateGroup" class="btn btn-primary">Create group</button>
-                        <button type="button" data-bs-toggle="collapse" data-bs-target="#makeNewGroupPanel" class="btn btn-warning">Close</button>
+                        <button id="createGroupBtn" type="button" @onclick="CreateGroup" class="btn btn-primary">Create group</button>
+                        <button id="closeNewGroupPanelBtn" type="button" data-bs-toggle="collapse" data-bs-target="#makeNewGroupPanel" class="btn btn-warning">Close</button>
                     </div>
                 </div>
             </div>
