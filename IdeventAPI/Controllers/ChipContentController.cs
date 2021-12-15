@@ -21,7 +21,7 @@ namespace IdeventAPI.Controllers
         //}
 
         // GET content from chip <ChipContentController>/5
-        [HttpGet("chipcontent/{id}")]
+        [HttpGet("Chipcontent/{id}")]
         public IActionResult GetByChipId(int id)
         {
             var products = _chipContentManager.GetAllByChipId(id);
@@ -33,8 +33,25 @@ namespace IdeventAPI.Controllers
             return Ok(products);
         }
 
+
+        // GET content from chip <ChipContentController>/5
+        [HttpGet("Chip/{chipId}/Stand/{standId}")]
+        public IActionResult GetByChipId(int chipId, int standId)
+        {
+            var products = _chipContentManager.GetAllByChipAndStandId(chipId, standId);
+            if (products.Count == 0)
+            {
+                //return StatusCode(204, new List<StandProductModel>());
+                return Ok(new List<StandProductModel>());
+            }
+            return Ok(products);
+        }
+
+        
+
         [HttpPost("Multiple")]
         public IActionResult CreateMultiple([FromBody] List<ChipContentModel> contentsToBeCreated)
+
         {
             bool success = _chipContentManager.CreateMultiple(contentsToBeCreated);
             if(success) return Ok(success);

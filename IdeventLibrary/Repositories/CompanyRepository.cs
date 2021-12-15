@@ -48,7 +48,7 @@ namespace IdeventLibrary.Repositories
         public async Task<CompanyModel> CreateAsync(CompanyModel item)
         {
             string json = JsonConvert.SerializeObject(item);
-            StringContent httpContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+            StringContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync(new Uri(_baseUrl), httpContent);
 

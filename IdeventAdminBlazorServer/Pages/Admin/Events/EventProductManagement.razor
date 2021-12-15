@@ -1,6 +1,13 @@
-﻿@using IdeventLibrary.Repositories
+﻿@page "/EventProductManagement/{EventId}"
 
-@page "/EventProductManagement/{EventId}"
+@using IdeventLibrary.Repositories
+@inject CompanyRepository _companyRepository
+@inject EventRepository _eventRepository
+@inject StandProductRepository _standProductRepository
+@inject EventStandRepository _eventStandRepository
+@inject StandFunctionalityRepository _standFunctionalityRepository
+
+
 <h1>Event Product Management</h1>
 <h3>@_eventModel.Name</h3>
 
@@ -132,23 +139,18 @@
     public EventModel _eventModel = new EventModel();
     private bool _toggleAddStand = false;
     private List<string> _listOfOpenedStands = new List<string>();
-
     private StandProductModel _standProductReq = new StandProductModel();
     private int _bindItem;
-
     private EventStandModel _eventStandReq = new EventStandModel();
     private List<StandFunctionalityModel> _standFunctionalities = new List<StandFunctionalityModel>();
     private string _newStandName;
-    private StandProductRepository _standProductRepository = new StandProductRepository();
-    private EventRepository _eventRepository = new EventRepository();
-    private EventStandRepository _eventStandRepository = new EventStandRepository();
-    private StandFunctionalityRepository _standFunctionalityRepository = new StandFunctionalityRepository();
 
     protected override async Task OnInitializedAsync()
     {
 
         _eventModel = await _eventRepository.GetByIdAsync(TryConvert(EventId));
         _eventModel.EventStands = await _eventStandRepository.GetAllByEventIdAsync(TryConvert(EventId));
+        //_eventModel.Company = await _companyRepo.GetAsync(_eventModel.Company.Id);
         _standFunctionalities = await _standFunctionalityRepository.GetAll();
         foreach(var s in _eventModel.EventStands)
         {
@@ -203,6 +205,8 @@
     private async Task HandleValidSubmitProduct(EventStandModel eventStand)
     {
         _standProductReq.EventStandModel = eventStand;
+        //_standProductReq.EventStandModel.Event = _eventModel;
+       
         var result = await _standProductRepository.CreateAsync(_standProductReq);
         if (result != null)
         {

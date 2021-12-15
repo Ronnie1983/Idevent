@@ -1,16 +1,19 @@
-﻿using IdeventLibrary.Models;
-using Newtonsoft.Json;
+using IdeventLibrary.Models;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace IdeventLibrary.Repositories
 {
     public class ChipContentRepository
     {
+
+
         private static string _baseUrl = $"{Helpers.ApiBaseUrl}/ChipContent";
         private static HttpClient _httpClient = new HttpClient();
 
@@ -55,6 +58,15 @@ namespace IdeventLibrary.Repositories
                 return success;
             }
             return success;
+
+        }
+      
+         public async Task<List<StandProductModel>> GetAllContentByStandIdAndChipIdAsync(int chipId, int standId)
+        {
+            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl +"/Chip/"+ chipId +"/Stand/"+ standId));
+            List<StandProductModel> List = JsonConvert.DeserializeObject<List<StandProductModel>>(jsonContent);
+
+            return List;
         }
     }
 }

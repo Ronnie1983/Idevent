@@ -25,6 +25,14 @@ namespace IdeventAPI.Managers
             throw new NotImplementedException();
         }
 
+        private Func<StandProductModel, EventStandModel, StandProductModel> mapping = (standProductModel, eventStandModel) =>
+        {
+            standProductModel.EventStandModel = eventStandModel;
+
+            return standProductModel;
+        };
+
+
         public bool CreateMultiple(List<ChipContentModel> chipContentList)
         {
             bool success;
@@ -57,10 +65,18 @@ namespace IdeventAPI.Managers
                 return success;
             }
         }
+
         public List<StandProductModel> GetAllByChipId(int id)
         {
             string sql = "EXECUTE spGetChipContentByChipId @Id";
-            List<StandProductModel> result = _dbConnection.Query<StandProductModel>(sql, new {Id = id}).AsList();
+            List<StandProductModel> result = _dbConnection.Query(sql, mapping, new {Id = id}, splitOn: "Id").AsList();
+            return result;
+        }
+
+        public List<StandProductModel> GetAllByChipAndStandId(int chipId, int standId)
+        {
+            string sql = "EXECUTE spGetStandProductAndContentByChipId @chipId, @standId ";
+            List<StandProductModel> result = _dbConnection.Query<StandProductModel>(sql, new { chipId = chipId, standId = standId }).AsList();
             return result;
         }
     }
