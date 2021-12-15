@@ -65,6 +65,7 @@
     <Folder Include="dbo\Scripts" />
     <Folder Include="dbo\Scripts\PostDeployScript" />
     <Folder Include="dbo\Scripts\Helpers" />
+    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
@@ -130,6 +131,7 @@
     <Build Include="dbo\StoredProcedures\spGetAllEventsByCompanyId.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllChipGroupsByEventId.sql" />
     <Build Include="dbo\StoredProcedures\spGetChipGroupById.sql" />
+    <Build Include="dbo\StoredProcedures\spGetUserById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />

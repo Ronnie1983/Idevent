@@ -42,7 +42,9 @@ namespace IdeventAdminBlazorServer
                 options.UseSqlServer(
                     AppSettings.ConnectionString));
             services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+                
 
             // custom injections
             services.AddSingleton<CompanyRepository>();

@@ -1,10 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[spGetUserById]
-	@userId NVARCHAR(450)
+	@userId NVARCHAR(256)
 AS
 BEGIN
 
-	SELECT U.Email
+	SELECT U.Id, U.Email, U.Role
 	FROM AspNetUsers AS U
-	WHERE U.Id = @userId
-
+	WHERE  U.Id = @userId
 END

@@ -1,7 +1,7 @@
 ﻿@page "/Profile/{Id}"
 @page "/Profile"
 
-@attribute [Authorize]
+@attribute [Authorize (Roles="1")]
 
 @using IdeventLibrary.Repositories
 @using System.Security.Claims
@@ -11,17 +11,24 @@
 
 <h1>Profile</h1>
 
-@if (_profileData != null)
-{
-    <section>
-        <PropertyDisplay PropertyName="Id" PropertyValue="@(_profileData.Id)"/>
-        <PropertyDisplay PropertyName="Email" PropertyValue="@(_profileData.Email)"/>
-    </section>
-}
-
+<AuthorizeView>
+    <Authorized>
+        @if (_profileData != null)
+        {
+            <section>
+                <PropertyDisplay PropertyName="Id" PropertyValue="@(_profileData.Id)"/>
+                <PropertyDisplay PropertyName="Email" PropertyValue="@(_profileData.Email)"/>
+                <PropertyDisplay PropertyName="Role" PropertyValue="@(_profileData.Role)"/>
+            </section>
+        }
+    </Authorized>
+</AuthorizeView>
 <br/>
-
 <NavigateButton PageToNavigateTo="Home" ButtonText="Back"/>
+
+
+
+
 
 
 @code {
