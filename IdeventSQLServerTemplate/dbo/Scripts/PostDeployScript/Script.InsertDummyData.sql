@@ -41,7 +41,22 @@ BEGIN
     IF NOT EXISTS(SELECT * FROM StandFunctionalities AS SF WHERE SF.Name = 'Default')
     INSERT INTO StandFunctionalities(Name)
                             VALUES('Default')
-END
 
 /* EventStand Data */
+    IF NOT EXISTS(SELECT * FROM EventStands AS ES WHERE ES.Name = 'Food')
+    INSERT INTO EventStands VALUES('Food',1,1)
 
+/* Chips Data */
+    IF NOT EXISTS(SELECT * FROM Chips AS CH WHERE CH.HashedId = 'hash')
+    INSERT INTO Chips VALUES('hash','11-11-2020','11-11-2022',null,'3bfd3335-2b1c-4e5e-b88f-e2f5b8b12f4e',1,1)
+
+/* Product Data */
+    IF NOT EXISTS(SELECT * FROM StandProducts AS PR WHERE PR.Name = 'Pizza')
+    INSERT INTO StandProducts VALUES('Pizza',10,1)
+
+
+    											
+/* User Data */
+    IF NOT EXISTS(SELECT * FROM AspNetUsers AS US WHERE US.UserName = 'ronnie1983@hotmail.dk')
+    INSERT INTO AspNetUsers VALUES('3bfd3335-2b1c-4e5e-b88f-e2f5b8b12f4e','ronnie1983@hotmail.dk','RONNIE1983@HOTMAIL.DK','ronnie1983@hotmail.dk','RONNIE1983@HOTMAIL.DK',True,'AQAAAAEAACcQAAAAEAUjcMkLgTMqGy7QHSCR7WzDug9UrcrO7WRQYahH/sE5vuqwLsLZW7Cm7me/YBeKKg==','3F72AKMTAYP4UHRVHDEGRL5VBQR2ISIS','1f77c8a3-4706-4186-a33c-91b79314ba07',NULL,False,	False,NULL,True,0,NULL,1,NULL,NULL,'3bfd3335-2b1c-4e5e-b88f-e2f5b8b12f4e','ronnie1983@hotmail.dk','RONNIE1983@HOTMAIL.DK','ronnie1983@hotmail.dk','RONNIE1983@HOTMAIL.DK',True,'AQAAAAEAACcQAAAAEAUjcMkLgTMqGy7QHSCR7WzDug9UrcrO7WRQYahH/sE5vuqwLsLZW7Cm7me/YBeKKg==','3F72AKMTAYP4UHRVHDEGRL5VBQR2ISIS','1f77c8a3-4706-4186-a33c-91b79314ba07',NULL,False,False,NULL,True,0,NULL,1,NULL,NULL)
+END

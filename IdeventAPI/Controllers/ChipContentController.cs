@@ -2,6 +2,7 @@
 using IdeventAPI.Managers;
 using IdeventLibrary.Models;
 using System.Collections.Generic;
+using System;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,7 +21,7 @@ namespace IdeventAPI.Controllers
         //}
 
         // GET content from chip <ChipContentController>/5
-        [HttpGet("chipcontent/{id}")]
+        [HttpGet("Chipcontent/{id}")]
         public IActionResult GetByChipId(int id)
         {
             var products = _chipContentManager.GetAllByChipId(id);
@@ -32,22 +33,42 @@ namespace IdeventAPI.Controllers
             return Ok(products);
         }
 
-        // POST <ChipContentController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+
+        // GET content from chip <ChipContentController>/5
+        [HttpGet("Chip/{chipId}/Stand/{standId}")]
+        public IActionResult GetByChipId(int chipId, int standId)
         {
+            var products = _chipContentManager.GetAllByChipAndStandId(chipId, standId);
+            if (products.Count == 0)
+            {
+                //return StatusCode(204, new List<StandProductModel>());
+                return Ok(new List<StandProductModel>());
+            }
+            return Ok(products);
         }
 
-        // PUT <ChipContentController>/5
+        
+
+        [HttpPost("Multiple")]
+        public IActionResult CreateMultiple([FromBody] List<ChipContentModel> contentsToBeCreated)
+
+        {
+            bool success = _chipContentManager.CreateMultiple(contentsToBeCreated);
+            if(success) return Ok(success);
+
+            return BadRequest(contentsToBeCreated);
+        }
+
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+            throw new NotImplementedException();
         }
 
-        // DELETE <ChipContentController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            throw new NotImplementedException();
         }
     }
 }

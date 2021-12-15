@@ -20,6 +20,14 @@ namespace IdeventAPI.Managers
         {
             _dbConnection = new SqlConnection(connectionString);
         }
+
+        private Func<StandProductModel, EventStandModel, StandProductModel> mapping = (standProductModel, eventStandModel) =>
+        {
+            standProductModel.EventStandModel = eventStandModel;
+
+            return standProductModel;
+        };
+
         public List<StandProductModel> GetAll()
         {
             string sql = "EXECUTE spGetAllProducts";
@@ -50,7 +58,16 @@ namespace IdeventAPI.Managers
         {
             string sql = "EXECUTE spGetProductsByStandId @standId";
 
-            List<StandProductModel> products = _dbConnection.Query<StandProductModel>(sql, new { standId = id }).AsList();
+            List<StandProductModel> products = _dbConnection.Query(sql,mapping, new { standId = id }, splitOn: "Id").AsList();
+
+            return products;
+        }
+        public List<StandProductModel> GetAllByEventId(int eventId)
+        {
+            string sql = "EXECUTE spGetAllProductsByEventId @eventId";
+            var parameters = new { eventId };
+
+            List<StandProductModel> products = _dbConnection.Query<StandProductModel>(sql, parameters).AsList();
 
             return products;
         }

@@ -28,6 +28,29 @@ namespace IdeventTests.IntegrationTests
             Assert.IsInstanceOfType(products, typeof(List<StandProductModel>));
             Assert.IsTrue(products.Count >= 0);
         }
+        [TestMethod]
+        public void GetAllByEventIdReturnsList()
+        {
+            List<StandProductModel> products = _manager.GetAllByEventId(2);
+
+            Assert.IsInstanceOfType(products, typeof(List<StandProductModel>));
+            Assert.IsTrue(products.Count > 0);
+
+            List<StandProductModel> products2 = _manager.GetAllByEventId(2);
+            Assert.IsInstanceOfType(products2, typeof(List<StandProductModel>));
+
+        }
+        [TestMethod]
+        public void GetAllByStandIdReturnsList()
+        {
+            List<StandProductModel> products = _manager.GetAllByStandId(2);
+
+            Assert.IsInstanceOfType(products, typeof(List<StandProductModel>));
+            Assert.IsTrue(products.Count > 0);
+
+            List<StandProductModel> products2 = _manager.GetAllByStandId(6);
+            Assert.IsInstanceOfType(products2, typeof(List<StandProductModel>));
+        }
 
         [TestMethod]
         public void CreateAddsProductToDatabase()
@@ -53,6 +76,7 @@ namespace IdeventTests.IntegrationTests
             Assert.AreEqual(productFromOutput.Name, "My New Product");
             Assert.AreEqual(productFromOutput.Value, 5);
         }
+
         [TestMethod]
         public void DeleteDeletesOneOrZeroEntries()
         {

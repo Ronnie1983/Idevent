@@ -1,27 +1,90 @@
 ﻿@using IdeventLibrary.Repositories;
 @using Microsoft.AspNetCore.SignalR.Client
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
 @inject NavigationManager NavigationManager
+@inject EventStandRepository _eventStandRepository
+@inject EventRepository _eventRepository
+@inject UserRepository _userRepository
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 @page "/OperatorSite"
 
 <h1>Operator's Site</h1>
+@if(_bindStandId == 0)
+{
+    <SelectEvent OnChangeCallback=ChangeEvent Events=_events/>
+    <SelectStands OnChangeCallback=ChangeStand EventStands=_eventStandList/>
+} else
+{
+    <h4>Stand: @_eventStandList.Find(x => x.Id.Equals(_bindStandId)).Name</h4>
+}
 
-<SelectStands OnChangeCallback=ChangeStand EventStands=_eventStandList/>
+
+
+<div>
+    <h3>Content</h3>
+    
+    @if(_customerChip != null)
+        {
+    <div class="row bg-success">
+        <h3>Chip id: @_customerChip.Id</h3>
+    <table class="table col-md-12 mx-auto">
+    <thead>
+        <tr>
+            <td>Product</td>
+            <td>Amount</td>
+        </tr>
+    </thead>
+    <tbody>
+        
+            
+               @foreach(var item in _customerChip.StandProducts)
+               {
+                  @*  @if(item.EventStandId == EventStandId)
+                    {*@
+                           <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Amount</td>
+                            </tr> 
+
+                    @*}*@
+               }
+        
+     
+    </tbody>
+            </table>
+            </div>
+        } else
+        {
+         <div class="row bg-warning">
+              <h4>No chip scannet</h4>
+         </div>
+        }
+
+</div>
+<div>
+
+</div>
 
 
 
-@code {
-    private List<EventStandModel> _eventStandList = new List<EventStandModel>();
-    private EventStandRepository _eventStandRepo = new EventStandRepository();
-    private UserModel _user;
-    private int _bindItem;
-    private HubConnection _hubConnection;
-    private List<string> _messages = new List<string>();
+    @code {
+        private List<EventStandModel> _eventStandList = new List<EventStandModel>();
+        private UserModel _user;
+        private int _bindStandId;
+        private int _bindEventId;
+        private HubConnection _hubConnection;
+        private List<string> _messages = new List<string>();
+        private List<EventModel> _events = new List<EventModel>();
+        private ChipModel _customerChip;
 
     protected override async Task OnInitializedAsync()
     {
-        //TODO Husk at ændre så event id ikke er konstant
-        _eventStandList = await _eventStandRepo.GetAllByEventIdAsync(1);
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        _user = await _userRepository.GetByEmailAsync(user.Identity.Name);
+        _events = await _eventRepository.GetAllByCompanyIdAsync(_user.Company.Id);
 
         _hubConnection = new HubConnectionBuilder()
             .WithUrl(NavigationManager.ToAbsoluteUri("/connectionhub"),options =>
@@ -30,9 +93,11 @@
                })
             .Build();
 
-        _hubConnection.On<string>("RecieveStand", (id) =>
+        _hubConnection.On<string,ChipModel>("RecieveStand", (id,chip) =>
         {
-            _hubConnection.SendAsync("SendSelectedStand", _bindItem, id);
+            _hubConnection.SendAsync("SendSelectedStand", _bindStandId, id);
+            _customerChip = chip;
+            StateHasChanged();
         });
 
         await _hubConnection.StartAsync();
@@ -40,7 +105,17 @@
 
     private void ChangeStand(ChangeEventArgs e)
     {
-        _bindItem = Convert.ToInt32(e.Value);
+        _bindStandId = Convert.ToInt32(e.Value);
+
+    }
+
+    private async Task ChangeEvent(ChangeEventArgs e)
+    {
+        _bindEventId = Convert.ToInt32(e.Value);
+        _eventStandList = await _eventStandRepository.GetAllByEventIdAsync(_bindEventId);
+        StateHasChanged();
+        
+
     }
 
 

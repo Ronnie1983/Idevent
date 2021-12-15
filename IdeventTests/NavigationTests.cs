@@ -6,6 +6,7 @@ using IdeventLibrary.Repositories;
 using IdeventLibrary.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Bunit.TestDoubles;
 
 namespace IdeventTests
 {
@@ -26,7 +27,15 @@ namespace IdeventTests
             _testContext.Services.AddSingleton<ChipRepository>(new ChipRepository());
             _testContext.Services.AddSingleton<EventRepository>(new EventRepository());
             _testContext.Services.AddSingleton<ChipGroupRepository>(new ChipGroupRepository());
+            _testContext.Services.AddSingleton<StandProductRepository>(new StandProductRepository());
+            _testContext.Services.AddSingleton<ChipContentRepository>(new ChipContentRepository());
+            _testContext.Services.AddSingleton<UserRepository>(new UserRepository());
+            _testContext.Services.AddSingleton<StandFunctionalityRepository>(new StandFunctionalityRepository());
+            _testContext.Services.AddSingleton<EventStandRepository>(new EventStandRepository());
             _testContext.Services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());
+            _testContext.Services.AddAuthorization();
+            
+
             _navManager = _testContext.Services.GetService<NavigationManager>();
       
         }
@@ -58,7 +67,14 @@ namespace IdeventTests
         [TestMethod]
         public void OperatorSiteIndexLoads()
         {
-            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.OperatorSite.Index>(), "Operator's Site", "OperatorSite");
+            using var ctx = new Bunit.TestContext();
+            ctx.Services.AddSingleton<EventRepository>(new EventRepository());
+            ctx.Services.AddSingleton<EventStandRepository>(new EventStandRepository());
+            ctx.Services.AddSingleton<UserRepository>(new UserRepository());
+
+            var authContext = ctx.AddTestAuthorization();
+            authContext.SetAuthorized("TEST USER",AuthorizationState.Authorized);
+            LoadPageTest(ctx.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.OperatorSite.Index>(), "Operator's Site", "OperatorSite");
         }
         [TestMethod]
         public void ChipActivityLogIndexLoads()

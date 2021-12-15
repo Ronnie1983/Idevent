@@ -1,8 +1,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Bunit;
+using IdeventLibrary.Repositories;
 using IdeventAdminBlazorServer.Pages;
 using Microsoft.AspNetCore.Components;
 using IdeventAdminBlazorServer.Pages.Admin.Events;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace IdeventTests
 {
@@ -17,7 +19,13 @@ namespace IdeventTests
         [TestInitialize]
         public void Inititialise()
         {
+            _testContext.Services.AddSingleton<StandFunctionalityRepository>(new StandFunctionalityRepository());
+            _testContext.Services.AddSingleton<EventStandRepository>(new EventStandRepository());
+            _testContext.Services.AddSingleton<StandProductRepository>(new StandProductRepository());
+            _testContext.Services.AddSingleton<EventRepository>(new EventRepository());
+            _testContext.Services.AddSingleton<CompanyRepository>(new CompanyRepository());
             _navManager = _testContext.Services.GetService<NavigationManager>();
+            
         }
         [TestCleanup]
         public void Cleanup()

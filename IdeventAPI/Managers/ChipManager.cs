@@ -42,8 +42,8 @@ namespace IdeventAPI.Managers
                 parameters.Add("EventId", null);
                 parameters.Add("ChipGroupId", null);
                 parameters.Add("UserId", null);
-
-                if (newChip.Group != null)
+               
+                if (newChip.Group?.Id == 0)
                 {
                     parameters.Add("ChipGroupId", newChip.Group.Id);
                 }

@@ -19,18 +19,6 @@ The IdeventTestDB connectionstring should be in the environment variable called 
 
 **Step 4.**
 
-Run the InsertDataScript on the Idevent database (copy it from IdeventSQLServerTemplate and run it with a query to that database)
-
-**Step 5.**
-
-Insert data manually into StandFunctionalities
-
-**Step 6. (optional)**
-
-Insert data manually into ChipGroups and Chips
-
-**Step 7.**
-
 See if it works. You should be able to run tests and get data into the program.
 
 ### Contribution Rules
@@ -47,9 +35,10 @@ The issue/userstory needs to be approved by product owner.
 ### Naming conventions
 **Class, Components, Methods, Properties:** PascalCase
 
-**Private fields names:** _camelCaseWithPrefix
+**Private fields & @injection:** _camelCaseWithPrefix
 
 **Parameters, local variables:** camelCase
+**HTML id and class:** camelCase
 
 **Constants:** UPPERCASE_WORDS
 
@@ -57,6 +46,6 @@ The issue/userstory needs to be approved by product owner.
 
 **Async Methods:** ThisIsAMethodAsync (ends with Async) 
 
-**HTML id and class:** camelCase
-
 **Stored Procedure:** spPascalCaseWithPrefix
+
+**API Routing:** localhost:5003/Chip/1 (get chip by id 1. Chip is capitalized, 1 is the local parameter so camelCase)

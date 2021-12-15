@@ -33,7 +33,7 @@ namespace IdeventAPI.Controllers
             return Ok(stands);
         }
 
-        [HttpGet("byevent/{id}")]
+        [HttpGet("ByEvent/{id}")]
         public IActionResult GetAllByEventId(int id)
         {
             var stands = _eventStandManager.GetAllByEventId(id);
@@ -65,7 +65,7 @@ namespace IdeventAPI.Controllers
         }
 
         // PUT api/<StandController>/5
-        [HttpPut("updatename/{id}")]
+        [HttpPut("UpdateName/{id}")]
         public IActionResult Put(int id, [FromBody] string value)
         {
             var result = _eventStandManager.Update(id, value);
