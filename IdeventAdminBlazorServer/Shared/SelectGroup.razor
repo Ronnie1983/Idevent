@@ -7,8 +7,7 @@
         }
         else
         {
-            <select id="groupSelect" class="form-control" value="@_preselectedValue" @onchange="OnChangeCallback">
-                <option value="0" selected>Choose existing group</option>
+            <select id="groupSelect" class="form-control" value="@ChipGroups[0].Id" @onchange="OnChangeCallback">
                 @foreach (ChipGroupModel group in ChipGroups)
                 {
                     <option value=@group.Id>@group.Name</option>
@@ -28,6 +27,4 @@ else
 
     [Parameter]
     public List<ChipGroupModel> ChipGroups { get; set; }
-
-    private int _preselectedValue = 0;
 }
