@@ -10,7 +10,7 @@
 	@invoiceAddress int
 AS
 BEGIN
-	INSERT INTO Companies
+	INSERT INTO Companies (Name, Logo, CVR, Email, PhoneNumber, Active, Note, AddressId, InvoiceAddressId)
 	OUTPUT inserted.Id
 	VALUES (@name, @logo, @cvr, @email, @phoneNumber, @active, @note, @addressId, @invoiceAddress)
 END
