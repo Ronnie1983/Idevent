@@ -82,8 +82,6 @@
     <Build Include="dbo\Tables\StandFunctionalities.sql" />
     <Build Include="dbo\Tables\StandProducts.sql" />
     <Build Include="dbo\Tables\EventStands.sql" />
-    <Build Include="dbo\Tables\Addresses.sql" />
-    <Build Include="dbo\Tables\Companies.sql" />
     <Build Include="dbo\Tables\CompanyPermissions.sql" />
     <Build Include="dbo\Tables\Permissions.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllEvents.sql" />
@@ -135,6 +133,8 @@
     <Build Include="dbo\StoredProcedures\spCreateChipContent.sql" />
     <Build Include="dbo\StoredProcedures\spCreateStandFunctionality.sql" />
     <Build Include="dbo\StoredProcedures\spGetStandFunctionalityById.sql" />
+    <Build Include="dbo\Tables\Addresses.sql" />
+    <Build Include="dbo\Tables\Companies.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="IdeventSQLServerTemplate.refactorlog" />
