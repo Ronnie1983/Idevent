@@ -6,6 +6,6 @@
 	@country nvarchar(254)
 AS
 BEGIN
-	UPDATE AddressModel SET StreetAddress  = @street, City = @city, PostalCode = @postal, Country = @country 
+	UPDATE Addresses SET StreetAddress  = @street, City = @city, PostalCode = @postal, Country = @country 
 	WHERE Id = @id
 END
