@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IdeventLibrary.Models
 {
+    [Table("Companies")]
     public class CompanyModel
     {
         private int _id;
