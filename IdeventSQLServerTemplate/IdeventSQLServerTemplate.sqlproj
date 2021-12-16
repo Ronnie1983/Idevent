@@ -110,7 +110,6 @@
     <Build Include="dbo\StoredProcedures\spGetAddressById.sql" />
     <Build Include="dbo\StoredProcedures\spCreateAddress.sql" />
     <Build Include="dbo\Tables\CompanyModel.sql" />
-    <Build Include="dbo\Tables\AddressModel.sql" />
     <Build Include="dbo\StoredProcedures\spUpdateAddress.sql" />
     <Build Include="dbo\StoredProcedures\spUpdateCompany.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllProducts.sql" />
