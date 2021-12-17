@@ -1,8 +1,8 @@
-﻿CREATE TABLE [dbo].[Addresses]
-(
-	[Id] INT NOT NULL IDENTITY PRIMARY KEY, 
-    [StreetAddress] NVARCHAR(100) NOT NULL, 
-    [City] NVARCHAR(50) NOT NULL, 
-    [Country] NVARCHAR(50) NOT NULL, 
-    [PostalCode] NVARCHAR(10) NOT NULL
-)
+﻿CREATE TABLE [dbo].[Addresses] (
+    [Id]            INT            IDENTITY (1, 1) NOT NULL,
+    [StreetAddress] NVARCHAR (100) NULL,
+    [City]          NVARCHAR (100) NULL,
+    [Country]       NVARCHAR (100) NULL,
+    [PostalCode]    NVARCHAR (12)  NULL,
+    CONSTRAINT [PK_Addresses] PRIMARY KEY CLUSTERED ([Id] ASC)
+);

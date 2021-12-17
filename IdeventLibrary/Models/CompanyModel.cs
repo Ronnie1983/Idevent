@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IdeventLibrary.Models
 {
+    [Table("Companies")]
     public class CompanyModel
     {
         private int _id;
@@ -52,6 +54,7 @@ namespace IdeventLibrary.Models
 
         [Required]
         [MinLength(3)]
+        [MaxLength(100)]
         public string Name
         {
             get { return _name; }
@@ -60,6 +63,7 @@ namespace IdeventLibrary.Models
 
         [Required]
         [EmailAddress]
+        [MaxLength(255)]
         public string Email
         {
             get { return _email; }
@@ -80,6 +84,7 @@ namespace IdeventLibrary.Models
         }
 
         [Required]
+        [MaxLength(8)]
         public string CVR
         {
             get { return _cvr; }
@@ -87,6 +92,7 @@ namespace IdeventLibrary.Models
         }
 
         [Required]
+        [MaxLength(30)]
         public string PhoneNumber
         {
             get { return _phone; }
@@ -104,7 +110,6 @@ namespace IdeventLibrary.Models
             get { return _active; }
             set { _active = value; }
         }
-
         public string Logo
         {
             get { return _logo; }
