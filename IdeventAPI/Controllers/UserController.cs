@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using IdeventAPI.Managers;
 using IdeventLibrary.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,7 +24,7 @@ namespace IdeventAPI.Controllers
 
 
         // GET api/<UserController>/5
-        [HttpGet("{email}")]
+        [HttpGet("Email/{email}")]
         public IActionResult GetByEmail(string email)
         {
             var item = _userManager.GetByEmail(email);
@@ -33,5 +34,19 @@ namespace IdeventAPI.Controllers
             }
             return Ok(item);
         }
+
+        // GET api/<UserController>/5
+        [HttpGet("{id}")]
+        public IActionResult GetById(string id)
+        {
+            var item = _userManager.GetById(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return Ok(item);
+        }
+
+
     }
 }

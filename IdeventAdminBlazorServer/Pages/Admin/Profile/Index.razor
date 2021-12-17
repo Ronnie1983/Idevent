@@ -1,27 +1,34 @@
 ﻿@page "/Profile/{Id}"
 @page "/Profile"
 
-@attribute [Authorize (Roles="1")]
+@attribute [Authorize (Roles="User,Admin")]
 
 @using IdeventLibrary.Repositories
 @using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
 
+@inject AuthenticationStateProvider _authenticationStateProvider
 @inject NavigationManager _navigationManager
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
 
+
 <h1>Profile</h1>
 
-<AuthorizeView>
-    <Authorized>
-        @if (_profileData != null)
-        {
-            <section>
-                <PropertyDisplay PropertyName="Id" PropertyValue="@(_profileData.Id)"/>
-                <PropertyDisplay PropertyName="Email" PropertyValue="@(_profileData.Email)"/>
-                <PropertyDisplay PropertyName="Role" PropertyValue="@(_profileData.Role)"/>
-            </section>
-        }
-    </Authorized>
+<AuthorizeView Roles="Admin">
+    
+    @if (_profileData != null)
+    {
+        <section>
+            <PropertyDisplay PropertyName="Id" PropertyValue="@(_profileData.Id)"/>
+            <PropertyDisplay PropertyName="Email" PropertyValue="@(_profileData.Email)"/>
+            <PropertyDisplay PropertyName="Role" PropertyValue="@(_profileData.Role)"/>
+        </section>
+    }
+   
+</AuthorizeView>
+
+<AuthorizeView Roles="User">
+    <p> You are not allowed here</p>
 </AuthorizeView>
 <br/>
 <NavigateButton PageToNavigateTo="Home" ButtonText="Back"/>

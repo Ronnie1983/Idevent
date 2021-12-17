@@ -65,7 +65,6 @@
     <Folder Include="dbo\Scripts" />
     <Folder Include="dbo\Scripts\PostDeployScript" />
     <Folder Include="dbo\Scripts\Helpers" />
-    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\__EFMigrationsHistory.sql" />
@@ -130,7 +129,6 @@
     <Build Include="dbo\StoredProcedures\spCreateEvent.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllEventsByCompanyId.sql" />
     <Build Include="dbo\StoredProcedures\spGetStandProductAndContentByChipId.sql" />
-    <Build Include="dbo\StoredProcedures\GetUserById.sql" />
     <Build Include="dbo\StoredProcedures\spGetUserByEmail.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllChipGroupsByEventId.sql" />
     <Build Include="dbo\StoredProcedures\spGetChipGroupById.sql" />
