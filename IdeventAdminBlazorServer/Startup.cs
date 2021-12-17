@@ -40,7 +40,7 @@ namespace IdeventAdminBlazorServer
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    AppSettings.ConnectionString));
+                    AppSettings.ConnectionString)); // this should be switched when publishing.
             services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
