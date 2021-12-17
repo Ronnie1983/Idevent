@@ -8,6 +8,8 @@ namespace IdeventLibrary.Models
 {
     public class ChipContentModel
     {
+        
+
         public ChipContentModel()
         {
 
@@ -18,6 +20,14 @@ namespace IdeventLibrary.Models
             ChipId = chipId;
             GroupId = groupId;
         }
+
+        public ChipContentModel(StandProductModel standProduct, int chipId)
+        {
+            StandProduct = standProduct;
+            ChipId = chipId;
+            
+        }
+
         public int Id { get; set; }
         public StandProductModel StandProduct { get; set; }
         public int ChipId { get; set; }
