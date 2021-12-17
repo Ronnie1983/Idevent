@@ -13,26 +13,11 @@ PRINT N'Creating Table [dbo].[Addresses]...';
 
 CREATE TABLE [dbo].[Addresses] (
     [Id]            INT            IDENTITY (1, 1) NOT NULL,
-    [StreetAddress] NVARCHAR (100) NOT NULL,
-    [City]          NVARCHAR (50)  NOT NULL,
-    [Country]       NVARCHAR (50)  NOT NULL,
-    [PostalCode]    NVARCHAR (10)  NOT NULL,
-    PRIMARY KEY CLUSTERED ([Id] ASC)
-);
-
-
-
-PRINT N'Creating Table [dbo].[AddressModel]...';
-
-
-
-CREATE TABLE [dbo].[AddressModel] (
-    [Id]            INT            IDENTITY (1, 1) NOT NULL,
-    [StreetAddress] NVARCHAR (MAX) NULL,
-    [City]          NVARCHAR (MAX) NULL,
-    [Country]       NVARCHAR (MAX) NULL,
-    [PostalCode]    NVARCHAR (MAX) NULL,
-    CONSTRAINT [PK_AddressModel] PRIMARY KEY CLUSTERED ([Id] ASC)
+    [StreetAddress] NVARCHAR (100) NULL,
+    [City]          NVARCHAR (100) NULL,
+    [Country]       NVARCHAR (100) NULL,
+    [PostalCode]    NVARCHAR (12)  NULL,
+    CONSTRAINT [PK_Addresses] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
 
@@ -265,6 +250,7 @@ CREATE TABLE [dbo].[ChipGroups] (
 );
 
 
+
 PRINT N'Creating Table [dbo].[Chips]...';
 
 
@@ -275,7 +261,7 @@ CREATE TABLE [dbo].[Chips] (
     [ValidFrom]      DATETIMEOFFSET (7) NOT NULL,
     [ValidTo]        DATETIMEOFFSET (7) NOT NULL,
     [FK_ChipGroupId] INT                NULL,
-    [FK_UserId]      INT                NULL,
+    [FK_UserId]      NVARCHAR (50)      NULL,
     [FK_CompanyId]   INT                NOT NULL,
     [FK_EventId]     INT                NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
@@ -288,56 +274,36 @@ PRINT N'Creating Table [dbo].[Companies]...';
 
 
 CREATE TABLE [dbo].[Companies] (
-    [Id]                  INT            IDENTITY (1, 1) NOT NULL,
-    [Name]                NVARCHAR (50)  NOT NULL,
-    [Logo]                NVARCHAR (255) NOT NULL,
-    [CVR]                 NVARCHAR (8)   NOT NULL,
-    [Email]               NVARCHAR (254) NOT NULL,
-    [PhoneNumber]         NVARCHAR (30)  NOT NULL,
-    [Active]              BIT            NOT NULL,
-    [Note]                NVARCHAR (255) NOT NULL,
-    [FK_AddressId]        INT            NOT NULL,
-    [FK_InvoiceAddressId] INT            NOT NULL,
-    PRIMARY KEY CLUSTERED ([Id] ASC)
-);
-
-
-
-PRINT N'Creating Table [dbo].[CompanyModel]...';
-
-
-
-CREATE TABLE [dbo].[CompanyModel] (
     [Id]               INT            IDENTITY (1, 1) NOT NULL,
-    [Name]             NVARCHAR (50)  NOT NULL,
-    [Logo]             NVARCHAR (255) NULL,
-    [CVR]              NVARCHAR (8)   NOT NULL,
-    [Email]            NVARCHAR (254) NOT NULL,
-    [PhoneNumber]      NVARCHAR (30)  NOT NULL,
-    [Active]           BIT            NOT NULL,
-    [Note]             NVARCHAR (255) NOT NULL,
-    [AddressId]        INT            NULL,
+    [Name]             NVARCHAR (100) NOT NULL,
+    [Email]            NVARCHAR (255) NOT NULL,
     [InvoiceAddressId] INT            NULL,
-    CONSTRAINT [PK_CompanyModel] PRIMARY KEY CLUSTERED ([Id] ASC)
+    [AddressId]        INT            NULL,
+    [CVR]              NVARCHAR (8)   NOT NULL,
+    [PhoneNumber]      NVARCHAR (30)  NOT NULL,
+    [Note]             NVARCHAR (MAX) NULL,
+    [Active]           BIT            NOT NULL,
+    [Logo]             NVARCHAR (MAX) NULL,
+    CONSTRAINT [PK_Companies] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
 
 
-PRINT N'Creating Index [dbo].[CompanyModel].[IX_CompanyModel_InvoiceAddressId]...';
+PRINT N'Creating Index [dbo].[Companies].[IX_Companies_AddressId]...';
 
 
 
-CREATE NONCLUSTERED INDEX [IX_CompanyModel_InvoiceAddressId]
-    ON [dbo].[CompanyModel]([InvoiceAddressId] ASC);
+CREATE NONCLUSTERED INDEX [IX_Companies_AddressId]
+    ON [dbo].[Companies]([AddressId] ASC);
 
 
 
-PRINT N'Creating Index [dbo].[CompanyModel].[IX_CompanyModel_AddressId]...';
+PRINT N'Creating Index [dbo].[Companies].[IX_Companies_InvoiceAddressId]...';
 
 
 
-CREATE NONCLUSTERED INDEX [IX_CompanyModel_AddressId]
-    ON [dbo].[CompanyModel]([AddressId] ASC);
+CREATE NONCLUSTERED INDEX [IX_Companies_InvoiceAddressId]
+    ON [dbo].[Companies]([InvoiceAddressId] ASC);
 
 
 
@@ -420,24 +386,6 @@ CREATE TABLE [dbo].[StandProducts] (
 
 
 
-PRINT N'Creating Default Constraint unnamed constraint on [dbo].[Companies]...';
-
-
-
-ALTER TABLE [dbo].[Companies]
-    ADD DEFAULT '' FOR [Note];
-
-
-
-PRINT N'Creating Default Constraint unnamed constraint on [dbo].[CompanyModel]...';
-
-
-
-ALTER TABLE [dbo].[CompanyModel]
-    ADD DEFAULT ('') FOR [Note];
-
-
-
 PRINT N'Creating Foreign Key [dbo].[FK_AspNetRoleClaims_AspNetRoles_RoleId]...';
 
 
@@ -483,30 +431,30 @@ ALTER TABLE [dbo].[AspNetUserRoles] WITH NOCHECK
 
 
 
-PRINT N'Creating Foreign Key [dbo].[FK_AspNetUsers_AddressModel_AddressId]...';
+PRINT N'Creating Foreign Key [dbo].[FK_AspNetUsers_Addresses_AddressId]...';
 
 
 
 ALTER TABLE [dbo].[AspNetUsers] WITH NOCHECK
-    ADD CONSTRAINT [FK_AspNetUsers_AddressModel_AddressId] FOREIGN KEY ([AddressId]) REFERENCES [dbo].[AddressModel] ([Id]);
+    ADD CONSTRAINT [FK_AspNetUsers_Addresses_AddressId] FOREIGN KEY ([AddressId]) REFERENCES [dbo].[Addresses] ([Id]);
 
 
 
-PRINT N'Creating Foreign Key [dbo].[FK_AspNetUsers_AddressModel_InvoiceAddressId]...';
-
-
-
-ALTER TABLE [dbo].[AspNetUsers] WITH NOCHECK
-    ADD CONSTRAINT [FK_AspNetUsers_AddressModel_InvoiceAddressId] FOREIGN KEY ([InvoiceAddressId]) REFERENCES [dbo].[AddressModel] ([Id]);
-
-
-
-PRINT N'Creating Foreign Key [dbo].[FK_AspNetUsers_CompanyModel_CompanyId]...';
+PRINT N'Creating Foreign Key [dbo].[FK_AspNetUsers_Addresses_InvoiceAddressId]...';
 
 
 
 ALTER TABLE [dbo].[AspNetUsers] WITH NOCHECK
-    ADD CONSTRAINT [FK_AspNetUsers_CompanyModel_CompanyId] FOREIGN KEY ([CompanyId]) REFERENCES [dbo].[CompanyModel] ([Id]);
+    ADD CONSTRAINT [FK_AspNetUsers_Addresses_InvoiceAddressId] FOREIGN KEY ([InvoiceAddressId]) REFERENCES [dbo].[Addresses] ([Id]);
+
+
+
+PRINT N'Creating Foreign Key [dbo].[FK_AspNetUsers_Companies_CompanyId]...';
+
+
+
+ALTER TABLE [dbo].[AspNetUsers] WITH NOCHECK
+    ADD CONSTRAINT [FK_AspNetUsers_Companies_CompanyId] FOREIGN KEY ([CompanyId]) REFERENCES [dbo].[Companies] ([Id]);
 
 
 
@@ -527,27 +475,13 @@ ALTER TABLE [dbo].[ChipContents] WITH NOCHECK
     ADD CONSTRAINT [FK_ChipContents_ToStandProducts] FOREIGN KEY ([FK_StandProductId]) REFERENCES [dbo].[StandProducts] ([Id]);
 
 
+
 PRINT N'Creating Foreign Key [dbo].[FK_ChipGroups_Events]...';
 
+
+
 ALTER TABLE [dbo].[ChipGroups] WITH NOCHECK
-ADD CONSTRAINT [FK_ChipGroups_Events] FOREIGN KEY ([FK_EventId]) REFERENCES [dbo].[Events] ([Id]);
-
-
-PRINT N'Creating Foreign Key [dbo].[FK_Chips_ToCompanies]...';
-
-
-
-ALTER TABLE [dbo].[Chips] WITH NOCHECK
-    ADD CONSTRAINT [FK_Chips_ToCompanies] FOREIGN KEY ([FK_CompanyId]) REFERENCES [dbo].[CompanyModel] ([Id]);
-
-
-
-PRINT N'Creating Foreign Key [dbo].[FK_Chips_ToEvents]...';
-
-
-
-ALTER TABLE [dbo].[Chips] WITH NOCHECK
-    ADD CONSTRAINT [FK_Chips_ToEvents] FOREIGN KEY ([FK_EventId]) REFERENCES [dbo].[Events] ([Id]);
+    ADD CONSTRAINT [FK_ChipGroups_Events] FOREIGN KEY ([FK_EventId]) REFERENCES [dbo].[Events] ([Id]);
 
 
 
@@ -560,39 +494,39 @@ ALTER TABLE [dbo].[Chips] WITH NOCHECK
 
 
 
-PRINT N'Creating Foreign Key [dbo].[FK_Companies_ToAddresses]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Chips_ToCompanies]...';
+
+
+
+ALTER TABLE [dbo].[Chips] WITH NOCHECK
+    ADD CONSTRAINT [FK_Chips_ToCompanies] FOREIGN KEY ([FK_CompanyId]) REFERENCES [dbo].[Companies] ([Id]);
+
+
+
+PRINT N'Creating Foreign Key [dbo].[FK_Chips_ToEvents]...';
+
+
+
+ALTER TABLE [dbo].[Chips] WITH NOCHECK
+    ADD CONSTRAINT [FK_Chips_ToEvents] FOREIGN KEY ([FK_EventId]) REFERENCES [dbo].[Events] ([Id]);
+
+
+
+PRINT N'Creating Foreign Key [dbo].[FK_Companies_Addresses_AddressId]...';
 
 
 
 ALTER TABLE [dbo].[Companies] WITH NOCHECK
-    ADD CONSTRAINT [FK_Companies_ToAddresses] FOREIGN KEY ([FK_AddressId]) REFERENCES [dbo].[Addresses] ([Id]);
+    ADD CONSTRAINT [FK_Companies_Addresses_AddressId] FOREIGN KEY ([AddressId]) REFERENCES [dbo].[Addresses] ([Id]);
 
 
 
-PRINT N'Creating Foreign Key [dbo].[FK_Companies_ToAddresses2]...';
+PRINT N'Creating Foreign Key [dbo].[FK_Companies_Addresses_InvoiceAddressId]...';
 
 
 
 ALTER TABLE [dbo].[Companies] WITH NOCHECK
-    ADD CONSTRAINT [FK_Companies_ToAddresses2] FOREIGN KEY ([FK_InvoiceAddressId]) REFERENCES [dbo].[Addresses] ([Id]);
-
-
-
-PRINT N'Creating Foreign Key [dbo].[FK_CompanyModel_AddressModel_AddressId]...';
-
-
-
-ALTER TABLE [dbo].[CompanyModel] WITH NOCHECK
-    ADD CONSTRAINT [FK_CompanyModel_AddressModel_AddressId] FOREIGN KEY ([AddressId]) REFERENCES [dbo].[AddressModel] ([Id]);
-
-
-
-PRINT N'Creating Foreign Key [dbo].[FK_CompanyModel_AddressModel_InvoiceAddressId]...';
-
-
-
-ALTER TABLE [dbo].[CompanyModel] WITH NOCHECK
-    ADD CONSTRAINT [FK_CompanyModel_AddressModel_InvoiceAddressId] FOREIGN KEY ([InvoiceAddressId]) REFERENCES [dbo].[AddressModel] ([Id]);
+    ADD CONSTRAINT [FK_Companies_Addresses_InvoiceAddressId] FOREIGN KEY ([InvoiceAddressId]) REFERENCES [dbo].[Addresses] ([Id]);
 
 
 
@@ -601,7 +535,7 @@ PRINT N'Creating Foreign Key [dbo].[FK_Events_ToCompanies]...';
 
 
 ALTER TABLE [dbo].[Events] WITH NOCHECK
-    ADD CONSTRAINT [FK_Events_ToCompanies] FOREIGN KEY ([FK_CompanyId]) REFERENCES [dbo].[CompanyModel] ([Id]);
+    ADD CONSTRAINT [FK_Events_ToCompanies] FOREIGN KEY ([FK_CompanyId]) REFERENCES [dbo].[Companies] ([Id]);
 
 
 
@@ -630,5 +564,5 @@ PRINT N'Creating Foreign Key [dbo].[FK_EventStandProducts_ToEventStands]...';
 ALTER TABLE [dbo].[StandProducts] WITH NOCHECK
     ADD CONSTRAINT [FK_EventStandProducts_ToEventStands] FOREIGN KEY ([FK_EventStandId]) REFERENCES [dbo].[EventStands] ([Id]);
 
-PRINT N'Completed the Script.CreateTables.sql script';
 
+PRINT N'Completed create table script...';
