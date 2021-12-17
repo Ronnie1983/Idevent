@@ -22,7 +22,9 @@ namespace IdeventLibrary.Repositories
         /// <summary>
         /// The base URL without "/" at the end.
         /// </summary>
-        public static string ApiBaseUrl { get => "https://localhost:44330"; } // TODO: change to online API
+        //public static string ApiBaseUrl { get => "https://localhost:44330"; } // TODO: change to online API
+        public static string ApiBaseUrl { get => "https://ideventapi.azurewebsites.net/"; } 
+
 
     }
 }
