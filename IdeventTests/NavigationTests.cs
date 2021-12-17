@@ -71,6 +71,9 @@ namespace IdeventTests
             ctx.Services.AddSingleton<EventRepository>(new EventRepository());
             ctx.Services.AddSingleton<EventStandRepository>(new EventStandRepository());
             ctx.Services.AddSingleton<UserRepository>(new UserRepository());
+            ctx.Services.AddSingleton<StandProductRepository>(new StandProductRepository());
+            ctx.Services.AddSingleton<ChipContentRepository>(new ChipContentRepository());
+            ctx.Services.AddSingleton<ChipRepository>(new ChipRepository());
 
             var authContext = ctx.AddTestAuthorization();
             authContext.SetAuthorized("TEST USER",AuthorizationState.Authorized);
