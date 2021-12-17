@@ -1,15 +1,26 @@
-﻿CREATE TABLE [dbo].[Companies]
-(
-	[Id] INT NOT NULL IDENTITY(1,1) PRIMARY KEY, 
-    [Name] NVARCHAR(50) NOT NULL, 
-    [Logo] NVARCHAR(255) NOT NULL, 
-    [CVR] NVARCHAR(8) NOT NULL, 
-    [Email] NVARCHAR(254) NOT NULL, 
-    [PhoneNumber] NVARCHAR(30) NOT NULL, 
-    [Active] BIT NOT NULL, 
-    [Note] NVARCHAR(255) NOT NULL DEFAULT '', 
-    [FK_AddressId] INT NOT NULL, 
-    [FK_InvoiceAddressId] INT NOT NULL, 
-    CONSTRAINT [FK_Companies_ToAddresses] FOREIGN KEY (FK_AddressId) REFERENCES [Addresses]([Id]),
-    CONSTRAINT [FK_Companies_ToAddresses2] FOREIGN KEY (FK_InvoiceAddressId) REFERENCES [Addresses]([Id])
-)
+﻿CREATE TABLE [dbo].[Companies] (
+    [Id]               INT            IDENTITY (1, 1) NOT NULL,
+    [Name]             NVARCHAR (100) NOT NULL,
+    [Email]            NVARCHAR (255) NOT NULL,
+    [InvoiceAddressId] INT            NULL,
+    [AddressId]        INT            NULL,
+    [CVR]              NVARCHAR (8)   NOT NULL,
+    [PhoneNumber]      NVARCHAR (30)  NOT NULL,
+    [Note]             NVARCHAR (MAX) NULL,
+    [Active]           BIT            NOT NULL,
+    [Logo]             NVARCHAR (MAX) NULL,
+    CONSTRAINT [PK_Companies] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Companies_Addresses_AddressId] FOREIGN KEY ([AddressId]) REFERENCES [dbo].[Addresses] ([Id]),
+    CONSTRAINT [FK_Companies_Addresses_InvoiceAddressId] FOREIGN KEY ([InvoiceAddressId]) REFERENCES [dbo].[Addresses] ([Id])
+);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Companies_AddressId]
+    ON [dbo].[Companies]([AddressId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Companies_InvoiceAddressId]
+    ON [dbo].[Companies]([InvoiceAddressId] ASC);
+

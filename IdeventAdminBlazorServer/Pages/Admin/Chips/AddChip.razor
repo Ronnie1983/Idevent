@@ -55,13 +55,13 @@
             <label class="largeLabel">Select existing group or create a new one</label>
             <div class="col-md-6">
                 <div class="form-group">
-                    <SelectGroup OnChangeCallback=UpdateProductAmountsBasedOnGroup ChipGroups=_eventGroups />
-                    <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#makeNewGroupPanel" aria-expanded="true" aria-controls="collapseOne">Create new group</button>
+                    <SelectGroup OnChangeCallback=SelectGroup ChipGroups=_eventGroups />
+                    <button id="openNewGroupPanelBtn" type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#makeNewGroupPanel" aria-expanded="true" aria-controls="collapseOne">Create new group</button>
                     <div id="makeNewGroupPanel" class="collapse">
                         <label>New group name</label>
                         <InputText class="form-control" @bind-Value="_newChipGroup.Name" placeholder="New group name" />
-                        <button type="button" @onclick="CreateGroup" class="btn btn-primary">Create group</button>
-                        <button type="button" data-bs-toggle="collapse" data-bs-target="#makeNewGroupPanel" class="btn btn-warning">Close</button>
+                        <button id="createGroupBtn" type="button" @onclick="CreateGroup" class="btn btn-primary">Create group</button>
+                        <button id="closeNewGroupPanelBtn" type="button" data-bs-toggle="collapse" data-bs-target="#makeNewGroupPanel" class="btn btn-warning">Close</button>
                     </div>
                 </div>
             </div>
@@ -90,7 +90,7 @@
                                     <td class="px-2">
                                         <button type="button" class="bg-danger fw-bold customCircleBtn" @onclick="() => {if(product.Amount >0){product.Amount--;}}">-</button>
                                     </td>
-                                    <td><input type="number" class="text-center" value="@product.Amount" /></td>
+                                    <td><input class="text-center" @bind-value="@product.Amount" /></td>
                                     <td class="px-2">
                                         <button type="button" class="bg-success fw-bold customCircleBtn" @onclick="() => {product.Amount++;}">+</button>
                                     </td>
@@ -149,8 +149,10 @@
             _chip.Event = _companyEvents.Find(companyEvent => companyEvent.Id == selectedEventId);
 
             _eventGroups = await _chipGroupRepository.GetAllByEventIdAsync(selectedEventId);
-            _chip.Group = new ChipGroupModel();
-
+            
+            if(_eventGroups != null){
+                _chip.Group = _eventGroups.Count > 0 ? _eventGroups[0] : new ChipGroupModel();
+            }
             _chip.StandProducts = await _productRepository.GetAllProductsByEventIdAsync(selectedEventId);
         }
         catch (Exception ex)
@@ -186,8 +188,6 @@
             _displayMessage = Common.Helpers.MakeDisplayMessage($"{_chip.HashedId} was created. Chip id: {_chip.Id}", false);
             _chip.HashedId = "";
             await _chipUIDInput.FocusAsync();
-            // TODO: Make it 'save' (in-memory) the previous entrys products
-            //List<StandProductModel> previousEntrysProducts = _chip.StandProducts;
         }
         catch (Exception e)
         {
@@ -195,7 +195,7 @@
             _displayMessage = Common.Helpers.MakeDisplayMessage($"Failed to create chip. {e.Message}", true);
         }
     }
-    private void UpdateProductAmountsBasedOnGroup(ChangeEventArgs e)
+    private void SelectGroup(ChangeEventArgs e)
     {
         int selectedGroupId = Convert.ToInt32(e.Value);
         if (selectedGroupId != 0)
@@ -220,11 +220,13 @@
             }
             _displayMessage = Common.Helpers.MakeDisplayMessage($"Created the chip group: {_newChipGroup.Name} successfully.", false);
             _eventGroups.Add(newlyCreatedGroup);
+            ChangeEventArgs changeGroupEvent = new ChangeEventArgs();
+            changeGroupEvent.Value = newlyCreatedGroup.Id;
+            SelectGroup(changeGroupEvent);
         }
         catch (Exception ex)
         {
             _displayMessage = Common.Helpers.MakeDisplayMessage($"Failed to create new group. {ex.Message}", true);
         }
     }
-
 }

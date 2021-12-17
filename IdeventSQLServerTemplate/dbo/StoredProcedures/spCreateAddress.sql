@@ -5,7 +5,7 @@
 	@country nvarchar(50)
 AS
 BEGIN
-	INSERT AddressModel
+	INSERT Addresses
 	OUTPUT inserted.Id
 	VALUES (@street,@city,@postal,@country)
 END

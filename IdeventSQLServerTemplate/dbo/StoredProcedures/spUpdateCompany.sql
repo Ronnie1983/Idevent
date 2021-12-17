@@ -11,7 +11,7 @@
 	@invoiceAddress int
 AS
 BEGIN
-	UPDATE CompanyModel SET Name = @name, Logo = @logo, CVR = @cvr, Email = @email, PhoneNumber = @phoneNumber, Active = @active, Note = @note, AddressId
+	UPDATE Companies SET Name = @name, Logo = @logo, CVR = @cvr, Email = @email, PhoneNumber = @phoneNumber, Active = @active, Note = @note, AddressId
 	= @addressId, InvoiceAddressId = @invoiceAddress
 	WHERE Id = @id
 END

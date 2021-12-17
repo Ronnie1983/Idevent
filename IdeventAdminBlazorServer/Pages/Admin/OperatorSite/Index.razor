@@ -7,7 +7,7 @@
 @inject EventRepository _eventRepository
 @inject UserRepository _userRepository
 @inject AuthenticationStateProvider AuthenticationStateProvider
-
+@attribute [Authorize]
 @page "/OperatorSite"
 
 <h1>Operator's Site</h1>
@@ -41,14 +41,14 @@
             
                @foreach(var item in _customerChip.StandProducts)
                {
-                  @*  @if(item.EventStandId == EventStandId)
-                    {*@
+                    @if(item.EventStandModel.Id == _bindStandId)
+                    {
                            <tr>
                                 <td>@item.Name</td>
                                 <td>@item.Amount</td>
                             </tr> 
 
-                    @*}*@
+                    }
                }
         
      

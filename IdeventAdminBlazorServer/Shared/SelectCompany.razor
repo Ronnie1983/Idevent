@@ -8,7 +8,7 @@
         }
         else
         {
-            <select class="form-control" value="@_selectedCompany" @onchange="OnChangeCallback">
+            <select id="companySelect" class="form-control" value="@_selectedCompany" @onchange="OnChangeCallback">
                 <option value="0" selected>Select company</option>
                 @foreach (CompanyModel company in Companies)
                 {
