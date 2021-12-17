@@ -144,6 +144,11 @@
             StateHasChanged();
         });
 
+        _hubConnection.On("CancelOrder", () =>
+        {
+            _navigationManager.NavigateTo($"Cancel");
+        });
+
         _hubConnection.On<List<StandProductModel>>("FetchOrder", async (data) =>
           {
               _order = data;

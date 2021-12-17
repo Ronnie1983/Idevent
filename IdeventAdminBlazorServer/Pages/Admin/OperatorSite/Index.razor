@@ -91,7 +91,7 @@ else
                         </tbody>
                     </table>
                     <button type="submit" class="btn btn-primary">Submit</button>
-                    <NavigateButton PageToNavigateTo="Chips" ButtonText="Cancel" HtmlClasses="btn btn-danger m-1" />
+                    <button type="button" class="btn btn-danger m-1" @onclick="@(e => Cancel())">Cancel</button>
             </EditForm>
             </div>
 
@@ -215,6 +215,15 @@ else
         _orderSent = true;
         StateHasChanged();
 
+    }
+    private async Task Cancel()
+    {
+        await _hubConnection.SendAsync("CancelTransaction", _connectionId);
+         _orderSent = false;
+                _customerChip = null;
+                _productsToBuyAndSell = await _standProductRepository.GetAllProductsByStandIdAsync(_bindStandId);
+                StateHasChanged();
+        
     }
 
 

@@ -30,5 +30,10 @@ namespace IdeventAdminBlazorServer.Hubs
             var user = Context.UserIdentifier;
             await Clients.User(user).SendAsync("ClientAccept", input);
         }
+
+        public async Task CancelTransaction(string connectionId)
+        {
+            await Clients.Client(connectionId).SendAsync("CancelOrder");
+        }
     }
 }
