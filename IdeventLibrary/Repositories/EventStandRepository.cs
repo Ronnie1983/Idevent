@@ -22,6 +22,14 @@ namespace IdeventLibrary.Repositories
             return List;
         }
 
+        public async Task<EventStandModel> GetById(int id)
+        {
+            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
+            EventStandModel result = JsonConvert.DeserializeObject<EventStandModel>(jsonContent);
+
+            return result;
+        }
+
         public async Task<List<EventStandModel>> GetAllByEventIdAsync(int id)
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri( $"{_baseUrl}/byevent/{id}" ));

@@ -60,8 +60,34 @@ namespace IdeventLibrary.Repositories
             return success;
 
         }
-      
-         public async Task<List<StandProductModel>> GetAllContentByStandIdAndChipIdAsync(int chipId, int standId)
+
+        public async Task<bool> CreateAndUpdateMultipleAsync(List<StandProductModel> standProducts, int chipId)
+        {
+            bool success = false;
+            List<ChipContentModel> chipContents = new List<ChipContentModel>();
+            foreach (StandProductModel standProduct in standProducts)
+            {
+                if (standProduct.Amount != 0)
+                {
+                    chipContents.Add(new ChipContentModel(standProduct, chipId));
+                }
+            }
+
+            string json = JsonConvert.SerializeObject(chipContents);
+            StringContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(new Uri($"{_baseUrl}/MultipleCreateAndUpdate"), httpContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                success = true;
+                return success;
+            }
+            return success;
+
+        }
+
+        public async Task<List<StandProductModel>> GetAllContentByStandIdAndChipIdAsync(int chipId, int standId)
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl +"/Chip/"+ chipId +"/Stand/"+ standId));
             List<StandProductModel> List = JsonConvert.DeserializeObject<List<StandProductModel>>(jsonContent);

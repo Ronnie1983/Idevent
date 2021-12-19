@@ -10,46 +10,103 @@
 @inject ChipRepository _chipRepository
 @inject ChipContentRepository _chipContentRepository
 
-    
+
 
 @layout NonAdminLayout
 
 <div class="row">
     <h1 class="col-md-12 mx-auto text-center">Idevent</h1>
 </div>
-<ScanCircle CircleText="Success" Color="#00C206"/>
-<div class="row">
-    <div class="col-md-12 mx-auto">
-        <h2 class="text-center">@_message</h2>
+
+
+
+
+@if (_order != null)
+{
+    <ScanCircle CircleText="Confirm" Color="#00C206" />
+    <div class="inputFieldScan">
+        <EditForm Model="_formInput" OnSubmit="@SubmitNFC">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group">
+                <label>NFC Read test</label>
+                <InputTextSetFocus @bind-Value="@_formInput.Input"></InputTextSetFocus>
+            </div>
+
+        </EditForm>
+        <div class="row">
+        <div class="col-md-12 mx-auto">
+            <h2 class="text-center">@_message</h2>
+        </div>
     </div>
-</div>
-<div class="row">
-    <table class="table col-md-12 mx-auto">
-    <thead>
-        <tr>
-            <td>Product</td>
-            <td>Amount</td>
-        </tr>
-    </thead>
-    <tbody>
-        @if(_chip != null)
-        {
-               @foreach(var item in _productList)
-               {
-                    @if(item.EventStandId == EventStandId)
+    </div>
+    <div class="row">
+        <table class="table col-md-12 mx-auto">
+            <thead>
+                <tr>
+                    <td>Product</td>
+                    <td>Amount</td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (_chip != null)
+                {
+                    @foreach (var item in _order)
                     {
-                           <tr>
+                        @if (item.EventStandId == EventStandId)
+                        {
+                            <tr>
                                 <td>@item.Name</td>
                                 <td>@item.Amount</td>
-                            </tr> 
+                            </tr>
 
+                        }
                     }
-               }
-        }
-     
-    </tbody>
-</table>
-</div>
+                }
+
+            </tbody>
+        </table>
+    </div>
+}
+@if(_order == null){
+
+    <ScanCircle CircleText="Success" Color="#00C206" />
+
+   
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <h2 class="text-center">@_message</h2>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table col-md-12 mx-auto">
+            <thead>
+                <tr>
+                    <td>Product</td>
+                    <td>Amount</td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (_chip != null)
+                {
+                    @foreach (var item in _productList)
+                    {
+                        @if (item.EventStandId == EventStandId)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Amount</td>
+                            </tr>
+
+                        }
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+    
+}
 
 
 @code {
@@ -60,6 +117,8 @@
     public bool IsConnected => _hubConnection.State == HubConnectionState.Connected;
     private List<string> _messages = new List<string>();
     private ChipModel _chip = null;
+    private List<StandProductModel> _order = null;
+    private NFCInputModel _formInput = new NFCInputModel();
 
     List<StandProductModel> _productList = new List<StandProductModel>();
 
@@ -68,13 +127,13 @@
     protected override async Task OnInitializedAsync()
     {
         _chip = await _chipRepository.GetById(TryConvert(Id));
-        
+
         //Opretter forbindelse til Hub
         _hubConnection = new HubConnectionBuilder()
-           .WithUrl(_navigationManager.ToAbsoluteUri("/connectionhub"),options =>
-                   {
-                      options.UseDefaultCredentials = true;
-                  })
+           .WithUrl(_navigationManager.ToAbsoluteUri("/connectionhub"), options =>
+                       {
+                           options.UseDefaultCredentials = true;
+                       })
            .Build();
 
         //Lytter i Eventhub på funktionen GetStand
@@ -84,6 +143,17 @@
             await GetProducts();
             StateHasChanged();
         });
+
+        _hubConnection.On("CancelOrder", () =>
+        {
+            _navigationManager.NavigateTo($"Cancel");
+        });
+
+        _hubConnection.On<List<StandProductModel>>("FetchOrder", async (data) =>
+          {
+              _order = data;
+              StateHasChanged();
+          });
 
         await _hubConnection.StartAsync();
 
@@ -120,5 +190,12 @@
         {
             await _hubConnection.DisposeAsync();
         }
+    }
+
+    public async Task SubmitNFC()
+    {
+        await _hubConnection.SendAsync("AcceptOrder", TryConvert(Id));
+        _navigationManager.NavigateTo($"Success");
+
     }
 }
