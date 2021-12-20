@@ -49,3 +49,7 @@ h3 {
   grid-column-gap: 1.5rem;
   grid-template-columns: 180px 75px;
 }
+
+.smallerInputTable input {
+  max-width: 100px;
+}
