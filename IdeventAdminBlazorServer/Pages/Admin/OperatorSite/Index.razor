@@ -27,102 +27,99 @@ else
 }
 
 <div>
-    <h3>Content</h3>
 
     @if (_customerChip != null)
     {
-        <div class="row bg-success">
-            <h3>Chip id: @_customerChip.Id</h3>
-            <table class="table col-md-12 mx-auto">
-                <thead>
-                    <tr>
-                        <td>Product</td>
-                        <td>Amount</td>
-                    </tr>
-                </thead>
-                <tbody>
+        <div class="row">
+            <div class="bgRedTint col-lg-5 me-2">
+                <h2 class="text-center mt-2">Scanned Chip</h2>
 
-
+                <label class="largeLabel">Chip ID: </label>
+                <span>@_customerChip.Id</span>
+                <h3>Chip Content</h3>
+                <div class="displayGrid">
                     @foreach (var item in _customerChip.StandProducts)
                     {
                         @if (item.EventStandModel.Id == _bindStandId)
                         {
-                            <tr>
-                                <td>@item.Name</td>
-                                <td>@item.Amount</td>
-                            </tr>
 
+                            <div>
+                                <span>@item.Name</span>
+                                
+                            </div>
+                            <div>
+                                <span>@item.Amount.ToString()x</span>
+                            </div>
                         }
                     }
-
-
-                </tbody>
-            </table>
-        </div>
-        @if (!_orderSent)
-        {
-            <div>
-            <h3>Buy/Sell</h3>
-            <EditForm Model="_productsToBuyAndSell" OnValidSubmit="HandleValidSubmitChip">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <table class="text-center">
-                        <thead>
-                            <tr>
-                                <th>Event product</th>
-                                <th>-</th>
-                                <th>Amounts</th>
-                                <th>+</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var product in _productsToBuyAndSell)
-                            {
-                                <tr>
-                                    <td>@product.Name</td>
-                                    <td class="px-2">
-                                        <button type="button" class="bg-danger fw-bold customCircleBtn" @onclick="() => {product.Amount--;}">-</button>
-                                    </td>
-                                    <td><input class="text-center" @bind-value="@product.Amount" /></td>
-                                    <td class="px-2">
-                                        <button type="button" class="bg-success fw-bold customCircleBtn" @onclick="() => {product.Amount++;}">+</button>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <button type="button" class="btn btn-danger m-1" @onclick="@(e => Cancel())">Cancel</button>
-            </EditForm>
+                </div>
             </div>
-
-        }
-        else
-        {
-            <table class="text-center">
-                        <thead>
-                            <tr>
-                                <th>Event product</th>
-                                
-                                <th>Amounts</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var product in _productsToBuyAndSell)
-                            {
+            @if (!_orderSent)
+            {
+                <div class="bgRedTint col-lg-6">
+                    <h3>Buy/Sell</h3>
+                    <EditForm Model="_productsToBuyAndSell" OnValidSubmit="HandleValidSubmitChip">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <table class="text-center">
+                            <thead>
                                 <tr>
-                                    <td>@product.Name</td>
-                                    
-                                    <td>@product.Amount</td>
-                                    
+                                    <th>Event product</th>
+                                    <th>-</th>
+                                    <th>Amounts</th>
+                                    <th>+</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in _productsToBuyAndSell)
+                                {
+                                    <tr>
+                                        <td>@product.Name</td>
+                                        <td class="px-2">
+                                            <button type="button" class="bg-danger fw-bold customCircleBtn" @onclick="() => {product.Amount--;}">-</button>
+                                        </td>
+                                        <td><input class="text-center" @bind-value="@product.Amount" /></td>
+                                        <td class="px-2">
+                                            <button type="button" class="bg-success fw-bold customCircleBtn" @onclick="() => {product.Amount++;}">+</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-danger m-1" @onclick="@(e => Cancel())">Cancel</button>
+                    </EditForm>
+                </div>
 
-        }
-        
+            }
+            else
+            {
+                <table class="text-center">
+                    <thead>
+                        <tr>
+                            <th>Event product</th>
+
+                            <th>Amounts</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in _productsToBuyAndSell)
+                        {
+                            <tr>
+                                <td>@product.Name</td>
+
+                                <td>@product.Amount</td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            }
+        </div>
+
+
     }
     else
     {
@@ -169,7 +166,7 @@ else
 
         _hubConnection.On<int>("ClientAccept", async (input) =>
         {
-            if(input == _customerChip.Id)
+            if (input == _customerChip.Id)
             {
                 await _chipContentRepository.CreateAndUpdateMultipleAsync(_productsToBuyAndSell, _customerChip.Id);
                 _orderSent = false;
@@ -220,11 +217,11 @@ else
     private async Task Cancel()
     {
         await _hubConnection.SendAsync("CancelTransaction", _connectionId);
-         _orderSent = false;
-                _customerChip = null;
-                _productsToBuyAndSell = await _standProductRepository.GetAllProductsByStandIdAsync(_bindStandId);
-                StateHasChanged();
-        
+        _orderSent = false;
+        _customerChip = null;
+        _productsToBuyAndSell = await _standProductRepository.GetAllProductsByStandIdAsync(_bindStandId);
+        StateHasChanged();
+
     }
 
 
