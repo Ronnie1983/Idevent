@@ -1,11 +1,12 @@
-﻿CREATE PROCEDURE [dbo].[spGetChipById]
+﻿
+CREATE PROCEDURE [dbo].[spGetChipById]
 	@Id int
 AS
 
 BEGIN
 	-- TODO: update spGetChipById with User when it done in database.
 	-- SELECT is missing User info, because it is not made properly in database yet. 
-	SELECT Chips.Id, [ValidFrom], [ValidTo],
+	SELECT Chips.Id, Chips.HashedId, [ValidFrom], [ValidTo],
 	ChipGroups.Id, ChipGroups.Name,
 	Companies.Id, Companies.Name, Companies.Email, Companies.PhoneNumber,
 	--AspNetUsers.Email,
