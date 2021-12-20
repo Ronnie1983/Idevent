@@ -10,7 +10,7 @@
 <div class="row">
     <h1 class="col-md-12 mx-auto text-center">Idevent</h1>
 </div>
-<ScanCircle CircleText="Ready" Color="#378DFF" />
+<ScanCircle CircleText="@_circleText" Color="@_circleColor"/>
 <div class="row">
     <div class="col-md-12 mx-auto">
         <h2 class="text-center">@_message</h2>
@@ -34,7 +34,8 @@
 @code {
     [Parameter]
     public string Id { get; set; }
-
+    private string _circleText = "Ready";
+    private string _circleColor = "#378DFF";
     private NFCInputModel _formInput = new NFCInputModel();
 
     private string _message = "Please scan chip";
@@ -45,6 +46,16 @@
     {
         AuthenticationState authState = await AuthProvider.GetAuthenticationStateAsync();
         var userClaim = authState.User;
+        if(userClaim.Identity.Name == null)
+        {
+            _circleText = "Awaiting operator";
+            _circleColor = "yellow";
+            _message = "Wait for the operator to login";
+            return;
+        }
+        _circleText = "Ready";
+        _circleColor = "#378DFF";
+        _message = "Please scan chip";
     }
 
     public async Task SubmitNFC()
