@@ -25,7 +25,7 @@ namespace IdeventAdminBlazorServer.Hubs
             await Clients.Client(connectionId).SendAsync("FetchOrder",list);
         }
 
-        public async Task AcceptOrder(int input)
+        public async Task AcceptOrder(string input)
         {
             var user = Context.UserIdentifier;
             await Clients.User(user).SendAsync("ClientAccept", input);
