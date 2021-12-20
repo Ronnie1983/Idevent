@@ -84,7 +84,6 @@ a, .btn-link {
     left: 50%;
     position: absolute;
     z-index: 1;
-    transform: translate(-50%, -50%);
 }
 
 .inputFieldScan input{

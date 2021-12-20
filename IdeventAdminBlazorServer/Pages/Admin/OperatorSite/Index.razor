@@ -130,8 +130,8 @@ else
     }
     else
     {
-        <div class="row bg-warning">
-            <h4>No chip scannet</h4>
+        <div class="height500 bg-warning d-flex justify-content-center align-items-center">
+            <h2 class="text-center">Awaiting Chip Scan</h2>
         </div>
     }
 
@@ -156,12 +156,11 @@ else
     private bool _orderSent = false;
 
 
-
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var userClaim = authState.User;
-        
+
         _user = await _userRepository.GetByEmailAsync(userClaim.Identity.Name);
         _events = await _eventRepository.GetAllByCompanyIdAsync(_user.Company.Id);
 
@@ -205,7 +204,6 @@ else
         _bindStandId = Convert.ToInt32(e.Value);
         _productsToBuyAndSell = await _standProductRepository.GetAllProductsByStandIdAsync(_bindStandId);
         StateHasChanged();
-
     }
 
     private async Task ChangeEvent(ChangeEventArgs e)
@@ -214,8 +212,6 @@ else
         _eventStandList = await _eventStandRepository.GetAllByEventIdAsync(_bindEventId);
 
         StateHasChanged();
-
-
     }
 
     private async Task HandleValidSubmitChip()
@@ -235,6 +231,4 @@ else
         StateHasChanged();
 
     }
-
-
-        }
+}

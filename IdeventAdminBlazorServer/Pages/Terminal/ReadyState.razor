@@ -9,29 +9,32 @@
 <div class="row">
     <h1 class="col-md-12 mx-auto text-center">Idevent</h1>
 </div>
-<ScanCircle CircleText="Ready" Color="#378DFF"/>
+<div class="position-relative">
+    <ScanCircle CircleText="Ready" Color="#378DFF" />
+    <div class="inputFieldScan">
+        <EditForm Model="_formInput" OnSubmit="@SubmitNFC">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group">
+                <InputTextSetFocus @bind-Value="@_formInput.Input"></InputTextSetFocus>
+            </div>
+
+        </EditForm>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mx-auto">
         <h2 class="text-center">@_message</h2>
     </div>
 </div>
 
-<div class="inputFieldScan">
-    <EditForm Model="_formInput" OnSubmit="@SubmitNFC">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <div class="form-group">
-            <InputTextSetFocus @bind-Value="@_formInput.Input"></InputTextSetFocus>
-        </div>
 
-    </EditForm>
-</div>
 
 @code {
     [Parameter]
-    public string Id {get;set;}
+    public string Id { get; set; }
 
-        private NFCInputModel _formInput = new NFCInputModel();
+    private NFCInputModel _formInput = new NFCInputModel();
 
     private string _message = "Please scan chip";
 
