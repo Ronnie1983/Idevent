@@ -7,7 +7,7 @@
 @layout NonAdminLayout
 
 <div class="row">
-    <h1 class="col-md-12 mx-auto" style="text-align:center;">Idevent</h1>
+    <h1 class="col-md-12 mx-auto text-center">Idevent</h1>
 </div>
 <ScanCircle CircleText="Ready" Color="#378DFF"/>
 <div class="row">
@@ -21,13 +21,10 @@
         <DataAnnotationsValidator />
         <ValidationSummary />
         <div class="form-group">
-            <label>NFC Read test</label>
             <InputTextSetFocus @bind-Value="@_formInput.Input"></InputTextSetFocus>
         </div>
 
     </EditForm>
-
-
 </div>
 
 @code {
