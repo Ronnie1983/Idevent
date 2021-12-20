@@ -9,7 +9,7 @@
 @inject NavigationManager _navigationManager
 @inject ChipRepository _chipRepository
 @inject ChipContentRepository _chipContentRepository
-
+@attribute [Authorize]
 
 
 @layout NonAdminLayout
@@ -23,24 +23,26 @@
 
 @if (_order != null)
 {
+    <div class="position-relative">
     <ScanCircle CircleText="Confirm" Color="#00C206" />
-    <div class="inputFieldScan">
-        <EditForm Model="_formInput" OnSubmit="@SubmitNFC">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-            <div class="form-group">
-                <label>NFC Read test</label>
-                <InputTextSetFocus @bind-Value="@_formInput.Input"></InputTextSetFocus>
-            </div>
+        <div class="inputFieldScan">
+            <EditForm Model="_formInput" OnSubmit="@SubmitNFC">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="form-group">
+                    <InputTextSetFocus @bind-Value="@_formInput.Input"></InputTextSetFocus>
+                </div>
 
-        </EditForm>
-        <div class="row">
-        <div class="col-md-12 mx-auto">
-            <h2 class="text-center">@_message</h2>
+            </EditForm>
         </div>
     </div>
-    </div>
+     <div class="row">
+            <div class="col-md-12 mx-auto">
+                <h2 class="text-center">@_message</h2>
+            </div>
+        </div>
     <div class="row">
+       
         <table class="table col-md-12 mx-auto">
             <thead>
                 <tr>
@@ -68,11 +70,12 @@
         </table>
     </div>
 }
-@if(_order == null){
+@if (_order == null)
+{
 
     <ScanCircle CircleText="Success" Color="#00C206" />
 
-   
+
     <div class="row">
         <div class="col-md-12 mx-auto">
             <h2 class="text-center">@_message</h2>
@@ -105,7 +108,7 @@
             </tbody>
         </table>
     </div>
-    
+
 }
 
 
@@ -116,7 +119,7 @@
     private HubConnection _hubConnection;
     public bool IsConnected => _hubConnection.State == HubConnectionState.Connected;
     private List<string> _messages = new List<string>();
-    private ChipModel _chip = null;
+    private ChipModel _chip;
     private List<StandProductModel> _order = null;
     private NFCInputModel _formInput = new NFCInputModel();
 
@@ -194,8 +197,17 @@
 
     public async Task SubmitNFC()
     {
-        await _hubConnection.SendAsync("AcceptOrder", TryConvert(Id));
-        _navigationManager.NavigateTo($"Success");
+        if (_chip.HashedId == _formInput.Input)
+        {
+            await _hubConnection.SendAsync("AcceptOrder", _formInput.Input);
+            _navigationManager.NavigateTo($"Success");
+        }
+        else
+        {
+            await _hubConnection.SendAsync("FailedOrder");
+            _navigationManager.NavigateTo("Error/Terminal");
+        }
+
 
     }
 }

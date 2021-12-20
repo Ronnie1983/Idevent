@@ -93,7 +93,7 @@ namespace IdeventAPI.Managers
         {
             try
             {
-                // Columns: Chips.Id, ValidFrom, ValidTo, ChipGroups.Id, ChipGroups.Name, Id, CompanyName, Email, Id, EventName
+                // Columns: Chips.Id, Chips.HashedId, ValidFrom, ValidTo, ChipGroups.Id, ChipGroups.Name, Id, CompanyName, Email, Id, EventName
                 string sql = "EXECUTE spGetChipById @Id";
                 var parameters = new { Id = id };
 

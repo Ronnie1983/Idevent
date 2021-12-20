@@ -79,10 +79,14 @@ a, .btn-link {
     font-size: 50px;
 }
 
-.inputFieldScan {
+.inputFieldScan { /* div "container" */
     top: 50%;
     left: 50%;
     position: absolute;
     z-index: 1;
-    transform: translate(-50%, -50%);
+}
+
+.inputFieldScan input{
+    width:0px;
+    height:0px;
 }

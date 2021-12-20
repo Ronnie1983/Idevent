@@ -25,7 +25,7 @@ namespace IdeventAdminBlazorServer.Hubs
             await Clients.Client(connectionId).SendAsync("FetchOrder",list);
         }
 
-        public async Task AcceptOrder(int input)
+        public async Task AcceptOrder(string input)
         {
             var user = Context.UserIdentifier;
             await Clients.User(user).SendAsync("ClientAccept", input);
@@ -34,6 +34,12 @@ namespace IdeventAdminBlazorServer.Hubs
         public async Task CancelTransaction(string connectionId)
         {
             await Clients.Client(connectionId).SendAsync("CancelOrder");
+        }
+
+        public async Task FailedOrder()
+        {
+            var user = Context.UserIdentifier;
+            await Clients.User(user).SendAsync("OperationCanceled");
         }
     }
 }
