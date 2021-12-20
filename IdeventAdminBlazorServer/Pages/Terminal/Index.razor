@@ -7,7 +7,7 @@
 @layout NonAdminLayout
 
 <div class="row">
-    <h1 class="col-md-12 mx-auto" style="text-align:center;">Idevent</h1>
+    <h1 class="col-md-12 mx-auto text-center">Idevent</h1>
 </div>
 <ScanCircle CircleText="Ready" Color="#378DFF"/>
 <div class="row">
@@ -34,7 +34,7 @@
     [Parameter]
     public string Id {get;set;}
 
-        private NFCInputModel _formInput = new NFCInputModel();
+    private NFCInputModel _formInput = new NFCInputModel();
 
     private string _message = "Please scan chip";
 
@@ -62,7 +62,10 @@
         _formInput = new NFCInputModel();
 
     }
-
+    public void Refocus()
+    {
+        StateHasChanged();
+    }
     public async Task<ChipModel> ChipExists(string chipId)
     {
         var result = await _chipRepository.GetBySecretId(chipId);
