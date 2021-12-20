@@ -7,6 +7,7 @@ using IdeventLibrary.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Bunit.TestDoubles;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace IdeventTests
 {
@@ -21,7 +22,6 @@ namespace IdeventTests
         [TestInitialize]
         public void Inititialise()
         {
-            
             _testContext.JSInterop.SetupVoid("BlazorFocusElement", _ => true);
             _testContext.Services.AddSingleton<CompanyRepository>(new CompanyRepository());
             _testContext.Services.AddSingleton<ChipRepository>(new ChipRepository());
@@ -35,9 +35,7 @@ namespace IdeventTests
             _testContext.Services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());
             _testContext.Services.AddAuthorization();
             
-
             _navManager = _testContext.Services.GetService<NavigationManager>();
-      
         }
         [TestMethod]
         public void DashboardIndexLoads()
@@ -141,7 +139,11 @@ namespace IdeventTests
         [TestMethod]
         public void TerminalFirstScanPage()
         {
-            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Terminal.Index>(), "Ready", "Terminal");
+            using var ctx = new Bunit.TestContext();
+
+            var authContext = ctx.AddTestAuthorization();
+            authContext.SetAuthorized("TEST USER", AuthorizationState.Authorized);
+            LoadPageTest(ctx.RenderComponent<IdeventAdminBlazorServer.Pages.Terminal.Index>(), "Ready", "Terminal");
         }
 
         [TestMethod]

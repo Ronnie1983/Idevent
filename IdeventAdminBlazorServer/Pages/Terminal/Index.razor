@@ -1,6 +1,7 @@
 ﻿@page "/Terminal"
 
 @using IdeventLibrary.Repositories
+@inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager _navigationManager
 
 
@@ -9,7 +10,7 @@
 <div class="row">
     <h1 class="col-md-12 mx-auto text-center">Idevent</h1>
 </div>
-<ScanCircle CircleText="Ready" Color="#378DFF"/>
+<ScanCircle CircleText="Ready" Color="#378DFF" />
 <div class="row">
     <div class="col-md-12 mx-auto">
         <h2 class="text-center">@_message</h2>
@@ -32,7 +33,7 @@
 
 @code {
     [Parameter]
-    public string Id {get;set;}
+    public string Id { get; set; }
 
     private NFCInputModel _formInput = new NFCInputModel();
 
@@ -40,9 +41,23 @@
 
     private ChipRepository _chipRepository = new ChipRepository();
 
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authState = await AuthProvider.GetAuthenticationStateAsync();
+        var userClaim = authState.User;
+    }
+
     public async Task SubmitNFC()
     {
-
+        AuthenticationState authState = await AuthProvider.GetAuthenticationStateAsync();
+        var userClaim = authState.User;
+        if (userClaim.Identity.Name == null)
+        {
+            _message = "Cannot continue before the operator has logged in.";
+            await Task.Delay(3000);
+            _message = "Please scan chip";
+            return;
+        }
         // do something
         ChipModel chip = await ChipExists(_formInput.Input);
         if (chip != null)
@@ -61,10 +76,6 @@
         // Reset the Model for new input.
         _formInput = new NFCInputModel();
 
-    }
-    public void Refocus()
-    {
-        StateHasChanged();
     }
     public async Task<ChipModel> ChipExists(string chipId)
     {

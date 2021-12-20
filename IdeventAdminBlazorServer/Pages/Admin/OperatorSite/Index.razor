@@ -160,8 +160,9 @@ else
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        _user = await _userRepository.GetByEmailAsync(user.Identity.Name);
+        var userClaim = authState.User;
+        
+        _user = await _userRepository.GetByEmailAsync(userClaim.Identity.Name);
         _events = await _eventRepository.GetAllByCompanyIdAsync(_user.Company.Id);
 
         _hubConnection = new HubConnectionBuilder()
