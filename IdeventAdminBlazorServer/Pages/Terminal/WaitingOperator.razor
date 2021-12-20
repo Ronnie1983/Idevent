@@ -24,7 +24,7 @@
 @if (_order != null)
 {
     <div class="position-relative">
-    <ScanCircle CircleText="Confirm" Color="#00C206" />
+        <ScanCircle CircleText="Confirm" Color="#00C206" />
         <div class="inputFieldScan">
             <EditForm Model="_formInput" OnSubmit="@SubmitNFC">
                 <DataAnnotationsValidator />
@@ -36,44 +36,50 @@
             </EditForm>
         </div>
     </div>
-     <div class="row">
-            <div class="col-md-12 mx-auto">
-                <h2 class="text-center">@_message</h2>
-            </div>
-        </div>
     <div class="row">
-       
-        <table class="table col-md-12 mx-auto">
-            <thead>
-                <tr>
-                    <td>Product</td>
-                    <td>Amount</td>
-                </tr>
-            </thead>
-            <tbody>
-                @if (_chip != null)
-                {
+        <div class="col-md-12 mx-auto">
+            <h2 class="text-center">@_message</h2>
+        </div>
+    </div>
+    <div class="row">
+        @if (_chip != null)
+        {
+            @if (_buyExists)
+            {
+                <div class="text-center">
+                    <h3>Buy</h3>
                     @foreach (var item in _order)
                     {
-                        @if (item.EventStandId == EventStandId)
+                        @if (item.EventStandId == EventStandId && item.Amount > 0)
                         {
-                            <tr>
-                                <td>@item.Name</td>
-                                <td>@item.Amount</td>
-                            </tr>
-
+                            <span>@item.Amount @item.Name</span>
                         }
                     }
-                }
+                </div>
 
-            </tbody>
-        </table>
+            }
+            @if (_useExists)
+            {
+                <div class="text-center">
+                    <h3>Use</h3>
+                    @foreach (var item in _order)
+                    {
+                        @if (item.EventStandId == EventStandId && item.Amount < 0)
+                        {
+                            <span>@(item.Amount * -1) @item.Name</span>
+                        }
+                    }
+                </div>
+            }
+
+
+        }
     </div>
 }
 @if (_order == null)
 {
 
-    <ScanCircle CircleText="Success" Color="#00C206" />
+    <ScanCircle CircleText="Standby" Color="#00C206" />
 
 
     <div class="row">
@@ -115,13 +121,15 @@
 @code {
     [Parameter]
     public string Id { get; set; }
-    private string _message = "Waiting operator";
+    private string _message = "Please wait for operator";
     private HubConnection _hubConnection;
     public bool IsConnected => _hubConnection.State == HubConnectionState.Connected;
     private List<string> _messages = new List<string>();
     private ChipModel _chip;
-    private List<StandProductModel> _order = null;
+    private List<StandProductModel> _order;
     private NFCInputModel _formInput = new NFCInputModel();
+    private bool _buyExists = false;
+    private bool _useExists = false;
 
     List<StandProductModel> _productList = new List<StandProductModel>();
 
@@ -155,10 +163,28 @@
         _hubConnection.On<List<StandProductModel>>("FetchOrder", async (data) =>
           {
               _order = data;
+              _message = "Please scan to confirm";
+              foreach (var d in data)
+              {
+                  if (d.EventStandId == EventStandId)
+                  {
+                      if (d.Amount < 0)
+                      {
+                          _useExists = true;
+
+                      }
+                      if (d.Amount > 0)
+                      {
+                          _buyExists = true;
+                      }
+
+                  }
+              }
               StateHasChanged();
           });
 
         await _hubConnection.StartAsync();
+
 
         //Sender en request til Hub funktionen AskForStand
         await _hubConnection.SendAsync("AskForStand", _chip);
