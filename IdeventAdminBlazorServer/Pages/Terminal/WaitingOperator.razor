@@ -1,4 +1,4 @@
-﻿@page "/chipContent/{id}"
+﻿@page "/chipContent/{ChipId}"
 
 @using IdeventLibrary.Repositories
 @using IdeventAdminBlazorServer.Common
@@ -114,7 +114,7 @@
 
 @code {
     [Parameter]
-    public string Id { get; set; }
+    public string ChipId { get; set; }
     private string _message = "Waiting operator";
     private HubConnection _hubConnection;
     public bool IsConnected => _hubConnection.State == HubConnectionState.Connected;
@@ -129,7 +129,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _chip = await _chipRepository.GetById(TryConvert(Id));
+        _chip = await _chipRepository.GetById(TryConvert(ChipId));
 
         //Opretter forbindelse til Hub
         _hubConnection = new HubConnectionBuilder()
