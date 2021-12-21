@@ -22,19 +22,7 @@ namespace IdeventTests
         [TestInitialize]
         public void Inititialise()
         {
-            _testContext.JSInterop.SetupVoid("BlazorFocusElement", _ => true);
-            _testContext.Services.AddSingleton<CompanyRepository>(new CompanyRepository());
-            _testContext.Services.AddSingleton<ChipRepository>(new ChipRepository());
-            _testContext.Services.AddSingleton<EventRepository>(new EventRepository());
-            _testContext.Services.AddSingleton<ChipGroupRepository>(new ChipGroupRepository());
-            _testContext.Services.AddSingleton<StandProductRepository>(new StandProductRepository());
-            _testContext.Services.AddSingleton<ChipContentRepository>(new ChipContentRepository());
-            _testContext.Services.AddSingleton<UserRepository>(new UserRepository());
-            _testContext.Services.AddSingleton<StandFunctionalityRepository>(new StandFunctionalityRepository());
-            _testContext.Services.AddSingleton<EventStandRepository>(new EventStandRepository());
-            _testContext.Services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());
-            _testContext.Services.AddAuthorization();
-            
+            SetServices(_testContext);
             _navManager = _testContext.Services.GetService<NavigationManager>();
         }
         [TestMethod]
@@ -161,9 +149,13 @@ namespace IdeventTests
         [TestMethod]
         public void TerminalWaitingForOperatorPage()
         {
-            var ctx = _testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Terminal.WaitingOperator>();
-            ctx.Instance.EventStandId = 1;
-            LoadPageTest(ctx, "Success", "chipContent/1");
+            using Bunit.TestContext ctx = new Bunit.TestContext();
+            var authContext = ctx.AddTestAuthorization();
+            authContext.SetAuthorized("TEST USER", AuthorizationState.Authorized);
+            SetServices(ctx);
+            var page = ctx.RenderComponent<IdeventAdminBlazorServer.Pages.Terminal.WaitingOperator>();
+            page.Instance.EventStandId = 1;
+            LoadPageTest(page, "Success", "chipContent/1");
         }
 
         /// <summary>
@@ -195,6 +187,20 @@ namespace IdeventTests
             // Assert
             Assert.IsTrue(containsExpected);
         }
-
+        private void SetServices(Bunit.TestContext context)
+        {
+            context.JSInterop.SetupVoid("BlazorFocusElement", _ => true);
+            context.Services.AddSingleton<CompanyRepository>(new CompanyRepository());
+            context.Services.AddSingleton<ChipRepository>(new ChipRepository());
+            context.Services.AddSingleton<EventRepository>(new EventRepository());
+            context.Services.AddSingleton<ChipGroupRepository>(new ChipGroupRepository());
+            context.Services.AddSingleton<StandProductRepository>(new StandProductRepository());
+            context.Services.AddSingleton<ChipContentRepository>(new ChipContentRepository());
+            context.Services.AddSingleton<UserRepository>(new UserRepository());
+            context.Services.AddSingleton<StandFunctionalityRepository>(new StandFunctionalityRepository());
+            context.Services.AddSingleton<EventStandRepository>(new EventStandRepository());
+            context.Services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());
+            context.Services.AddAuthorization();
+        }
     }
 }
