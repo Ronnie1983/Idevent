@@ -28,6 +28,15 @@
         {
             <PropertyDisplay PropertyName="Role" PropertyValue="No role"/>
         }
+        <PropertyDisplay PropertyName="Phone Number" PropertyValue="@(_profileData.PhoneNumber)"/>
+        @if(_profileData.Address != null)
+        {
+            <PropertyDisplay PropertyName="Address" PropertyValue="@(_profileData.Address.StreetAddress)"/>
+        }
+         @if(_profileData.InvoiceAddress != null)
+        {
+            <PropertyDisplay PropertyName="Invoice Address" PropertyValue="@(_profileData.InvoiceAddress.StreetAddress)"/>
+        }
     </section>
 }
 
