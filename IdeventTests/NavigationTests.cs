@@ -141,12 +141,6 @@ namespace IdeventTests
         }
 
         [TestMethod]
-        public void TerminalUserScanPage()
-        {
-            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Terminal.ReadyState>(), "Ready", "Ready/1");
-        }
-
-        [TestMethod]
         public void TerminalWaitingForOperatorPage()
         {
             using Bunit.TestContext ctx = new Bunit.TestContext();
