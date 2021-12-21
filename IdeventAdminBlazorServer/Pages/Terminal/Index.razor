@@ -69,14 +69,7 @@
         ChipModel chip = await ChipExists(_formInput.Input);
         if (chip != null)
         {
-            DateTimeOffset today = DateTimeOffset.Now.Date;
-            int dateFromCheck = DateTimeOffset.Compare(today, chip.ValidFrom.Date);
-            int dateToCheck = DateTimeOffset.Compare(today, chip.ValidTo.Date);
-            bool chipIsActive = false;
-            if (dateFromCheck >= 0 && dateToCheck <= 0)
-            {
-                chipIsActive = true; 
-            }
+            bool chipIsActive = CheckIfChipIsActive(chip.ValidFrom, chip.ValidTo);
             if (chipIsActive)
             {
                 _navigationManager.NavigateTo($"chipContent/{chip.Id}");
@@ -101,5 +94,17 @@
     {
         var result = await _chipRepository.GetBySecretId(chipId);
         return result;
+    }
+    private bool CheckIfChipIsActive(DateTimeOffset validFrom, DateTimeOffset validTo)
+    {
+        DateTimeOffset today = DateTimeOffset.Now.Date;
+        int dateFromCheck = DateTimeOffset.Compare(today, validFrom.Date);
+        int dateToCheck = DateTimeOffset.Compare(today, validTo.Date);
+        bool chipIsActive = false;
+        if (dateFromCheck >= 0 && dateToCheck <= 0)
+        {
+            chipIsActive = true; 
+        }
+        return chipIsActive;
     }
 }
