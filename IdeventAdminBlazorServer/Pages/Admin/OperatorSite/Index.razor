@@ -6,117 +6,263 @@
 @inject EventStandRepository _eventStandRepository
 @inject EventRepository _eventRepository
 @inject UserRepository _userRepository
+@inject ChipRepository _chipRepository
+@inject ChipContentRepository _chipContentRepository
+@inject StandProductRepository _standProductRepository
 @inject AuthenticationStateProvider AuthenticationStateProvider
+
 @attribute [Authorize]
+
 @page "/OperatorSite"
 
 <h1>Operator's Site</h1>
-@if(_bindStandId == 0)
+<div>
+    @foreach (string message in _messages)
+    {
+        <div class="alert alert-danger">
+            @message
+        </div>
+    }
+</div>
+@if (_bindStandId == 0)
 {
-    <SelectEvent OnChangeCallback=ChangeEvent Events=_events/>
-    <SelectStands OnChangeCallback=ChangeStand EventStands=_eventStandList/>
-} else
+    <SelectEvent OnChangeCallback=ChangeEvent Events=_events />
+    <SelectStands OnChangeCallback=ChangeStand EventStands=_eventStandList />
+}
+else
 {
     <h4>Stand: @_eventStandList.Find(x => x.Id.Equals(_bindStandId)).Name</h4>
 }
 
-
-
 <div>
-    <h3>Content</h3>
-    
-    @if(_customerChip != null)
-        {
-    <div class="row bg-success">
-        <h3>Chip id: @_customerChip.Id</h3>
-    <table class="table col-md-12 mx-auto">
-    <thead>
-        <tr>
-            <td>Product</td>
-            <td>Amount</td>
-        </tr>
-    </thead>
-    <tbody>
-        
-            
-               @foreach(var item in _customerChip.StandProducts)
-               {
-                    @if(item.EventStandModel.Id == _bindStandId)
-                    {
-                           <tr>
-                                <td>@item.Name</td>
-                                <td>@item.Amount</td>
-                            </tr> 
 
-                    }
-               }
-        
-     
-    </tbody>
-            </table>
+    @if (_customerChip != null)
+    {
+        <div class="row">
+            <div class="bgRedTint col-lg-5 me-1 mb-2 pb-2">
+                <h2 class="text-center mt-2">Scanned Chip</h2>
+                <div class="d-flex justify-content-center">
+                    <div>
+                        <div>
+                            <label class="largeLabel">Chip ID: </label>
+                            <span>@_customerChip.Id</span>
+                        </div>
+                        <h3>Chip Content</h3>
+                        <div class="displayGrid">
+                            @foreach (var item in _customerChip.StandProducts)
+                            {
+                                @if (item.EventStandModel.Id == _bindStandId)
+                                {
+                                    <div>
+                                        <span>@item.Name</span>
+                                    </div>
+                                    <div>
+                                        <span>@item.Amount.ToString()x</span>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
-        } else
-        {
-         <div class="row bg-warning">
-              <h4>No chip scannet</h4>
-         </div>
-        }
+            @if (!_orderSent)
+            {
+                <div class="bgRedTint col-lg-6 mb-2">
+                    <h2 class="text-center mt-2">Modify Chip Content</h2>
+                    <div class="d-flex justify-content-center">
+                        <EditForm Model="_productsToBuyAndSell" OnValidSubmit="HandleValidSubmitChip">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
+                            <table class="text-center tableSmallInput">
+                                <thead>
+                                    <tr>
+                                        <th>Event product</th>
+                                        <th>-</th>
+                                        <th>Amounts</th>
+                                        <th>+</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var product in _productsToBuyAndSell)
+                                    {
+                                        <tr>
+                                            <td>@product.Name</td>
+                                            <td class="px-2">
+                                                <button type="button" class="bg-danger fw-bold customCircleBtn" @onclick="() => {product.Amount--;}">-</button>
+                                            </td>
+                                            <td><input class="text-center" @bind-value="@product.Amount" /></td>
+                                            <td class="px-2">
+                                                <button type="button" class="bg-success fw-bold customCircleBtn" @onclick="() => {product.Amount++;}">+</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-primary m-4">Submit</button>
+                                
+                            </div>
+                        </EditForm>
+                    </div>
+                </div>
+
+            }
+            else
+            {
+                <div class="bgRedTint col-lg-6 mb-2">
+                    <h3 class="text-center">Bestilling (afventer bekræftelse)</h3>
+                    <table class="table text-center">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+
+                                <th>Amounts</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in _productsToBuyAndSell)
+                            {
+                                <tr>
+                                    <td>@product.Name</td>
+
+                                    <td>@product.Amount</td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            <div class="col-11">
+                <button type="button" class="btn btn-danger mx-auto w-100" @onclick="@(e => Cancel())">Cancel</button>
+            </div>
+        </div> <!-- Row closing div -->
+    }
+    else
+    {
+        <div class="height500 bg-warning d-flex justify-content-center align-items-center">
+            <h2 class="text-center">Awaiting Chip Scan</h2>
+        </div>
+    }
 
 </div>
-<div>
-
-</div>
 
 
 
-    @code {
-        private List<EventStandModel> _eventStandList = new List<EventStandModel>();
-        private UserModel _user;
-        private int _bindStandId;
-        private int _bindEventId;
-        private HubConnection _hubConnection;
-        private List<string> _messages = new List<string>();
-        private List<EventModel> _events = new List<EventModel>();
-        private ChipModel _customerChip;
+
+
+@code {
+    private List<EventStandModel> _eventStandList = new List<EventStandModel>();
+    private UserModel _user;
+    private int _bindStandId;
+    private int _bindEventId;
+    private RenderFragment _displayMessage;
+    private HubConnection _hubConnection;
+    private List<string> _messages = new List<string>();
+    private List<EventModel> _events = new List<EventModel>();
+    private ChipModel _customerChip;
+    private List<StandProductModel> _productsToBuyAndSell;
+    private string _connectionId;
+    private bool _orderSent = false;
+
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        _user = await _userRepository.GetByEmailAsync(user.Identity.Name);
+        var userClaim = authState.User;
+
+        _user = await _userRepository.GetByEmailAsync(userClaim.Identity.Name);
         _events = await _eventRepository.GetAllByCompanyIdAsync(_user.Company.Id);
 
         _hubConnection = new HubConnectionBuilder()
-            .WithUrl(NavigationManager.ToAbsoluteUri("/connectionhub"),options =>
-                {
-                   options.UseDefaultCredentials = true;
-               })
-            .Build();
+        .WithUrl(NavigationManager.ToAbsoluteUri("/connectionhub"), options =>
+        {
+            options.UseDefaultCredentials = true;
+        })
+        .Build();
 
-        _hubConnection.On<string,ChipModel>("RecieveStand", (id,chip) =>
+        _hubConnection.On<string>("ClientAccept", async (input) =>
+        {
+            await _chipContentRepository.CreateAndUpdateMultipleAsync(_productsToBuyAndSell, _customerChip.Id);
+            _orderSent = false;
+            _customerChip = null;
+            _productsToBuyAndSell = await _standProductRepository.GetAllProductsByStandIdAsync(_bindStandId);
+            StateHasChanged();
+        });
+
+        _hubConnection.On<string, ChipModel>("RecieveStand", (id, chip) =>
         {
             _hubConnection.SendAsync("SendSelectedStand", _bindStandId, id);
             _customerChip = chip;
+            _connectionId = id;
+            StateHasChanged();
+        });
+
+        _hubConnection.On("OperationCanceled", async () =>
+        {
+            _orderSent = false;
+            _customerChip = null;
+            _productsToBuyAndSell = await _standProductRepository.GetAllProductsByStandIdAsync(_bindStandId);
             StateHasChanged();
         });
 
         await _hubConnection.StartAsync();
     }
 
-    private void ChangeStand(ChangeEventArgs e)
+    private async Task ChangeStand(ChangeEventArgs e)
     {
         _bindStandId = Convert.ToInt32(e.Value);
-
+        _productsToBuyAndSell = await _standProductRepository.GetAllProductsByStandIdAsync(_bindStandId);
+        StateHasChanged();
     }
 
     private async Task ChangeEvent(ChangeEventArgs e)
     {
         _bindEventId = Convert.ToInt32(e.Value);
         _eventStandList = await _eventStandRepository.GetAllByEventIdAsync(_bindEventId);
-        StateHasChanged();
-        
 
+        StateHasChanged();
     }
 
+    private async Task HandleValidSubmitChip()
+    {
+        bool ok = true;
+        foreach (var product in _productsToBuyAndSell)
+        {
+            foreach (var productOnChip in _customerChip.StandProducts)
+            {
 
+                if (product.Id == productOnChip.Id && (product.Amount + productOnChip.Amount) <0)
+                {
+                    ok = false;
+                    break;
+                }
+            }
+            if(ok == false)
+            {
+                break;
+            }
+
+        }
+        if (ok == false)
+        {
+            _messages.Add("Not enough products on chip for that order!");
+            return;
+        }
+        await _hubConnection.SendAsync("SendOrder", _productsToBuyAndSell, _connectionId);
+        _messages.Clear();
+        _orderSent = true;
+        StateHasChanged();
+
+    }
+    private async Task Cancel()
+    {
+        await _hubConnection.SendAsync("CancelTransaction", _connectionId);
+        _orderSent = false;
+        _customerChip = null;
+        _productsToBuyAndSell = await _standProductRepository.GetAllProductsByStandIdAsync(_bindStandId);
+        StateHasChanged();
+
+    }
 }

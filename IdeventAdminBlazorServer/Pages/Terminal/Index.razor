@@ -1,72 +1,95 @@
 ﻿@page "/Terminal"
+
 @using IdeventLibrary.Repositories
-@using Microsoft.AspNetCore.SignalR.Client
+@inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager _navigationManager
 
 
 @layout NonAdminLayout
 
 <div class="row">
-    <h1 class="col-md-12 mx-auto" style="text-align:center;">Idevent</h1>
+    <h1 class="col-md-12 mx-auto text-center">Idevent</h1>
 </div>
-<ScanCircle CircleText="Ready" Color="#EAF676"/>
+<div class="position-relative">
+    <ScanCircle CircleText="@_circleText" Color="@_circleColor" />
+    <div class="inputFieldScan">
+        <EditForm Model="_formInput" OnSubmit="@SubmitNFC">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group">
+                <InputTextSetFocus @bind-Value="@_formInput.Input"></InputTextSetFocus>
+            </div>
+        </EditForm>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 mx-auto">
         <h2 class="text-center">@_message</h2>
     </div>
 </div>
 
-<div class="inputFieldScan">
-    <EditForm Model="_formInput" OnSubmit="@SubmitNFC">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <div class="form-group">
-            
-            <InputTextSetFocus @bind-Value="@_formInput.Input"></InputTextSetFocus>
-        </div>
-
-    </EditForm>
-
-
-</div>
 
 
 @code {
-    private string _keyInput;
-
+    [Parameter]
+    public string Id { get; set; }
+    private string _circleText = "Ready";
+    private string _circleColor = "#378DFF";
     private NFCInputModel _formInput = new NFCInputModel();
 
-    private string _message = "Please scan chip to login";
+    private string _message = "Please scan chip";
 
     private ChipRepository _chipRepository = new ChipRepository();
 
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authState = await AuthProvider.GetAuthenticationStateAsync();
+        var userClaim = authState.User;
+        if (userClaim.Identity.Name == null)
+        {
+            _circleText = "Awaiting operator";
+            _circleColor = "yellow";
+            _message = "Wait for the operator to login";
+            return;
+        }
+        _circleText = "Ready";
+        _circleColor = "#378DFF";
+        _message = "Please scan chip";
+    }
+
     public async Task SubmitNFC()
     {
-
+        AuthenticationState authState = await AuthProvider.GetAuthenticationStateAsync();
+        var userClaim = authState.User;
+        if (userClaim.Identity.Name == null)
+        {
+            _message = "Cannot continue before the operator has logged in.";
+            await Task.Delay(3000);
+            _message = "Please scan chip";
+            return;
+        }
         // do something
         ChipModel chip = await ChipExists(_formInput.Input);
         if (chip != null)
         {
-            // TODO: Validere om chip tilhører en opperator til event
+            // TODO: Validere om chip tilhører eventet
             if (true)
             {
-                _navigationManager.NavigateTo($"Ready/{chip.Id}");
+                _navigationManager.NavigateTo($"chipContent/{chip.Id}");
             }
         }
         else
         {
-            _navigationManager.NavigateTo($"Error/Terminal");
+            _navigationManager.NavigateTo($"Error/Ready/{Id}");
         }
 
         // Reset the Model for new input.
         _formInput = new NFCInputModel();
 
     }
-
     public async Task<ChipModel> ChipExists(string chipId)
     {
         var result = await _chipRepository.GetBySecretId(chipId);
         return result;
     }
-
 }

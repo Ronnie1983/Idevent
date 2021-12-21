@@ -59,6 +59,16 @@ namespace IdeventAPI.Controllers
             return BadRequest(contentsToBeCreated);
         }
 
+        [HttpPost("MultipleCreateAndUpdate")]
+        public IActionResult CreateAndUpdateMultiple([FromBody] List<ChipContentModel> contentsToBeCreated)
+
+        {
+            bool success = _chipContentManager.CreateAndUpdateMultiple(contentsToBeCreated);
+            if (success) return Ok(success);
+
+            return BadRequest(contentsToBeCreated);
+        }
+
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {

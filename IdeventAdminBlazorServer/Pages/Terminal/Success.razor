@@ -1,0 +1,31 @@
+﻿@page "/Success"
+@attribute [Authorize]
+
+@layout NonAdminLayout
+@inject NavigationManager _navigationManager
+
+<div class="row">
+    <h1 class="col-md-12 mx-auto text-center">Idevent</h1>
+</div>
+<ScanCircle CircleText="Success" Color="#00C206"/>
+<div class="row">
+    <div class="col-md-12 mx-auto">
+        <h2 class="text-center">@_message</h2>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Destination { get; set; }
+
+    [Parameter]
+    public string Id { get; set; }
+
+    private string _message = "Success, Recieve products and have a good day";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await Task.Delay(5000);
+        _navigationManager.NavigateTo("Terminal");
+    }
+}

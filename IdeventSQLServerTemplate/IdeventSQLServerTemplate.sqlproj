@@ -133,6 +133,8 @@
     <Build Include="dbo\StoredProcedures\spCreateChipContent.sql" />
     <Build Include="dbo\StoredProcedures\spCreateStandFunctionality.sql" />
     <Build Include="dbo\StoredProcedures\spGetStandFunctionalityById.sql" />
+    <Build Include="dbo\StoredProcedures\spUpdateChipContent.sql" />
+    <Build Include="dbo\StoredProcedures\spGetChipContentByStandProductIdAndChipId.sql" />
     <Build Include="dbo\Tables\Addresses.sql" />
     <Build Include="dbo\Tables\Companies.sql" />
   </ItemGroup>
