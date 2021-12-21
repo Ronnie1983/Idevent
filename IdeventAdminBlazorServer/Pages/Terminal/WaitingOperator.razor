@@ -232,9 +232,8 @@
         else
         {
             await _hubConnection.SendAsync("FailedOrder");
-            _navigationManager.NavigateTo("Error/Terminal");
+            string errorMessage = "Wrong chip. Try again.";
+            _navigationManager.NavigateTo($"Error/Terminal/{errorMessage}");
         }
-
-
     }
 }
