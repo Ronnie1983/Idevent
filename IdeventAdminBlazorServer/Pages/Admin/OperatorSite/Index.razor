@@ -16,6 +16,14 @@
 @page "/OperatorSite"
 
 <h1>Operator's Site</h1>
+<div>
+    @foreach (string message in _messages)
+    {
+        <div class="alert alert-danger">
+            @message
+        </div>
+    }
+</div>
 @if (_bindStandId == 0)
 {
     <SelectEvent OnChangeCallback=ChangeEvent Events=_events />
@@ -92,7 +100,7 @@ else
                             </table>
                             <div class="d-flex justify-content-center">
                                 <button type="submit" class="btn btn-primary m-4">Submit</button>
-                                <button type="button" class="btn btn-danger m-4" @onclick="@(e => Cancel())">Cancel</button>
+                                
                             </div>
                         </EditForm>
                     </div>
@@ -126,6 +134,9 @@ else
                     </table>
                 </div>
             }
+            <div class="col-11">
+                <button type="button" class="btn btn-danger mx-auto w-100" @onclick="@(e => Cancel())">Cancel</button>
+            </div>
         </div> <!-- Row closing div -->
     }
     else
@@ -216,8 +227,31 @@ else
 
     private async Task HandleValidSubmitChip()
     {
+        bool ok = true;
+        foreach (var product in _productsToBuyAndSell)
+        {
+            foreach (var productOnChip in _customerChip.StandProducts)
+            {
 
+                if (product.Id == productOnChip.Id && (product.Amount + productOnChip.Amount) <0)
+                {
+                    ok = false;
+                    break;
+                }
+            }
+            if(ok == false)
+            {
+                break;
+            }
+
+        }
+        if (ok == false)
+        {
+            _messages.Add("Not enough products on chip for that order!");
+            return;
+        }
         await _hubConnection.SendAsync("SendOrder", _productsToBuyAndSell, _connectionId);
+        _messages.Clear();
         _orderSent = true;
         StateHasChanged();
 

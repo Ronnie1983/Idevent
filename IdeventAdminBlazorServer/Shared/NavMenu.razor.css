@@ -51,8 +51,6 @@
         }
 
 .nav-item-logout {
-    align-self: center;
-    position: absolute;
     bottom: 1rem;
     width: 100%;
 }

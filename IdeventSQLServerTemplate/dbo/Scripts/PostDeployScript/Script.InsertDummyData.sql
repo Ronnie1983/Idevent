@@ -11,23 +11,23 @@ Post-Deployment Script Template
 */
 
 /* Address Data */
-IF NOT EXISTS (SELECT * FROM AddressModel
-               WHERE AddressModel.StreetAddress = 'Demo Addresstreet 123' OR
-               AddressModel.StreetAddress = 'Demo Street 2B')
+IF NOT EXISTS (SELECT * FROM Addresses
+               WHERE Addresses.StreetAddress = 'Demo Addresstreet 123' OR
+               Addresses.StreetAddress = 'Demo Street 2B')
           
 BEGIN
-    INSERT INTO dbo.AddressModel(StreetAddress, City, Country, PostalCode)
+    INSERT INTO dbo.Addresses(StreetAddress, City, Country, PostalCode)
     VALUES ('Demo Addresstreet 123', 'København N', 'Denmark', '2200'), 
             ('Demo Street 2B', 'Skævinge', 'Denmark', '3320')
 
 
 /* Company Data */
-    IF NOT EXISTS (SELECT * FROM CompanyModel
-               WHERE CompanyModel.Name = 'Demo Company' OR 
-               CompanyModel.Name = 'Demo Company 2')
-    INSERT INTO CompanyModel (CompanyModel.Name, CVR, PhoneNumber, Email, Logo, Note, Active, AddressId, InvoiceAddressId)
-    VALUES ('Demo Company', '12345678', '+45 55 33 22 11','demo@mail.dk', 'images/logo-1' ,'Nem at snakke med', 1, 1, 1), 
-            ('Demo Company 2', '87654321', '+45 99 99 99 99','demo2@mail.dk', 'images/logo-2' ,'', 0, 1, 1)
+    IF NOT EXISTS (SELECT * FROM Companies
+               WHERE Companies.Name = 'Demo Company' OR 
+               Companies.Name = 'Demo Company 2')
+    INSERT INTO Companies (Companies.Name, CVR, PhoneNumber, Email, Logo, Note, Active, AddressId, InvoiceAddressId)
+    VALUES ('Demo Company', 'demo@mail.dk', 1, 1,'12345678', '+45 55 33 22 11','Nem at snakke med', 1,'images/logo-1')
+            
 
 /* Event Data */ 
     IF NOT EXISTS (SELECT * FROM Events
