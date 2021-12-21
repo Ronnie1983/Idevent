@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using IdeventLibrary;
 
 namespace IdeventAdminBlazorServer.Areas.Identity.Pages.Account
 {
@@ -22,16 +23,19 @@ namespace IdeventAdminBlazorServer.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<UserModel> _signInManager;
         private readonly UserManager<UserModel> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<UserModel> userManager,
             SignInManager<UserModel> signInManager,
+            RoleManager<IdentityRole> roleManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
@@ -91,6 +95,23 @@ namespace IdeventAdminBlazorServer.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    #region Our modifications
+                    if (_roleManager.SupportsQueryableRoles)
+                    {
+                        List<IdentityRole> roles = _roleManager.Roles.ToList();
+                        if (roles.Exists(x => x.Name == "User") == false)
+                        {
+                            await _roleManager.CreateAsync(new IdentityRole(Enums.Roles.SuperAdmin.ToString()));
+                            await _roleManager.CreateAsync(new IdentityRole(Enums.Roles.Admin.ToString()));
+                            await _roleManager.CreateAsync(new IdentityRole(Enums.Roles.Operator.ToString()));
+                            await _roleManager.CreateAsync(new IdentityRole(Enums.Roles.User.ToString()));
+                        }
+
+                        await _userManager.AddToRoleAsync(user, Enums.Roles.User.ToString());
+                    }
+                   
+                    #endregion
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

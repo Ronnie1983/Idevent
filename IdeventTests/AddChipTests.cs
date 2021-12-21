@@ -58,6 +58,8 @@ namespace IdeventTests
 
         //    // Assert
         //    page.Markup.Contains(eventSelectMarkup);
+        //    //page.WaitForAssertion(() => page.Markup.Contains(eventSelectMarkup), timeout: TimeSpan.FromSeconds(2));
+        //    page.Markup.Contains(eventSelectMarkup);
         //}
     }
 }

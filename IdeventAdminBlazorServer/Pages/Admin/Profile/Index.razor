@@ -5,48 +5,73 @@
 
 @using IdeventLibrary.Repositories
 @using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Identity
 
+@inject AuthenticationStateProvider _authenticationStateProvider
 @inject NavigationManager _navigationManager
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor _httpContextAccessor
+@inject UserManager<UserModel> _userManager
+
 
 <h1>Profile</h1>
 
-@if (_profileData != null)
+    @if (_profileData != null)
 {
     <section>
-        <PropertyDisplay PropertyName="Id" PropertyValue="@(_profileData.Id)"/>
-        <PropertyDisplay PropertyName="Email" PropertyValue="@(_profileData.Email)"/>
+        <PropertyDisplay PropertyName="Id" PropertyValue="@(_profileData.Id)" />
+        <PropertyDisplay PropertyName="Email" PropertyValue="@(_profileData.Email)" />
+        @if (!String.IsNullOrWhiteSpace(_profileData.Role))
+        {
+            <PropertyDisplay PropertyName="Role" PropertyValue="@(_profileData.Role)" />
+        }
+        else
+        {
+            <PropertyDisplay PropertyName="Role" PropertyValue="No role"/>
+        }
+        <PropertyDisplay PropertyName="Phone Number" PropertyValue="@(_profileData.PhoneNumber)"/>
+        @if(_profileData.Address != null)
+        {
+            <PropertyDisplay PropertyName="Address" PropertyValue="@(_profileData.Address.StreetAddress)"/>
+        }
+         @if(_profileData.InvoiceAddress != null)
+        {
+            <PropertyDisplay PropertyName="Invoice Address" PropertyValue="@(_profileData.InvoiceAddress.StreetAddress)"/>
+        }
     </section>
 }
 
-<br/>
-
-<NavigateButton PageToNavigateTo="Home" ButtonText="Back"/>
+<AuthorizeView Roles="User">
+    <p> You are not allowed here</p>
+</AuthorizeView>
+<br />
+<NavigateButton PageToNavigateTo="Home" ButtonText="Back" />
 
 
 @code {
     [Parameter]
-
     public string Id { get; set; }
     private string _key;
+    private UserModel _profileData;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            _key = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            AuthenticationState authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            ClaimsPrincipal userClaim = authState.User;
+            UserModel user = await _userManager.GetUserAsync(userClaim);
+            var roles = await _userManager.GetRolesAsync(user);
 
+            string role = roles.First();
             UserRepository userRepo = new UserRepository();
 
-            _profileData = await userRepo.GetUserById(_key);
+            _profileData = user;
+            _profileData.Role = role;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
         }
     }
-
-    private UserModel _profileData;
-
 
 }

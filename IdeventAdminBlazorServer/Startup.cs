@@ -42,8 +42,9 @@ namespace IdeventAdminBlazorServer
                 options.UseSqlServer(
                     AppSettings.ConnectionString)); // AppSettings.ConnectionString should be switched when publishing.
             services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+          
             // custom injections
             services.AddSingleton<CompanyRepository>();
             services.AddSingleton<ChipRepository>();

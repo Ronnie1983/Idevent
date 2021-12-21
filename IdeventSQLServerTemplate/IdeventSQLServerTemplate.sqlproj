@@ -125,10 +125,10 @@
     <Build Include="dbo\StoredProcedures\spCreateEvent.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllEventsByCompanyId.sql" />
     <Build Include="dbo\StoredProcedures\spGetStandProductAndContentByChipId.sql" />
-    <Build Include="dbo\StoredProcedures\GetUserById.sql" />
     <Build Include="dbo\StoredProcedures\spGetUserByEmail.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllChipGroupsByEventId.sql" />
     <Build Include="dbo\StoredProcedures\spGetChipGroupById.sql" />
+    <Build Include="dbo\StoredProcedures\spGetUserById.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllProductsByEventId.sql" />
     <Build Include="dbo\StoredProcedures\spCreateChipContent.sql" />
     <Build Include="dbo\StoredProcedures\spCreateStandFunctionality.sql" />
