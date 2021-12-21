@@ -47,12 +47,12 @@
             @if (_buyExists)
             {
                 <div class="text-center">
-                    <h3>Buy</h3>
+                    <h3>Adding to chip</h3>
                     @foreach (var item in _order)
                     {
                         @if (item.EventStandId == EventStandId && item.Amount > 0)
                         {
-                            <span>@item.Amount @item.Name</span>
+                            <span>@item.Amount @item.Name</span><br />
                         }
                     }
                 </div>
@@ -61,12 +61,12 @@
             @if (_useExists)
             {
                 <div class="text-center">
-                    <h3>Use</h3>
+                    <h3>Removing from chip</h3>
                     @foreach (var item in _order)
                     {
                         @if (item.EventStandId == EventStandId && item.Amount < 0)
                         {
-                            <span>@(item.Amount * -1) @item.Name</span>
+                            <span>@(item.Amount * -1) @item.Name</span><br />
                         }
                     }
                 </div>
