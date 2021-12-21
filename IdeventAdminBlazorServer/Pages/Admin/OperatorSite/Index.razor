@@ -100,7 +100,7 @@ else
                             </table>
                             <div class="d-flex justify-content-center">
                                 <button type="submit" class="btn btn-primary m-4">Submit</button>
-                                
+
                             </div>
                         </EditForm>
                     </div>
@@ -141,9 +141,19 @@ else
     }
     else
     {
-        <div class="height500 bg-warning d-flex justify-content-center align-items-center">
-            <h2 class="text-center">Awaiting Chip Scan</h2>
-        </div>
+        if (_bindEventId == 0 || _bindStandId == 0)
+        {
+            <div class="height500 bg-secondary d-flex justify-content-center align-items-center">
+                <h2 class="text-center">Select Stand and Event</h2>
+            </div>
+        }
+        else
+        {
+            <div class="height500 bg-warning d-flex justify-content-center align-items-center">
+                <h2 class="text-center">Awaiting Chip Scan</h2>
+            </div>
+        }
+
     }
 
 </div>
@@ -233,13 +243,13 @@ else
             foreach (var productOnChip in _customerChip.StandProducts)
             {
 
-                if (product.Id == productOnChip.Id && (product.Amount + productOnChip.Amount) <0)
+                if (product.Id == productOnChip.Id && (product.Amount + productOnChip.Amount) < 0)
                 {
                     ok = false;
                     break;
                 }
             }
-            if(ok == false)
+            if (ok == false)
             {
                 break;
             }
