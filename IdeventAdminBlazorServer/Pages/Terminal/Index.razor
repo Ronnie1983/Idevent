@@ -31,8 +31,6 @@
 
 
 @code {
-    [Parameter]
-    public string Id { get; set; }
     private string _circleText = "Ready";
     private string _circleColor = "#378DFF";
     private NFCInputModel _formInput = new NFCInputModel();
@@ -68,19 +66,31 @@
             _message = "Please scan chip";
             return;
         }
-        // do something
         ChipModel chip = await ChipExists(_formInput.Input);
         if (chip != null)
         {
-            // TODO: Validere om chip tilhører eventet
-            if (true)
+            DateTimeOffset today = DateTimeOffset.Now.Date;
+            int dateFromCheck = DateTimeOffset.Compare(today, chip.ValidFrom.Date);
+            int dateToCheck = DateTimeOffset.Compare(today, chip.ValidTo.Date);
+            bool chipIsActive = false;
+            if (dateFromCheck >= 0 && dateToCheck <= 0)
+            {
+                chipIsActive = true; 
+            }
+            if (chipIsActive)
             {
                 _navigationManager.NavigateTo($"chipContent/{chip.Id}");
+            }
+            else
+            {
+                _message = $"Chip is not active (Active between {chip.ValidFrom.Date:d} - {chip.ValidTo.Date:d})";
+                _navigationManager.NavigateTo($"Error/Terminal/{_message}");
             }
         }
         else
         {
-            _navigationManager.NavigateTo($"Error/Ready/{Id}");
+            _message = $"Invalid chip. Contact administrator.";
+            _navigationManager.NavigateTo($"Error/Terminal/{_message}");
         }
 
         // Reset the Model for new input.

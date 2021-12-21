@@ -155,7 +155,7 @@ namespace IdeventTests
             SetServices(ctx);
             var page = ctx.RenderComponent<IdeventAdminBlazorServer.Pages.Terminal.WaitingOperator>();
             page.Instance.EventStandId = 1;
-            LoadPageTest(page, "Success", "chipContent/1");
+            LoadPageTest(page, "Standby", "chipContent/1");
         }
 
         /// <summary>

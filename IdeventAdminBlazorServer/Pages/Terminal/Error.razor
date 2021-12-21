@@ -1,4 +1,5 @@
-﻿@page "/Error/{destination}/{id}"
+﻿@page "/Error/{destination}/{Message}"
+@page "/Error/{destination}/{Message}/{Id}"
 @page "/Error/{destination}"
 @layout NonAdminLayout
 @inject NavigationManager _navigationManager
@@ -8,8 +9,8 @@
 </div>
 <ScanCircle CircleText="Error" Color="RED"/>
 <div class="row">
-    <div class="col-md-12 mx-auto">
-        <h2 class="text-center">@_message</h2>
+    <div class="alert alert-warning mt-2">
+        @Message
     </div>
 </div>
 
@@ -20,7 +21,8 @@
     [Parameter]
     public string Id { get; set; }
 
-    private string _message = "Something went wrong, try again";
+    [Parameter]
+    public string Message { get; set; } = "Something went wrong, try again";
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
