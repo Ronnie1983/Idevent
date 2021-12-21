@@ -93,7 +93,7 @@
                 </tr>
             </thead>
             <tbody>
-                @if (_chip != null)
+                @if (_chip != null && _productList != null)
                 {
                     @foreach (var item in _productList)
                     {
@@ -107,7 +107,6 @@
                         }
                     }
                 }
-
             </tbody>
         </table>
     </div>
@@ -129,7 +128,7 @@
     private bool _buyExists = false;
     private bool _useExists = false;
 
-    List<StandProductModel> _productList = new List<StandProductModel>();
+    List<StandProductModel> _productList; 
 
     public int EventStandId { get; set; }
 
@@ -150,7 +149,6 @@
         {
             EventStandId = stand;
             await GetProducts();
-            StateHasChanged();
         });
 
         _hubConnection.On("CancelOrder", () =>
@@ -178,7 +176,7 @@
 
                   }
               }
-              StateHasChanged();
+              await InvokeAsync(StateHasChanged);
           });
 
         await _hubConnection.StartAsync();
@@ -186,13 +184,12 @@
 
         //Sender en request til Hub funktionen AskForStand
         await _hubConnection.SendAsync("AskForStand", _chip);
-
     }
 
     private async Task GetProducts()
     {
         _productList = await _chipContentRepository.GetAllContentByStandIdAndChipIdAsync(_chip.Id, EventStandId);
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     private int TryConvert(string value)
