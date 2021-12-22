@@ -1,7 +1,15 @@
 ﻿@page "/CompanyEdit/{CompanyId}"
 
+@attribute [Authorize]
+@using IdeventLibrary
 @using IdeventLibrary.Repositories
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Identity
+
 @inject NavigationManager _navigationManager
+@inject UserManager<UserModel> _userManager
+@inject AuthenticationStateProvider _authenticationStateProvider
 
 <h1>Edit Company</h1>
 
@@ -10,6 +18,13 @@
     <ValidationSummary />
     <div class="row">
         <div class="col-12 p-2">
+            <AuthorizeView Context="Auth" Roles="@Enums.Roles.SuperAdmin.ToString()">
+                <div class="form-group">
+                    <label for="@_companyReq.Active">Is active</label>
+                    <InputCheckbox @bind-Value="_companyReq.Active"></InputCheckbox>
+                </div>
+            </AuthorizeView>
+
             <div class="form-group">
                 <label for="@_companyReq.Name">Name</label>
                 <InputText class="form-control" id="name" @bind-Value="_companyReq.Name" placeholder="Company name" />
