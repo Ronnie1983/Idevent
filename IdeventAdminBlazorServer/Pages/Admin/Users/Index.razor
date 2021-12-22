@@ -1,7 +1,6 @@
 ﻿@page "/Users"
 @using Microsoft.AspNetCore.Identity
-@inject UserManager<UserModel> _userManager
-
+@inject UserManager<UserModel> _userManager // Implement userRepos with UserManager, somehow?
 <h1>Users</h1>
 
  @if (_users != null)
@@ -10,7 +9,7 @@
         <thead>
             <tr>
                 @*<th scope="col">Selection</th>*@
-                <th scope="col">Name</th>
+                <th scope="col">Username</th>
                 <th scope="col">Company</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
@@ -25,21 +24,19 @@
                     <td>@user.UserName</td> <!-- Default UserName is Email -->
                     @if (user.Company != null)
                     {
-                        <td>@user.Company</td>
+                        <td>@user.Company.Id</td>
                     }
                     else
                     {
-                        <td>-</td> <!-- No company -->
+                        <td>(Not implemented)</td> <!-- No company -->
                     }
                     <td>@user.Email</td>
                     <td>@user.PhoneNumber</td>
                     <td>@user.Role</td>
                     <td>
                         <div class="btn-group">
-                            @*<NavigateButton PageToNavigateTo=@(NavigationArgument("EditEvent/", eventModel.Id)) ButtonText="Edit event"/>*@
-
                             <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit" />
-                            <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("UserDetails/", user.Id)) ButtonText="Details" />
+                            <button class="btn btn-danger m-1">Delete</button>
                         </div>
                     </td>
                 </tr>
