@@ -108,8 +108,8 @@
                             <div class="btn-group">
                                 @*<NavigateButton PageToNavigateTo=@(NavigationArgument("EditEvent/", eventModel.Id)) ButtonText="Edit event"/>*@
 
-                                <NavigateButton PageToNavigateTo=@(NavigationArgument("EditChip/", chip.Id)) ButtonText="Edit" />
-                                <NavigateButton PageToNavigateTo=@(NavigationArgument("ChipDetails/", chip.Id)) ButtonText="Details" />
+                                <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditChip/", chip.Id)) ButtonText="Edit" />
+                                <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("ChipDetails/", chip.Id)) ButtonText="Details" />
                             </div>
                         </td>
                     </tr>
@@ -143,8 +143,5 @@
         }
     }
 
-    private string NavigationArgument(string navigationPrefix, int modelId)
-    {
-        return $"{navigationPrefix}{modelId}";
-    }
+    
 }
