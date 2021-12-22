@@ -2,92 +2,53 @@
 
 @using IdeventLibrary.Repositories
 @inject NavigationManager _navigationManager
+@inject CompanyRepository _companyRepository
+<h1>Company Details:</h1>
+@if(_companyReq != null){
+    <h2>@_companyReq.Name</h2>
 
 
-<h1>Company Details: @_companyReq.Name</h1>
 
 <NavigateButton PageToNavigateTo="Companies" ButtonText="Back" />
 <div class="row">
-<div class="col-12 p-2">
-    <div class="form-group">
-        <label for="@_companyReq.Name">Name</label>
-        <input class="form-control-plaintext" id="name" Value="@_companyReq.Name" placeholder="Company name" />
-    </div>
-    <div class="form-group">
-        <label for="@_companyReq.Email">Email</label>
-        <input class="form-control-plaintext" id="email" Value="@_companyReq.Email" placeholder="Company Email" />
-    </div>
-    <div class="form-group">
-        <label for="@_companyReq.CVR">CVR</label>
-        <input class="form-control-plaintext" id="cvr" Value="@_companyReq.CVR" placeholder="CVR" />
-    </div>
-    <div class="form-group">
-        <label for="@_companyReq.PhoneNumber">Phone</label>
-        <input class="form-control-plaintext" id="phone" Value="@_companyReq.PhoneNumber" placeholder="Phone number" />
-    </div>
+    <div class="col-12 p-2">
+        <PropertyDisplay PropertyName="Email" PropertyValue="@_companyReq.Email.ToString()" />
 
-    <div class="form-group">
-        <label for="@_companyReq.Address.StreetAddress">Street</label>
-        <input class="form-control-plaintext" id="address_street" Value="@_companyReq.Address.StreetAddress" placeholder="Street and number" />
+        <PropertyDisplay PropertyName="CVR" PropertyValue="@_companyReq.CVR.ToString()" />
+
+        <PropertyDisplay PropertyName="Phone" PropertyValue="@_companyReq.PhoneNumber.ToString()" />
+        <PropertyDisplay PropertyName="Street" PropertyValue="@_companyReq.Address.StreetAddress.ToString()" />
+        <PropertyDisplay PropertyName="City" PropertyValue="@_companyReq.Address.City.ToString()" />
+        <PropertyDisplay PropertyName="Zipcode" PropertyValue="@_companyReq.Address.PostalCode.ToString()" />
+        <PropertyDisplay PropertyName="Country" PropertyValue="@_companyReq.Address.Country.ToString()" />
     </div>
-    <div class="form-group">
-        <label for="@_companyReq.Address.City">City</label>
-        <input class="form-control-plaintext" id="address_city" Value="@_companyReq.Address.City" placeholder="City" />
-    </div>
-    <div class="form-group">
-        <label for="@_companyReq.Address.PostalCode">Zipcode</label>
-        <input class="form-control-plaintext" id="address_postal" Value="@_companyReq.Address.PostalCode" placeholder="Postal" />
-    </div>
-    <div class="form-group">
-        <label for="@_companyReq.Address.Country">Country</label>
-        <input class="form-control-plaintext" id="address_country" Value="@_companyReq.Address.Country" placeholder="Country" />
-    </div>
-</div>
     @if (_companyReq.InvoiceAddress != null)
-{
+    {
 
-    <div class="col-12 border bg-light p-2">
+        <div class="col-12 border bg-light p-2">
 
-        <h4>Seperated Invoice address</h4>
+            <h4>Seperated Invoice address</h4>
 
-        <div class="form-group">
-            <label for="@_companyReq.InvoiceAddress.StreetAddress">Street</label>
-            <input class="form-control-plaintext" id="address_street" Value="@_companyReq.InvoiceAddress.StreetAddress" placeholder="Street and number" />
+            <PropertyDisplay PropertyName="Street" PropertyValue="@_companyReq.InvoiceAddress.StreetAddress.ToString()" />
+            <PropertyDisplay PropertyName="City" PropertyValue="@_companyReq.InvoiceAddress.City.ToString()" />
+            <PropertyDisplay PropertyName="Zipcode" PropertyValue="@_companyReq.InvoiceAddress.PostalCode.ToString()" />
+            <PropertyDisplay PropertyName="Country" PropertyValue="@_companyReq.InvoiceAddress.Country.ToString()" />
         </div>
-        <div class="form-group">
-            <label for="@_companyReq.InvoiceAddress.City">City</label>
-            <input class="form-control-plaintext" id="address_city" Value="@_companyReq.InvoiceAddress.City" placeholder="City" />
-        </div>
-        <div class="form-group">
-            <label for="@_companyReq.InvoiceAddress.PostalCode">Zipcode</label>
-            <input class="form-control-plaintext" id="address_postal" Value="@_companyReq.InvoiceAddress.PostalCode" placeholder="Postal" />
-        </div>
-        <div class="form-group">
-            <label for="@_companyReq.InvoiceAddress.Country">Country</label>
-            <input class="form-control-plaintext" id="address_country" Value="@_companyReq.InvoiceAddress.Country" placeholder="Country" />
-
-        </div>
-
-    </div>
-}
+    }
 
 </div>
-
+}
 
 @code {
     [Parameter]
     public string CompanyId { get; set; }
 
     private CompanyModel _companyReq;
-    private CompanyRepository _companyRepository = new CompanyRepository();
-    //private AddressRepository _addressRepository = new AddressRepository();
 
     protected override async Task OnInitializedAsync()
     {
-        _companyReq = new CompanyModel();
+        //_companyReq = new CompanyModel();
         _companyReq = await _companyRepository.GetAsync(Convert.ToInt32(CompanyId));
-        //_companyReq.Address = await _addressRepository.
-
     }
     private string NavigationArgument(string navigationPrefix, int modelId)
     {
