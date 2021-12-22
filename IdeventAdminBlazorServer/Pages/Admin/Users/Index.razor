@@ -1,4 +1,5 @@
 ﻿@page "/Users"
+@using IdeventLibrary
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<UserModel> _userManager // Implement userRepos with UserManager, somehow?
 <h1>Users</h1>
@@ -44,18 +45,36 @@
         </tbody>
     </table>
 }
+else
+{
+    <Loader LoadingMessage="Loading users..." />
+}
 
 @code {
     private List<UserModel> _users;
+    private List<string> _messages;
 
     protected override async Task OnInitializedAsync()
     {
-        _users = _userManager.Users.ToList();
-        IList<string> userRoles;
-        foreach(var user in _users)
+        try
         {
-            userRoles = await _userManager.GetRolesAsync(user);
-            user.Role = userRoles.First();
+            await Task.Run(() =>
+                {
+                    _users = _userManager.Users.ToList();
+                });
+
+            IList<string> userRoles;
+            foreach (var user in _users)
+            {
+                userRoles = await _userManager.GetRolesAsync(user);
+                user.Role = userRoles.First();
+            }
         }
+        catch (Exception ex)
+        {
+            _messages.Add("Something went when fetching users.");
+            Console.WriteLine(ex);
+        }
+
     }
 }
