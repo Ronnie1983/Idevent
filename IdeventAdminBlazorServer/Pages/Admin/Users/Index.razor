@@ -1,7 +1,64 @@
 ﻿@page "/Users"
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<UserModel> _userManager
 
 <h1>Users</h1>
 
-@code {
+ @if (_users != null)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                @*<th scope="col">Selection</th>*@
+                <th scope="col">Name</th>
+                <th scope="col">Company</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Role</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (UserModel user in _users)
+            {
+                <tr>
+                    <td>@user.UserName</td> <!-- Default UserName is Email -->
+                    @if (user.Company != null)
+                    {
+                        <td>@user.Company</td>
+                    }
+                    else
+                    {
+                        <td>-</td> <!-- No company -->
+                    }
+                    <td>@user.Email</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>@user.Role</td>
+                    <td>
+                        <div class="btn-group">
+                            @*<NavigateButton PageToNavigateTo=@(NavigationArgument("EditEvent/", eventModel.Id)) ButtonText="Edit event"/>*@
 
+                            <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit" />
+                            <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("UserDetails/", user.Id)) ButtonText="Details" />
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<UserModel> _users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _users = _userManager.Users.ToList();
+        IList<string> userRoles;
+        foreach(var user in _users)
+        {
+            userRoles = await _userManager.GetRolesAsync(user);
+            user.Role = userRoles.First();
+        }
+    }
 }
