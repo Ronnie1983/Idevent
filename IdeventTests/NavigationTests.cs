@@ -31,11 +31,11 @@ namespace IdeventTests
         {
             LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Dashboard.Index>(), "Dashboard", "Home");
         }
-        //[TestMethod] // Commented out, because we don't know how to simulate UserManager<UserModel>
-        //public void ProfileIndexLoads()
-        //{
-        //    LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Profile.Index>(), "Profile");
-        //}
+        [TestMethod]
+        public void ProfileIndexLoads()
+        {
+            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Profile.Index>(), "Profile");
+        }
         [TestMethod]
         public void ChipsIndexLoads()
         {

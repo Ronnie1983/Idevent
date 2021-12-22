@@ -30,5 +30,33 @@ namespace IdeventAdminBlazorServer.Common
             };
             return renderFragment;
         }
+        /// <summary>
+        /// Shortcut for navigation in e.g. the NavigateButton component's PageToNavigateTo Property.
+        /// </summary>
+        /// <param name="navigationPrefix">The @page you want to navigate to (add a / at the end if you specify modelId)</param>
+        /// <param name="modelId">(optional) if you're going to a specific models page (edit or details) you can set its id here.</param>
+        /// <returns></returns>
+        public static string NavigationArgument(string navigationPrefix, int modelId = 0)
+        {
+            if(modelId == 0)
+            {
+                return $"{navigationPrefix}";
+            }
+            return $"{navigationPrefix}{modelId}";
+        }
+        /// <summary>
+        /// Shortcut for navigation in e.g. the NavigateButton component's PageToNavigateTo Property.
+        /// </summary>
+        /// <param name="navigationPrefix">The @page you want to navigate to (add a / at the end if you specify modelId)</param>
+        /// <param name="modelId">(optional) if you're going to a specific models page (edit or details) you can set its id here.</param>
+        /// <returns></returns>
+        public static string NavigationArgument(string navigationPrefix, string modelId = "")
+        {
+            if (string.IsNullOrWhiteSpace(modelId))
+            {
+                return $"{navigationPrefix}";
+            }
+            return $"{navigationPrefix}{modelId}";
+        }
     }
 }

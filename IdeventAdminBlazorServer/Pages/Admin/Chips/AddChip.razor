@@ -178,14 +178,14 @@
                 success = await _chipContentRepository.CreateMultipleAsync(_chip.StandProducts, _chip.Id, _chip.Group.Id);
                 if (success == false)
                 {
-                    _displayMessage = Common.Helpers.MakeDisplayMessage($"{_chip.HashedId} was created, but without content.", true);
+                    _displayMessage = Common.Helpers.MakeDisplayMessage($"Scanned id:{_chip.HashedId} was created, but without content.", true);
                     _chip.HashedId = "";
                     await _chipUIDInput.FocusAsync();
                     return;
                 }
             }
 
-            _displayMessage = Common.Helpers.MakeDisplayMessage($"{_chip.HashedId} was created. Chip id: {_chip.Id}", false);
+            _displayMessage = Common.Helpers.MakeDisplayMessage($"Scanned id:{_chip.HashedId} was created. System chip id: {_chip.Id}", false);
             _chip.HashedId = "";
             await _chipUIDInput.FocusAsync();
         }

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using IdeventLibrary.Models;
 using Newtonsoft.Json;
-
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace IdeventLibrary.Repositories
 {
@@ -17,10 +18,35 @@ namespace IdeventLibrary.Repositories
 
         private AddressRepository _addressRepository = new AddressRepository();
         private CompanyRepository _companyRepository = new CompanyRepository();
+        private UserManager<UserModel> _userManager;
 
         public UserRepository()
         {
-            
+            // Only here for testing purposes. (Simulates a fake UserRepository without the need for UserManager)
+        }
+        public UserRepository(UserManager<UserModel> userManager)
+        {
+            _userManager = userManager;
+        }
+        public async Task<List<UserModel>> GetAllAsync()
+        {
+            var users = await Task.Run(() =>
+            {
+                return _userManager.Users.ToList();
+            });
+            foreach (var user in users)
+            {
+                await SetUserRole(user);
+            }
+            return users;
+        }
+        public async Task<UserModel> GetByClaim(ClaimsPrincipal claim)
+        {
+            UserModel user = await _userManager.GetUserAsync(claim);
+
+            await SetUserRole(user);
+
+            return user;
         }
 
         public async Task<UserModel> GetByEmailAsync(string id)
@@ -35,22 +61,12 @@ namespace IdeventLibrary.Repositories
             {
                 item.InvoiceAddress = await _addressRepository.GetAddressById(item.InvoiceAddress.Id);
             }
-            if(item.Company != null)
+            if (item.Company != null)
             {
                 item.Company = await _companyRepository.GetAsync(item.Company.Id);
             }
 
             return item;
-        }
-
-
-
-        public async Task<List<UserModel>> GetAllAsync()
-        {
-            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl));
-            var profilList = JsonConvert.DeserializeObject<List<UserModel>>(jsonContent);
-            
-            return profilList;
         }
 
         public async Task<UserModel> GetUserById(string id)
@@ -71,6 +87,10 @@ namespace IdeventLibrary.Repositories
 
         //    return null;
         //}
-
+        private async Task SetUserRole(UserModel user)
+        {
+            IList<string> userRoles = await _userManager.GetRolesAsync(user);
+            user.Role = userRoles.First();
+        }
     }
 }
