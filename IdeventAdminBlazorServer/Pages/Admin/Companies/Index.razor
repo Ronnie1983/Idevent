@@ -32,6 +32,7 @@
                     <td>@companyModel.CVR</td>
                     <td>@companyModel.PhoneNumber</td>
                     <td>
+                         <NavigateButton PageToNavigateTo=@(NavigationArgument("CompanyEdit/", companyModel.Id)) ButtonText="Edit company" />
                         <NavigateButton PageToNavigateTo=@(NavigationArgument("CompanyDetails/", companyModel.Id)) ButtonText="Details" />
                         @*<NavigateButton PageToNavigateTo="@(NavigationArgument("EventProductManagement/", eventModel.Id))" ButtonText="Edit company" />*@
                     </td>
