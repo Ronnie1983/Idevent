@@ -185,7 +185,7 @@
                 }
             }
 
-            _displayMessage = Common.Helpers.MakeDisplayMessage($"Scanned id:{_chip.HashedId} was created. System chip id: {_chip.Id}", false);
+            _displayMessage = Common.Helpers.MakeDisplayMessage($"Chip UID: {_chip.HashedId} was created. System assigned id: {_chip.Id}", false);
             _chip.HashedId = "";
             await _chipUIDInput.FocusAsync();
         }

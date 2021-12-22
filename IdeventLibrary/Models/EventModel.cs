@@ -25,7 +25,7 @@ namespace IdeventLibrary.Models
         {
             Name = name;
             Company = company;
-            AmountOfConnectedChips = amountOfConnectedChips;
+            NumberOfConnectedChips = amountOfConnectedChips;
         }
         public int Id { get; set; }
         [Required]
@@ -34,7 +34,7 @@ namespace IdeventLibrary.Models
         public string Name { get; set; }
         [Required]
         public CompanyModel Company { get; set; }
-        public int AmountOfConnectedChips { get; set; } // data comes from a count on the Chips table.
+        public int NumberOfConnectedChips { get; set; } // data comes from a count on the Chips table.
         [JsonIgnore]
         public List<EventStandModel> EventStands { get; set; } = new List<EventStandModel>();
     }
