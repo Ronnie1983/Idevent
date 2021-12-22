@@ -49,9 +49,9 @@ namespace IdeventLibrary.Repositories
             return user;
         }
 
-        public async Task<UserModel> GetByEmailAsync(string id)
+        public async Task<UserModel> GetByEmailAsync(string email)
         {
-            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl + "/" + id));
+            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl + "/email/" + email));
             var item = JsonConvert.DeserializeObject<UserModel>(jsonContent);
             if (item.Address != null)
             {

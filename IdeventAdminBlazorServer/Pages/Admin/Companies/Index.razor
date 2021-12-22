@@ -20,6 +20,7 @@
                 <th scope="col">Company Name</th>
                 <th scope="col">CVR</th>
                 <th scope="col">Phone</th>
+                <th scope="col">Active</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -31,9 +32,18 @@
                     <td>@companyModel.Name</td>
                     <td>@companyModel.CVR</td>
                     <td>@companyModel.PhoneNumber</td>
+                    <td>@if (companyModel.Active)
+                        {
+                           <span class="text-success fw-bold">Active</span>
+                        }
+                        else
+                        {
+                           <span class="text-danger fw-bold">Inactive</span>
+                        }
+                    </td>
                     <td>
+                        <NavigateButton PageToNavigateTo=@(NavigationArgument("CompanyEdit/", companyModel.Id)) ButtonText="Edit" />
                         <NavigateButton PageToNavigateTo=@(NavigationArgument("CompanyDetails/", companyModel.Id)) ButtonText="Details" />
-                        @*<NavigateButton PageToNavigateTo="@(NavigationArgument("EventProductManagement/", eventModel.Id))" ButtonText="Edit company" />*@
                     </td>
                 </tr>
             }

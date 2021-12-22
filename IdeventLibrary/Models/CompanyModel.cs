@@ -105,6 +105,7 @@ namespace IdeventLibrary.Models
             set { _note = value; }
         }
 
+        
         public bool Active
         {
             get { return _active; }

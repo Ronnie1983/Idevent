@@ -117,7 +117,12 @@ namespace IdeventTests
         [TestMethod]
         public void CompanyEditPage()
         {
-            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Companies.EditCompany>(), "Edit Company", "CompanyEdit/1");
+            using var ctx = new Bunit.TestContext();
+            SetServices(ctx);
+
+            var authContext = ctx.AddTestAuthorization();
+            authContext.SetAuthorized("TEST USER", AuthorizationState.Authorized);
+            LoadPageTest(ctx.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Companies.EditCompany>(), "Edit Company", "CompanyEdit/1");
         }
 
         [TestMethod]

@@ -16,7 +16,7 @@
     <section>
         <PropertyDisplay PropertyName="ID" PropertyValue="@(_chip.Id.ToString())" />
         <PropertyDisplay PropertyName="User E-mail" PropertyValue="Not connected to a user" /> <!-- TODO: Display User E-mail -->
-    <PropertyDisplay PropertyName="Valid From" PropertyValue="@(_chip.ValidFrom.ToString("d"))" />
+        <PropertyDisplay PropertyName="Valid From" PropertyValue="@(_chip.ValidFrom.ToString("d"))" />
         <PropertyDisplay PropertyName="Valid To" PropertyValue="@(_chip.ValidTo.ToString("d"))" />
         <PropertyDisplay PropertyName="Company" PropertyValue="@(_chip.Company.Name)" />
         <PropertyDisplay PropertyName="Company Phone Number" PropertyValue="@(_chip.Company.PhoneNumber)" />
@@ -36,7 +36,7 @@
         {
             <PropertyDisplay PropertyName="Group" PropertyValue="@(_chip.Group.Name)" />
         }
-        
+
         <div><span class="fw-bold">Products</span></div>
         @if (_chip.StandProducts.Count > 0 & _chip.StandProducts != null)
         {
@@ -44,7 +44,9 @@
                 @foreach (var product in _chip.StandProducts)
                 {
                     <span>@product.Name</span>
-                    <span>@product.Amount</span><br />
+                    <span>@product.Amount</span>
+
+                    <br />
                 }
             </div>
         }

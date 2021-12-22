@@ -12,10 +12,12 @@ namespace IdeventAPI.Managers
     {
 
         private IDbConnection _dbConnection;
+        private AddressManager _addressManager;
 
         public CompanyManager()
         {
             _dbConnection = new SqlConnection(AppSettings.ConnectionString);
+            _addressManager = new AddressManager();
         }
         public CompanyManager(string connectionString)
         {
@@ -68,6 +70,14 @@ namespace IdeventAPI.Managers
 
         public int UpdateCompany(CompanyModel value)
         {
+            
+            if (value.InvoiceAddress != null)
+            {
+                if (value.InvoiceAddress.Id == 0)
+                {
+                    value.InvoiceAddress.Id = _addressManager.Create(value.InvoiceAddress);
+                }
+            }
             var parameter = new { id = value.Id, name = value.Name, logo = value.Logo, cvr = value.CVR, email = value.Email, phoneNumber = value.PhoneNumber, active = value.Active, note = value.Note, addressId = value.Address.Id, invoiceAddress = value.InvoiceAddress.Id };
             string sql = "EXECUTE spUpdateCompany @id ,@name, @logo, @cvr, @email, @phoneNumber, @active, @note, @addressId, @invoiceAddress";
             var result = _dbConnection.Execute(sql, parameter);
