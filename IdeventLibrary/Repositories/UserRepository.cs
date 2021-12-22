@@ -7,6 +7,7 @@ using System.Net.Http;
 using IdeventLibrary.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace IdeventLibrary.Repositories
 {
@@ -33,13 +34,19 @@ namespace IdeventLibrary.Repositories
             {
                 return _userManager.Users.ToList();
             });
-            IList<string> userRoles;
             foreach (var user in users)
             {
-                userRoles = await _userManager.GetRolesAsync(user);
-                user.Role = userRoles.First();
+                await SetUserRole(user);
             }
             return users;
+        }
+        public async Task<UserModel> GetByClaim(ClaimsPrincipal claim)
+        {
+            UserModel user = await _userManager.GetUserAsync(claim);
+
+            await SetUserRole(user);
+
+            return user;
         }
 
         public async Task<UserModel> GetByEmailAsync(string id)
@@ -80,6 +87,10 @@ namespace IdeventLibrary.Repositories
 
         //    return null;
         //}
-
+        private async Task SetUserRole(UserModel user)
+        {
+            IList<string> userRoles = await _userManager.GetRolesAsync(user);
+            user.Role = userRoles.First();
+        }
     }
 }

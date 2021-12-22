@@ -10,7 +10,7 @@
 
 @inject AuthenticationStateProvider _authenticationStateProvider
 @inject NavigationManager _navigationManager
-@inject UserManager<UserModel> _userManager
+@inject UserRepository _userRepository
 
 
 <h1>Profile</h1>
@@ -26,7 +26,7 @@
         }
         else
         {
-            <PropertyDisplay PropertyName="Role" PropertyValue="No role"/>
+            <PropertyDisplay PropertyName="Role" PropertyValue="Failed to read role"/>
         }
         <PropertyDisplay PropertyName="Phone Number" PropertyValue="@(_profileData.PhoneNumber)"/>
         @if(_profileData.Address != null)
@@ -53,13 +53,9 @@
         {
             AuthenticationState authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
             ClaimsPrincipal userClaim = authState.User;
-            UserModel user = await _userManager.GetUserAsync(userClaim);
-            var roles = await _userManager.GetRolesAsync(user);
-
-            string role = roles.First();
+            UserModel user = await _userRepository.GetByClaim(userClaim);
 
             _profileData = user;
-            _profileData.Role = role;
         }
         catch (Exception e)
         {
