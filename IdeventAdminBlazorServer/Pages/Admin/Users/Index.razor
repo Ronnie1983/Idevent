@@ -1,7 +1,8 @@
 ﻿@page "/Users"
 @using IdeventLibrary
 @using Microsoft.AspNetCore.Identity
-@inject UserManager<UserModel> _userManager // Implement userRepos with UserManager, somehow?
+@inject UserRepository _userRepository
+
 <h1>Users</h1>
 
  @if (_users != null)
@@ -58,23 +59,12 @@ else
     {
         try
         {
-            await Task.Run(() =>
-                {
-                    _users = _userManager.Users.ToList();
-                });
-
-            IList<string> userRoles;
-            foreach (var user in _users)
-            {
-                userRoles = await _userManager.GetRolesAsync(user);
-                user.Role = userRoles.First();
-            }
+            _users = await _userRepository.GetAllAsync();
         }
         catch (Exception ex)
         {
             _messages.Add("Something went when fetching users.");
             Console.WriteLine(ex);
         }
-
     }
 }
