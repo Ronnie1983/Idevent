@@ -4,39 +4,46 @@
 @inject NavigationManager _navigationManager
 @inject CompanyRepository _companyRepository
 <h1>Company Details:</h1>
-@if(_companyReq != null){
+@if (_companyReq != null)
+{
     <h2>@_companyReq.Name</h2>
 
 
 
-<NavigateButton PageToNavigateTo="Companies" ButtonText="Back" />
-<div class="row">
-    <div class="col-12 p-2">
-        <PropertyDisplay PropertyName="Email" PropertyValue="@_companyReq.Email.ToString()" />
-
-        <PropertyDisplay PropertyName="CVR" PropertyValue="@_companyReq.CVR.ToString()" />
-
-        <PropertyDisplay PropertyName="Phone" PropertyValue="@_companyReq.PhoneNumber.ToString()" />
-        <PropertyDisplay PropertyName="Street" PropertyValue="@_companyReq.Address.StreetAddress.ToString()" />
-        <PropertyDisplay PropertyName="City" PropertyValue="@_companyReq.Address.City.ToString()" />
-        <PropertyDisplay PropertyName="Zipcode" PropertyValue="@_companyReq.Address.PostalCode.ToString()" />
-        <PropertyDisplay PropertyName="Country" PropertyValue="@_companyReq.Address.Country.ToString()" />
-    </div>
-    @if (_companyReq.InvoiceAddress != null)
-    {
-
-        <div class="col-12 border bg-light p-2">
-
-            <h4>Seperated Invoice address</h4>
-
-            <PropertyDisplay PropertyName="Street" PropertyValue="@_companyReq.InvoiceAddress.StreetAddress.ToString()" />
-            <PropertyDisplay PropertyName="City" PropertyValue="@_companyReq.InvoiceAddress.City.ToString()" />
-            <PropertyDisplay PropertyName="Zipcode" PropertyValue="@_companyReq.InvoiceAddress.PostalCode.ToString()" />
-            <PropertyDisplay PropertyName="Country" PropertyValue="@_companyReq.InvoiceAddress.Country.ToString()" />
+    <NavigateButton PageToNavigateTo="Companies" ButtonText="Back" />
+    <div class="row">
+        <div class="col-12 p-2">
+            @if (_companyReq.Active)
+            {
+                <PropertyDisplay PropertyName="Active" PropertyValue="Active" />
+            }
+            else
+            {
+                <PropertyDisplay PropertyName="Active" PropertyValue="Inactive" />
+            }
+            <PropertyDisplay PropertyName="Email" PropertyValue="@_companyReq.Email.ToString()" />
+            <PropertyDisplay PropertyName="CVR" PropertyValue="@_companyReq.CVR.ToString()" />
+            <PropertyDisplay PropertyName="Phone" PropertyValue="@_companyReq.PhoneNumber.ToString()" />
+            <PropertyDisplay PropertyName="Street" PropertyValue="@_companyReq.Address.StreetAddress.ToString()" />
+            <PropertyDisplay PropertyName="City" PropertyValue="@_companyReq.Address.City.ToString()" />
+            <PropertyDisplay PropertyName="Zipcode" PropertyValue="@_companyReq.Address.PostalCode.ToString()" />
+            <PropertyDisplay PropertyName="Country" PropertyValue="@_companyReq.Address.Country.ToString()" />
         </div>
-    }
+        @if (_companyReq.InvoiceAddress != null)
+        {
 
-</div>
+            <div class="col-12 border bg-light p-2">
+
+                <h4>Seperated Invoice address</h4>
+
+                <PropertyDisplay PropertyName="Street" PropertyValue="@_companyReq.InvoiceAddress.StreetAddress.ToString()" />
+                <PropertyDisplay PropertyName="City" PropertyValue="@_companyReq.InvoiceAddress.City.ToString()" />
+                <PropertyDisplay PropertyName="Zipcode" PropertyValue="@_companyReq.InvoiceAddress.PostalCode.ToString()" />
+                <PropertyDisplay PropertyName="Country" PropertyValue="@_companyReq.InvoiceAddress.Country.ToString()" />
+            </div>
+        }
+
+    </div>
 }
 
 @code {
