@@ -6,6 +6,7 @@ using System.Linq;
 
 using Dapper;
 using IdeventLibrary.Models;
+using System.Collections.Generic;
 
 namespace IdeventAPI.Managers
 {
@@ -23,19 +24,29 @@ namespace IdeventAPI.Managers
         }
 
 
-        private Func<UserModel, CompanyModel, AddressModel, AddressModel, UserModel> mapping = (userModel, companyModel, addressModel, InvoiceModel) =>
+        private Func<UserModel, CompanyModel, AddressModel, AddressModel, UserModel> _mapping = (userModel, companyModel, addressModel, invoiceModel) =>
         {
             userModel.Address = addressModel;
-            userModel.InvoiceAddress = InvoiceModel;
+            userModel.InvoiceAddress = invoiceModel;
             userModel.Company = companyModel;
 
             return userModel;
         };
 
+        public Dictionary<string, UserModel> GetAll()
+        {
+            // Henter kun data, som ikke kan hentes via default indentity.
+            // Users.Id, Users.CompanyId AS Id, Name, AddressId AS Id, InvoiceAddressId AS Id
+            string sql = "EXECUTE spGetAllUsersCustomData";
+
+            Dictionary<string, UserModel> output = _dbConnection.Query(sql, _mapping).ToDictionary(x => x.Id, x => x);
+            return output;
+        }
+
         public UserModel GetByEmail(string email)
         {
             string sql = "EXECUTE spGetUserByEmail @email";
-            var result = _dbConnection.Query(sql, mapping, new { email = email }).AsList();
+            var result = _dbConnection.Query(sql, _mapping, new { email = email }).AsList();
             return result[0];
         }
 

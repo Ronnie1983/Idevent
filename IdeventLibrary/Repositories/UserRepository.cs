@@ -30,14 +30,32 @@ namespace IdeventLibrary.Repositories
         }
         public async Task<List<UserModel>> GetAllAsync()
         {
-            var users = await Task.Run(() =>
+            var users = await Task.Run(async () =>
             {
-                return _userManager.Users.ToList();
+                List<UserModel> tempUsers = _userManager.Users.ToList();
+
+                // Fetch custom data (non-identity)
+                string json = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}")); // TODO: Make method in UserManager.
+                Dictionary<string, UserModel> moreUserData = JsonConvert.DeserializeObject<Dictionary<string, UserModel>>(json);
+                
+                //Dictionary<string, UserModel> tempDictionary = moreUserData.ToDictionary(x => x.Id, x => x );
+                List<UserModel> output;
+                foreach (var user in tempUsers)
+                {
+                    await SetUserRole(user);
+                    // Combine identity & custom data
+                    moreUserData.TryGetValue(user.Id, out UserModel tempUser);
+                    user.Address = tempUser.Address;
+                    user.InvoiceAddress = tempUser.InvoiceAddress;
+                    user.Company = tempUser.Company;
+                }
+                output = tempUsers;
+                return output;
             });
-            foreach (var user in users)
-            {
-                await SetUserRole(user);
-            }
+           
+            //user.Company = await _companyRepository.GetAsync(user.Company.Id);
+            //user.Address = await _addressRepository.GetAddressById(user.Address.Id);
+            //user.InvoiceAddress = await _addressRepository.GetAddressById(user.InvoiceAddress.Id);
             return users;
         }
         public async Task<UserModel> GetByClaim(ClaimsPrincipal claim)
