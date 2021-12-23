@@ -33,9 +33,12 @@ namespace IdeventAPI.Managers
             return userModel;
         };
 
+        /// <summary>
+        /// Only retrieves data not made by AspNetCore.Identity.
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, UserModel> GetAll()
         {
-            // Henter kun data, som ikke kan hentes via default indentity.
             // Users.Id, Users.CompanyId AS Id, Name, AddressId AS Id, InvoiceAddressId AS Id
             string sql = "EXECUTE spGetAllUsersCustomData";
 

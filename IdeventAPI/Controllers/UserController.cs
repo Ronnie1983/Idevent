@@ -22,6 +22,12 @@ namespace IdeventAPI.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            Dictionary<string, UserModel> users = _userManager.GetAll();
+            return Ok(users);
+        }
 
         // GET api/<UserController>/5
         [HttpGet("Email/{email}")]

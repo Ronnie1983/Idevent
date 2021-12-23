@@ -26,11 +26,11 @@
                     <td>@user.UserName</td> <!-- Default UserName is Email -->
                     @if (user.Company != null)
                     {
-                        <td>@user.Company.Id</td>
+                        <td>@user.Company.Name</td>
                     }
                     else
                     {
-                        <td>(Not implemented)</td> <!-- No company -->
+                        <td>-</td> <!-- No company -->
                     }
                     <td>@user.Email</td>
                     <td>@user.PhoneNumber</td>
