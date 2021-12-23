@@ -13,8 +13,6 @@ namespace IdeventAPI.Managers
 {
     public class AddressManager
     {
-
-       
         IDbConnection _dbConnection;
 
         public AddressManager()
