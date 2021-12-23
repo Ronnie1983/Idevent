@@ -1,4 +1,5 @@
 ﻿using IdeventAPI.Managers;
+using IdeventLibrary.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,12 @@ namespace IdeventTests.IntegrationTests
             _userManager = ManagerFactory.CreateManagerForTests<UserManager>();
         }
         [TestMethod]
-        public void GetAllCustomData()
+        public void GetAllCustomDataReturnsDictionary()
         {
-            Assert.Fail("Test not made.");
+            Dictionary<string, UserModel> output = _userManager.GetAllCustomData();
+
+            Assert.IsNotNull(output);
+            Assert.IsInstanceOfType(output, typeof(Dictionary<string, UserModel>));
         }
     }
 }
