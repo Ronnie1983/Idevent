@@ -1,5 +1,9 @@
-﻿<h3>EditUser</h3>
+﻿@page "/EditUser/{UserId}"
+<h1>Edit User</h1>
+
+
 
 @code {
-
+    [Parameter]
+    public string UserId { get; set; }
 }
