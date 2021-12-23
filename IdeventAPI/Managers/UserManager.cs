@@ -37,7 +37,7 @@ namespace IdeventAPI.Managers
         /// Only retrieves data not made by AspNetCore.Identity.
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, UserModel> GetAll()
+        public Dictionary<string, UserModel> GetAllCustomData()
         {
             // Users.Id, Users.CompanyId AS Id, Name, AddressId AS Id, InvoiceAddressId AS Id
             string sql = "EXECUTE spGetAllUsersCustomData";

@@ -22,10 +22,10 @@ namespace IdeventAPI.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
+        [HttpGet("CustomData")]
+        public IActionResult GetAllCustomData()
         {
-            Dictionary<string, UserModel> users = _userManager.GetAll();
+            Dictionary<string, UserModel> users = _userManager.GetAllCustomData();
             return Ok(users);
         }
 

@@ -35,10 +35,9 @@ namespace IdeventLibrary.Repositories
                 List<UserModel> tempUsers = _userManager.Users.ToList();
 
                 // Fetch custom data (non-identity)
-                string json = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}")); // TODO: Make method in UserManager.
+                string json = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/CustomData"));
                 Dictionary<string, UserModel> moreUserData = JsonConvert.DeserializeObject<Dictionary<string, UserModel>>(json);
                 
-                //Dictionary<string, UserModel> tempDictionary = moreUserData.ToDictionary(x => x.Id, x => x );
                 List<UserModel> output;
                 foreach (var user in tempUsers)
                 {
