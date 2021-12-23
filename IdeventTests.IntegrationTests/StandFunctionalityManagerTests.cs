@@ -16,7 +16,7 @@ namespace IdeventTests.IntegrationTests
 
         protected override void TestSpecificInitialization()
         {
-            _standFunctionalityManager = new StandFunctionalityManager(TestSettings.ConnectionString);
+            _standFunctionalityManager = ManagerFactory.CreateManagerForTests<StandFunctionalityManager>();
         }
 
         [TestMethod]

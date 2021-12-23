@@ -14,7 +14,7 @@ namespace IdeventTests.IntegrationTests
         private AddressManager _addressManager;
         protected override void TestSpecificInitialization()
         {
-            _addressManager = new AddressManager(TestSettings.ConnectionString);
+            _addressManager = ManagerFactory.CreateManagerForTests<AddressManager>();
         }
         [TestMethod]
         public void GetById()

@@ -17,7 +17,7 @@ namespace IdeventTests.IntegrationTests
 
         protected override void TestSpecificInitialization()
         {
-            _manager = new StandProductManager(TestSettings.ConnectionString);
+            _manager = ManagerFactory.CreateManagerForTests<StandProductManager>();
         }
 
         [TestMethod]
