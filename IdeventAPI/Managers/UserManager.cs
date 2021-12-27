@@ -53,6 +53,17 @@ namespace IdeventAPI.Managers
             return result[0];
         }
 
+        public bool DeleteById(string id)
+        {
+            string sql = "EXECUTE spDeleteUserById @userId";
+            int result = _dbConnection.Execute(sql,new { userId = id });
+            if(result > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public UserModel GetById(string id)
         {
             string sql = "EXECUTE spGetUserById @userId";

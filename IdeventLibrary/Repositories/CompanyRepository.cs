@@ -33,14 +33,6 @@ namespace IdeventLibrary.Repositories
         {
             string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl + "/" + id));
             var company = JsonConvert.DeserializeObject<CompanyModel>(jsonContent);
-            //if(company.Address != null)
-            //{
-            //    company.Address = await _addressRepository.GetAddressById(company.Address.Id);
-            //}
-            //if(company.InvoiceAddress != null)
-            //{
-            //    company.InvoiceAddress = await _addressRepository.GetAddressById(company.InvoiceAddress.Id);
-            //}
 
             return company;
         }
@@ -82,11 +74,6 @@ namespace IdeventLibrary.Repositories
                 CompanyModel newItem = JsonConvert.DeserializeObject<CompanyModel>(JsonString);
                 return newItem;
             }
-            return null;
-        }
-
-        public async Task<CompanyModel> DeleteAsync(int id)
-        {
             return null;
         }
     }

@@ -132,7 +132,7 @@ namespace IdeventAPI.Managers
             {
                 string sql = "EXECUTE spGetChipContentByStandProductIdAndChipId @standProductId, @chipId";
                 result = _dbConnection.QuerySingle<ChipContentModel>(sql, new { standProductId = content.StandProduct.Id, chipId = content.ChipId});
-            } catch (Exception ex)
+            } catch (Exception)
             {
                 result = null;
             }
