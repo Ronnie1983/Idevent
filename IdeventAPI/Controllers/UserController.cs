@@ -53,6 +53,16 @@ namespace IdeventAPI.Controllers
             return Ok(item);
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteById(string id)
+        {
+            bool result = _userManager.DeleteById(id);
+            if (result)
+            {
+                return Ok();
+            } else { return BadRequest(); }
+        }
+
 
     }
 }

@@ -109,5 +109,16 @@ namespace IdeventLibrary.Repositories
             IList<string> userRoles = await _userManager.GetRolesAsync(user);
             user.Role = userRoles.First();
         }
+
+        public async Task<bool> DeleteUser(UserModel user)
+        {
+            var result = await _httpClient.DeleteAsync(new Uri(_baseUrl + "/" + user.Id));
+            if (result.IsSuccessStatusCode)
+            {
+                return true;
+
+            }
+            return false;
+        }
     }
 }

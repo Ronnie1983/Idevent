@@ -1,6 +1,10 @@
 ﻿@page "/Users"
 @using IdeventLibrary
 @using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+
+@inject AuthenticationStateProvider _authenticationStateProvider
 @inject UserRepository _userRepository
 
 <h1>Users</h1>
@@ -43,7 +47,9 @@
                     <td>
                         <div class="btn-group">
                             <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit" />
-                            <button class="btn btn-danger m-1" @onclick="()=>{DeleteUser(user);}">Delete</button>
+                            @if(user.Id != _profileData.Id){
+                                <button class="btn btn-danger m-1" @onclick="async ()=>{await DeleteUser(user);}">Delete</button>
+                            }
                         </div>
                     </td>
                 </tr>
@@ -59,9 +65,22 @@ else
 @code {
     private List<UserModel> _users;
     private List<string> _messages = new List<string>();
+        private UserModel _profileData;
 
     protected override async Task OnInitializedAsync()
     {
+         try
+        {
+            AuthenticationState authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            ClaimsPrincipal userClaim = authState.User;
+            UserModel user = await _userRepository.GetByClaim(userClaim);
+
+            _profileData = user;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
         try
         {
             _users = await _userRepository.GetAllAsync();
