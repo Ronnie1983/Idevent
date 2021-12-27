@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.Identity
 @inject UserRepository _userRepository
 
-@attribute [Authorize(Roles = "SuperAdmin, Admin")]
+@attribute [Authorize]
 
 <h1>Users</h1>
 
@@ -37,12 +37,14 @@
                     <td>@user.Email</td>
                     <td>@user.PhoneNumber</td>
                     <td>@user.Role</td>
+                    <AuthorizeView Roles="SuperAdmin, Admin">
                     <td>
                         <div class="btn-group">
                             <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit" />
                             <button class="btn btn-danger m-1">Delete</button>
                         </div>
                     </td>
+                    </AuthorizeView>
                 </tr>
             }
         </tbody>
