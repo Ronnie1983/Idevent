@@ -3,6 +3,14 @@
 
 @using IdeventLibrary
 @inject UserRepository _userRepository
+@inject AddressRepository _addressRepository
+
+@foreach (string message in _messages)
+{
+    <div class="alert alert-danger">
+        @message
+    </div>
+}
 
 <h1>Edit User</h1>
 @if (_user != null)
@@ -77,6 +85,7 @@ else
     public string UserId { get; set; }
 
     private UserModel _user;
+    private List<string> _messages = new List<string>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -108,6 +117,37 @@ else
     }
     private async Task HandleValidSubmit()
     {
-        await _userRepository.UpdateAsync(_user);
+        if (AddressHasInput() && _user.Address.Id > 0)
+        {
+            _user.Address = await _addressRepository.CreateAsync(_user.Address);
+        }
+
+        UserModel updatedUser = await _userRepository.UpdateAsync(_user);
+        if (updatedUser == null)
+        {
+            _messages.Clear();
+            _messages.Add("Failed to update user.");
+        }
+    }
+    private bool AddressHasInput()
+    {
+        bool addressInputsAreFilled = true;
+        if (String.IsNullOrWhiteSpace(_user.Address.StreetAddress))
+        {
+            return false;
+        }
+        if (String.IsNullOrWhiteSpace(_user.Address.Country))
+        {
+            return false;
+        }
+        if (String.IsNullOrWhiteSpace(_user.Address.City))
+        {
+            return false;
+        }
+        if (String.IsNullOrWhiteSpace(_user.Address.PostalCode))
+        {
+            return false;
+        }
+        return addressInputsAreFilled;
     }
 }
