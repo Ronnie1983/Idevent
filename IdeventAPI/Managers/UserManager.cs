@@ -82,7 +82,6 @@ namespace IdeventAPI.Managers
             return success;
         }
 
-        public UserModel GetById(string userId)
         public bool DeleteById(string id)
         {
             string sql = "EXECUTE spDeleteUserById @userId";
@@ -94,7 +93,7 @@ namespace IdeventAPI.Managers
             return false;
         }
 
-        public UserModel GetById(string id)
+        public UserModel GetById(string userId)
         {
             // Users.Id, Users.UserName, Users.Email, Users.PhoneNumber,
             // Users.CompanyId AS Id, A.Id, A.StreetAddress, A.City, A.Country, A.PostalCode, A2.Id, A2.StreetAddress, A2.City, A2.Country, A2.PostalCode
