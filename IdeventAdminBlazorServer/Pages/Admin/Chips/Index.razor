@@ -111,16 +111,18 @@
                         {
                             <td>@chip.Event.Name</td>
                         }
-                        <AuthorizeView Roles="SuperAdmin,Admin">
+                        
                         <td>
                             <div class="btn-group">
                                 @*<NavigateButton PageToNavigateTo=@(NavigationArgument("EditEvent/", eventModel.Id)) ButtonText="Edit event"/>*@
+                                <AuthorizeView Roles="SuperAdmin,Admin">
+                                    <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditChip/", chip.Id)) ButtonText="Edit" />
+                                </AuthorizeView>
 
-                                <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditChip/", chip.Id)) ButtonText="Edit" />
                                 <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("ChipDetails/", chip.Id)) ButtonText="Details" />
                             </div>
                         </td>
-                        </AuthorizeView>
+                        
                     </tr>
                 }
             </tbody>
