@@ -12,33 +12,36 @@
 @inject NavigationManager _navigationManager
 @inject UserRepository _userRepository
 
-
-<h1>Profile</h1>
+<AuthorizeView>
+    <h1>Profile</h1>
 
     @if (_profileData != null)
-{
-    <section>
-        <PropertyDisplay PropertyName="Id" PropertyValue="@(_profileData.Id)" />
-        <PropertyDisplay PropertyName="Email" PropertyValue="@(_profileData.Email)" />
-        @if (!String.IsNullOrWhiteSpace(_profileData.Role))
-        {
-            <PropertyDisplay PropertyName="Role" PropertyValue="@(_profileData.Role)" />
-        }
-        else
-        {
-            <PropertyDisplay PropertyName="Role" PropertyValue="Failed to read role"/>
-        }
-        <PropertyDisplay PropertyName="Phone Number" PropertyValue="@(_profileData.PhoneNumber)"/>
-        @if(_profileData.Address != null)
-        {
-            <PropertyDisplay PropertyName="Address" PropertyValue="@(_profileData.Address.StreetAddress)"/>
-        }
-         @if(_profileData.InvoiceAddress != null)
-        {
-            <PropertyDisplay PropertyName="Invoice Address" PropertyValue="@(_profileData.InvoiceAddress.StreetAddress)"/>
-        }
-    </section>
-}
+    {
+        <section>
+            <PropertyDisplay PropertyName="Id" PropertyValue="@(_profileData.Id)" />
+            <PropertyDisplay PropertyName="Email" PropertyValue="@(_profileData.Email)" />
+            @if (!String.IsNullOrWhiteSpace(_profileData.Role))
+            {
+                <PropertyDisplay PropertyName="Role" PropertyValue="@(_profileData.Role)" />
+            }
+            else
+            {
+                <PropertyDisplay PropertyName="Role" PropertyValue="Failed to read role"/>
+            }
+            <PropertyDisplay PropertyName="Phone Number" PropertyValue="@(_profileData.PhoneNumber)"/>
+            @if(_profileData.Address != null)
+            {
+                <PropertyDisplay PropertyName="Address" PropertyValue="@(_profileData.Address.StreetAddress)"/>
+            }
+            @if(_profileData.InvoiceAddress != null)
+            {
+                <PropertyDisplay PropertyName="Invoice Address" PropertyValue="@(_profileData.InvoiceAddress.StreetAddress)"/>
+            }
+        </section>
+    }
+</AuthorizeView>
+
+
 
 
 @code {

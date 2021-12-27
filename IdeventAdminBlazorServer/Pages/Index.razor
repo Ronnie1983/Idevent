@@ -10,15 +10,22 @@
         color: white;
     }
 </style>
-
-<div class="container-fluid">
-    <section class="row">
-        <div class="col-12">
-            <h1 class="text-center">Which application do you want to open?</h1>
-            <div class="d-flex justify-content-center">
-                <a class="btn btn-primary m-4" href="/Terminal">Terminal</a>
-                <a class="btn btn-primary m-4" href="/Home">Administration</a>
-            </div>
+<AuthorizeView>
+    <Authorized>
+        <div class="container-fluid">
+            <section class="row">
+                <div class="col-12">
+                    <h1 class="text-center">Which application do you want to open?</h1>
+                    <div class="d-flex justify-content-center">
+                        <a class="btn btn-primary m-4" href="/Terminal">Terminal</a>
+                        <a class="btn btn-primary m-4" href="/Home">Administration</a>
+                    </div>
+                </div>
+            </section>
         </div>
-    </section>
-</div>
+    </Authorized>
+    <NotAuthorized>
+        <p> It seems like your not logged in, you can eather register <a href="https://localhost:5003/Identity/Account/Register"> Here</a> Or contact your Admin</p>
+        <p> Or you can go to <a href="https://localhost:5003/Identity/Account/Login">Login page</a></p>
+    </NotAuthorized>
+</AuthorizeView>

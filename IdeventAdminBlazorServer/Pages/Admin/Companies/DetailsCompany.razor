@@ -1,8 +1,12 @@
 ﻿@page "/CompanyDetails/{CompanyId}"
 
+@attribute [Authorize(Roles = "SuperAdmin, Admin")]
+
 @using IdeventLibrary.Repositories
+
 @inject NavigationManager _navigationManager
 @inject CompanyRepository _companyRepository
+
 <h1>Company Details:</h1>
 @if (_companyReq != null)
 {
