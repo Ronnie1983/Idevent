@@ -70,14 +70,14 @@ namespace IdeventLibrary.Models
             set { _email = value; }
         }
 
-        public AddressModel InvoiceAddress
+        public AddressModel? InvoiceAddress
         {
             get { return _invoiceAddress; }
             set { _invoiceAddress = value; }
         }
 
         [Required]
-        public AddressModel Address
+        public AddressModel? Address
         {
             get { return _address; }
             set { _address = value; }

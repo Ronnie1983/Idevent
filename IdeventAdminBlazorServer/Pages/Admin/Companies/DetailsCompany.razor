@@ -24,10 +24,13 @@
             <PropertyDisplay PropertyName="Email" PropertyValue="@_companyReq.Email.ToString()" />
             <PropertyDisplay PropertyName="CVR" PropertyValue="@_companyReq.CVR.ToString()" />
             <PropertyDisplay PropertyName="Phone" PropertyValue="@_companyReq.PhoneNumber.ToString()" />
+            @if (_companyReq.Address != null)
+        {
             <PropertyDisplay PropertyName="Street" PropertyValue="@_companyReq.Address.StreetAddress.ToString()" />
             <PropertyDisplay PropertyName="City" PropertyValue="@_companyReq.Address.City.ToString()" />
             <PropertyDisplay PropertyName="Zipcode" PropertyValue="@_companyReq.Address.PostalCode.ToString()" />
             <PropertyDisplay PropertyName="Country" PropertyValue="@_companyReq.Address.Country.ToString()" />
+        }
         </div>
         @if (_companyReq.InvoiceAddress != null)
         {

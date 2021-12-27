@@ -93,7 +93,7 @@
             _companyReq.Address = resultAddress;
         } else
         {
-            _companyReq.Address.Id = 1;
+            //_companyReq.Address.Id = 0;
         }
         if (_companyReq.InvoiceAddress.StreetAddress != null)
         {
@@ -101,7 +101,7 @@
             _companyReq.InvoiceAddress = resultInvoiceAddress;
         } else
         {
-            _companyReq.InvoiceAddress.Id = _companyReq.Address.Id;
+            //_companyReq.InvoiceAddress.Id = _companyReq.Address.Id;
 
         }
         var result = await _companyRepository.CreateAsync(_companyReq);
