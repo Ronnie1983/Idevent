@@ -29,7 +29,6 @@ namespace IdeventAPI.Controllers
             return Ok(users);
         }
 
-        // GET api/<UserController>/5
         [HttpGet("Email/{email}")]
         public IActionResult GetByEmail(string email)
         {
@@ -41,11 +40,10 @@ namespace IdeventAPI.Controllers
             return Ok(item);
         }
 
-        // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public IActionResult GetById(string id)
+        [HttpGet("{userId}")]
+        public IActionResult GetById(string userId)
         {
-            var item = _userManager.GetById(id);
+            var item = _userManager.GetById(userId);
             if (item == null)
             {
                 return NotFound();
