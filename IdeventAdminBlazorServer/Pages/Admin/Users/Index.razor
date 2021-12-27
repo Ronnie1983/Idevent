@@ -68,8 +68,20 @@ else
         }
     }
 
-    private void DeleteUser(UserModel user)
+    private async Task DeleteUser(UserModel user)
     {
-        
+        bool result = await _userRepository.DeleteUser(user);
+        if (result)
+        {
+            _users.Remove(user);
+            _messages.Clear();
+            _messages.Add($"{user.UserName} is deleted");
+            StateHasChanged();
+        } else
+        {
+             _messages.Clear();
+            _messages.Add($"Failed to delete {user.UserName}");
+             StateHasChanged();
+        }
     }
 }
