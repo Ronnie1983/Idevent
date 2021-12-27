@@ -15,7 +15,7 @@ namespace IdeventTests.IntegrationTests
         private ChipGroupManager _chipGroupManager;
         protected override void TestSpecificInitialization()
         {
-            _chipGroupManager = new ChipGroupManager(TestSettings.ConnectionString);
+            _chipGroupManager = ManagerFactory.CreateManagerForTests<ChipGroupManager>();
         }
 
         [TestMethod]

@@ -15,7 +15,7 @@ namespace IdeventTests.IntegrationTests
         private EventManager _eventManager;
         protected override void TestSpecificInitialization()
         {
-            _eventManager = new EventManager(TestSettings.ConnectionString);
+            _eventManager = ManagerFactory.CreateManagerForTests<EventManager>();
         }
 
         [TestMethod]

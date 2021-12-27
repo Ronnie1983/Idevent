@@ -15,7 +15,7 @@ namespace IdeventTests.IntegrationTests
         private CompanyManager _manager;
         protected override void TestSpecificInitialization()
         {
-            _manager = new CompanyManager(TestSettings.ConnectionString);
+            _manager = ManagerFactory.CreateManagerForTests<CompanyManager>();
         }
 
         [TestMethod]

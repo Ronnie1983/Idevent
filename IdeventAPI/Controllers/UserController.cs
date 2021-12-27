@@ -22,6 +22,12 @@ namespace IdeventAPI.Controllers
             _logger = logger;
         }
 
+        [HttpGet("CustomData")]
+        public IActionResult GetAllCustomData()
+        {
+            Dictionary<string, UserModel> users = _userManager.GetAllCustomData();
+            return Ok(users);
+        }
 
         // GET api/<UserController>/5
         [HttpGet("Email/{email}")]

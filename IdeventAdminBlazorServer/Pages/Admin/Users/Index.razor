@@ -26,11 +26,11 @@
                     <td>@user.UserName</td> <!-- Default UserName is Email -->
                     @if (user.Company != null)
                     {
-                        <td>@user.Company.Id</td>
+                        <td>@user.Company.Name</td>
                     }
                     else
                     {
-                        <td>(Not implemented)</td> <!-- No company -->
+                        <td>-</td> <!-- No company -->
                     }
                     <td>@user.Email</td>
                     <td>@user.PhoneNumber</td>
@@ -53,7 +53,7 @@ else
 
 @code {
     private List<UserModel> _users;
-    private List<string> _messages;
+    private List<string> _messages = new List<string>();
 
     protected override async Task OnInitializedAsync()
     {

@@ -19,6 +19,7 @@ namespace IdeventTests.IntegrationTests
 
         /// <summary>
         /// You can extend the initialisation that is run before each Test Method with this method.
+        /// Typically setting a private fields instance.
         /// </summary>
         protected abstract void TestSpecificInitialization();
         /// <summary>

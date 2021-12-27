@@ -15,7 +15,7 @@ namespace IdeventTests.IntegrationTests
         ChipContentManager _chipContentManager;
         protected override void TestSpecificInitialization()
         {
-           _chipContentManager = new ChipContentManager(TestSettings.ConnectionString);
+           _chipContentManager = ManagerFactory.CreateManagerForTests<ChipContentManager>();
         }
 
         [TestMethod]
