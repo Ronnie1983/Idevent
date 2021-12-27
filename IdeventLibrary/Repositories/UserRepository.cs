@@ -96,22 +96,29 @@ namespace IdeventLibrary.Repositories
             string json = JsonConvert.SerializeObject(updatedModel);
             StringContent httpsContent = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PutAsync(new Uri(_baseUrl), httpsContent);
-            await UpdateRoleAsync(updatedModel, oldRole);
+            //await UpdateRoleAsync(updatedModel, oldRole);
             if (response.IsSuccessStatusCode)
             {
                 return updatedModel;
             }
             return null;
         }
-        public async Task UpdateRoleAsync(UserModel updatedModel, string oldRole)
-        {
-            await _userManager.AddToRoleAsync(updatedModel, updatedModel.Role);
-            await _userManager.RemoveFromRoleAsync(updatedModel, oldRole);
-        }
+        //public async Task UpdateRoleAsync(UserModel updatedModel, string oldRole)
+        //{
+        //    await _userManager.AddToRoleAsync(updatedModel, updatedModel.Role);
+        //    await _userManager.RemoveFromRoleAsync(updatedModel, oldRole);
+        //}
         private async Task SetUserRole(UserModel user)
         {
-            IList<string> userRoles = await _userManager.GetRolesAsync(user);
-            user.Role = userRoles.First();
+            try
+            {
+                IList<string> userRoles = await _userManager.GetRolesAsync(user);
+                user.Role = userRoles.First();
+            }
+            catch
+            {
+                Console.WriteLine("Couldn't set User Role (SetUserRole in UserRepository)");
+            }
         }
     }
 }

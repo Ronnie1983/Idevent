@@ -84,9 +84,10 @@ namespace IdeventAPI.Managers
 
         public UserModel GetById(string userId)
         {
-            // Users.Id, Users.UserName, Users.Email, Users.PhoneNumber, A.Id, A.StreetAddress, A.City, A.Country, A.PostalCode
+            // Users.Id, Users.UserName, Users.Email, Users.PhoneNumber,
+            // Users.CompanyId AS Id, A.Id, A.StreetAddress, A.City, A.Country, A.PostalCode, A2.Id, A2.StreetAddress, A2.City, A2.Country, A2.PostalCode
             string sql = "EXECUTE spGetUserById @userId";
-            UserModel result = _dbConnection.QuerySingle<UserModel>(sql, new { userId = userId });
+            UserModel result = _dbConnection.Query(sql, _mapping, new { userId = userId }, splitOn:"Id").Single();
             
             return result;
         }

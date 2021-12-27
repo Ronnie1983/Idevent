@@ -42,7 +42,14 @@
                     <label>Phone</label>
                     <input class="form-control" @bind-value=@_user.PhoneNumber />
                 </div>
-                <SelectCompany Companies="_companies" OnChangeCallback="ChangeCompany" />
+                @if (_user.Company != null)
+                {
+                    <SelectCompany Companies="_companies" SelectedCompany=_user.Company.Id OnChangeCallback="ChangeCompany" />
+                }
+                else
+                {
+                    <SelectCompany Companies="_companies" OnChangeCallback="ChangeCompany" />
+                }
                 @if (_user.Address != null)
                 {
                     <div class="form-group">
@@ -77,7 +84,7 @@
                     }
                 </div>
             </div>
-            
+
         </div>
         <button class="btn btn-primary m-1">Save</button>
         <NavigateButton HtmlClasses="btn-warning m-1" PageToNavigateTo=@Common.Helpers.NavigationArgument("Users") ButtonText="Cancel"></NavigateButton>
@@ -103,9 +110,7 @@ else
     {
         try
         {
-            var users = await _userRepository.GetAllAsync();
-            _user = users.Find(x => x.Id == UserId);
-            @*_user = await _userRepository.GetUserById(UserId);*@
+            _user = await _userRepository.GetUserById(UserId);
             _oldRole = _user.Role;
 
             _companies = await _companyRepository.GetAllAsync();
@@ -114,10 +119,6 @@ else
             if (_user.Address == null)
             {
                 _user.Address = new AddressModel();
-                _user.Address.StreetAddress = "";
-                _user.Address.City = "";
-                _user.Address.Country = "";
-                _user.Address.PostalCode = "";
             }
             if (_user.PhoneNumber == null)
             {
@@ -126,7 +127,7 @@ else
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex);
         }
     }
     private void SelectRole(ChangeEventArgs e)
@@ -135,6 +136,7 @@ else
     }
     private void ChangeCompany(ChangeEventArgs e)
     {
+        if (_user.Company == null) _user.Company = new CompanyModel();
         _user.Company.Id = Convert.ToInt32(e.Value);
     }
     private async Task HandleValidSubmit()
@@ -150,6 +152,7 @@ else
         {
             _failedMessages.Clear();
             _failedMessages.Add("Failed to update user.");
+            return;
         }
         _successMessages.Clear();
         _successMessages.Add("Updated user.");
