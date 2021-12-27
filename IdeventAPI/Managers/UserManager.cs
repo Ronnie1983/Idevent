@@ -56,7 +56,7 @@ namespace IdeventAPI.Managers
         public bool Update(UserModel updatedModel)
         {
             bool success = false;
-            string sql = "EXECUTE spUpdateUser @Id, @UserName, @Email, @PhoneNumber";
+            string sql = "EXECUTE spUpdateUser @Id, @UserName, @Email, @PhoneNumber, @CompanyId";
             DynamicParameters parameters = new DynamicParameters();
 
             if (updatedModel.Address.Id > 0)
@@ -75,7 +75,7 @@ namespace IdeventAPI.Managers
             parameters.Add("@AddressId", updatedModel.Address.Id);
 
             int affectedRows = _dbConnection.Execute(sql, parameters);
-            if(affectedRows == 1)
+            if(affectedRows == 1 || affectedRows == 2)
             {
                 success = true;
             }

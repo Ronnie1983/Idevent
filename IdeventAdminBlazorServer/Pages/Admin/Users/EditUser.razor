@@ -145,7 +145,10 @@ else
         {
             _user.Address = await _addressRepository.CreateAsync(_user.Address);
         }
-
+        _user.Company.CVR = "cvr";
+        _user.Company.Name = "temp";
+        _user.Company.Email = "temp@email.dk";
+        _user.Company.PhoneNumber = "1234";
         UserModel updatedUser = await _userRepository.UpdateAsync(_user, _oldRole);
 
         if (updatedUser == null)
