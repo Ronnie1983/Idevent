@@ -50,7 +50,15 @@ namespace IdeventAPI.Controllers
             }
             return Ok(item);
         }
-
-
+        [HttpPut]
+        public IActionResult Update([FromBody] UserModel updatedModel)
+        {
+            bool success = _userManager.Update(updatedModel); 
+            if(success == false)
+            {
+                return BadRequest();
+            }
+            return Ok(updatedModel);
+        }
     }
 }

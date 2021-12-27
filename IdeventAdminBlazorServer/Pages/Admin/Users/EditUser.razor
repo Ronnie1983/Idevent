@@ -106,8 +106,8 @@ else
     {
         _user.Role = e.Value.ToString();
     }
-    private void HandleValidSubmit()
+    private async Task HandleValidSubmit()
     {
-        @*_userRepository.Update(_user);*@
+        await _userRepository.UpdateAsync(_user);
     }
 }

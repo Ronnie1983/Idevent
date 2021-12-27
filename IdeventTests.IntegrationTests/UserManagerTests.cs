@@ -25,5 +25,11 @@ namespace IdeventTests.IntegrationTests
             Assert.IsNotNull(output);
             Assert.IsInstanceOfType(output, typeof(Dictionary<string, UserModel>));
         }
+        [TestMethod]
+        public void GetByIdReturnsModel()
+        {
+            Assert.Fail("Test not made");
+            //_userManager.GetById(); // TODO: insert user data in the InsertTestData script.
+        }
     }
 }

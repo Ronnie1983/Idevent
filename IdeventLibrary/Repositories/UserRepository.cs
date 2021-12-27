@@ -91,16 +91,17 @@ namespace IdeventLibrary.Repositories
             return user;
         }
 
-        //public async Task<UserModel> UpdateAsync(UserModel item)
-        //{
-        //    string json = JsonConvert.SerializeObject(item);
-        //    StringContent httpsContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
-        //    var resonse = await _httpClient.PutAsync(new Uri(_baseUrl + "/" + item.Id), httpsContent);
-
-
-
-        //    return null;
-        //}
+        public async Task<UserModel> UpdateAsync(UserModel item)
+        {
+            string json = JsonConvert.SerializeObject(item);
+            StringContent httpsContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync(new Uri(_baseUrl), httpsContent);
+            if (response.IsSuccessStatusCode)
+            {
+                return item;
+            }
+            return null;
+        }
         private async Task SetUserRole(UserModel user)
         {
             IList<string> userRoles = await _userManager.GetRolesAsync(user);

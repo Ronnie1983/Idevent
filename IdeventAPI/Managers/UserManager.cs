@@ -53,6 +53,29 @@ namespace IdeventAPI.Managers
             return result[0];
         }
 
+        public bool Update(UserModel updatedModel)
+        {
+            bool success = false;
+            string sql = "EXECUTE spUpdateUser @Id, @UserName, @Email, @PhoneNumber, @AddressId, @StreetAddress, @Country, @City, @PostalCode";
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Id", updatedModel.Id);
+            parameters.Add("@UserName", updatedModel.UserName);
+            parameters.Add("@Email", updatedModel.Email);
+            parameters.Add("@PhoneNumber", updatedModel.PhoneNumber);
+            parameters.Add("@AddressId", updatedModel.Address.Id);
+            parameters.Add("@StreetAddress", updatedModel.Address.StreetAddress);
+            parameters.Add("@Country", updatedModel.Address.Country);
+            parameters.Add("@City", updatedModel.Address.City);
+            parameters.Add("@PostalCode", updatedModel.Address.PostalCode);
+
+            int affectedRows = _dbConnection.Execute(sql, parameters);
+            if(affectedRows == 1)
+            {
+                success = true;
+            }
+            return success;
+        }
+
         public UserModel GetById(string userId)
         {
             // Users.Id, Users.UserName, Users.Email, Users.PhoneNumber, A.Id, A.StreetAddress, A.City, A.Country, A.PostalCode
