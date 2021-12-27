@@ -97,6 +97,7 @@
             var resultInvoiceAddress = await _addressRepository.CreateAsync(_companyReq.InvoiceAddress);
             _companyReq.InvoiceAddress = resultInvoiceAddress;
         }
+        _companyReq.Active = true;
         var result = await _companyRepository.CreateAsync(_companyReq);
         if(result != null)
         {
