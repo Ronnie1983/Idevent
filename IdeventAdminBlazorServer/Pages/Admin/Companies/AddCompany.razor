@@ -83,8 +83,6 @@
     protected override async Task OnInitializedAsync()
     {
         _companyReq = new CompanyModel();
-
-
     }
 
     private async Task HandleValidSubmit()
@@ -103,8 +101,7 @@
             _companyReq.InvoiceAddress = resultInvoiceAddress;
         } else
         {
-            // TODO: gør så InvoiceAddress er den samme som Address i stede for bare id 1. 
-            _companyReq.InvoiceAddress.Id = 1;
+            _companyReq.InvoiceAddress.Id = _companyReq.Address.Id;
 
         }
         var result = await _companyRepository.CreateAsync(_companyReq);
@@ -112,8 +109,6 @@
         {
             _navigationManager.NavigateTo("Companies");
         }
-        // TODO: add submit company
-
     }
 
 }
