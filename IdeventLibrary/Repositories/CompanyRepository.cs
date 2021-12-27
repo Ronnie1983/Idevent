@@ -76,10 +76,5 @@ namespace IdeventLibrary.Repositories
             }
             return null;
         }
-
-        public async Task<CompanyModel> DeleteAsync(int id)
-        {
-            return null;
-        }
     }
 }

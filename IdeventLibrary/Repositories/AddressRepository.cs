@@ -53,10 +53,5 @@ namespace IdeventLibrary.Repositories
             }
             return null;
         }
-
-        public async Task<AddressModel> DeleteAsync(AddressModel item)
-        {
-            return item;
-        }
     }
 }

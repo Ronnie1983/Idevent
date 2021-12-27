@@ -80,7 +80,7 @@
     private CompanyRepository _companyRepository = new CompanyRepository();
     private AddressRepository _addressRepository = new AddressRepository();
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         _companyReq = new CompanyModel();
     }
