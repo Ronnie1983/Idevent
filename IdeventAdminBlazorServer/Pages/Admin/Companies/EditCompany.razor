@@ -40,24 +40,31 @@
                 <label for="@_companyReq.PhoneNumber">Phone</label>
                 <InputText class="form-control" id="phone" @bind-Value="_companyReq.PhoneNumber" placeholder="Phone number" />
             </div>
-
-            <div class="form-group">
-                <label for="@_companyReq.Address.StreetAddress">Street</label>
-                <InputText class="form-control" id="address_street" @bind-Value="_companyReq.Address.StreetAddress" placeholder="Street and number" />
-            </div>
-            <div class="form-group">
-                <label for="@_companyReq.Address.City">City</label>
-                <InputText class="form-control" id="address_city" @bind-Value="_companyReq.Address.City" placeholder="City" />
-            </div>
-            <div class="form-group">
-                <label for="@_companyReq.Address.PostalCode">Zipcode</label>
-                <InputText class="form-control" id="address_postal" @bind-Value="_companyReq.Address.PostalCode" placeholder="Postal" />
-            </div>
-            <div class="form-group">
-                <label for="@_companyReq.Address.Country">Country</label>
+             @if (_companyReq.Address != null)
+            {
+                <div class="form-group">
+                    <label for="@_companyReq.Address.StreetAddress">Street</label>
+                    <InputText class="form-control" id="address_street" @bind-Value="_companyReq.Address.StreetAddress" placeholder="Street and number" />
+                </div>
+                <div class="form-group">
+                    <label for="@_companyReq.Address.City">City</label>
+                    <InputText class="form-control" id="address_city" @bind-Value="_companyReq.Address.City" placeholder="City" />
+                </div>
+                <div class="form-group">
+                    <label for="@_companyReq.Address.PostalCode">Zipcode</label>
+                    <InputText class="form-control" id="address_postal" @bind-Value="_companyReq.Address.PostalCode" placeholder="Postal" />
+                </div>
+                <div class="form-group">
+                    <label for="@_companyReq.Address.Country">Country</label>
                 <InputText class="form-control" id="address_country" @bind-Value="_companyReq.Address.Country" placeholder="Country" />
+                </div>
+            }
+            else
+            {
+                 <div class="col-4 m-2">
+                <button type="button" class="btn-info" @onclick="()=>{AddAddress();}">"Add Address</button>
             </div>
-
+            }
         </div>
 
         @if (_companyReq.InvoiceAddress != null)
@@ -130,7 +137,11 @@
     {
         return $"{navigationPrefix}{modelId}";
     }
-
+    private void AddAddress()
+    {
+        _companyReq.Address = new AddressModel();
+        StateHasChanged();
+    }
     private void AddInvoiceAddress()
     {
         _companyReq.InvoiceAddress = new AddressModel();
