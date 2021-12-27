@@ -1,0 +1,28 @@
+﻿CREATE PROCEDURE [dbo].[spUpdateUser]
+	@UserId NVARCHAR(450),
+	@UserName NVARCHAR(256),
+	@Email NVARCHAR(256),
+	@PhoneNumber NVARCHAR(MAX),
+	@AddressId int,
+	@StreetAddress NVARCHAR(100),
+	@City NVARCHAR(100),
+	@Country NVARCHAR(100),
+	@PostalCode NVARCHAR(12)
+AS
+BEGIN
+	UPDATE AspNetUsers
+	SET
+	UserName = @UserName,
+	Email = @Email,
+	PhoneNumber = @PhoneNumber
+	WHERE AspNetUsers.Id = @UserId
+
+	UPDATE Addresses
+	SET
+	StreetAddress = @StreetAddress,
+	City = @City,
+	Country = @Country,
+	PostalCode = @PostalCode
+	WHERE Addresses.Id = @AddressId
+END
+	

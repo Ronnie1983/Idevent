@@ -31,5 +31,15 @@ namespace IdeventTests.IntegrationTests
             Assert.Fail("Test not made");
             //_userManager.GetById(); // TODO: insert user data in the InsertTestData script.
         }
+        [TestMethod]
+        public void UpdateReturnsModelOnSuccess()
+        {
+            Assert.Fail("Test not made");
+        }
+        [TestMethod]
+        public void UpdateUpdatesAllFields()
+        {
+            Assert.Fail("Test not made");
+        }
     }
 }
