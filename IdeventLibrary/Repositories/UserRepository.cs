@@ -52,9 +52,6 @@ namespace IdeventLibrary.Repositories
                 return output;
             });
            
-            //user.Company = await _companyRepository.GetAsync(user.Company.Id);
-            //user.Address = await _addressRepository.GetAddressById(user.Address.Id);
-            //user.InvoiceAddress = await _addressRepository.GetAddressById(user.InvoiceAddress.Id);
             return users;
         }
         public async Task<UserModel> GetByClaim(ClaimsPrincipal claim)
@@ -88,9 +85,9 @@ namespace IdeventLibrary.Repositories
 
         public async Task<UserModel> GetUserById(string id)
         {
-            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl + "/" + id));
-            var user = JsonConvert.DeserializeObject<UserModel>(jsonContent);
-
+            string jsonContent = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/{id}"));
+            UserModel user = JsonConvert.DeserializeObject<UserModel>(jsonContent);
+            await SetUserRole(user);
             return user;
         }
 

@@ -1,5 +1,5 @@
 ﻿@page "/EditUser/{UserId}"
-@attribute [Authorize]
+@*@attribute [Authorize]*@
 
 @using IdeventLibrary
 @inject UserRepository _userRepository
@@ -34,25 +34,31 @@
                     <InputText Value=@_user.Email />
                 </div>
                 <div class="form-group">
-                    <label>Address</label>
-                    <InputText Value=@_user.Address.StreetAddress />
-                </div>
-                <div class="form-group">
-                    <label>City</label>
-                    <InputText Value=@_user.Address.City />
-                </div>
-                <div class="form-group">
-                    <label>Country</label>
-                    <InputText Value=@_user.Address.Country />
-                </div>
-                <div class="form-group">
-                    <label>Postal code</label>
-                    <InputText Value=@_user.Address.PostalCode />
-                </div>
-                <div class="form-group">
                     <label>Phone</label>
-                    <InputText Value=@_user.PhoneNumber />
+                    @if (_user.PhoneNumber != null)
+                    {
+                        <InputText Value=@_user.PhoneNumber />
+                    }
                 </div>
+                @if (_user.Address != null)
+                {
+                    <div class="form-group">
+                        <label>Address</label>
+                        <InputText Value=@_user.Address.StreetAddress />
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <InputText Value=@_user.Address.City />
+                    </div>
+                    <div class="form-group">
+                        <label>Country</label>
+                        <InputText Value=@_user.Address.Country />
+                    </div>
+                    <div class="form-group">
+                        <label>Postal code</label>
+                        <InputText Value=@_user.Address.PostalCode />
+                    </div>
+                }
             </div>
         </div>
     </EditForm>
@@ -67,7 +73,28 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _user = await _userRepository.GetUserById(UserId);
+        try
+        {
+            _user = await _userRepository.GetUserById(UserId);
+            if (_user.UserName == null) throw new NullReferenceException("UserName is null. Something went wrong when fetching user data.");
+            if (_user.Address == null)
+            {
+                _user.Address = new AddressModel();
+                _user.Address.StreetAddress = "";
+                _user.Address.City = "";
+                _user.Address.Country = "";
+                _user.Address.PostalCode = "";
+            }
+            if (_user.PhoneNumber == null)
+            {
+                _user.PhoneNumber = "";
+            }
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
     }
     private void HandleValidSubmit()
     {
