@@ -9,59 +9,66 @@
 {
     <h2>@_user.UserName</h2>
 
-    <EditForm Model=_user OnValidSubmit=HandleValidSubmit>
+    <EditForm Model=@_user OnValidSubmit=@HandleValidSubmit>
         <DataAnnotationsValidator />
         <ValidationSummary />
         <div class="row">
+
             <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Role</label>
-                    <InputSelect TValue="string" Value="_user.Role">
-                        <option value="@Enums.Roles.SuperAdmin.ToString()">@Enums.Roles.SuperAdmin.ToString()</option>
-                        <option value="@Enums.Roles.Admin.ToString()">@Enums.Roles.Admin.ToString()</option>
-                        <option value="@Enums.Roles.Operator.ToString()">@Enums.Roles.Operator.ToString()</option>
-                        <option value="@Enums.Roles.User.ToString()">@Enums.Roles.User.ToString()</option>
-                    </InputSelect>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label>Name</label>
-                    <InputText Value=@_user.UserName />
+                    <label>User name</label>
+                    <input class="form-control" @bind-value=@_user.UserName />
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <InputText Value=@_user.Email />
+                    <input class="form-control" @bind-value=@_user.Email />
                 </div>
                 <div class="form-group">
                     <label>Phone</label>
-                    @if (_user.PhoneNumber != null)
-                    {
-                        <InputText Value=@_user.PhoneNumber />
-                    }
+                    <input class="form-control" @bind-value=@_user.PhoneNumber />
                 </div>
                 @if (_user.Address != null)
                 {
                     <div class="form-group">
                         <label>Address</label>
-                        <InputText Value=@_user.Address.StreetAddress />
+                        <input class="form-control" @bind-value=@_user.Address.StreetAddress />
                     </div>
                     <div class="form-group">
                         <label>City</label>
-                        <InputText Value=@_user.Address.City />
+                        <input class="form-control" @bind-value=@_user.Address.City />
                     </div>
                     <div class="form-group">
                         <label>Country</label>
-                        <InputText Value=@_user.Address.Country />
+                        <input class="form-control" @bind-value=@_user.Address.Country />
                     </div>
                     <div class="form-group">
                         <label>Postal code</label>
-                        <InputText Value=@_user.Address.PostalCode />
+                        <input class="form-control" @bind-value=@_user.Address.PostalCode />
                     </div>
                 }
             </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    @if (_user.Role != null)
+                    {
+                        <label>Role</label>
+                        <select class="form-control" value="@_user.Role" @onchange="SelectRole">
+                            <option value="@Enums.Roles.SuperAdmin.ToString()">@Enums.Roles.SuperAdmin.ToString()</option>
+                            <option value="@Enums.Roles.Admin.ToString()">@Enums.Roles.Admin.ToString()</option>
+                            <option value="@Enums.Roles.Operator.ToString()">@Enums.Roles.Operator.ToString()</option>
+                            <option value="@Enums.Roles.User.ToString()">@Enums.Roles.User.ToString()</option>
+                        </select>
+                    }
+                </div>
+            </div>
         </div>
+        <button class="btn btn-primary m-1">Save</button>
+        <NavigateButton HtmlClasses="btn-warning m-1" PageToNavigateTo=@Common.Helpers.NavigationArgument("Users") ButtonText="Cancel"></NavigateButton>
     </EditForm>
+}
+else
+{
+    <Loader LoadingMessage="Loading user data..." />
 }
 
 
@@ -90,14 +97,17 @@
                 _user.PhoneNumber = "";
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
         }
-
+    }
+    private void SelectRole(ChangeEventArgs e)
+    {
+        _user.Role = e.Value.ToString();
     }
     private void HandleValidSubmit()
     {
-        throw new NotImplementedException();
+        @*_userRepository.Update(_user);*@
     }
 }
