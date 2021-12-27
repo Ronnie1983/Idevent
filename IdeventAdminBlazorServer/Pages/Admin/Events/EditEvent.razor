@@ -1,5 +1,7 @@
 ﻿@page "/EditEvent/{EventId}"
 
+@attribute [Authorize(Roles = "SuperAdmin, Admin")]
+
 <h1>Edit Event: EventName</h1>
 
 @code {

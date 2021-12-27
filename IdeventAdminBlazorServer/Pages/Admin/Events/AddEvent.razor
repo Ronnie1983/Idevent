@@ -1,6 +1,9 @@
 ﻿@page "/AddEvent"
 @inject CompanyRepository companyRepository
 @inject EventRepository eventRepository
+
+@attribute [Authorize(Roles = "SuperAdmin, Admin")]
+
 <h1>Add Event</h1>
 @if (_message != null)
 {

@@ -3,6 +3,8 @@
 @using Microsoft.AspNetCore.Identity
 @inject UserRepository _userRepository
 
+@attribute [Authorize(Roles = "SuperAdmin, Admin")]
+
 <h1>Users</h1>
 
  @if (_users != null)

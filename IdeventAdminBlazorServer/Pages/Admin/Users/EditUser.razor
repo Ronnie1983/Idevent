@@ -1,4 +1,7 @@
 ﻿@page "/EditUser/{UserId}"
+
+@attribute [Authorize(Roles = "SuperAdmin, Admin")]
+
 <h1>Edit User</h1>
 
 

@@ -1,5 +1,8 @@
 ﻿@page "/ChipDetails/{ChipId}"
 @using IdeventLibrary.Repositories
+
+@attribute [Authorize(Roles = "SuperAdmin, Admin")]
+
 <h1>Chip Details</h1>
 
 <NavigateButton PageToNavigateTo="Chips" ButtonText="Back" HtmlClasses="btn-danger m-1" />

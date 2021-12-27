@@ -1,4 +1,6 @@
-﻿<h3>AddUser</h3>
+﻿@attribute [Authorize(Roles = "SuperAdmin, Admin")]
+
+<h3>AddUser</h3>
 
 @code {
 
