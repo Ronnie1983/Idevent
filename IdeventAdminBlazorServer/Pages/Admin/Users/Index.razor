@@ -1,10 +1,19 @@
 ﻿@page "/Users"
 @using IdeventLibrary
 @using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+
+@inject AuthenticationStateProvider _authenticationStateProvider
 @inject UserRepository _userRepository
 
 <h1>Users</h1>
 
+@if (_messages != null)
+{
+    @foreach(string message in _messages)
+    @message
+}
  @if (_users != null)
 {
     <table class="table table-hover">
@@ -38,7 +47,9 @@
                     <td>
                         <div class="btn-group">
                             <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit" />
-                            <button class="btn btn-danger m-1">Delete</button>
+                            @if(user.Id != _profileData.Id){
+                                <button class="btn btn-danger m-1" @onclick="async ()=>{await DeleteUser(user);}">Delete</button>
+                            }
                         </div>
                     </td>
                 </tr>
@@ -54,9 +65,22 @@ else
 @code {
     private List<UserModel> _users;
     private List<string> _messages = new List<string>();
+        private UserModel _profileData;
 
     protected override async Task OnInitializedAsync()
     {
+         try
+        {
+            AuthenticationState authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            ClaimsPrincipal userClaim = authState.User;
+            UserModel user = await _userRepository.GetByClaim(userClaim);
+
+            _profileData = user;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
         try
         {
             _users = await _userRepository.GetAllAsync();
@@ -65,6 +89,23 @@ else
         {
             _messages.Add("Something went when fetching users.");
             Console.WriteLine(ex);
+        }
+    }
+
+    private async Task DeleteUser(UserModel user)
+    {
+        bool result = await _userRepository.DeleteUser(user);
+        if (result)
+        {
+            _users.Remove(user);
+            _messages.Clear();
+            _messages.Add($"{user.UserName} is deleted");
+            StateHasChanged();
+        } else
+        {
+             _messages.Clear();
+            _messages.Add($"Failed to delete {user.UserName}");
+             StateHasChanged();
         }
     }
 }

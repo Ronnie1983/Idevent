@@ -120,5 +120,16 @@ namespace IdeventLibrary.Repositories
                 Console.WriteLine("Couldn't set User Role (SetUserRole in UserRepository)");
             }
         }
+
+        public async Task<bool> DeleteUser(UserModel user)
+        {
+            var result = await _httpClient.DeleteAsync(new Uri(_baseUrl + "/" + user.Id));
+            if (result.IsSuccessStatusCode)
+            {
+                return true;
+
+            }
+            return false;
+        }
     }
 }

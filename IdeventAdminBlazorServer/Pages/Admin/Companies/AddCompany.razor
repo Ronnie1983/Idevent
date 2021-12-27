@@ -80,11 +80,9 @@
     private CompanyRepository _companyRepository = new CompanyRepository();
     private AddressRepository _addressRepository = new AddressRepository();
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         _companyReq = new CompanyModel();
-
-
     }
 
     private async Task HandleValidSubmit()
@@ -93,27 +91,18 @@
         {
             var resultAddress = await _addressRepository.CreateAsync(_companyReq.Address);
             _companyReq.Address = resultAddress;
-        } else
-        {
-            _companyReq.Address.Id = 1;
         }
         if (_companyReq.InvoiceAddress.StreetAddress != null)
         {
             var resultInvoiceAddress = await _addressRepository.CreateAsync(_companyReq.InvoiceAddress);
             _companyReq.InvoiceAddress = resultInvoiceAddress;
-        } else
-        {
-            // TODO: gør så InvoiceAddress er den samme som Address i stede for bare id 1. 
-            _companyReq.InvoiceAddress.Id = 1;
-
         }
+        _companyReq.Active = true;
         var result = await _companyRepository.CreateAsync(_companyReq);
         if(result != null)
         {
             _navigationManager.NavigateTo("Companies");
         }
-        // TODO: add submit company
-
     }
 
 }

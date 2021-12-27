@@ -6,8 +6,8 @@
 	@phoneNumber nvarchar(30),
 	@active bit,
 	@note nvarchar(255),
-	@addressId int,
-	@invoiceAddress int
+	@addressId int = null,
+	@invoiceAddress int = null
 AS
 BEGIN
 	INSERT INTO Companies (Name, Logo, CVR, Email, PhoneNumber, Active, Note, AddressId, InvoiceAddressId)

@@ -83,6 +83,18 @@ namespace IdeventAPI.Managers
         }
 
         public UserModel GetById(string userId)
+        public bool DeleteById(string id)
+        {
+            string sql = "EXECUTE spDeleteUserById @userId";
+            int result = _dbConnection.Execute(sql,new { userId = id });
+            if(result > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public UserModel GetById(string id)
         {
             // Users.Id, Users.UserName, Users.Email, Users.PhoneNumber,
             // Users.CompanyId AS Id, A.Id, A.StreetAddress, A.City, A.Country, A.PostalCode, A2.Id, A2.StreetAddress, A2.City, A2.Country, A2.PostalCode

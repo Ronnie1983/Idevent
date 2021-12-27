@@ -138,6 +138,7 @@
     <Build Include="dbo\Tables\Addresses.sql" />
     <Build Include="dbo\Tables\Companies.sql" />
     <Build Include="dbo\StoredProcedures\spGetAllUsersCustomData.sql" />
+    <Build Include="dbo\StoredProcedures\spDeleteUserById.sql" />
     <Build Include="dbo\StoredProcedures\spUpdateUser.sql" />
   </ItemGroup>
   <ItemGroup>
