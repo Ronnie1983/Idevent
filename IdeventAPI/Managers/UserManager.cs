@@ -56,12 +56,12 @@ namespace IdeventAPI.Managers
         public bool Update(UserModel updatedModel)
         {
             bool success = false;
-            string sql = "EXECUTE spUpdateUser @Id, @UserName, @Email, @PhoneNumber, @AddressId, @StreetAddress, @Country, @City, @PostalCode";
+            string sql = "EXECUTE spUpdateUser @Id, @UserName, @Email, @PhoneNumber";
             DynamicParameters parameters = new DynamicParameters();
 
             if (updatedModel.Address.Id > 0)
             {
-                parameters.Add("@AddressId", updatedModel.Address.Id);
+                sql = "EXECUTE spUpdateUser @Id, @UserName, @Email, @PhoneNumber, @CompanyId ,@AddressId, @StreetAddress, @Country, @City, @PostalCode";
                 parameters.Add("@StreetAddress", updatedModel.Address.StreetAddress);
                 parameters.Add("@Country", updatedModel.Address.Country);
                 parameters.Add("@City", updatedModel.Address.City);
@@ -71,6 +71,7 @@ namespace IdeventAPI.Managers
             parameters.Add("@UserName", updatedModel.UserName);
             parameters.Add("@Email", updatedModel.Email);
             parameters.Add("@PhoneNumber", updatedModel.PhoneNumber);
+            parameters.Add("@CompanyId", updatedModel.Company.Id);
             parameters.Add("@AddressId", updatedModel.Address.Id);
 
             int affectedRows = _dbConnection.Execute(sql, parameters);

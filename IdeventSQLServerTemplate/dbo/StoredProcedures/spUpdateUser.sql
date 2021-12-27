@@ -3,6 +3,7 @@
 	@UserName NVARCHAR(256),
 	@Email NVARCHAR(256),
 	@PhoneNumber NVARCHAR(MAX),
+	@CompanyId int,
 
 	@AddressId int = 0,
 	@StreetAddress NVARCHAR(100) = '',
@@ -15,7 +16,8 @@ BEGIN
 	SET
 	UserName = @UserName,
 	Email = @Email,
-	PhoneNumber = @PhoneNumber
+	PhoneNumber = @PhoneNumber,
+	CompanyId = @CompanyId
 	WHERE AspNetUsers.Id = @UserId
 	
 	IF(@AddressId > 0)

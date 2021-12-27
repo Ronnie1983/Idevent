@@ -4,10 +4,17 @@
 @using IdeventLibrary
 @inject UserRepository _userRepository
 @inject AddressRepository _addressRepository
+@inject CompanyRepository _companyRepository
 
-@foreach (string message in _messages)
+@foreach (string message in _failedMessages)
 {
     <div class="alert alert-danger">
+        @message
+    </div>
+}
+@foreach (string message in _successMessages)
+{
+    <div class="alert alert-success">
         @message
     </div>
 }
@@ -35,6 +42,7 @@
                     <label>Phone</label>
                     <input class="form-control" @bind-value=@_user.PhoneNumber />
                 </div>
+                <SelectCompany Companies="_companies" OnChangeCallback="ChangeCompany" />
                 @if (_user.Address != null)
                 {
                     <div class="form-group">
@@ -69,6 +77,7 @@
                     }
                 </div>
             </div>
+            
         </div>
         <button class="btn btn-primary m-1">Save</button>
         <NavigateButton HtmlClasses="btn-warning m-1" PageToNavigateTo=@Common.Helpers.NavigationArgument("Users") ButtonText="Cancel"></NavigateButton>
@@ -85,13 +94,22 @@ else
     public string UserId { get; set; }
 
     private UserModel _user;
-    private List<string> _messages = new List<string>();
+    private string _oldRole;
+    private List<string> _failedMessages = new List<string>();
+    private List<string> _successMessages = new List<string>();
+    private List<CompanyModel> _companies;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            _user = await _userRepository.GetUserById(UserId);
+            var users = await _userRepository.GetAllAsync();
+            _user = users.Find(x => x.Id == UserId);
+            @*_user = await _userRepository.GetUserById(UserId);*@
+            _oldRole = _user.Role;
+
+            _companies = await _companyRepository.GetAllAsync();
+
             if (_user.UserName == null) throw new NullReferenceException("UserName is null. Something went wrong when fetching user data.");
             if (_user.Address == null)
             {
@@ -115,6 +133,10 @@ else
     {
         _user.Role = e.Value.ToString();
     }
+    private void ChangeCompany(ChangeEventArgs e)
+    {
+        _user.Company.Id = Convert.ToInt32(e.Value);
+    }
     private async Task HandleValidSubmit()
     {
         if (AddressHasInput() && _user.Address.Id > 0)
@@ -122,12 +144,15 @@ else
             _user.Address = await _addressRepository.CreateAsync(_user.Address);
         }
 
-        UserModel updatedUser = await _userRepository.UpdateAsync(_user);
+        UserModel updatedUser = await _userRepository.UpdateAsync(_user, _oldRole);
+
         if (updatedUser == null)
         {
-            _messages.Clear();
-            _messages.Add("Failed to update user.");
+            _failedMessages.Clear();
+            _failedMessages.Add("Failed to update user.");
         }
+        _successMessages.Clear();
+        _successMessages.Add("Updated user.");
     }
     private bool AddressHasInput()
     {
