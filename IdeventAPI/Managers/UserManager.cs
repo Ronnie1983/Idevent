@@ -53,12 +53,12 @@ namespace IdeventAPI.Managers
             return result[0];
         }
 
-        public UserModel GetById(string id)
+        public UserModel GetById(string userId)
         {
+            // Users.Id, Users.UserName, Users.Email, Users.PhoneNumber, A.Id, A.StreetAddress, A.City, A.Country, A.PostalCode
             string sql = "EXECUTE spGetUserById @userId";
-            UserModel result = _dbConnection.QuerySingle<UserModel>(sql, new { userId = id });
+            UserModel result = _dbConnection.QuerySingle<UserModel>(sql, new { userId = userId });
             return result;
-
         }
     }
 }

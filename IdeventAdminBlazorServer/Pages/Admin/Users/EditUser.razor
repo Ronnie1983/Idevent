@@ -1,9 +1,76 @@
 ﻿@page "/EditUser/{UserId}"
-<h1>Edit User</h1>
+@attribute [Authorize]
 
+@using IdeventLibrary
+@inject UserRepository _userRepository
+
+<h1>Edit User</h1>
+@if (_user != null)
+{
+    <h2>@_user.UserName</h2>
+
+    <EditForm Model=_user OnValidSubmit=HandleValidSubmit>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Role</label>
+                    <InputSelect TValue="string" Value="_user.Role">
+                        <option value="@Enums.Roles.SuperAdmin.ToString()">@Enums.Roles.SuperAdmin.ToString()</option>
+                        <option value="@Enums.Roles.Admin.ToString()">@Enums.Roles.Admin.ToString()</option>
+                        <option value="@Enums.Roles.Operator.ToString()">@Enums.Roles.Operator.ToString()</option>
+                        <option value="@Enums.Roles.User.ToString()">@Enums.Roles.User.ToString()</option>
+                    </InputSelect>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Name</label>
+                    <InputText Value=@_user.UserName />
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <InputText Value=@_user.Email />
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <InputText Value=@_user.Address.StreetAddress />
+                </div>
+                <div class="form-group">
+                    <label>City</label>
+                    <InputText Value=@_user.Address.City />
+                </div>
+                <div class="form-group">
+                    <label>Country</label>
+                    <InputText Value=@_user.Address.Country />
+                </div>
+                <div class="form-group">
+                    <label>Postal code</label>
+                    <InputText Value=@_user.Address.PostalCode />
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <InputText Value=@_user.PhoneNumber />
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
 
 
 @code {
     [Parameter]
     public string UserId { get; set; }
+
+    private UserModel _user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _user = await _userRepository.GetUserById(UserId);
+    }
+    private void HandleValidSubmit()
+    {
+        throw new NotImplementedException();
+    }
 }
