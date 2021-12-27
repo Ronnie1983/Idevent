@@ -38,7 +38,7 @@
                     <td>
                         <div class="btn-group">
                             <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit" />
-                            <button class="btn btn-danger m-1">Delete</button>
+                            <button class="btn btn-danger m-1" @onclick="()=>{DeleteUser(user);}">Delete</button>
                         </div>
                     </td>
                 </tr>
@@ -66,5 +66,10 @@ else
             _messages.Add("Something went when fetching users.");
             Console.WriteLine(ex);
         }
+    }
+
+    private void DeleteUser(UserModel user)
+    {
+        
     }
 }
