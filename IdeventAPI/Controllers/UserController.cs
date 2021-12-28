@@ -61,6 +61,16 @@ namespace IdeventAPI.Controllers
             }
             return Ok(updatedModel);
         }
+        [HttpPut("Role")]
+        public IActionResult UpdateRole([FromBody] UserModel updatedModel)
+        {
+            bool success = _userManager.UpdateRole(updatedModel);
+            if (success == false)
+            {
+                return BadRequest();
+            }
+            return Ok(updatedModel);
+        }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteById(string id)

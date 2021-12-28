@@ -82,6 +82,19 @@ namespace IdeventAPI.Managers
             return success;
         }
 
+        public bool UpdateRole(UserModel updatedModel)
+        {
+            bool success = false;
+            string sql = "EXECUTE spUpdateUserRole @roleName, @userId";
+            var parameters = new { roleName = updatedModel.Role, userId = updatedModel.Id };
+            int affectedRows = _dbConnection.Execute(sql, parameters);
+            if(affectedRows == 1)
+            {
+                success = true;
+            }
+            return success;
+        }
+
         public bool DeleteById(string id)
         {
             string sql = "EXECUTE spDeleteUserById @userId";
