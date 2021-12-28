@@ -5,7 +5,7 @@
 	@PhoneNumber NVARCHAR(MAX),
 	@CompanyId int,
 
-	@AddressId int = 0,
+	@AddressId int = NULL,
 	@StreetAddress NVARCHAR(100) = '',
 	@City NVARCHAR(100) ='',
 	@Country NVARCHAR(100)='',
@@ -17,7 +17,9 @@ BEGIN
 	UserName = @UserName,
 	Email = @Email,
 	PhoneNumber = @PhoneNumber,
-	CompanyId = @CompanyId
+	CompanyId = @CompanyId,
+	AddressId = @AddressId,
+	InvoiceAddressId = @AddressId
 	WHERE AspNetUsers.Id = @UserId
 	
 	IF(@AddressId > 0)
