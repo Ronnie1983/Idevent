@@ -29,7 +29,6 @@ namespace IdeventAPI.Controllers
             return Ok(users);
         }
 
-        // GET api/<UserController>/5
         [HttpGet("Email/{email}")]
         public IActionResult GetByEmail(string email)
         {
@@ -41,16 +40,36 @@ namespace IdeventAPI.Controllers
             return Ok(item);
         }
 
-        // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public IActionResult GetById(string id)
+        [HttpGet("{userId}")]
+        public IActionResult GetById(string userId)
         {
-            var item = _userManager.GetById(id);
+            var item = _userManager.GetById(userId);
             if (item == null)
             {
                 return NotFound();
             }
             return Ok(item);
+        }
+
+        [HttpPut]
+        public IActionResult Update([FromBody] UserModel updatedModel)
+        {
+            bool success = _userManager.Update(updatedModel); 
+            if(success == false)
+            {
+                return BadRequest();
+            }
+            return Ok(updatedModel);
+        }
+        [HttpPut("Role")]
+        public IActionResult UpdateRole([FromBody] UserModel updatedModel)
+        {
+            bool success = _userManager.UpdateRole(updatedModel);
+            if (success == false)
+            {
+                return BadRequest();
+            }
+            return Ok(updatedModel);
         }
 
         [HttpDelete("{id}")]
@@ -62,7 +81,5 @@ namespace IdeventAPI.Controllers
                 return Ok();
             } else { return BadRequest(); }
         }
-
-
     }
 }

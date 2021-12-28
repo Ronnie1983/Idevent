@@ -50,7 +50,7 @@ namespace IdeventAdminBlazorServer.Common
         /// <param name="navigationPrefix">The @page you want to navigate to (add a / at the end if you specify modelId)</param>
         /// <param name="modelId">(optional) if you're going to a specific models page (edit or details) you can set its id here.</param>
         /// <returns></returns>
-        public static string NavigationArgument(string navigationPrefix, string modelId = "")
+        public static string NavigationArgument(string navigationPrefix, string modelId)
         {
             if (string.IsNullOrWhiteSpace(modelId))
             {

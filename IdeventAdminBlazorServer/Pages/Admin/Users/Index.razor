@@ -4,6 +4,7 @@
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 
+@attribute [Authorize]
 @inject AuthenticationStateProvider _authenticationStateProvider
 @inject UserRepository _userRepository
 
@@ -13,10 +14,11 @@
 
 @if (_messages != null)
 {
-    @foreach(string message in _messages)
-    @message
+    @foreach (string message in _messages)
+        @message
+
 }
- @if (_users != null)
+@if (_users != null)
 {
     <table class="table table-hover">
         <thead>
@@ -50,8 +52,13 @@
                     <td>
                         <div class="btn-group">
                             <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit" />
-                            @if(user.Id != _profileData.Id){
+                            @if (user.Id != _profileData.Id)
+                            {
                                 <button class="btn btn-danger m-1" @onclick="async ()=>{await DeleteUser(user);}">Delete</button>
+                            }
+                            else
+                            {
+                              <button class="btn btn-secondary m-1" disabled>Delete</button>  
                             }
                         </div>
                     </td>
@@ -69,11 +76,11 @@ else
 @code {
     private List<UserModel> _users;
     private List<string> _messages = new List<string>();
-        private UserModel _profileData;
+    private UserModel _profileData;
 
     protected override async Task OnInitializedAsync()
     {
-         try
+        try
         {
             AuthenticationState authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
             ClaimsPrincipal userClaim = authState.User;
@@ -105,11 +112,12 @@ else
             _messages.Clear();
             _messages.Add($"{user.UserName} is deleted");
             StateHasChanged();
-        } else
+        }
+        else
         {
-             _messages.Clear();
+            _messages.Clear();
             _messages.Add($"Failed to delete {user.UserName}");
-             StateHasChanged();
+            StateHasChanged();
         }
     }
 }

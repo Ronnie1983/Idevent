@@ -1,12 +1,188 @@
 ﻿@page "/EditUser/{UserId}"
-
 @attribute [Authorize(Roles = "SuperAdmin, Admin")]
 
-<h1>Edit User</h1>
+@using IdeventLibrary
+@inject UserRepository _userRepository
+@inject AddressRepository _addressRepository
+@inject CompanyRepository _companyRepository
 
+@foreach (string message in _failedMessages)
+{
+    <div class="alert alert-danger">
+        @message
+    </div>
+}
+@foreach (string message in _successMessages)
+{
+    <div class="alert alert-success">
+        @message
+    </div>
+}
+
+
+<h1>Edit User</h1>
+@if (_user != null)
+{
+    <h2>@_user.UserName</h2>
+
+    <EditForm Model=@_user OnValidSubmit=@HandleValidSubmit>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="row">
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>User name</label>
+                    <input class="form-control" @bind-value=@_user.UserName />
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input class="form-control" @bind-value=@_user.Email />
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input class="form-control" @bind-value=@_user.PhoneNumber />
+                </div>
+                @if (_user.Company != null)
+                {
+                    <SelectCompany Companies="_companies" SelectedCompany=_user.Company.Id OnChangeCallback="ChangeCompany" />
+                }
+                else
+                {
+                    <SelectCompany Companies="_companies" OnChangeCallback="ChangeCompany" />
+                }
+                @if (_user.Address != null)
+                {
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input class="form-control" @bind-value=@_user.Address.StreetAddress />
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input class="form-control" @bind-value=@_user.Address.City />
+                    </div>
+                    <div class="form-group">
+                        <label>Country</label>
+                        <input class="form-control" @bind-value=@_user.Address.Country />
+                    </div>
+                    <div class="form-group">
+                        <label>Postal code</label>
+                        <input class="form-control" @bind-value=@_user.Address.PostalCode />
+                    </div>
+                }
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    @if (_user.Role != null)
+                    {
+                        <label>Role</label>
+                        <select class="form-control" value="@_user.Role" @onchange="SelectRole">
+                            <option value="@Enums.Roles.SuperAdmin.ToString()">@Enums.Roles.SuperAdmin.ToString()</option>
+                            <option value="@Enums.Roles.Admin.ToString()">@Enums.Roles.Admin.ToString()</option>
+                            <option value="@Enums.Roles.Operator.ToString()">@Enums.Roles.Operator.ToString()</option>
+                            <option value="@Enums.Roles.User.ToString()">@Enums.Roles.User.ToString()</option>
+                        </select>
+                    }
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary m-1">Save</button>
+        <NavigateButton HtmlClasses="btn-warning m-1" PageToNavigateTo=@Common.Helpers.NavigationArgument("Users") ButtonText="Cancel"></NavigateButton>
+    </EditForm>
+}
+else
+{
+    <Loader LoadingMessage="Loading user data..." />
+}
 
 
 @code {
     [Parameter]
     public string UserId { get; set; }
+
+    private UserModel _user;
+    private string _oldRole;
+    private List<string> _failedMessages = new List<string>();
+    private List<string> _successMessages = new List<string>();
+    private List<CompanyModel> _companies;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _user = await _userRepository.GetUserById(UserId);
+            _oldRole = _user.Role;
+
+            _companies = await _companyRepository.GetAllAsync();
+
+            if (_user.UserName == null) throw new NullReferenceException("UserName is null. Something went wrong when fetching user data.");
+            if (_user.Address == null)
+            {
+                _user.Address = new AddressModel();
+            }
+            if (_user.PhoneNumber == null)
+            {
+                _user.PhoneNumber = "";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
+    private void SelectRole(ChangeEventArgs e)
+    {
+        _user.Role = e.Value.ToString();
+    }
+    private void ChangeCompany(ChangeEventArgs e)
+    {
+        if (_user.Company == null) _user.Company = new CompanyModel();
+        _user.Company.Id = Convert.ToInt32(e.Value);
+    }
+    private async Task HandleValidSubmit()
+    {
+        if (AddressHasInput() && _user.Address.Id == 0)
+        {
+            _user.Address = await _addressRepository.CreateAsync(_user.Address);
+        }
+        if (_user.Company != null)
+        {
+            _user.Company.CVR = "cvr";
+            _user.Company.Name = "temp";
+            _user.Company.Email = "temp@email.dk";
+            _user.Company.PhoneNumber = "1234";
+        }
+        
+        UserModel updatedUser = await _userRepository.UpdateAsync(_user);
+
+        if (updatedUser == null)
+        {
+            _failedMessages.Clear();
+            _failedMessages.Add("Failed to update user.");
+            return;
+        }
+        _successMessages.Clear();
+        _successMessages.Add("Updated user.");
+    }
+    private bool AddressHasInput()
+    {
+        bool addressInputsAreFilled = true;
+        if (String.IsNullOrWhiteSpace(_user.Address.StreetAddress))
+        {
+            return false;
+        }
+        if (String.IsNullOrWhiteSpace(_user.Address.Country))
+        {
+            return false;
+        }
+        if (String.IsNullOrWhiteSpace(_user.Address.City))
+        {
+            return false;
+        }
+        if (String.IsNullOrWhiteSpace(_user.Address.PostalCode))
+        {
+            return false;
+        }
+        return addressInputsAreFilled;
+    }
 }

@@ -52,9 +52,6 @@ namespace IdeventLibrary.Repositories
                 return output;
             });
            
-            //user.Company = await _companyRepository.GetAsync(user.Company.Id);
-            //user.Address = await _addressRepository.GetAddressById(user.Address.Id);
-            //user.InvoiceAddress = await _addressRepository.GetAddressById(user.InvoiceAddress.Id);
             return users;
         }
         public async Task<UserModel> GetByClaim(ClaimsPrincipal claim)
@@ -88,26 +85,43 @@ namespace IdeventLibrary.Repositories
 
         public async Task<UserModel> GetUserById(string id)
         {
-            string jsonContent = await _httpClient.GetStringAsync(new Uri(_baseUrl + "/" + id));
-            var user = JsonConvert.DeserializeObject<UserModel>(jsonContent);
-
+            string jsonContent = await _httpClient.GetStringAsync(new Uri($"{_baseUrl}/{id}"));
+            UserModel user = JsonConvert.DeserializeObject<UserModel>(jsonContent);
+            await SetUserRole(user);
             return user;
         }
 
-        //public async Task<UserModel> UpdateAsync(UserModel item)
-        //{
-        //    string json = JsonConvert.SerializeObject(item);
-        //    StringContent httpsContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
-        //    var resonse = await _httpClient.PutAsync(new Uri(_baseUrl + "/" + item.Id), httpsContent);
+        public async Task<UserModel> UpdateAsync(UserModel updatedModel)
+        {
+            string json = JsonConvert.SerializeObject(updatedModel);
+            StringContent httpsContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync(new Uri(_baseUrl), httpsContent);
+            bool roleUpdateIsSuccess = await UpdateRoleAsync(updatedModel);
+            if (response.IsSuccessStatusCode && roleUpdateIsSuccess)
+            {
+                return updatedModel;
+            }
+            return null;
+        }
+        public async Task<bool> UpdateRoleAsync(UserModel updatedModel)
+        {
+            string json = JsonConvert.SerializeObject(updatedModel);
+            StringContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _httpClient.PutAsync(new Uri($"{_baseUrl}/Role"), httpContent);
 
-
-
-        //    return null;
-        //}
+            return response.IsSuccessStatusCode;
+        }
         private async Task SetUserRole(UserModel user)
         {
-            IList<string> userRoles = await _userManager.GetRolesAsync(user);
-            user.Role = userRoles.First();
+            try
+            {
+                IList<string> userRoles = await _userManager.GetRolesAsync(user);
+                user.Role = userRoles.First();
+            }
+            catch
+            {
+                Console.WriteLine("Couldn't set User Role (SetUserRole in UserRepository)");
+            }
         }
 
         public async Task<bool> DeleteUser(UserModel user)
