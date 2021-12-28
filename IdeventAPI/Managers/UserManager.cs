@@ -36,7 +36,7 @@ namespace IdeventAPI.Managers
         /// <summary>
         /// Retrives all users, but only retrieves Id + data not made by AspNetCore.Identity.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A Dictionary with Id as Key & UserModel as Value</returns>
         public Dictionary<string, UserModel> GetAllCustomData()
         {
             // Users.Id, Users.CompanyId AS Id, Name, AddressId AS Id, InvoiceAddressId AS Id
