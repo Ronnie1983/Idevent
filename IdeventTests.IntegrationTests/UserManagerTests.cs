@@ -74,5 +74,15 @@ namespace IdeventTests.IntegrationTests
 
             Assert.AreEqual(true, success);
         }
+        [TestMethod]
+        public void DeleteByIdRemovesUserFromDatabase()
+        {
+            int beforeDeleteCount = _userManager.GetAllCustomData().Count;
+            bool success = _userManager.DeleteById("5E99B1B2-BA7E-9B2E-2963-50CCB71AD64E");
+            int afterDeleteCount = _userManager.GetAllCustomData().Count;
+
+            Assert.AreEqual(beforeDeleteCount-1,afterDeleteCount);
+            Assert.AreEqual(true, success);
+        }
     }
 }
