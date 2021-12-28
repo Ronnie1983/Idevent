@@ -1,5 +1,7 @@
 ﻿@page "/AddStand/{EventId}"
 
+@attribute [Authorize(Roles = "SuperAdmin, Admin")]
+
 <h3>AddStand</h3>
 
 @code {

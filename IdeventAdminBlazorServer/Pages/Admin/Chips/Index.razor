@@ -2,66 +2,71 @@
 @using System.Reflection.Metadata
 @using IdeventLibrary.Repositories
 
+@attribute [Authorize]
 
 @inject NavigationManager _navigationManager
 
 <h1>Chips Oversigt</h1>
 <br />
-@if(string.IsNullOrWhiteSpace(_errorMessage) is false)
+@if (string.IsNullOrWhiteSpace(_errorMessage) is false)
 {
     <div class="alert alert-warning">@_errorMessage</div>
 }
 
 @*Not implemented
-<input placeholder="indtast din søgning" />*@
+    <input placeholder="indtast din søgning" />*@
 
 <div>
-    <br />
-    <div>
-        <div class="btn-group">
-            <div>
-            <NavigateButton PageToNavigateTo="AddChip" ButtonText="Add Chip" />
+    <AuthorizeView Roles="SuperAdmin, Admin">
+        @*this section is only for SuperAdmin & Admin*@
+        <br/>
+        <div>
+            <div class="btn-group">
+                <div>
+                    <NavigateButton PageToNavigateTo="AddChip" ButtonText="Add Chip"/>
 
-            <button class="btn btn-primary m-1" data-bs-toggle="modal" data-target="#M">Export</button>
+                    <button class="btn btn-primary m-1" data-bs-toggle="modal" data-target="#M">Export</button>
 
-            <!-- Export Modal -->
-            <div class="modal fade" id="M" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Der er ikke nogen funktion her endnu</h5>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
+                    <!-- Export Modal -->
+                    <div class="modal fade" id="M" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Der er ikke nogen funktion her endnu</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
 
-                        <div class="modal-body">
-                            Kommer senere
+                                <div class="modal-body">
+                                    Kommer senere
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <!-- Modal End -->
+                    <NavigateButton PageToNavigateTo="ImporterChip" ButtonText="Import"/>
                 </div>
-            </div>
-            <!-- Modal End -->
-            <NavigateButton PageToNavigateTo="ImporterChip" ButtonText="Import" />
-            </div>
-           @*  @if (_chips != null)
-            {
-                <div class="dropdown show">
+                @*  @if (_chips != null)
+                    {
+                    <div class="dropdown show">
                     <a class="btn btn-primary m-1 dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Actions
+                    Actions
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 
-                        <a class="dropdown-item">Move To Event</a>
-                        <a class="dropdown-item">Assign Group</a>
-                        <a class="dropdown-item" style="color: red">Delete</a>
+                    <a class="dropdown-item">Move To Event</a>
+                    <a class="dropdown-item">Assign Group</a>
+                    <a class="dropdown-item" style="color: red">Delete</a>
                     </div>
-                </div>
-            }*@
-            
+                    </div>
+                    }*@
 
+
+            </div>
         </div>
-    </div>
+    </AuthorizeView>
+
     <br />
     @if (_chips != null)
     {
@@ -90,28 +95,34 @@
                         <td>@chip.ValidTo.ToString("d")</td>
                         <td>@chip.Company.Name</td>
 
-                        @if(@chip.Group == null)
+                        @if (@chip.Group == null)
                         {
-                        <td>-</td>
+                            <td>-</td>
                         }
-                        else{
+                        else
+                        {
                             <td>@chip.Group.Name</td>
                         }
-                        @if(@chip.Event == null)
+                        @if (@chip.Event == null)
                         {
-                        <td>-</td>
+                            <td>-</td>
                         }
-                        else{
+                        else
+                        {
                             <td>@chip.Event.Name</td>
                         }
+                        
                         <td>
                             <div class="btn-group">
                                 @*<NavigateButton PageToNavigateTo=@(NavigationArgument("EditEvent/", eventModel.Id)) ButtonText="Edit event"/>*@
+                                <AuthorizeView Roles="SuperAdmin,Admin">
+                                    <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditChip/", chip.Id)) ButtonText="Edit" />
+                                </AuthorizeView>
 
-                                <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditChip/", chip.Id)) ButtonText="Edit" />
                                 <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("ChipDetails/", chip.Id)) ButtonText="Details" />
                             </div>
                         </td>
+                        
                     </tr>
                 }
             </tbody>
@@ -143,5 +154,5 @@
         }
     }
 
-    
+
 }

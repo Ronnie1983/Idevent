@@ -1,5 +1,7 @@
 ﻿@page "/EditChip/{ChipId}"
 
+@attribute [Authorize(Roles = "SuperAdmin, Admin")]
+
 <h1>Edit Chip</h1>
 
 <NavigateButton PageToNavigateTo="Chips" ButtonText="Cancel" HtmlClasses="btn btn-danger m-1"/>

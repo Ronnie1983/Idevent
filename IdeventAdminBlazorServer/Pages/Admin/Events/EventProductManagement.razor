@@ -7,6 +7,7 @@
 @inject EventStandRepository _eventStandRepository
 @inject StandFunctionalityRepository _standFunctionalityRepository
 
+@attribute [Authorize(Roles = "SuperAdmin, Admin")]
 
 <h1>Event Product Management</h1>
 <h3>@_eventModel.Name</h3>

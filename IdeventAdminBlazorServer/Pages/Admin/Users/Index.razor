@@ -7,6 +7,8 @@
 @inject AuthenticationStateProvider _authenticationStateProvider
 @inject UserRepository _userRepository
 
+@attribute [Authorize]
+
 <h1>Users</h1>
 
 @if (_messages != null)
@@ -44,6 +46,7 @@
                     <td>@user.Email</td>
                     <td>@user.PhoneNumber</td>
                     <td>@user.Role</td>
+                    <AuthorizeView Roles="SuperAdmin, Admin">
                     <td>
                         <div class="btn-group">
                             <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit" />
@@ -52,6 +55,7 @@
                             }
                         </div>
                     </td>
+                    </AuthorizeView>
                 </tr>
             }
         </tbody>
