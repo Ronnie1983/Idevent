@@ -2,6 +2,8 @@
 @inject NavigationManager _navigationManager
 @using IdeventLibrary.Repositories
 
+@attribute [Authorize(Roles = "SuperAdmin, Admin")]
+
 <h1>Companies</h1>
 
 <NavigateButton PageToNavigateTo="AddCompany" ButtonText="Add"/>

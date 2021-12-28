@@ -1,4 +1,7 @@
 ﻿@page "/Events"
+
+@attribute [Authorize(Roles = "SuperAdmin, Admin")]
+
 @using IdeventLibrary.Repositories
 
 <h1>Events</h1>

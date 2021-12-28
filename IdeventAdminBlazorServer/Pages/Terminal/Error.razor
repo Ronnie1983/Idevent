@@ -4,6 +4,8 @@
 @layout NonAdminLayout
 @inject NavigationManager _navigationManager
 
+@attribute [Authorize (Roles = "SuperAdmin, Admin, Operator")]
+
 <div class="row">
     <h1 class="col-md-12 mx-auto text-center">Idevent</h1>
 </div>

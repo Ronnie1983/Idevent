@@ -1,5 +1,5 @@
 ﻿@page "/EditUser/{UserId}"
-@*@attribute [Authorize]*@
+@attribute [Authorize(Roles = "SuperAdmin, Admin")]
 
 @using IdeventLibrary
 @inject UserRepository _userRepository
@@ -18,6 +18,7 @@
         @message
     </div>
 }
+
 
 <h1>Edit User</h1>
 @if (_user != null)

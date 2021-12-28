@@ -11,7 +11,7 @@
 @inject StandProductRepository _standProductRepository
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-@attribute [Authorize]
+@attribute [Authorize (Roles = "SuperAdmin, Admin, Operator")]
 
 @page "/OperatorSite"
 

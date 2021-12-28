@@ -8,6 +8,8 @@
 @inject StandProductRepository _productRepository
 @inject ChipContentRepository _chipContentRepository
 
+@attribute [Authorize(Roles = "SuperAdmin, Admin")]
+
 <h1>Add Chip</h1>
 @if (_displayMessage is not null)
 {
