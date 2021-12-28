@@ -60,7 +60,7 @@ namespace IdeventTests.IntegrationTests
         public void UpdateModifiesSpecifiedModel()
         {
             CompanyModel oldCompany = _manager.GetById(1);
-            string newEmail = "esdeath@mail.com";
+            string newEmail = "esdeath@freezing.cold";
             AddressModel newAddress = new AddressModel("Trade District 55", "Stormwind", "Eastern Kingdoms", "40K23") { Id = oldCompany.Address.Id};
             CompanyModel newCompany = new CompanyModel()
             {
