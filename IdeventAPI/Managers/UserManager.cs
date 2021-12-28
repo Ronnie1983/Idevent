@@ -74,7 +74,7 @@ namespace IdeventAPI.Managers
             parameters.Add("@CompanyId", null);
             if (updatedModel.Company != null)
             {
-                parameters.Add("@CompanyId", updatedModel.Company.Id); // overwrites previous @CompanyId? 
+                parameters.Add("@CompanyId", updatedModel.Company.Id); // overwrites previous @CompanyId 
             }
             parameters.Add("@AddressId", updatedModel.Address.Id);
 
