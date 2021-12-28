@@ -76,7 +76,6 @@ namespace IdeventLibrary.Models
             set { _invoiceAddress = value; }
         }
 
-        [Required]
         public AddressModel Address
         {
             get { return _address; }
