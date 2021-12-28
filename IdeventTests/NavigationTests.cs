@@ -39,7 +39,13 @@ namespace IdeventTests
         [TestMethod]
         public void ChipsIndexLoads()
         {
-            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.Index>(), "Chips Oversigt", "Chips");
+            using var ctx = new Bunit.TestContext();
+            SetServices(ctx);
+
+            var authContext = ctx.AddTestAuthorization();
+            authContext.SetAuthorized("TEST USER", AuthorizationState.Authorized);
+
+            LoadPageTest(ctx.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.Index>(), "Chips Oversigt", "Chips");
         }
         [TestMethod]
         public void CompaniesIndexLoads()
@@ -100,7 +106,13 @@ namespace IdeventTests
         [TestMethod]
         public void ChipsEditChipCancelBtn()
         {
-            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.Index>(), "Chips Oversigt", "Chips");
+            using var ctx = new Bunit.TestContext();
+            SetServices(ctx);
+
+            var authContext = ctx.AddTestAuthorization();
+            authContext.SetAuthorized("TEST USER", AuthorizationState.Authorized);
+
+            LoadPageTest(ctx.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Chips.Index>(), "Chips Oversigt", "Chips");
         }
         [TestMethod]
         public void ChipsAddChipLoads()
