@@ -48,21 +48,30 @@
                     <td>@user.Email</td>
                     <td>@user.PhoneNumber</td>
                     <td>@user.Role</td>
-                    <AuthorizeView Roles="SuperAdmin, Admin">
+                    
                     <td>
                         <div class="btn-group">
-                            <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit" />
-                            @if (user.Id != _profileData.Id)
+                            @if (user.Id == _profileData.Id)
                             {
-                                <button class="btn btn-danger m-1" @onclick="async ()=>{await DeleteUser(user);}">Delete</button>
+                                <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit"/>
                             }
                             else
                             {
-                              <button class="btn btn-secondary m-1" disabled>Delete</button>  
+                                <button class="btn btn-secondary m-1" disabled>Edit</button>
                             }
+                            <AuthorizeView Roles="SuperAdmin, Admin">
+                                @if (user.Id != _profileData.Id)
+                                {
+                                    <button class="btn btn-danger m-1" @onclick="async () => { await DeleteUser(user); }">Delete</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-secondary m-1" disabled>Delete</button>
+                                }
+                            </AuthorizeView>
                         </div>
                     </td>
-                    </AuthorizeView>
+                    
                 </tr>
             }
         </tbody>
