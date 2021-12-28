@@ -71,7 +71,11 @@ namespace IdeventAPI.Managers
             parameters.Add("@UserName", updatedModel.UserName);
             parameters.Add("@Email", updatedModel.Email);
             parameters.Add("@PhoneNumber", updatedModel.PhoneNumber);
-            parameters.Add("@CompanyId", updatedModel.Company.Id);
+            parameters.Add("@CompanyId", null);
+            if (updatedModel.Company != null)
+            {
+                parameters.Add("@CompanyId", updatedModel.Company.Id); // overwrites previous @CompanyId? 
+            }
             parameters.Add("@AddressId", updatedModel.Address.Id);
 
             int affectedRows = _dbConnection.Execute(sql, parameters);
