@@ -140,7 +140,7 @@ else
     }
     private async Task HandleValidSubmit()
     {
-        if (AddressHasInput() && _user.Address.Id > 0)
+        if (AddressHasInput() && _user.Address.Id == 0)
         {
             _user.Address = await _addressRepository.CreateAsync(_user.Address);
         }
