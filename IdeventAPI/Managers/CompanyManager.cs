@@ -27,14 +27,14 @@ namespace IdeventAPI.Managers
         {
             //SELECT C.id, C.Name, C.CVR, C.PhoneNumber, C.Email, C.CVR, C.Note, A.Id, A.StreetAddress,A.City, A.PostalCode, A.Country, B.Id, B.StreetAddress, B.City, B.PostalCode, B.Country
             string sql = "EXECUTE spGetAllCompanies";
-           
-            Func<CompanyModel,AddressModel, AddressModel, CompanyModel> mapping = (companyModel, addressModel, InvoiceModel) =>
-            {
-                companyModel.Address = addressModel;
-                companyModel.InvoiceAddress = InvoiceModel;
 
-                return companyModel;
-            };
+            Func<CompanyModel, AddressModel, AddressModel, CompanyModel> mapping = (companyModel, addressModel, InvoiceModel) =>
+             {
+                 companyModel.Address = addressModel;
+                 companyModel.InvoiceAddress = InvoiceModel;
+
+                 return companyModel;
+             };
             List<CompanyModel> companies = _dbConnection.Query(sql, mapping).AsList();
             return companies;
         }
@@ -46,12 +46,12 @@ namespace IdeventAPI.Managers
 
             return companyModel;
         };
-   
+
 
         public CompanyModel GetById(int id)
         {
             string sql = "EXECUTE spGetCompanyById @companyId";
-            var result = _dbConnection.Query(sql, mapping, new {companyId = id}).AsList();
+            var result = _dbConnection.Query(sql, mapping, new { companyId = id }).AsList();
             return result[0];
         }
 
@@ -84,7 +84,19 @@ namespace IdeventAPI.Managers
                     value.InvoiceAddress.Id = _addressManager.Create(value.InvoiceAddress);
                 }
             }
-            var parameter = new { id = value.Id, name = value.Name, logo = value.Logo, cvr = value.CVR, email = value.Email, phoneNumber = value.PhoneNumber, active = value.Active, note = value.Note, addressId = ((value.Address == null)?(int?)null:value.Address.Id), invoiceAddress = ((value.InvoiceAddress == null)?(int?)null:value.InvoiceAddress.Id) };
+            var parameter = new
+            {
+                id = value.Id,
+                name = value.Name,
+                logo = value.Logo,
+                cvr = value.CVR,
+                email = value.Email,
+                phoneNumber = value.PhoneNumber,
+                active = value.Active,
+                note = value.Note,
+                addressId = ((value.Address == null) ? (int?)null : value.Address.Id),
+                invoiceAddress = ((value.InvoiceAddress == null) ? (int?)null : value.InvoiceAddress.Id)
+            };
             string sql = "EXECUTE spUpdateCompany @id ,@name, @logo, @cvr, @email, @phoneNumber, @active, @note, @addressId, @invoiceAddress";
             var result = _dbConnection.Execute(sql, parameter);
 

@@ -32,11 +32,7 @@ namespace IdeventTests.IntegrationTests
             Assert.IsNotNull(user);
             Assert.IsInstanceOfType(user, typeof(UserModel));
         }
-        //[TestMethod]
-        //public void UpdateReturnsTrueOnSuccess()
-        //{
-        //    Assert.Fail("Test not made");
-        //}
+
         [TestMethod]
         public void UpdateUpdatesAllFields()
         {
@@ -67,6 +63,26 @@ namespace IdeventTests.IntegrationTests
             Assert.AreEqual(user.Address.City, updatedUser.Address.City);
             Assert.AreEqual(user.Address.PostalCode, updatedUser.Address.PostalCode);
             
+        }
+        [TestMethod]
+        public void UpdateRoleReturnsTrueOnSuccess()
+        {
+            UserModel user = _userManager.GetById("5E99B1B2-BA7E-9B2E-2963-50CCB71AD64E");
+            user.Role = "Admin";
+
+            bool success = _userManager.UpdateRole(user);
+
+            Assert.AreEqual(true, success);
+        }
+        [TestMethod]
+        public void DeleteByIdRemovesUserFromDatabase()
+        {
+            int beforeDeleteCount = _userManager.GetAllCustomData().Count;
+            bool success = _userManager.DeleteById("5E99B1B2-BA7E-9B2E-2963-50CCB71AD64E");
+            int afterDeleteCount = _userManager.GetAllCustomData().Count;
+
+            Assert.AreEqual(beforeDeleteCount-1,afterDeleteCount);
+            Assert.AreEqual(true, success);
         }
     }
 }

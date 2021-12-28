@@ -11,7 +11,16 @@
 	@invoiceAddress int
 AS
 BEGIN
-	UPDATE Companies SET Name = @name, Logo = @logo, CVR = @cvr, Email = @email, PhoneNumber = @phoneNumber, Active = @active, Note = @note, AddressId
-	= @addressId, InvoiceAddressId = @invoiceAddress
+	UPDATE Companies 
+	SET
+	Name = @name,
+	Logo = @logo,
+	CVR = @cvr,
+	Email = @email,
+	PhoneNumber = @phoneNumber,
+	Active = @active,
+	Note = @note, 
+	AddressId = @addressId, 
+	InvoiceAddressId = @invoiceAddress
 	WHERE Id = @id
 END

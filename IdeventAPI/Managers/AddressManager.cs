@@ -46,10 +46,10 @@ namespace IdeventAPI.Managers
         public int UpdateAddress(AddressModel value)
         {
             var parameter = new { id = value.Id, street = value.StreetAddress, city = value.City, country = value.Country, postal = value.PostalCode };
-            string sql = "EXECUTE spUpdateAddress @id, @street, @city, @country, @postal";
-            var result = _dbConnection.Execute(sql, parameter);
+            string sql = "EXECUTE spUpdateAddress @id, @street, @city, @postal, @country";
+            var affectedRows = _dbConnection.Execute(sql, parameter);
 
-            return result;
+            return affectedRows;
           
         }
     }
