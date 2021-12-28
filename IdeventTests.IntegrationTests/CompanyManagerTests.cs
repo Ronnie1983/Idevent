@@ -84,8 +84,6 @@ namespace IdeventTests.IntegrationTests
             Assert.AreEqual(oldCompany.Id, updatedCompany.Id);
             Assert.AreEqual(oldCompany.Name, updatedCompany.Name);
             Assert.AreNotEqual(oldCompany.Email, updatedCompany.Email);
-            Assert.AreNotEqual(oldCompany.Address.StreetAddress, updatedCompany.Address.StreetAddress);
-
         }
     }
 }

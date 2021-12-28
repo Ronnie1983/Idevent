@@ -44,5 +44,31 @@ namespace IdeventTests.IntegrationTests
             Assert.IsNotNull(address);
             Assert.IsInstanceOfType(address, typeof(AddressModel));
         }
+        [TestMethod]
+        public void UpdateCanModifyAllAddressInfo()
+        {
+            int expectedAffectedRows = 1;
+            AddressModel address = _addressManager.GetById(2);
+            AddressModel oldAddress = new AddressModel { 
+                Id = address.Id,
+                StreetAddress = address.StreetAddress, 
+                City = address.City, 
+                Country = address.Country,
+                PostalCode = address.PostalCode
+            };
+               
+            address.StreetAddress = "Fizzlestreet Z#31";
+            address.City = "Boinkers";
+            address.Country = "The Faraway Realm";
+            address.PostalCode = "YEET0S";
+            int affectedRows = _addressManager.UpdateAddress(address);
+
+            Assert.AreEqual(expectedAffectedRows, affectedRows);
+            AddressModel updatedAddress =_addressManager.GetById(2);
+            Assert.AreNotEqual(updatedAddress.StreetAddress, oldAddress.StreetAddress);
+            Assert.AreNotEqual(updatedAddress.City, oldAddress.City);
+            Assert.AreNotEqual(updatedAddress.Country, oldAddress.Country);
+            Assert.AreNotEqual(updatedAddress.PostalCode, oldAddress.PostalCode);
+        }
     }
 }
