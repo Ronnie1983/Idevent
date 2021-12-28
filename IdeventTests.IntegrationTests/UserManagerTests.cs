@@ -45,7 +45,7 @@ namespace IdeventTests.IntegrationTests
             user.Email = "Mads@Mads.dk";
             user.PhoneNumber = "12345678";
             user.Company.Id = 1;
-            user.Address.Id = 1;
+            //user.Address.Id = 1;
             user.Address.StreetAddress = "Holmen 4";
             user.Address.Country = "DK";
             user.Address.City = "CPH";

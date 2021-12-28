@@ -61,7 +61,7 @@ namespace IdeventAPI.Managers
 
             if (updatedModel.Address.Id > 0)
             {
-                sql = "EXECUTE spUpdateUser @Id, @UserName, @Email, @PhoneNumber, @CompanyId ,@AddressId, @StreetAddress, @Country, @City, @PostalCode";
+                sql = "EXECUTE spUpdateUser @Id, @UserName, @Email, @PhoneNumber, @CompanyId ,@AddressId, @StreetAddress, @City, @Country , @PostalCode";
                 parameters.Add("@StreetAddress", updatedModel.Address.StreetAddress);
                 parameters.Add("@Country", updatedModel.Address.Country);
                 parameters.Add("@City", updatedModel.Address.City);
