@@ -98,6 +98,9 @@
                                 <option value="@Enums.Roles.User.ToString()">@Enums.Roles.User.ToString()</option>
                             </select>
                         </AuthorizeView>
+                        <AuthorizeView Context="NonAdminContext" Roles="User, Operator">
+                            <p>Only administrators can change your role.</p>
+                        </AuthorizeView>
                     }
                 </div>
             </div>
@@ -180,6 +183,7 @@ else
         _successMessages.Clear();
         _successMessages.Add("Updated user.");
     }
+
     private bool AddressHasInput()
     {
         bool addressInputsAreFilled = true;

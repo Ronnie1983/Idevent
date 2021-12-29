@@ -1,7 +1,85 @@
-﻿@attribute [Authorize(Roles = "SuperAdmin, Admin")]
+﻿@page "/AddUser"
+@attribute [Authorize(Roles = "SuperAdmin, Admin")]
 
-<h3>AddUser</h3>
+@using IdeventLibrary
+@inject UserRepository _userRepository
+@inject NavigationManager _navigationManager
+<h1>Add User</h1>
+
+<EditForm Model=_user OnValidSubmit=CreateUserAsync>
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+    <div class="form-group">
+        <label>User Name</label>
+        <input class="form-control" @bind-value="_user.UserName" />
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input class="form-control" @bind-value="_user.Email" />
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input class="form-control" type="password" @bind-value="_userPassword" />
+    </div>
+    <div class="form-group">
+        @if (_user.Role != null)
+        {
+            <label>Role</label>
+            <AuthorizeView Context="AdminContext" Roles="Admin">
+                @if (_user.Role == @Enums.Roles.SuperAdmin.ToString())
+                {
+                    <p>Cannot change this user's role</p>
+                }
+                else
+                {
+                    <select class="form-control" value="@_user.Role" @onchange="SelectRole">
+                        <option value="@Enums.Roles.Admin.ToString()">@Enums.Roles.Admin.ToString()</option>
+                        <option value="@Enums.Roles.Operator.ToString()">@Enums.Roles.Operator.ToString()</option>
+                        <option value="@Enums.Roles.User.ToString()">@Enums.Roles.User.ToString()</option>
+                    </select>
+                }
+            </AuthorizeView>
+            <AuthorizeView Context="SuperAdminContext" Roles="SuperAdmin">
+                <select class="form-control" value="@_user.Role" @onchange="SelectRole">
+                    <option value="@Enums.Roles.SuperAdmin.ToString()">@Enums.Roles.SuperAdmin.ToString()</option>
+                    <option value="@Enums.Roles.Admin.ToString()">@Enums.Roles.Admin.ToString()</option>
+                    <option value="@Enums.Roles.Operator.ToString()">@Enums.Roles.Operator.ToString()</option>
+                    <option value="@Enums.Roles.User.ToString()">@Enums.Roles.User.ToString()</option>
+                </select>
+            </AuthorizeView>
+        }
+    </div>
+    <button class="btn btn-primary">Submit</button>
+    <NavigateButton ButtonText="Cancel" HtmlClasses="btn-danger" PageToNavigateTo="@Common.Helpers.NavigationArgument("Users")"></NavigateButton>
+</EditForm>
 
 @code {
+    private UserModel _user;
+    private string _userPassword;
+    private List<string> _errorMessages = new();
 
+    //protected override Task OnInitializedAsync()
+    //{
+    //    return base.OnInitializedAsync();
+    //}
+
+    private async Task CreateUserAsync()
+    {
+        bool success = await _userRepository.CreateAsync(_user);
+        if (success)
+        {
+            _navigationManager.NavigateTo("Users");
+        }
+        else{
+            _errorMessages.Clear();
+            _errorMessages.Add("Failed to create user");
+        }
+    }
+    private async Task SelectRole(ChangeEventArgs e)
+    {
+        //string role = e.Value.ToString();
+        //_user.Role = role;
+        //await _userRepository.UpdateRoleAsync(_user);
+        // TODO: give user a role.
+    }
 }
