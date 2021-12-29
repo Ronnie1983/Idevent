@@ -90,7 +90,7 @@ namespace IdeventLibrary.Repositories
             {
                 item.Company = await _companyRepository.GetAsync(item.Company.Id);
             }
-
+            await SetUserRole(item);
             return item;
         }
 

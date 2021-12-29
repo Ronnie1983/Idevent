@@ -10,6 +10,7 @@
 @inject NavigationManager _navigationManager
 @inject AuthenticationStateProvider _authenticationStateProvider
 @inject UserRepository _userRepository
+@inject ChipRepository _chipRepository
 
 <h1>Chips Oversigt</h1>
 <br />
@@ -150,8 +151,8 @@
     {
         try
         {
-            ChipRepository chipRepository = new();
-            _chips = await chipRepository.GetAllAsync();
+            
+            _chips = await _chipRepository.GetAllAsync();
             AuthenticationState authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
             ClaimsPrincipal userClaim = authState.User;
             UserModel user = await _userRepository.GetByClaim(userClaim);
