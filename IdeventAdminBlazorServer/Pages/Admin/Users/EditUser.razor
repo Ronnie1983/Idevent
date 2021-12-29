@@ -196,7 +196,8 @@ else
         }
         if (_user.Company != null)
         {
-            _user.Company.CVR = "cvr";
+            // Bypass validation for CompanyModel, since it is not needed here.
+            _user.Company.CVR = "tempCVR";
             _user.Company.Name = "temp";
             _user.Company.Email = "temp@email.dk";
             _user.Company.PhoneNumber = "1234";
