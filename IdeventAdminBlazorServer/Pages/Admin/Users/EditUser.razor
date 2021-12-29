@@ -76,12 +76,28 @@
                     @if (_user.Role != null)
                     {
                         <label>Role</label>
-                        <select class="form-control" value="@_user.Role" @onchange="SelectRole">
-                            <option value="@Enums.Roles.SuperAdmin.ToString()">@Enums.Roles.SuperAdmin.ToString()</option>
-                            <option value="@Enums.Roles.Admin.ToString()">@Enums.Roles.Admin.ToString()</option>
-                            <option value="@Enums.Roles.Operator.ToString()">@Enums.Roles.Operator.ToString()</option>
-                            <option value="@Enums.Roles.User.ToString()">@Enums.Roles.User.ToString()</option>
-                        </select>
+                        <AuthorizeView Context="AdminContext" Roles="Admin">
+                            @if (_user.Role == Enums.Roles.SuperAdmin.ToString())
+                            {
+                                <p>Cannot change this user's role</p>
+                            }
+                            else
+                            {
+                                <select class="form-control" value="@_user.Role" @onchange="SelectRole">
+                                    <option value="@Enums.Roles.Admin.ToString()">@Enums.Roles.Admin.ToString()</option>
+                                    <option value="@Enums.Roles.Operator.ToString()">@Enums.Roles.Operator.ToString()</option>
+                                    <option value="@Enums.Roles.User.ToString()">@Enums.Roles.User.ToString()</option>
+                                </select>
+                            }
+                        </AuthorizeView>
+                        <AuthorizeView Context="SuperAdminContext" Roles="SuperAdmin">
+                            <select class="form-control" value="@_user.Role" @onchange="SelectRole">
+                                <option value="@Enums.Roles.SuperAdmin.ToString()">@Enums.Roles.SuperAdmin.ToString()</option>
+                                <option value="@Enums.Roles.Admin.ToString()">@Enums.Roles.Admin.ToString()</option>
+                                <option value="@Enums.Roles.Operator.ToString()">@Enums.Roles.Operator.ToString()</option>
+                                <option value="@Enums.Roles.User.ToString()">@Enums.Roles.User.ToString()</option>
+                            </select>
+                        </AuthorizeView>
                     }
                 </div>
             </div>
@@ -152,7 +168,7 @@ else
             _user.Company.Email = "temp@email.dk";
             _user.Company.PhoneNumber = "1234";
         }
-        
+
         UserModel updatedUser = await _userRepository.UpdateAsync(_user);
 
         if (updatedUser == null)
