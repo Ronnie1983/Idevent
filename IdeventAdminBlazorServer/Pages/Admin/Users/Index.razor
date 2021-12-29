@@ -4,7 +4,7 @@
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 
-@attribute [Authorize]
+@attribute [Authorize (Roles = "SuperAdmin, Admin, Operators")]
 @inject AuthenticationStateProvider _authenticationStateProvider
 @inject UserRepository _userRepository
 
@@ -114,6 +114,10 @@ else
         try
         {
             _users = await _userRepository.GetAllAsync();
+            if (_profileData.Role != "SuperAdmin")
+            {
+                _users = _users.Where(x=>x.Company == null || x.Company.Id == _profileData.Company.Id).ToList();
+            }
         }
         catch (Exception ex)
         {
