@@ -113,7 +113,7 @@
                     }
                     else
                     {
-                        <p>This user was created invalidly, there you cannot assign it a role from here.</p>
+                        <p>This user was created invalidly, therefore you cannot assign it a role from here.</p>
                     }
                 </div>
             </div>
@@ -135,7 +135,6 @@ else
     private UserModel _profileData;
 
     private UserModel _user;
-    private string _oldRole;
     private List<string> _failedMessages = new List<string>();
     private List<string> _successMessages = new List<string>();
     private List<CompanyModel> _companies;
@@ -145,8 +144,7 @@ else
         try
         {
             _user = await _userRepository.GetUserById(UserId);
-            _oldRole = _user.Role;
-
+          
             _companies = await _companyRepository.GetAllAsync();
 
             AuthenticationState authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
@@ -164,13 +162,17 @@ else
             {
                 _user.PhoneNumber = "";
             }
-
+            
             if (_profileData.Role != "SuperAdmin")
             {
                 _companies = _companies.Where(x => x.Id == _profileData.Company.Id).ToList();
             }
 
-            
+            if(_user.Role == null)
+            {
+                _user.Role = @Enums.Roles.User.ToString();
+                await _userRepository.UpdateRoleAsync(_user);
+            }
         }
         catch (Exception ex)
         {
