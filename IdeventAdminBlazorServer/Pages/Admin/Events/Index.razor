@@ -1,6 +1,10 @@
 ﻿@page "/Events"
 
 @attribute [Authorize(Roles = "SuperAdmin, Admin")]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserRepository _userRepository
+
+
 
 @using IdeventLibrary.Repositories
 
@@ -25,6 +29,7 @@
             </tr>
         </thead>
         <tbody>
+            <AuthorizeView Context="AdminContext" Roles="SuperAdmin">
             @foreach (EventModel eventModel in _eventData)
             {
                 <tr>
@@ -38,6 +43,22 @@
                     </td>
                 </tr>
             }
+            </AuthorizeView>
+            <AuthorizeView Context="NonAdminContext" Roles="Admin, User, Operator">
+            @foreach (EventModel eventModel in _eventData.Where(x=>x.Company.Id == _user.Company.Id))
+            {
+                <tr>
+                    <td>@eventModel.Id</td>
+                    <td>@eventModel.Name</td>
+                    <td>@eventModel.Company.Name</td>
+                    <td>@eventModel.NumberOfConnectedChips</td>
+                    <td>
+                        <NavigateButton PageToNavigateTo=@(NavigationArgument("EditEvent/", eventModel.Id)) ButtonText="Edit event" />
+                        <NavigateButton PageToNavigateTo="@(NavigationArgument("EventProductManagement/", eventModel.Id))" ButtonText="Edit products" />
+                    </td>
+                </tr>
+            }
+            </AuthorizeView>
         </tbody>
     </table>
 }
@@ -45,6 +66,7 @@
 
 @code {
     private List<EventModel> _eventData;
+    private UserModel _user;
 
     private string NavigationArgument(string navigationPrefix, int modelId)
     {
@@ -52,11 +74,16 @@
     }
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var userClaim = authState.User;
+
+        _user = await _userRepository.GetByEmailAsync(userClaim.Identity.Name);
         try
         {
             EventRepository eventRepo = new EventRepository();
-
+           
             _eventData = await eventRepo.GetAllAsync();
+          
         }
         catch (Exception e)
         {
