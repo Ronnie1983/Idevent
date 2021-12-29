@@ -1,6 +1,13 @@
 ﻿@page "/AddEvent"
+@using IdeventLibrary
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Identity
 @inject CompanyRepository companyRepository
 @inject EventRepository eventRepository
+@inject UserRepository _userRepository
+@inject AuthenticationStateProvider _authenticationStateProvider
+
 
 @attribute [Authorize(Roles = "SuperAdmin, Admin")]
 
@@ -25,10 +32,47 @@
     private EventModel _event = new EventModel();
     private List<CompanyModel> _companies;
     private RenderFragment _message;
+    private UserModel _profileData;
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            AuthenticationState authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            ClaimsPrincipal userClaim = authState.User;
+            UserModel user = await _userRepository.GetByClaim(userClaim);
+
+            _profileData = await _userRepository.GetUserById(user.Id);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
 
     protected override async Task OnParametersSetAsync()
     {
-        _companies = await companyRepository.GetAllAsync();
+        try
+        {
+            _companies = new List<CompanyModel>();
+            if (_profileData.Role != "SuperAdmin")
+            {
+                CompanyModel company = await companyRepository.GetAsync(_profileData.Company.Id);
+                if (company != null)
+                {
+                    _companies.Add(company);
+                }
+            }
+            else
+            {
+                _companies = await companyRepository.GetAllAsync();
+
+            }
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+
     }
 
     private void SelectCompany(ChangeEventArgs e)

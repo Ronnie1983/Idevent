@@ -1,10 +1,12 @@
 ﻿@page "/EditUser/{UserId}"
 @attribute [Authorize]
-
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
 @using IdeventLibrary
 @inject UserRepository _userRepository
 @inject AddressRepository _addressRepository
 @inject CompanyRepository _companyRepository
+@inject AuthenticationStateProvider _authenticationStateProvider
 
 @foreach (string message in _failedMessages)
 {
@@ -119,6 +121,8 @@ else
     [Parameter]
     public string UserId { get; set; }
 
+    private UserModel _profileData;
+
     private UserModel _user;
     private string _oldRole;
     private List<string> _failedMessages = new List<string>();
@@ -133,6 +137,17 @@ else
             _oldRole = _user.Role;
 
             _companies = await _companyRepository.GetAllAsync();
+
+            AuthenticationState authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            ClaimsPrincipal userClaim = authState.User;
+            UserModel user = await _userRepository.GetByClaim(userClaim);
+
+            _profileData = await _userRepository.GetUserById(user.Id);
+
+            if (_profileData.Role != "SuperAdmin")
+            {
+                _companies = _companies.Where(x=>x.Id == _profileData.Company.Id).ToList();
+            }
 
             if (_user.UserName == null) throw new NullReferenceException("UserName is null. Something went wrong when fetching user data.");
             if (_user.Address == null)

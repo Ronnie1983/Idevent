@@ -55,7 +55,12 @@ namespace IdeventTests
         [TestMethod]
         public void EventsIndexLoads()
         {
-            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.Index>(), "Events");
+            using var ctx = new Bunit.TestContext();
+            SetServices(ctx);
+
+            var authContext = ctx.AddTestAuthorization();
+            authContext.SetAuthorized("TEST USER", AuthorizationState.Authorized);
+            LoadPageTest(ctx.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.Index>(), "Events");
         }
         [TestMethod]
         public void OperatorSiteIndexLoads()
@@ -80,7 +85,13 @@ namespace IdeventTests
         [TestMethod]
         public void EventsAddEventLoads()
         {
-            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.AddEvent>(), "Add Event", "AddEvent");
+            using var ctx = new Bunit.TestContext();
+            SetServices(ctx);
+
+            var authContext = ctx.AddTestAuthorization();
+            authContext.SetAuthorized("TEST USER", AuthorizationState.Authorized);
+            authContext.SetRoles("SuperAdmin");
+            LoadPageTest(ctx.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.AddEvent>(), "Add Event", "AddEvent");
         }
         [TestMethod]
         public void EventsEditEventLoads()
