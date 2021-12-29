@@ -2,7 +2,7 @@
 @using System.Reflection.Metadata
 @using IdeventLibrary.Repositories
 
-@attribute [Authorize]
+@attribute [Authorize(Roles ="SuperAdmin, Admin, Operator")]
 
 @inject NavigationManager _navigationManager
 
