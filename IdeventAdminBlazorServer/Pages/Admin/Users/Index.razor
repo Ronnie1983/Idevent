@@ -51,18 +51,28 @@
                     
                     <td>
                         <div class="btn-group">
-                            @if (user.Id == _profileData.Id)
-                            {
-                                <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit"/>
-                            }
-                            else
-                            {
-                                <button class="btn btn-secondary m-1" disabled>Edit</button>
-                            }
+                            <AuthorizeView Roles="User, Operator">
+                                @if (user.Id == _profileData.Id)
+                                {
+                                    <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit"/>
+                                    <button class="btn btn-danger m-1" @onclick="async () => { await DeleteUser(user); }">Delete</button>
+                                }
+                            </AuthorizeView>
+
                             <AuthorizeView Roles="SuperAdmin, Admin">
-                                @if (user.Id != _profileData.Id)
+                                @if (user.Role != "SuperAdmin")
+                                {
+                                    <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit"/>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-secondary m-1" disabled>Edit</button>
+                                }
+                                
+                                @if (user.Id != _profileData.Id || user.Role != "SuperAdmin")
                                 {
                                     <button class="btn btn-danger m-1" @onclick="async () => { await DeleteUser(user); }">Delete</button>
+
                                 }
                                 else
                                 {
