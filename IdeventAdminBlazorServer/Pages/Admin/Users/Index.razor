@@ -11,7 +11,7 @@
 @attribute [Authorize]
 
 <h1>Users</h1>
-
+<NavigateButton ButtonText="Add User" HtmlClasses="btn-primary" PageToNavigateTo="@Common.Helpers.NavigationArgument("AddUser")"/>
 @if (_messages != null)
 {
     @foreach (string message in _messages)
