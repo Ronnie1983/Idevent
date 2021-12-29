@@ -182,7 +182,7 @@ else
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var userClaim = authState.User;
 
-        _user = await _userRepository.GetByEmailAsync(userClaim.Identity.Name);
+        _user = await _userRepository.GetByEmailAsync(userClaim.Identity.Name); // Quickfix (you cannot change username to anything other than your Email)
         _events = await _eventRepository.GetAllByCompanyIdAsync(_user.Company.Id);
 
         _hubConnection = new HubConnectionBuilder()
