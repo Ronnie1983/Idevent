@@ -4,20 +4,22 @@
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 
-@attribute [Authorize (Roles = "SuperAdmin, Admin, Operators")]
+@attribute [Authorize(Roles = "SuperAdmin, Admin, Operators")]
 @inject AuthenticationStateProvider _authenticationStateProvider
 @inject UserRepository _userRepository
 
 @attribute [Authorize]
 
 <h1>Users</h1>
-<NavigateButton ButtonText="Add User" HtmlClasses="btn-primary" PageToNavigateTo="@Common.Helpers.NavigationArgument("AddUser")"/>
 @if (_messages != null)
 {
     @foreach (string message in _messages)
-        @message
-
+    {
+        <div class="alert alert-danger">@message</div>
+    }
 }
+<NavigateButton ButtonText="Add User" HtmlClasses="btn-primary" PageToNavigateTo="@Common.Helpers.NavigationArgument("AddUser")" />
+
 @if (_users != null)
 {
     <table class="table table-hover">
@@ -48,27 +50,19 @@
                     <td>@user.Email</td>
                     <td>@user.PhoneNumber</td>
                     <td>@user.Role</td>
-                    
+
                     <td>
                         <div class="btn-group">
                             <AuthorizeView Roles="User, Operator">
                                 @if (user.Id == _profileData.Id)
                                 {
-                                    <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit"/>
+                                    <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit" />
                                     <button class="btn btn-danger m-1" @onclick="async () => { await DeleteUser(user); }">Delete</button>
                                 }
                             </AuthorizeView>
 
                             <AuthorizeView Roles="SuperAdmin, Admin">
-                                @if (user.Role != "SuperAdmin")
-                                {
-                                    <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit"/>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-secondary m-1" disabled>Edit</button>
-                                }
-                                
+                                <NavigateButton PageToNavigateTo=@(Common.Helpers.NavigationArgument("EditUser/", user.Id)) ButtonText="Edit" />
                                 @if (user.Id != _profileData.Id || user.Role != "SuperAdmin")
                                 {
                                     <button class="btn btn-danger m-1" @onclick="async () => { await DeleteUser(user); }">Delete</button>
@@ -81,7 +75,7 @@
                             </AuthorizeView>
                         </div>
                     </td>
-                    
+
                 </tr>
             }
         </tbody>
@@ -116,12 +110,12 @@ else
             _users = await _userRepository.GetAllAsync();
             if (_profileData.Role != "SuperAdmin")
             {
-                _users = _users.Where(x=>x.Company == null || x.Company.Id == _profileData.Company.Id).ToList();
+                _users = _users.Where(x => x.Company == null || x.Company.Id == _profileData.Company.Id).ToList();
             }
         }
         catch (Exception ex)
         {
-            _messages.Add("Something went when fetching users.");
+            _messages.Add("Something went wrong when fetching users.");
             Console.WriteLine(ex);
         }
     }

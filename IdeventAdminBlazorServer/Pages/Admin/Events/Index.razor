@@ -10,6 +10,14 @@
 
 <h1>Events</h1>
 
+@if (_messages != null)
+{
+    @foreach (string message in _messages)
+    {
+        <div class="alert alert-danger">@message</div>
+    }
+}
+
 <NavigateButton PageToNavigateTo="AddEvent" ButtonText="Add" />
 @if (_eventData == null)
 {
@@ -45,7 +53,7 @@
             }
             </AuthorizeView>
             <AuthorizeView Context="NonAdminContext" Roles="Admin, User, Operator">
-            @foreach (EventModel eventModel in _eventData.Where(x=>x.Company.Id == _user.Company.Id))
+            @foreach (EventModel eventModel in _eventData)
             {
                 <tr>
                     <td>@eventModel.Id</td>
@@ -67,6 +75,7 @@
 @code {
     private List<EventModel> _eventData;
     private UserModel _user;
+    private List<string> _messages = new();
 
     private string NavigationArgument(string navigationPrefix, int modelId)
     {
@@ -78,15 +87,23 @@
         var userClaim = authState.User;
 
         _user = await _userRepository.GetByEmailAsync(userClaim.Identity.Name);
+        //_user = await _userRepository.GetUserById(_user.Id);
         try
         {
             EventRepository eventRepo = new EventRepository();
-           
+
             _eventData = await eventRepo.GetAllAsync();
-          
+
+            if (userClaim.IsInRole("Admin"))
+            {
+                _eventData = _eventData.Where(x => x.Company.Id == _user.Company.Id).ToList();
+            }
+
         }
         catch (Exception e)
         {
+            _messages.Clear();
+            _messages.Add("Something went wrong, while fetching data!");
             Console.WriteLine(e);
         }
     }

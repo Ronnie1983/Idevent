@@ -12,36 +12,26 @@
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </li>
-        
+
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="Profile">
                 <span class="oi oi-plus" aria-hidden="true"></span> Profile
             </NavLink>
         </li>
-        
-        <AuthorizeView Roles="SuperAdmin, Admin">
-            @*only SuperAdmin & Admin allowed*@
+        <AuthorizeView Roles="SuperAdmin">
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="Companies">
                     <span class="oi oi-list-rich" aria-hidden="true"></span> Companies
                 </NavLink>
             </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="Events">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Events
-            </NavLink>
-        </li>
         </AuthorizeView>
-        <AuthorizeView Roles="SuperAdmin, Admin, Operator">
+        <AuthorizeView Roles="SuperAdmin, Admin">
+            @*only SuperAdmin & Admin allowed*@
             <li class="nav-item px-3">
-                <NavLink class="nav-link" href="Users">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Users
+                <NavLink class="nav-link" href="Events">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Events
                 </NavLink>
             </li>
-        </AuthorizeView>
-        
-        
-        <AuthorizeView Roles="SuperAdmin, Admin">
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="Chips">
                     <span class="oi oi-list-rich" aria-hidden="true"></span> Chips
@@ -53,18 +43,18 @@
                 </NavLink>
             </li>
         </AuthorizeView>
-
         <AuthorizeView Roles="SuperAdmin, Admin, Operator">
-            @*User Not allowed here*@
             <li class="nav-item px-3">
+                <NavLink class="nav-link" href="Users">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Users
+                </NavLink>
+            </li>
+             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="OperatorSite">
                     <span class="oi oi-list-rich" aria-hidden="true"></span> Operator Site
                 </NavLink>
             </li>
         </AuthorizeView>
-
-        
-
         <AuthorizeView>
             @*Only visible when logged in*@
             <li class="nav-item nav-item-logout px-3">
