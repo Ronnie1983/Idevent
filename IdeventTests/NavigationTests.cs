@@ -60,7 +60,7 @@ namespace IdeventTests
 
             var authContext = ctx.AddTestAuthorization();
             authContext.SetAuthorized("TEST USER", AuthorizationState.Authorized);
-            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.Index>(), "Events");
+            LoadPageTest(ctx.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.Index>(), "Events");
         }
         [TestMethod]
         public void OperatorSiteIndexLoads()
@@ -90,7 +90,7 @@ namespace IdeventTests
 
             var authContext = ctx.AddTestAuthorization();
             authContext.SetAuthorized("TEST USER", AuthorizationState.Authorized);
-            LoadPageTest(_testContext.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.AddEvent>(), "Add Event", "AddEvent");
+            LoadPageTest(ctx.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.AddEvent>(), "Add Event", "AddEvent");
         }
         [TestMethod]
         public void EventsEditEventLoads()
