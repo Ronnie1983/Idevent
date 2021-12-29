@@ -16,6 +16,15 @@
 @page "/OperatorSite"
 
 <h1>Operator's Site</h1>
+@if (!_isCompany)
+{
+    <div class="alert alert-danger">
+            <p>You are not connected to a company, please do first!</p>
+        </div>
+}
+else
+{
+    
 <div>
     @foreach (string message in _messages)
     {
@@ -159,6 +168,7 @@ else
 </div>
 
 
+}
 
 
 
@@ -175,6 +185,7 @@ else
     private List<StandProductModel> _productsToBuyAndSell;
     private string _connectionId;
     private bool _orderSent = false;
+    private bool _isCompany = false;
 
 
     protected override async Task OnInitializedAsync()
@@ -183,7 +194,11 @@ else
         var userClaim = authState.User;
 
         _user = await _userRepository.GetByEmailAsync(userClaim.Identity.Name);
-        _events = await _eventRepository.GetAllByCompanyIdAsync(_user.Company.Id);
+        if(_user.Company != null)
+        {
+            _isCompany = true;
+            _events = await _eventRepository.GetAllByCompanyIdAsync(_user.Company.Id);
+        }
 
         _hubConnection = new HubConnectionBuilder()
         .WithUrl(NavigationManager.ToAbsoluteUri("/connectionhub"), options =>
