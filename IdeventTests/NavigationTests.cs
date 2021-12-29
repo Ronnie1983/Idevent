@@ -90,6 +90,7 @@ namespace IdeventTests
 
             var authContext = ctx.AddTestAuthorization();
             authContext.SetAuthorized("TEST USER", AuthorizationState.Authorized);
+            authContext.SetRoles("SuperAdmin");
             LoadPageTest(ctx.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Events.AddEvent>(), "Add Event", "AddEvent");
         }
         [TestMethod]

@@ -51,21 +51,28 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        _companies = new List<CompanyModel>();
-        if (_profileData.Role != "SuperAdmin")
+        try
         {
-            CompanyModel company = await companyRepository.GetAsync(_profileData.Company.Id);
-            if(company != null)
+            _companies = new List<CompanyModel>();
+            if (_profileData.Role != "SuperAdmin")
             {
-            _companies.Add(company);
-                
+                CompanyModel company = await companyRepository.GetAsync(_profileData.Company.Id);
+                if (company != null)
+                {
+                    _companies.Add(company);
+                }
+            }
+            else
+            {
+                _companies = await companyRepository.GetAllAsync();
+
             }
         }
-        else
+        catch(Exception ex)
         {
-            _companies = await companyRepository.GetAllAsync();
-            
+            Console.WriteLine(ex);
         }
+
     }
 
     private void SelectCompany(ChangeEventArgs e)
