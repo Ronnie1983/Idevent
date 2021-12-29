@@ -1,10 +1,15 @@
 ﻿@page "/Chips"
 @using System.Reflection.Metadata
 @using IdeventLibrary.Repositories
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
 
 @attribute [Authorize(Roles ="SuperAdmin, Admin, Operator")]
 
 @inject NavigationManager _navigationManager
+@inject AuthenticationStateProvider _authenticationStateProvider
+@inject UserRepository _userRepository
 
 <h1>Chips Oversigt</h1>
 <br />
@@ -139,6 +144,7 @@
 
     private string _errorMessage;
     private List<ChipModel> _chips;
+    private UserModel _profileData;
 
     protected override async Task OnInitializedAsync()
     {
@@ -146,6 +152,16 @@
         {
             ChipRepository chipRepository = new();
             _chips = await chipRepository.GetAllAsync();
+            AuthenticationState authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            ClaimsPrincipal userClaim = authState.User;
+            UserModel user = await _userRepository.GetByClaim(userClaim);
+
+            _profileData = await _userRepository.GetUserById(user.Id);
+
+            if (_profileData.Role != "SuperAdmin")
+            {
+                _chips = _chips.Where(x=>x.Company.Id == _profileData.Company.Id).ToList();
+            }
         }
         catch (Exception exception)
         {
