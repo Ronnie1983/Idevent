@@ -41,10 +41,14 @@ namespace IdeventAdminBlazorServer
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     AppSettings.ConnectionString)); // AppSettings.ConnectionString should be switched when publishing.
-            services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-          
+            services.AddDefaultIdentity<UserModel>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+
             // custom injections
             services.AddSingleton<CompanyRepository>();
             services.AddSingleton<ChipRepository>();
@@ -85,7 +89,7 @@ namespace IdeventAdminBlazorServer
             app.UseStaticFiles();
 
             app.UseRouting();
-           
+
             app.UseAuthentication();
             app.UseAuthorization();
 
