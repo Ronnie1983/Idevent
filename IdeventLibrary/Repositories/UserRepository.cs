@@ -29,12 +29,14 @@ namespace IdeventLibrary.Repositories
             _userManager = userManager;
         }
 
-        public async Task<bool> CreateAsync(UserModel userModel)
+        public async Task<bool> CreateAsync(UserModel userModel, string nonHashedPassword)
         {
-           
-            var result = await _userManager.CreateAsync(userModel, "Pa55word");
+            var result = await _userManager.CreateAsync(userModel, nonHashedPassword);
             Console.WriteLine($"Created user succeeded: {result.Succeeded}");
-            await _userManager.AddToRoleAsync(userModel, Enums.Roles.User.ToString());
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(userModel, Enums.Roles.User.ToString());
+            }
             return result.Succeeded;
         }
         public async Task<List<UserModel>> GetAllAsync()

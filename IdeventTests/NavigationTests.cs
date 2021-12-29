@@ -164,7 +164,24 @@ namespace IdeventTests
             page.Instance.EventStandId = 1;
             LoadPageTest(page, "Standby", "chipContent/1");
         }
-
+        [TestMethod]
+        public void AddUserLoads()
+        {
+            using var ctx = new Bunit.TestContext();
+            SetServices(ctx);
+            var authContext = ctx.AddTestAuthorization();
+            authContext.SetAuthorized("TEST USER", AuthorizationState.Authorized);
+            LoadPageTest(ctx.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Users.AddUser>(), "Add User", "AddUser");
+        }
+        [TestMethod]
+        public void EditUserLoads()
+        {
+            using var ctx = new Bunit.TestContext();
+            SetServices(ctx);
+            var authContext = ctx.AddTestAuthorization();
+            authContext.SetAuthorized("TEST USER", AuthorizationState.Authorized);
+            LoadPageTest(ctx.RenderComponent<IdeventAdminBlazorServer.Pages.Admin.Users.EditUser>(), "Edit User", "EditUser/abcd-abcd-abcd");
+        }
         /// <summary>
         /// Tests if a specified page loads with an expected title.
         /// </summary>
@@ -206,6 +223,7 @@ namespace IdeventTests
             context.Services.AddSingleton<UserRepository>(new UserRepository());
             context.Services.AddSingleton<StandFunctionalityRepository>(new StandFunctionalityRepository());
             context.Services.AddSingleton<EventStandRepository>(new EventStandRepository());
+            context.Services.AddSingleton<AddressRepository>(new AddressRepository());
             context.Services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());
             
             context.Services.AddAuthorization();

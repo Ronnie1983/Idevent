@@ -2,24 +2,34 @@
 @attribute [Authorize(Roles = "SuperAdmin, Admin")]
 
 @using IdeventLibrary
+@using System.ComponentModel.DataAnnotations
 @inject UserRepository _userRepository
 @inject NavigationManager _navigationManager
-<h1>Add User</h1>
 
-<EditForm Model=_user OnValidSubmit=CreateUserAsync>
-    <DataAnnotationsValidator/>
-    <ValidationSummary/>
-    <div class="form-group">
-        <label>User Name</label>
-        <input class="form-control" @bind-value="_user.UserName" />
+<h1>Add User</h1>
+@foreach (var message in _errorMessages)
+{
+    <div class="alert alert-danger">
+        @message
     </div>
+    <div class="alert alert-danger">
+        Known reasons for failure COULD be:
+        <ul>
+            <li>Password must contain 1 UpperCase, 1 digit and 1 lowercase character</li>
+            <li>User with that Email already exists.</li>
+        </ul>
+    </div>
+}
+<EditForm Model=_validationUser OnValidSubmit=CreateUserAsync>
+    <DataAnnotationsValidator />
+    <ValidationSummary />
     <div class="form-group">
         <label>Email</label>
-        <input class="form-control" @bind-value="_user.Email" />
+        <input class="form-control" @bind-value="_validationUser.Email" />
     </div>
     <div class="form-group">
         <label>Password</label>
-        <input class="form-control" type="password" @bind-value="_userPassword" />
+        <input class="form-control" type="password" @bind-value="_validationUser.Password" />
     </div>
     <div class="form-group">
         @if (_user.Role != null)
@@ -55,31 +65,45 @@
 
 @code {
     private UserModel _user;
-    private string _userPassword;
+    private UserModelCreate _validationUser;
     private List<string> _errorMessages = new();
 
-    //protected override Task OnInitializedAsync()
-    //{
-    //    return base.OnInitializedAsync();
-    //}
+    protected override void OnInitialized()
+    {
+        _validationUser = new UserModelCreate();
+        _user = new UserModel();
+    }
 
     private async Task CreateUserAsync()
     {
-        bool success = await _userRepository.CreateAsync(_user);
+        _user.Email = _validationUser.Email;
+        _user.UserName = _validationUser.Email;
+        bool success = await _userRepository.CreateAsync(_user, _validationUser.Password);
         if (success)
         {
             _navigationManager.NavigateTo("Users");
         }
-        else{
+        else
+        {
             _errorMessages.Clear();
-            _errorMessages.Add("Failed to create user");
+            _errorMessages.Add("Failed to create user.");
+
         }
     }
-    private async Task SelectRole(ChangeEventArgs e)
+
+    private void SelectRole(ChangeEventArgs e)
     {
-        //string role = e.Value.ToString();
-        //_user.Role = role;
-        //await _userRepository.UpdateRoleAsync(_user);
-        // TODO: give user a role.
+        string role = e.Value.ToString();
+        _user.Role = role;
+    }
+    public class UserModelCreate
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        [Required]
+        [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
+        public string Password { get; set; }
     }
 }
+
