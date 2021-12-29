@@ -162,16 +162,9 @@ else
             {
                 _user.PhoneNumber = "";
             }
-            
             if (_profileData.Role != "SuperAdmin")
             {
                 _companies = _companies.Where(x => x.Id == _profileData.Company.Id).ToList();
-            }
-
-            if(_user.Role == null)
-            {
-                _user.Role = @Enums.Roles.User.ToString();
-                await _userRepository.UpdateRoleAsync(_user);
             }
         }
         catch (Exception ex)
