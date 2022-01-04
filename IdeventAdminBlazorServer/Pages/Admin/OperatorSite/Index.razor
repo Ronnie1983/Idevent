@@ -118,14 +118,18 @@ else
                 }
                 else
                 {
-                    <EditForm Model="_formInput" OnSubmit="@SubmitNFCSecond">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
-                        <div class="form-group">
-                            <InputTextSetFocus @bind-Value="@_formInput.Input"></InputTextSetFocus>
+                    <div class="position-relative">
+                        <div class="inputFieldScan">
+                            <EditForm Model="_formInput" OnSubmit="@SubmitNFCSecond">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+                                <div class="form-group">
+                                    <InputTextSetFocus @bind-Value="@_formInput.Input"></InputTextSetFocus>
+                                </div>
+                            </EditForm>
                         </div>
-                    </EditForm>
-                    <div class="bgRedTint col-lg-6 mb-2">
+                    </div>
+                    <div class="bgRedTint col-lg-6 mb-2"  style="z-index:2; position:relative;">
                         <h3 class="text-center">Bestilling (afventer bekræftelse)</h3>
                         <table class="table text-center">
                             <thead>
@@ -176,7 +180,7 @@ else
                         </EditForm>
                     </div>
                 </div>
-                <div class="height500 bg-warning d-flex justify-content-center align-items-center">
+                <div class="height500 bg-warning d-flex justify-content-center align-items-center" style="z-index:2; position:relative;">
                     <h2 class="text-center">Awaiting Chip Scan</h2>
                 </div>
             }
