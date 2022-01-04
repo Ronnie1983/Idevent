@@ -28,8 +28,14 @@ namespace IdeventAPI.Managers
 
         public int Create(ChipModel newChip)
         {
+
             try
             {
+                var item = GetByHashedId(newChip.HashedId);
+                if (item != null)
+                {
+                    return 0;
+                }
                 string sql = "spCreateChip @HashedId, @ValidFrom, @ValidTo, @CompanyId, @EventId, @ChipGroupId, @UserId";
                
                 DynamicParameters parameters = new();
