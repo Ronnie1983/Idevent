@@ -1,10 +1,11 @@
 ﻿@page "/Terminal"
-
 @using IdeventLibrary.Repositories
+@using Microsoft.AspNetCore.SignalR.Client
 @inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager _navigationManager
 
-@attribute [Authorize (Roles = "SuperAdmin, Admin, Operator")]
+
+@attribute [Authorize(Roles = "SuperAdmin, Admin, Operator")]
 
 @layout NonAdminLayout
 
@@ -35,6 +36,7 @@
     private string _circleText = "Ready";
     private string _circleColor = "#378DFF";
     private NFCInputModel _formInput = new NFCInputModel();
+    private HubConnection _hubConnection;
 
     private string _message = "Please scan chip";
 
@@ -54,6 +56,29 @@
         _circleText = "Ready";
         _circleColor = "#378DFF";
         _message = "Please scan chip";
+
+        _hubConnection = new HubConnectionBuilder()
+       .WithUrl(_navigationManager.ToAbsoluteUri("/connectionhub"), options =>
+               {
+                   options.UseDefaultCredentials = true;
+               })
+       .Build();
+
+        _hubConnection.On<ChipModel>("TheChip", (chip) =>
+         {
+             _navigationManager.NavigateTo($"chipContent/{chip.Id}");
+         });
+        _hubConnection.On<ChipModel>("ChipNotActive", (chip) =>
+        {
+            _message = $"Chip is not active (Active between {chip.ValidFrom.Date:d} - {chip.ValidTo.Date:d})";
+            _navigationManager.NavigateTo($"Error/Terminal/{_message}");
+        });
+        _hubConnection.On("InvalidChip", () =>
+        {
+            _message = $"Invalid chip. Contact administrator.";
+            _navigationManager.NavigateTo($"Error/Terminal/{_message}");
+        });
+        await _hubConnection.StartAsync();
     }
 
     public async Task SubmitNFC()
@@ -104,7 +129,7 @@
         bool chipIsActive = false;
         if (dateFromCheck >= 0 && dateToCheck <= 0)
         {
-            chipIsActive = true; 
+            chipIsActive = true;
         }
         return chipIsActive;
     }

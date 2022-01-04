@@ -10,13 +10,14 @@ namespace IdeventAdminBlazorServer.Hubs
 
     public class ConnectionHub :Hub
     {
+        string user;
         public async Task SendSelectedStand(int stand, string connectionId)
         {
             await Clients.Client(connectionId).SendAsync("GetStand", stand);
         }
         public async Task AskForStand(ChipModel chip)
         {
-            var user = Context.UserIdentifier;
+            user = Context.UserIdentifier;
             await Clients.User(user).SendAsync("RecieveStand", Context.ConnectionId, chip);
         }
 
@@ -27,7 +28,7 @@ namespace IdeventAdminBlazorServer.Hubs
 
         public async Task AcceptOrder(string input)
         {
-            var user = Context.UserIdentifier;
+            user = Context.UserIdentifier;
             await Clients.User(user).SendAsync("ClientAccept", input);
         }
 
@@ -38,8 +39,26 @@ namespace IdeventAdminBlazorServer.Hubs
 
         public async Task FailedOrder()
         {
-            var user = Context.UserIdentifier;
+            user = Context.UserIdentifier;
             await Clients.User(user).SendAsync("OperationCanceled");
+            await Clients.User(user).SendAsync("WrongChip");
         }
+
+        public async Task ScannetChip(ChipModel chip)
+        {
+            user = Context.UserIdentifier;
+            await Clients.User(user).SendAsync("TheChip", chip);
+        }
+        public async Task ChipNotActive(ChipModel chip)
+        {
+            user = Context.UserIdentifier;
+            await Clients.User(user).SendAsync("ChipNotActive", chip);
+        }
+        public async Task InvalidChip()
+        {
+            user = Context.UserIdentifier;
+            await Clients.User(user).SendAsync("InvalidChip");
+        }
+
     }
 }
