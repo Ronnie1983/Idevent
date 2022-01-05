@@ -4,8 +4,11 @@
 <style>
     body {
         background-color: gray;
+        color:#e2e2e2;
     }
-
+    body a{
+        color:#f3f6f9;
+    }
     h1 {
         color: white;
     }
@@ -25,7 +28,16 @@
         </div>
     </Authorized>
     <NotAuthorized>
-        <p> It seems like your not logged in. You can either <a href="Identity/Account/Register"> Register </a> or contact an Administrator</p>
-        <p> Or you can go to <a href="Identity/Account/Login"> Login </a> If u already have a profile</p>
+        <div class="container-fluid">
+            <section class="row">
+                <div class="col-12">
+                    <p class="text-center">
+                        It seems you are not logged in.<br />
+                        If you are a regular user, please contact an operator.<br />
+                        You can either <a href="Identity/Account/Login">Login</a> or <a href="Identity/Account/Register">Register</a> if you do not have a profile
+                    </p>
+                </div>
+            </section>
+        </div>
     </NotAuthorized>
 </AuthorizeView>
