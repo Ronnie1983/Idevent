@@ -11,7 +11,7 @@
 @inject StandProductRepository _standProductRepository
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-@attribute [Authorize (Roles = "SuperAdmin, Admin, Operator")]
+@attribute [Authorize(Roles = "SuperAdmin, Admin, Operator")]
 
 @page "/OperatorSite"
 
@@ -19,153 +19,175 @@
 @if (!_isCompany)
 {
     <div class="alert alert-danger">
-            <p>You are not connected to a company, please do first!</p>
-        </div>
+        <p>You are not connected to a company, if you're an operator please contact admin!</p>
+    </div>
 }
 else
 {
-    
-<div>
-    @foreach (string message in _messages)
+
+    <div>
+        @foreach (string message in _messages)
+        {
+            <div class="alert alert-danger">
+                @message
+            </div>
+        }
+    </div>
+    @if (_bindStandId == 0)
     {
-        <div class="alert alert-danger">
-            @message
-        </div>
+        <SelectEvent OnChangeCallback=ChangeEvent Events=_events />
+        <SelectStands OnChangeCallback=ChangeStand EventStands=_eventStandList />
     }
-</div>
-@if (_bindStandId == 0)
-{
-    <SelectEvent OnChangeCallback=ChangeEvent Events=_events />
-    <SelectStands OnChangeCallback=ChangeStand EventStands=_eventStandList />
-}
-else
-{
-    <h4>Stand: @_eventStandList.Find(x => x.Id.Equals(_bindStandId)).Name</h4>
-}
-
-<div>
-
-    @if (_customerChip != null)
+    else
     {
-        <div class="row">
-            <div class="bgRedTint col-lg-5 me-1 mb-2 pb-2">
-                <h2 class="text-center mt-2">Scanned Chip</h2>
-                <div class="d-flex justify-content-center">
-                    <div>
+        <h4>Stand: @_eventStandList.Find(x => x.Id.Equals(_bindStandId)).Name</h4>
+    }
+
+    <div>
+
+        @if (_customerChip != null)
+        {
+            <div class="row">
+                <div class="bgRedTint col-lg-5 me-1 mb-2 pb-2">
+                    <h2 class="text-center mt-2">Scanned Chip</h2>
+                    <div class="d-flex justify-content-center">
                         <div>
-                            <label class="largeLabel">Chip ID: </label>
-                            <span>@_customerChip.Id</span>
-                        </div>
-                        <h3>Chip Content</h3>
-                        <div class="displayGrid">
-                            @foreach (var item in _customerChip.StandProducts)
-                            {
-                                @if (item.EventStandModel.Id == _bindStandId)
+                            <div>
+                                <label class="largeLabel">Chip ID: </label>
+                                <span>@_customerChip.Id</span>
+                            </div>
+                            <h3>Chip Content</h3>
+                            <div class="displayGrid">
+                                @foreach (var item in _customerChip.StandProducts)
                                 {
-                                    <div>
-                                        <span>@item.Name</span>
-                                    </div>
-                                    <div>
-                                        <span>@item.Amount.ToString()x</span>
-                                    </div>
+                                    @if (item.EventStandModel.Id == _bindStandId)
+                                    {
+                                        <div>
+                                            <span>@item.Name</span>
+                                        </div>
+                                        <div>
+                                            <span>@item.Amount.ToString()x</span>
+                                        </div>
+                                    }
                                 }
-                            }
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            @if (!_orderSent)
+                @if (!_orderSent)
+                {
+                    <div class="bgRedTint col-lg-6 mb-2">
+                        <h2 class="text-center mt-2">Modify Chip Content</h2>
+                        <div class="d-flex justify-content-center">
+                            <EditForm Model="_productsToBuyAndSell" OnValidSubmit="HandleValidSubmitChip">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+                                <table class="text-center tableSmallInput">
+                                    <thead>
+                                        <tr>
+                                            <th>Event product</th>
+                                            <th>-</th>
+                                            <th>Amounts</th>
+                                            <th>+</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var product in _productsToBuyAndSell)
+                                        {
+                                            <tr>
+                                                <td>@product.Name</td>
+                                                <td class="px-2">
+                                                    <button type="button" class="bg-danger fw-bold customCircleBtn" @onclick="() => {product.Amount--;}">-</button>
+                                                </td>
+                                                <td><input class="text-center" @bind-value="@product.Amount" /></td>
+                                                <td class="px-2">
+                                                    <button type="button" class="bg-success fw-bold customCircleBtn" @onclick="() => {product.Amount++;}">+</button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-primary m-4">Submit</button>
+
+                                </div>
+                            </EditForm>
+                        </div>
+                    </div>
+
+                }
+                else
+                {
+                    <div class="position-relative">
+                        <div class="inputFieldScan">
+                            <EditForm Model="_formInput" OnSubmit="@SubmitNFCSecond">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+                                <div class="form-group">
+                                    <InputTextSetFocus @bind-Value="@_formInput.Input"></InputTextSetFocus>
+                                </div>
+                            </EditForm>
+                        </div>
+                    </div>
+                    <div class="bgRedTint col-lg-6 mb-2"  style="z-index:2; position:relative;">
+                        <h3 class="text-center">Bestilling (afventer bekræftelse)</h3>
+                        <table class="table text-center">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+
+                                    <th>Amounts</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in _productsToBuyAndSell)
+                                {
+                                    <tr>
+                                        <td>@product.Name</td>
+
+                                        <td>@product.Amount</td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                <div class="col-11">
+                    <button type="button" class="btn btn-danger mx-auto w-100" @onclick="@(e => Cancel())">Cancel</button>
+                </div>
+            </div> <!-- Row closing div -->
+        }
+        else
+        {
+            if (_bindEventId == 0 || _bindStandId == 0)
             {
-                <div class="bgRedTint col-lg-6 mb-2">
-                    <h2 class="text-center mt-2">Modify Chip Content</h2>
-                    <div class="d-flex justify-content-center">
-                        <EditForm Model="_productsToBuyAndSell" OnValidSubmit="HandleValidSubmitChip">
+                <div class="height500 bg-secondary d-flex justify-content-center align-items-center">
+                    <h2 class="text-center">Select Stand and Event</h2>
+                </div>
+            }
+            else
+            {
+                <div class="position-relative">
+                    <div class="inputFieldScan">
+                        <EditForm Model="_formInput" OnSubmit="@SubmitNFC">
                             <DataAnnotationsValidator />
                             <ValidationSummary />
-                            <table class="text-center tableSmallInput">
-                                <thead>
-                                    <tr>
-                                        <th>Event product</th>
-                                        <th>-</th>
-                                        <th>Amounts</th>
-                                        <th>+</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var product in _productsToBuyAndSell)
-                                    {
-                                        <tr>
-                                            <td>@product.Name</td>
-                                            <td class="px-2">
-                                                <button type="button" class="bg-danger fw-bold customCircleBtn" @onclick="() => {product.Amount--;}">-</button>
-                                            </td>
-                                            <td><input class="text-center" @bind-value="@product.Amount" /></td>
-                                            <td class="px-2">
-                                                <button type="button" class="bg-success fw-bold customCircleBtn" @onclick="() => {product.Amount++;}">+</button>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                            <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary m-4">Submit</button>
-
+                            <div class="form-group">
+                                <InputTextSetFocus @bind-Value="@_formInput.Input"></InputTextSetFocus>
                             </div>
                         </EditForm>
                     </div>
                 </div>
-
-            }
-            else
-            {
-                <div class="bgRedTint col-lg-6 mb-2">
-                    <h3 class="text-center">Bestilling (afventer bekræftelse)</h3>
-                    <table class="table text-center">
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-
-                                <th>Amounts</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var product in _productsToBuyAndSell)
-                            {
-                                <tr>
-                                    <td>@product.Name</td>
-
-                                    <td>@product.Amount</td>
-
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                <div class="height500 bg-warning d-flex justify-content-center align-items-center" style="z-index:2; position:relative;">
+                    <h2 class="text-center">Awaiting Chip Scan</h2>
                 </div>
             }
-            <div class="col-11">
-                <button type="button" class="btn btn-danger mx-auto w-100" @onclick="@(e => Cancel())">Cancel</button>
-            </div>
-        </div> <!-- Row closing div -->
-    }
-    else
-    {
-        if (_bindEventId == 0 || _bindStandId == 0)
-        {
-            <div class="height500 bg-secondary d-flex justify-content-center align-items-center">
-                <h2 class="text-center">Select Stand and Event</h2>
-            </div>
-        }
-        else
-        {
-            <div class="height500 bg-warning d-flex justify-content-center align-items-center">
-                <h2 class="text-center">Awaiting Chip Scan</h2>
-            </div>
+
         }
 
-    }
-
-</div>
+    </div>
 
 
 }
@@ -177,7 +199,6 @@ else
     private UserModel _user;
     private int _bindStandId;
     private int _bindEventId;
-    //private RenderFragment _displayMessage;
     private HubConnection _hubConnection;
     private List<string> _messages = new List<string>();
     private List<EventModel> _events = new List<EventModel>();
@@ -186,15 +207,19 @@ else
     private string _connectionId;
     private bool _orderSent = false;
     private bool _isCompany = false;
+    private NFCInputModel _formInput = new NFCInputModel();
+    private AuthenticationState authState;
+    private ClaimsPrincipal userClaim;
+
 
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var userClaim = authState.User;
+        authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        userClaim = authState.User;
 
         _user = await _userRepository.GetByEmailAsync(userClaim.Identity.Name); // Quickfix (you cannot change username to anything other than your Email)
-        if(_user.Company != null)
+        if (_user.Company != null)
         {
             _isCompany = true;
             _events = await _eventRepository.GetAllByCompanyIdAsync(_user.Company.Id);
@@ -213,6 +238,7 @@ else
             _orderSent = false;
             _customerChip = null;
             _productsToBuyAndSell = await _standProductRepository.GetAllProductsByStandIdAsync(_bindStandId);
+            _formInput = new NFCInputModel();
             StateHasChanged();
         });
 
@@ -229,6 +255,7 @@ else
             _orderSent = false;
             _customerChip = null;
             _productsToBuyAndSell = await _standProductRepository.GetAllProductsByStandIdAsync(_bindStandId);
+            _formInput = new NFCInputModel();
             StateHasChanged();
         });
 
@@ -289,5 +316,66 @@ else
         _productsToBuyAndSell = await _standProductRepository.GetAllProductsByStandIdAsync(_bindStandId);
         StateHasChanged();
 
+    }
+
+    public async Task SubmitNFC()
+    {
+        ChipModel _customerChipNew = await ChipExists(_formInput.Input);
+        if (_customerChipNew != null)
+        {
+            bool chipIsActive = CheckIfChipIsActive(_customerChipNew.ValidFrom, _customerChipNew.ValidTo);
+            if (chipIsActive)
+            {
+                _customerChip = _customerChipNew;
+                await _hubConnection.SendAsync("ScannetChip", _customerChipNew);
+            }
+            else
+            {
+                _messages.Add($"Chip is not active (Active between {_customerChipNew.ValidFrom.Date:d} - {_customerChipNew.ValidTo.Date:d})");
+                await _hubConnection.SendAsync("ChipNotActive", _customerChipNew);
+                _customerChipNew = null;
+            }
+        }
+        else
+        {
+            _messages.Add($"Invalid chip. Contact administrator.");
+            _customerChipNew = null;
+            await _hubConnection.SendAsync("InvalidChip");
+        }
+
+        // Reset the Model for new input.
+        _formInput = new NFCInputModel();
+        StateHasChanged();
+    }
+
+    public async Task<ChipModel> ChipExists(string chipId)
+    {
+        var result = await _chipRepository.GetBySecretId(chipId);
+        return result;
+    }
+
+    private bool CheckIfChipIsActive(DateTimeOffset validFrom, DateTimeOffset validTo)
+    {
+        DateTimeOffset today = DateTimeOffset.Now.Date;
+        int dateFromCheck = DateTimeOffset.Compare(today, validFrom.Date);
+        int dateToCheck = DateTimeOffset.Compare(today, validTo.Date);
+        bool chipIsActive = false;
+        if (dateFromCheck >= 0 && dateToCheck <= 0)
+        {
+            chipIsActive = true;
+        }
+        return chipIsActive;
+    }
+    public async Task SubmitNFCSecond()
+    {
+        if (_customerChip.HashedId == _formInput.Input)
+        {
+            await _hubConnection.SendAsync("AcceptOrder", _formInput.Input);
+        }
+        else
+        {
+            await _hubConnection.SendAsync("FailedOrder");
+        }
+        _formInput = new NFCInputModel();
     }
 }

@@ -178,6 +178,15 @@
               }
               await InvokeAsync(StateHasChanged);
           });
+        _hubConnection.On("WrongChip", () =>
+        {
+            string errorMessage = "Wrong chip. Try again.";
+            _navigationManager.NavigateTo($"Error/Terminal/{errorMessage}");
+        });
+        _hubConnection.On<string>("ClientAccept", (input) =>
+        {
+            _navigationManager.NavigateTo($"Success");
+        });
 
         await _hubConnection.StartAsync();
 
@@ -221,13 +230,11 @@
         if (_chip.HashedId == _formInput.Input)
         {
             await _hubConnection.SendAsync("AcceptOrder", _formInput.Input);
-            _navigationManager.NavigateTo($"Success");
         }
         else
         {
             await _hubConnection.SendAsync("FailedOrder");
-            string errorMessage = "Wrong chip. Try again.";
-            _navigationManager.NavigateTo($"Error/Terminal/{errorMessage}");
         }
+        _formInput = new NFCInputModel();
     }
 }
